@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by lzf on 2017/3/31.
@@ -74,23 +75,22 @@ public class TestUserClass {
     @Test
     public void testSelectByObj()throws Exception{
         HashMap<String,String> userMap = new HashMap<String, String>();
-        userMap.put("address","测试地址5555");
+        userMap.put("address","测试地址");
         List<TestUser> userList1 = testUserService.queryByMap(userMap);
-        for (TestUser user:userList1) {
-            System.out.println(user.toString());
-        }
+        userList1.forEach(user -> {
+            System.out.print(user.toString()+"********    ");
+            boolean falg = user.getAddress().contains("测试地址");
+            System.out.println(falg);
+        });
         TestUser testUser = new TestUser();
-        testUser.setAddress("测试地址5555");
-        testUser.setAge(20);
-         testUser.setPassword("123456");
-        testUser.setTel(1234567);
-        testUser.setUsername("admin5555");
-        testUser.setSex("男");
+        testUser.setAddress("测试地址");
 
         List<TestUser> userList = testUserService.queryByTestUser(testUser);
-        for (TestUser user:userList) {
-            System.out.println(user.toString());
-        }
+        List<TestUser> list = userList.stream()
+                .filter(user -> user.getAddress().contains("9999"))
+                .collect(Collectors.toList());
+
+        list.forEach(user -> System.out.println(user.toString()+"================"));
 
     }
 
