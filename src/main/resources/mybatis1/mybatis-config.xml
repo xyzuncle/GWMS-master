@@ -3,10 +3,12 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	
-	<settings> 
-        <setting name="cacheEnabled" value="true" /><!-- 全局映射器启用缓存 -->   
-        <setting name="useGeneratedKeys" value="true" /> 
-        <setting name="defaultExecutorType" value="REUSE" /> 
+	<settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="useGeneratedKeys" value="true" />
+        <setting name="defaultExecutorType" value="REUSE" />
+        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="autoMappingBehavior" value="FULL"/>
     </settings>
 
 	<typeAliases>
@@ -15,7 +17,8 @@
 		<typeAlias type="com.huanqiuyuncang.entity.system.Menu" alias="Menu"/>
 		<typeAlias type="com.huanqiuyuncang.entity.system.Dictionaries" alias="Dictionaries"/>
 		<typeAlias type="com.huanqiuyuncang.entity.system.Department" alias="Department"/>
-		
+		<typeAlias type="com.huanqiuyuncang.entity.demo.TestUser" alias="TestUser"/>
+
 		<!-- 这里添加生成的实体类 -->
 		
 		

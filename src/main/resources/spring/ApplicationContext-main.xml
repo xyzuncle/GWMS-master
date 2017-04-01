@@ -28,8 +28,8 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
 		<property name="locations">  
 			<list>  
-                 <value>/WEB-INF/classes/dbconfig.properties</value>
-                 <value>/WEB-INF/classes/redis.properties</value>  
+                 <value>classpath:dbconfig.properties</value>
+                 <value>classpath:redis.properties</value>
             </list>  
         </property>  
 	</bean> 
