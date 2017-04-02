@@ -23,9 +23,9 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="dataSource" ref="dataSource" />
         <property name="configLocation" value="classpath:mybatis1/mybatis-config.xml"></property>
-        <!-- mapper扫描
+        <!-- mapper扫描-->
         <property name="mapperLocations" value="classpath:mybatis1/*/*.xml"></property>
-         -->
+
     </bean>
 
     <!-- mapper扫描器，这里自动由于没有在sqlMapConfig配置mapper，所以必须保证mapper和dao接口在同一个目录且同名 -->
