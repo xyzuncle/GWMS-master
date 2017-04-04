@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.packagetype.PackageTypeDAO" >
+  <resultMap id="BaseResultMap" type="PackageType" >
+    <constructor >
+      <idArg column="packageId" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="packagetype" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="packagename" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="price" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    packageId, packagetype, packagename, price, remark, createuser, createtime, updateuser, 
+    updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_packagetype
+    where packageId = #{packageid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_packagetype
+    where packageId = #{packageid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="PackageType" >
+    insert into wms_packagetype (packageId, packagetype, packagename, 
+      price, remark, createuser, 
+      createtime, updateuser, updatetime
+      )
+    values (#{packageid,jdbcType=VARCHAR}, #{packagetype,jdbcType=VARCHAR}, #{packagename,jdbcType=VARCHAR}, 
+      #{price,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="PackageType" >
+    insert into wms_packagetype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="packageid != null" >
+        packageId,
+      </if>
+      <if test="packagetype != null" >
+        packagetype,
+      </if>
+      <if test="packagename != null" >
+        packagename,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="packageid != null" >
+        #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="packagetype != null" >
+        #{packagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="packagename != null" >
+        #{packagename,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="PackageType" >
+    update wms_packagetype
+    <set >
+      <if test="packagetype != null" >
+        packagetype = #{packagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="packagename != null" >
+        packagename = #{packagename,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where packageId = #{packageid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="PackageType" >
+    update wms_packagetype
+    set packagetype = #{packagetype,jdbcType=VARCHAR},
+      packagename = #{packagename,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where packageId = #{packageid,jdbcType=VARCHAR}
+  </update>
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_packagetype
+    </select>
+</mapper>
