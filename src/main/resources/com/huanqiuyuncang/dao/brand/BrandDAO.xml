@@ -147,5 +147,25 @@
         from
         wms_brand
         WHERE 1=1
+        <if test="pd.brandcode!= null and pd.brandcode != ''"><!-- 商品名称 -->
+            and brandcode LIKE  "%"#{pd.brandcode,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.brandcode!= null and pd.brandcode != ''"><!-- 商品名称 -->
+            and brandname LIKE  "%"#{pd.brandname,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+    <select id="selectAll"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_brand
+    </select>
+
+    <select id="selectAll"  parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_brand
+        where brandcode = #{brandcode,jdbcType=VARCHAR}
     </select>
 </mapper>

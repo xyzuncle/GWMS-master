@@ -147,5 +147,25 @@
         <include refid="Base_Column_List" />
         from
         wms_luggagemail
+        <if test="pd.luggagemailcode!= null and pd.luggagemailcode != ''"><!-- 商品名称 -->
+            and luggagemailcode LIKE  "%"#{pd.luggagemailcode,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.luggagemailname!= null and pd.luggagemailname != ''"><!-- 商品名称 -->
+            and luggagemailname LIKE  "%"#{pd.luggagemailname,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_luggagemail
+    </select>
+
+    <select id="findLuggageMailByLuggageMailCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_luggagemail
+        WHERE  luggagemailcode = #{luggagemailcode,jdbcType=VARCHAR}
     </select>
 </mapper>

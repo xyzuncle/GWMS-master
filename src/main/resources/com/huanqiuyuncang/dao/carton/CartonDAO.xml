@@ -192,5 +192,26 @@
     <include refid="Base_Column_List" />
     from
     wms_carton
+    <if test="pd.cartontype!= null and pd.cartontype != ''"><!-- 商品名称 -->
+        and cartontype LIKE  "%"#{pd.cartontype,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="pd.cartonname!= null and pd.cartonname != ''"><!-- 商品名称 -->
+        and cartonname LIKE  "%"#{pd.cartonname,jdbcType=VARCHAR}"%"
+    </if>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_carton
+
+    </select>
+
+    <select id="findBrandByCartonCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_carton
+        WHERE cartontype = #{cartontype,jdbcType=VARCHAR}
     </select>
 </mapper>

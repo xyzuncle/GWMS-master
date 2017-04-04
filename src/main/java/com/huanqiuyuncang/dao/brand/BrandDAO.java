@@ -19,4 +19,8 @@ public interface BrandDAO {
     int updateByPrimaryKey(BrandEntity record);
 
     List<BrandEntity> datalistPage(Page page);
+
+    List<BrandEntity> selectAll();
+
+    BrandEntity findBrandByBrandCode(String brandcode);
 }

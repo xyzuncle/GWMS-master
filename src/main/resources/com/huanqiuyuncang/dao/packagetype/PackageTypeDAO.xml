@@ -146,5 +146,25 @@
         <include refid="Base_Column_List" />
         from
         wms_packagetype
+        <if test="pd.packagetype!= null and pd.packagetype != ''"><!-- 商品名称 -->
+            and packagetype LIKE  "%"#{pd.packagetype,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.packagename!= null and pd.packagename != ''"><!-- 商品名称 -->
+            and packagename LIKE  "%"#{pd.packagename,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+    <select id="selectAll"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_packagetype
+
+    </select>
+    <select id="findPackageTypeByPackageType" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_packagetype
+        WHERE packagetype = #{packagetype,jdbcType=VARCHAR}
     </select>
 </mapper>

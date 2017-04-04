@@ -2,6 +2,7 @@ package com.huanqiuyuncang.controller.wms.customs;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.carton.CartonEntity;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
 
 import com.huanqiuyuncang.service.wms.customs.CustomsInterface;
@@ -161,5 +162,18 @@ public class CustomsController extends BaseController {
         pdList.add(pd);
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
+    }
+
+    @RequestMapping(value="/findCustomsByCustomsCode")
+    public void findCustomsByCustomsCode(String customscode , PrintWriter out) throws Exception{
+        logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
+        CustomsEntity customsEntity = customsService.findCustomsByCustomsCode(customscode);
+        if (customsEntity != null){
+            out.write("success_"+customsEntity.getCustomsid());
+        }else {
+            out.write("error");
+        }
+
+        out.close();
     }
 }

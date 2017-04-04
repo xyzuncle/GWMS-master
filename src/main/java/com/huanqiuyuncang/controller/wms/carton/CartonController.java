@@ -2,6 +2,7 @@ package com.huanqiuyuncang.controller.wms.carton;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.brand.BrandEntity;
 import com.huanqiuyuncang.entity.carton.CartonEntity;
 import com.huanqiuyuncang.service.wms.carton.CartonInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -161,5 +162,18 @@ public class CartonController extends BaseController {
         pdList.add(pd);
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
+    }
+
+    @RequestMapping(value="/findCartonByCartonCode")
+    public void findCartonByCartonCode(String cartontype , PrintWriter out) throws Exception{
+        logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
+        CartonEntity cartonEntity = cartonService.findCartonByCartonCode(cartontype);
+        if (cartonEntity != null){
+            out.write("success_"+cartonEntity.getCartonid());
+        }else {
+            out.write("error");
+        }
+
+        out.close();
     }
 }

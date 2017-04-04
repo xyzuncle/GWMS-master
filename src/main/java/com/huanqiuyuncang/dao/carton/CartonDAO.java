@@ -19,4 +19,8 @@ public interface CartonDAO {
     int updateByPrimaryKey(CartonEntity record);
 
     List<CartonEntity> datalistPage(Page page);
+
+    List<CartonEntity> selectAll();
+
+    CartonEntity findCartonByCartonCode(String cartontype);
 }

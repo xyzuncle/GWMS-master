@@ -536,35 +536,55 @@
         <include refid="listLimit" />
     </select>
     <!-- 列表(全部) -->
-    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+    <select id="datalistPage" parameterType="page" resultType="pd">
+        SELECT
+        a.product_id productId ,a.image image,a.productNum productnum,a.productName productname,
+        a.barCode_main barcodeMain,c.brandname brandname,a.unit unit,a.standard standard,b.COUN_C_NAME producingArea,a.CrossBorder_CourierFee crossborderCourierfee,a.remark_1 remark1
+        FROM wms_product a,wms_country b,wms_brand c,wms_luggagemail d
+        WHERE a.brandName = c.brandId AND a.producing_area = b.COUNTRY_ID AND d.luggagemailID = a.luggageMail
+        <if test="pd.productname!= null and pd.productname != ''"><!-- 商品名称 -->
+            and a.productname LIKE  "%"#{pd.productname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.brandname!= null and pd.brandname != ''"><!-- 品牌-->
+            and c.brandId =  #{pd.brandname,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.producingArea!= null and pd.producingArea != ''"><!-- 产地-->
+            and b.COUNTRY_ID =  #{pd.producingArea,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.remark1!= null and pd.remark1 != ''"><!-- 备注 -->
+            and a.remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.luggageMail!= null and pd.luggageMail != ''"><!-- 行邮分类 -->
+            and d.luggagemailID  =  #{pd.luggageMail,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.barcodeMain!= null and pd.barcodeMain != ''"><!-- 行邮分类 -->
+            and(
+            a.barCode_main = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary1 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary2 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary3 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary4 = #{pd.barcodeMain,jdbcType=VARCHAR}
+            )
+        </if>
+    </select>
+    <select id="findProductByProductNum" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from
         wms_product
-        where 1=1
-        <if test="pd.productname!= null and pd.productname != ''"><!-- 商品名称 -->
-            and productName LIKE  "%"#{pd.productname,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.brandname!= null and pd.brandname != ''"><!-- 品牌-->
-            and brandName LIKE  "%"#{pd.brandname,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.producingArea!= null and pd.producingArea != ''"><!-- 产地-->
-            and producing_area LIKE  "%"#{pd.producingArea,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.remark1!= null and pd.remark1 != ''"><!-- 备注 -->
-            and remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.luggageMail!= null and pd.luggageMail != ''"><!-- 行邮分类 -->
-            and luggageMail LIKE  "%"#{pd.luggageMail,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.barcodeMain!= null and pd.barcodeMain != ''"><!-- 行邮分类 -->
-            and(
-            barCode_main = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary1 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary2 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary3 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary4 = #{pd.barcodeMain,jdbcType=VARCHAR}
-            )
-        </if>
+        where productNum = #{productnum,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findProductByBarCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_product
+        where
+        barCode_main = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary1 = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary2 = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary3 = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary4 = #{barCode,jdbcType=VARCHAR}
     </select>
 </mapper>

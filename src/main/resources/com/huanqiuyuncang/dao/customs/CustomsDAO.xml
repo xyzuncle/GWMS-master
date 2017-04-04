@@ -146,5 +146,26 @@
         <include refid="Base_Column_List" />
         from
         wms_customs
+        <if test="pd.customscode!= null and pd.customscode != ''"><!-- 商品名称 -->
+            and customscode LIKE  "%"#{pd.customscode,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.customsname!= null and pd.customsname != ''"><!-- 商品名称 -->
+            and customsname LIKE  "%"#{pd.customsname,jdbcType=VARCHAR}"%"
+        </if>
     </select>
+    <select id="selectAll"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_customs
+
+    </select>
+    <select id="findBrandByCustomsCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_customs
+        WHERE customscode = #{customscode,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

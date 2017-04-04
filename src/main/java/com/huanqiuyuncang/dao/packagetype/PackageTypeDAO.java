@@ -19,4 +19,8 @@ public interface PackageTypeDAO {
     int updateByPrimaryKey(PackageTypeEntity record);
 
     List<PackageTypeEntity> datalistPage(Page page);
+
+    List<PackageTypeEntity> selectAll();
+
+    PackageTypeEntity findPackageTypeByPackageType(String packagetype);
 }

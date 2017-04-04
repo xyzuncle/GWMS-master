@@ -23,6 +23,9 @@ public interface ProductDAO {
 
     List<ProductEntity> queryAll(Page page);
 
-    List<ProductEntity> datalistPage(Page page);
+    List<PageData>  datalistPage(Page page);
 
+    ProductEntity findProductByProductNum(String productnum);
+
+    ProductEntity findProductByBarCode(String barCode);
 }

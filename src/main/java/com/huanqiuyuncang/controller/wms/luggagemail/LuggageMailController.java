@@ -2,6 +2,7 @@ package com.huanqiuyuncang.controller.wms.luggagemail;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.luggagemail.LuggageMailEntity;
 import com.huanqiuyuncang.service.wms.luggagemail.LuggageMailInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -162,5 +163,18 @@ public class LuggageMailController extends BaseController {
         pdList.add(pd);
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
+    }
+
+    @RequestMapping(value="/findLuggageMailByLuggageMailCode")
+    public void findLuggageMailByLuggageMailCode(String luggagemailcode , PrintWriter out) throws Exception{
+        logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
+        LuggageMailEntity luggageMailEntity = luggageMailService.findLuggageMailByLuggageMailCode(luggagemailcode);
+        if (luggageMailEntity != null){
+            out.write("success_"+luggageMailEntity.getLuggagemailid());
+        }else {
+            out.write("error");
+        }
+
+        out.close();
     }
 }

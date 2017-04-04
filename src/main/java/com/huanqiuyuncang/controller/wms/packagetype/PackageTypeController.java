@@ -2,6 +2,7 @@ package com.huanqiuyuncang.controller.wms.packagetype;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.luggagemail.LuggageMailEntity;
 import com.huanqiuyuncang.entity.packagetype.PackageTypeEntity;
 import com.huanqiuyuncang.service.wms.packagetype.PackageTypeInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -160,5 +161,17 @@ public class PackageTypeController extends BaseController {
         pdList.add(pd);
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
+    }
+    @RequestMapping(value="/findPackageTypeByPackageType")
+    public void findPackageTypeByPackageType(String packagetype , PrintWriter out) throws Exception{
+        logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
+        PackageTypeEntity packageTypeEntity = packageTypeService.findPackageTypeByPackageType(packagetype);
+        if (packageTypeEntity != null){
+            out.write("success_"+packageTypeEntity.getPackageid());
+        }else {
+            out.write("error");
+        }
+
+        out.close();
     }
 }

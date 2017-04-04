@@ -20,4 +20,8 @@ public interface LuggageMailDAO {
     int updateByPrimaryKey(LuggageMailEntity record);
 
     List<LuggageMailEntity> datalistPage(Page page);
+
+    List<LuggageMailEntity> selectAll();
+
+    LuggageMailEntity findLuggageMailByLuggageMailCode(String luggagemailcode);
 }

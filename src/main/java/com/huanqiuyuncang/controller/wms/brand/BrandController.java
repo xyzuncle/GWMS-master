@@ -162,4 +162,18 @@ public class BrandController  extends BaseController {
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
+
+
+    @RequestMapping(value="/findBrandByBrandCode")
+    public void findBrandByBrandCode(String brandcode , PrintWriter out) throws Exception{
+        logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
+        BrandEntity brandEntity = brandService.findBrandByBrandCode(brandcode);
+        if (brandEntity != null){
+            out.write("success_"+brandEntity.getBrandid());
+        }else {
+            out.write("error");
+        }
+
+        out.close();
+    }
 }

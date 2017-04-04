@@ -20,4 +20,8 @@ public interface CustomsDAO {
     int updateByPrimaryKey(CustomsEntity record);
 
     List<CustomsEntity> datalistPage(Page page);
+
+    List<CustomsEntity> selectAll();
+
+    CustomsEntity findCustomsByCustomsCode(String customscode);
 }
