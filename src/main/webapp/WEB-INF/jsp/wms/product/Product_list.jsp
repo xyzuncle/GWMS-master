@@ -41,7 +41,7 @@
                                 <tr>
                                     <td>
                                         <div class="nav-search">
-
+                                            <input type="hidden" id="nav-search-auditStatus" name="auditStatus" value="${pd.auditStatus }"  >
                                             <span class="input-icon">
 											    商品名称：
 										    </span>
@@ -57,20 +57,72 @@
                                              <span class="input-icon">
 											    商品品牌：
 										    </span>
-										    <span class="input-icon">
-											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-brandname" autocomplete="off" name="brandname" value="${pd.brandname }" placeholder="这里输入关键词"/>
+                                            <span class="input-icon">
+											    	<select class="chosen-select form-control" name="brandname" id="brandname" data-placeholder="请选择" style="vertical-align:top;width: 100px;">
+                                                        <option value=""></option>
+                                                        <option value="">全部</option>
+                                                        <c:choose>
+                                                        <c:when test="${not empty brandList}">
+                                                            <c:forEach items="${brandList}" var="brand" varStatus="brandStatus">
+                                                                <c:choose>
+                                                                <c:when test="${not empty pd && brand.brandid == pd.brandname}">
+                                                                <option value="${brand.brandid}" id="${brand.brandid}" selected="selected">${brand.brandname}</option>
+                                                                </c:when>
+                                                                    <c:otherwise>
+                                                                        <option value="${brand.brandid}" id="${brand.brandid}" >${brand.brandname}</option>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </c:forEach>
+                                                        </c:when>
+                                                        </c:choose>
+                                                    </select>
 										    </span>
+
                                             <span class="input-icon">
 											    类别：
 										    </span>
-										    <span class="input-icon">
-											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-luggagemail" autocomplete="off" name="luggagemail" value="${pd.luggagemail }" placeholder="这里输入关键词"/>
+										   <span class="input-icon">
+											    	<select class="chosen-select form-control" name="luggagemail" id="luggagemail" data-placeholder="请选择" style="vertical-align:top;width: 100px;">
+                                                        <option value=""></option>
+                                                        <option value="">全部</option>
+                                                        <c:choose>
+                                                        <c:when test="${not empty luggageMailList}">
+                                                            <c:forEach items="${luggageMailList}" var="luggageMail" varStatus="luggageMailStatus">
+                                                                <c:choose>
+                                                                <c:when test="${not empty pd && luggageMail.luggagemailid == pd.luggagemail}">
+                                                                    <option value="${luggageMail.luggagemailid}" id="${luggageMail.luggagemailid}" selected="selected">${luggageMail.luggagemailname}</option>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                <option value="${luggageMail.luggagemailid}" id="${luggageMail.luggagemailid}">${luggageMail.luggagemailname}</option>
+                                                                </c:otherwise>
+                                                                </c:choose>
+                                                            </c:forEach>
+                                                        </c:when>
+                                                        </c:choose>
+                                                    </select>
 										    </span>
                                             <span class="input-icon">
 											    产地：
 										    </span>
-										    <span class="input-icon">
-											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-producingArea" autocomplete="off" name="producingArea" value="${pd.producingArea }" placeholder="这里输入关键词"/>
+										   <span class="input-icon">
+											    	<select class="chosen-select form-control" name="producingArea" id="producingArea" data-placeholder="请选择" style="vertical-align:top;width: 100px;">
+                                                        <option value=""></option>
+                                                        <option value="">全部</option>
+                                                        <c:choose>
+                                                        <c:when test="${not empty producingAreaList}">
+                                                            <c:forEach items="${producingAreaList}" var="producingArea" varStatus="producingAreaStatus">
+                                                                <c:choose>
+                                                                <c:when test="${not empty pd &&  producingArea.COUNTRY_ID == pd.producingArea}">
+                                                                    <option value="${producingArea.COUNTRY_ID}" id="${producingArea.COUNTRY_ID}" selected="selected">${producingArea.COUN_C_NAME}</option>
+                                                                </c:when>
+                                                                    <c:otherwise>
+                                                                        <option value="${producingArea.COUNTRY_ID}" id="${producingArea.COUNTRY_ID}" >${producingArea.COUN_C_NAME}</option>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </c:forEach>
+                                                        </c:when>
+                                                        </c:choose>
+                                                    </select>
 										    </span>
                                             <span class="input-icon">
 											    备注：
@@ -85,8 +137,38 @@
                                     </c:if>
                                 </tr>
                             </table>
-                            <!-- 检索  -->
-
+                            <div class="col-sm-12 widget-container-col">
+                                <div class="widget-box transparent">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title lighter">商品管理</h4>
+                                        <div class="widget-toolbar no-border">
+                                            <ul class="nav nav-tabs" id="myTab2">
+                                                <li id="baseTab">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('1')">基础商品库</a>
+                                                </li>
+                                                <li  id="definedTab">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('0')">自定义商品库</a>
+                                                </li>
+                                                <li id="disableTab">
+                                                    <a data-toggle="tab" href="#disable" onclick="changeTable('2')">停用商品库</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main padding-12 no-padding-left no-padding-right">
+                                            <div class="tab-content padding-4">
+                                                <div id="base" class="tab-pane in active">
+                                                </div>
+                                                <div id="defined" class="tab-pane">
+                                                </div>
+                                                <div id="disable" class="tab-pane">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
                                 <tr>
@@ -192,6 +274,8 @@
                                 </c:choose>
                                 </tbody>
                             </table>
+
+                            <!-- 检索  -->
                             <div class="page-header position-relative">
                                 <table style="width:100%;">
                                     <tr>
@@ -211,6 +295,7 @@
 
                     </div>
                     <!-- /.col -->
+
                 </div>
                 <!-- /.row -->
             </div>
@@ -230,14 +315,17 @@
 <!-- basic scripts -->
 <!-- 页面底部js¨ -->
 <%@ include file="../../system/index/foot.jsp"%>
+
 <!-- 删除时确认窗口 -->
 <script src="static/ace/js/bootbox.js"></script>
 <!-- ace scripts -->
 <script src="static/ace/js/ace/ace.js"></script>
 <!-- 下拉框 -->
 <script src="static/ace/js/chosen.jquery.js"></script>
+
 <!--提示框-->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
+
 <script type="text/javascript">
     $(top.hangge());//关闭加载状态
     //检索
@@ -246,6 +334,46 @@
         $("#Form").submit();
     }
     $(function() {
+        var auditStatus = ${pd.auditStatus};
+        if(auditStatus == 0){
+            $("#baseTab").removeClass("active");
+            $("#disableTab").removeClass("active");
+            $("#definedTab").addClass("active");
+        }else if (auditStatus == 1){
+            $("#disableTab").removeClass("active");
+            $("#definedTab").removeClass("active");
+            $("#baseTab").addClass("active");
+        }else if (auditStatus == 2){
+            $("#baseTab").removeClass("active");
+            $("#definedTab").removeClass("active");
+            $("#disableTab").addClass("active");
+        }
+        //下拉框
+        if(!ace.vars['touch']) {
+            $('.chosen-select').chosen({allow_single_deselect:true});
+            $(window)
+                    .off('resize.chosen')
+                    .on('resize.chosen', function() {
+                        $('.chosen-select').each(function() {
+                            var $this = $(this);
+                            $this.next().css({'width': $this.parent().width()});
+                        });
+                    }).trigger('resize.chosen');
+            $(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+                if(event_name != 'sidebar_collapsed') return;
+                $('.chosen-select').each(function() {
+                    var $this = $(this);
+                    $this.next().css({'width': $this.parent().width()});
+                });
+            });
+            $('#chosen-multiple-style .btn').on('click', function(e){
+                var target = $(this).find('input[type=radio]');
+                var which = parseInt(target.val());
+                if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+                else $('#form-field-select-4').removeClass('tag-input-style');
+            });
+        }
+
         //复选框全选控制
         var active_class = 'active';
         $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
@@ -357,6 +485,13 @@
             }
         });
     };
+
+    function changeTable(auditStatus){
+        $("#nav-search-auditStatus").val(auditStatus);
+        top.jzts();
+        $("#Form").submit();
+    }
+
 
     //导出excel
     function toExcel(){

@@ -161,7 +161,7 @@
         wms_brand
     </select>
 
-    <select id="selectAll"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findBrandByBrandCode"  resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List" />
         from

@@ -554,6 +554,9 @@
         <if test="pd.remark1!= null and pd.remark1 != ''"><!-- 备注 -->
             and a.remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
         </if>
+        <if test="pd.auditStatus!= null and pd.auditStatus != ''"><!-- 审核状态 -->
+            and a.audit_status  =  #{pd.auditStatus,jdbcType=VARCHAR}
+        </if>
         <if test="pd.luggageMail!= null and pd.luggageMail != ''"><!-- 行邮分类 -->
             and d.luggagemailID  =  #{pd.luggageMail,jdbcType=VARCHAR}
         </if>
