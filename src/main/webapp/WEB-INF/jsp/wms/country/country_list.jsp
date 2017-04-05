@@ -209,7 +209,7 @@
 			$("#Form").submit();
 		}
 		$(function() {
-		
+
 			//日期框
 			$('.date-picker').datepicker({
 				autoclose: true,
@@ -269,6 +269,8 @@
 		     diag.ShowMinButton = true;		//最小化按钮
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                     alert()
+                     alert()
 					 if('${page.currentPage}' == '0'){
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);

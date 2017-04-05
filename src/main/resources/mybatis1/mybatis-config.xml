@@ -9,6 +9,7 @@
         <setting name="defaultExecutorType" value="REUSE" />
         <setting name="lazyLoadingEnabled" value="false" />
         <setting name="autoMappingBehavior" value="FULL"/>
+        <setting name="logImpl" value="LOG4J"/>
     </settings>
 
 	<typeAliases>
@@ -18,6 +19,12 @@
 		<typeAlias type="com.huanqiuyuncang.entity.system.Dictionaries" alias="Dictionaries"/>
 		<typeAlias type="com.huanqiuyuncang.entity.system.Department" alias="Department"/>
 		<typeAlias type="com.huanqiuyuncang.entity.demo.TestUser" alias="TestUser"/>
+		<typeAlias type="com.huanqiuyuncang.entity.product.ProductEntity" alias="Product"/>
+		<typeAlias type="com.huanqiuyuncang.entity.brand.BrandEntity" alias="Brand"/>
+		<typeAlias type="com.huanqiuyuncang.entity.carton.CartonEntity" alias="Carton"/>
+		<typeAlias type="com.huanqiuyuncang.entity.customs.CustomsEntity" alias="Customs"/>
+		<typeAlias type="com.huanqiuyuncang.entity.luggagemail.LuggageMailEntity" alias="LuggageMail"/>
+		<typeAlias type="com.huanqiuyuncang.entity.packagetype.PackageTypeEntity" alias="PackageType"/>
 
 		<!-- 这里添加生成的实体类 -->
 		
