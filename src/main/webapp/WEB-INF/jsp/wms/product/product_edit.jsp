@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="static/ace/css/chosen.css" />
     <!-- jsp文件头和头部 -->
     <%@ include file="../../system/index/top.jsp"%>
+
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
