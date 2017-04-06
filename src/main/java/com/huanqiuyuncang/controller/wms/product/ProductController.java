@@ -59,7 +59,7 @@ public class ProductController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value="/save")
-    public ModelAndView save() throws Exception{
+    public ModelAndView save(ProductEntity productEntity) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"新增Product");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
@@ -67,12 +67,20 @@ public class ProductController extends BaseController {
         pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
-        pd.put("productId", this.get32UUID());	//主键
+        productEntity.setProductId(this.get32UUID());
+        productEntity.setAuditStatus(0);
+        productEntity.setCreateuser(username);
+        productEntity.setCreatetime(date);
+        productEntity.setUpdateuser(username);
+        productEntity.setUpdatetime(date);
+        System.out.println(productEntity.toString());
+    /*    pd.put("productId", this.get32UUID());	//主键
+        pd.put("auditStatus", 0);	//主键
         pd.put("createuser", username);	//创建者
         pd.put("updateuser", username);	//第一次保存，创建者就是修改者
         pd.put("createtime", date);	//创建时间
-        pd.put("updatetime", date);	//第一次保存，创建时间就是修改时间
-        productService.insertSelective(pd);
+        pd.put("updatetime", date);	//第一次保存，创建时间就是修改时间*/
+        productService.insertSelective(productEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
         return mv;
@@ -217,15 +225,15 @@ public class ProductController extends BaseController {
        logBefore(logger, Jurisdiction.getUsername()+"导出Fhbutton到excel");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
         ModelAndView mv = new ModelAndView();
-       /*  PageData pd = new PageData();
+        PageData pd = new PageData();
         pd = this.getPageData();
-        Map<String,Object> dataMap = new HashMap<String,Object>();
+      /*  Map<String,Object> dataMap = new HashMap<String,Object>();
         List<String> titles = new ArrayList<String>();
         titles.add("名称");	//1
         titles.add("权限标识");	//2
         titles.add("备注");	//3
         dataMap.put("titles", titles);
-        List<PageData> varOList = fhbuttonService.listAll(pd);
+        List<PageData> varOList = productService.listAll(pd);
         List<PageData> varList = new ArrayList<PageData>();
         for(int i=0;i<varOList.size();i++){
             PageData vpd = new PageData();

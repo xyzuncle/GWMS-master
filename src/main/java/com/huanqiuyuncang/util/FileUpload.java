@@ -48,7 +48,8 @@ public class FileUpload {
 	private static String copyFile(InputStream in, String dir, String realName)
 			throws IOException {
 		File file = mkdirsmy(dir,realName);
-		FileUtils.copyInputStreamToFile(in, file);
+        System.out.println(file.getAbsolutePath()+"******************************888");
+        FileUtils.copyInputStreamToFile(in, file);
 		return realName;
 	}
 	

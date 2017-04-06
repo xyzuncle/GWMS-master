@@ -23,6 +23,8 @@ public interface ProductDAO {
 
     List<ProductEntity> queryAll(Page page);
 
+    List<PageData> selectForExcel(PageData pd);
+
     List<PageData>  datalistPage(Page page);
 
     ProductEntity findProductByProductNum(String productnum);

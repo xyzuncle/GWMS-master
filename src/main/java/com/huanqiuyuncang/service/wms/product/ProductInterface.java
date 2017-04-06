@@ -16,7 +16,7 @@ public interface ProductInterface {
 
     int insert(PageData pd) throws Exception ;
 
-    int insertSelective(PageData pageData) throws Exception ;
+    int insertSelective(ProductEntity productEntity) throws Exception ;
 
     ProductEntity selectByPrimaryKey(String id) throws Exception ;
 
@@ -38,4 +38,6 @@ public interface ProductInterface {
     ProductEntity findProductByProductNum(String productnum)throws Exception;
 
     ProductEntity findProductByBarCode(String barCode)throws Exception;
+
+    List<PageData> selectForExcel(PageData pageData)throws Exception;
 }

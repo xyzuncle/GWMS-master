@@ -36,9 +36,9 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public int insertSelective(PageData pageData) throws Exception{
-        ProductEntity product = (ProductEntity) BeanMapUtil.mapToObject(pageData, ProductEntity.class);
-        return productDAO.insertSelective(product);
+    public int insertSelective(ProductEntity productEntity) throws Exception{
+       // ProductEntity product = (ProductEntity) BeanMapUtil.mapToObject(pageData, ProductEntity.class);
+        return productDAO.insertSelective(productEntity);
     }
 
     @Override
@@ -92,6 +92,11 @@ public class ProductService implements ProductInterface {
     @Override
     public ProductEntity findProductByBarCode(String barCode) throws Exception {
         return productDAO.findProductByBarCode(barCode);
+    }
+
+    @Override
+    public List<PageData> selectForExcel(PageData pageData) throws Exception {
+        return productDAO.selectForExcel(pageData);
     }
 
 }

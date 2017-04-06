@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-xs-12">
 
-                        <form action="product/${msg }.do" name="Form" id="Form" method="post">
+                        <form action="product/${msg }.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="productId" id="productId" value="${product.productId}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
@@ -50,7 +50,6 @@
                                         <td>
                                             <select class="chosen-select form-control" name="brandname" id="brandname" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                 <option value="">请选择</option>
-                                                <option value="">全部</option>
                                                 <c:choose>
                                                     <c:when test="${not empty brandList}">
                                                         <c:forEach items="${brandList}" var="brand" varStatus="brandStatus">
@@ -93,7 +92,6 @@
                                         <td>
                                             <select class="chosen-select form-control" name="producingArea" id="producingArea" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                 <option value="">请选择</option>
-                                                <option value="">全部</option>
                                                 <c:choose>
                                                     <c:when test="${not empty producingAreaList}">
                                                         <c:forEach items="${producingAreaList}" var="producingArea" varStatus="producingAreaStatus">
@@ -146,7 +144,6 @@
                                         <td>
                                             <select class="chosen-select form-control" name="customscode" id="customscode" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                 <option value="">请选择</option>
-                                                <option value="">全部</option>
                                                 <c:choose>
                                                     <c:when test="${not empty customsList}">
                                                         <c:forEach items="${customsList}" var="customs" varStatus="customsStatus">
@@ -167,7 +164,7 @@
                                         <td>
                                             <select class="chosen-select form-control" name="luggagemail" id="luggagemail" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                 <option value="">请选择</option>
-                                                <option value="">全部</option>
+
                                                 <c:choose>
                                                     <c:when test="${not empty luggageMailList}">
                                                         <c:forEach items="${luggageMailList}" var="luggageMail" varStatus="luggageMailStatus">
@@ -190,7 +187,6 @@
                                          <td>
                                              <select class="chosen-select form-control" name="cartontypea" id="cartontypea" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                  <option value="">请选择</option>
-                                                 <option value="">全部</option>
                                                  <c:choose>
                                                      <c:when test="${not empty cartonList}">
                                                          <c:forEach items="${cartonList}" var="carton" varStatus="cartonStatus">
@@ -215,7 +211,6 @@
                                          <td>
                                              <select class="chosen-select form-control" name="cartontypeb" id="cartontypeb" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                  <option value="">请选择</option>
-                                                 <option value="">全部</option>
                                                  <c:choose>
                                                      <c:when test="${not empty cartonList}">
                                                          <c:forEach items="${cartonList}" var="carton" varStatus="cartonStatus">
@@ -240,7 +235,6 @@
                                          <td colspan="3">
                                              <select class="chosen-select form-control" name="defaultpackage" id="defaultpackage" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                  <option value="">请选择</option>
-                                                 <option value="">全部</option>
                                                  <c:choose>
                                                      <c:when test="${not empty packageList}">
                                                          <c:forEach items="${packageList}" var="packagetype" varStatus="packageStatus">
@@ -277,6 +271,15 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">图片:</td>
+                                        <td colspan="3">
+                                            <img id='imgsImgSrc' src="${product.image}" height="100" width="100" />
+                                            <input type='file' size='27' id='imgsFile' name='imgsFile' class="file" onchange='submitUpload()' />
+                                            <input type="hidden" id="image" name="image" value="${product.image}">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <td style="text-align: center;" colspan="10">
                                             <a class="btn btn-mini btn-primary" onclick="save();">保存</a>
                                             <a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -305,6 +308,8 @@
 <%@ include file="../../system/index/foot.jsp"%>
 <!--提示框-->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
+
+<script type="text/javascript" src="static/ace/js/jquery.form.js"></script>
 <!-- 下拉框 -->
 <script src="static/ace/js/chosen.jquery.js"></script>
 <script type="text/javascript">
@@ -452,6 +457,31 @@
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
+    }
+
+
+    function submitUpload(){
+        var option = {
+            url:"${pageContext.request.contextPath}/uploadPic.do",
+            type:"post",
+            dataType:"text",
+            data:{
+                fileName:"imgsFile"
+            },
+            success:function(responseText){
+
+
+               var obj = $.parseJSON(responseText);
+                $("#imgsImgSrc").attr("src", "${pageContext.request.contextPath}/upload/"+obj.realPath);
+                $("#image").val("${pageContext.request.contextPath}/upload/"+obj.realPath);
+
+            },
+            error:function(){
+                alert("系统错误");
+            }
+        }
+        //以ajax的方式提交表单，如果option中指定url那么表单就不再提交到表单中action，而是提交option中的url上
+        $("#Form").ajaxSubmit(option);
     }
 </script>
 </body>

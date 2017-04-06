@@ -539,7 +539,8 @@
     <select id="datalistPage" parameterType="page" resultType="pd">
         SELECT
         a.product_id productId ,a.image image,a.productNum productnum,a.productName productname,
-        a.barCode_main barcodeMain,c.brandname brandname,a.unit unit,a.standard standard,b.COUN_C_NAME producingArea,a.CrossBorder_CourierFee crossborderCourierfee,a.remark_1 remark1
+        a.barCode_main barcodeMain,c.brandname brandname,a.unit unit,a.standard standard,b.COUN_C_NAME producingArea,
+        a.CrossBorder_CourierFee crossborderCourierfee,a.remark_1 remark1
         FROM wms_product a,wms_country b,wms_brand c,wms_luggagemail d
         WHERE a.brandName = c.brandId AND a.producing_area = b.COUNTRY_ID AND d.luggagemailID = a.luggageMail
         <if test="pd.productname!= null and pd.productname != ''"><!-- 商品名称 -->
@@ -590,4 +591,41 @@
         barCode_auxiliary3 = #{barCode,jdbcType=VARCHAR} OR
         barCode_auxiliary4 = #{barCode,jdbcType=VARCHAR}
     </select>
+
+    <select id="selectForExcel" parameterType="pd" resultType="pd">
+        SELECT
+        a.product_id productId ,a.image image,a.productNum productnum,a.productName productname,
+        a.barCode_main barcodeMain,c.brandname brandname,a.unit unit,a.standard standard,b.COUN_C_NAME producingArea,
+        a.CrossBorder_CourierFee crossborderCourierfee,a.remark_1 remark1
+        FROM wms_product a,wms_country b,wms_brand c,wms_luggagemail d
+        WHERE a.brandName = c.brandId AND a.producing_area = b.COUNTRY_ID AND d.luggagemailID = a.luggageMail
+        <if test="productname!= null and productname != ''"><!-- 商品名称 -->
+            and a.productname LIKE  "%"#{productname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="brandname!= null and brandname != ''"><!-- 品牌-->
+            and c.brandId =  #{brandname,jdbcType=VARCHAR}
+        </if>
+        <if test="producingArea!= null and producingArea != ''"><!-- 产地-->
+            and b.COUNTRY_ID =  #{producingArea,jdbcType=VARCHAR}
+        </if>
+        <if test="remark1!= null and remark1 != ''"><!-- 备注 -->
+            and a.remark_1 LIKE  "%"#{remark1,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="auditStatus!= null and auditStatus != ''"><!-- 审核状态 -->
+            and a.audit_status  =  #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="luggageMail!= null and luggageMail != ''"><!-- 行邮分类 -->
+            and d.luggagemailID  =  #{luggageMail,jdbcType=VARCHAR}
+        </if>
+        <if test="barcodeMain!= null and barcodeMain != ''"><!-- 行邮分类 -->
+            and(
+            a.barCode_main = #{barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary1 = #{barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary2 = #{barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary3 = #{barcodeMain,jdbcType=VARCHAR} OR
+            a.barCode_auxiliary4 = #{barcodeMain,jdbcType=VARCHAR}
+            )
+        </if>
+    </select>
+
 </mapper>

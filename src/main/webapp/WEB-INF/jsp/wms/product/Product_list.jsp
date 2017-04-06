@@ -201,7 +201,7 @@
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.productId}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
-                                                    <td class='center'>${var.image}</td>
+                                                    <td class='center'> <img id='imgsImgSrc' src="${var.image}" height="100" width="100" /></td>
                                                     <td class='center'>${var.productnum}</td>
                                                     <td class='center'>${var.productname}</td>
                                                     <td class='center'>${var.barcodeMain}</td>
