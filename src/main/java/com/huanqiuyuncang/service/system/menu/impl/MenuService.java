@@ -117,7 +117,7 @@ public class MenuService implements MenuManager{
 	public List<Menu> listAllMenuQx(String MENU_ID) throws Exception {
 		List<Menu> menuList = this.listSubMenuByParentId(MENU_ID);
 		for(Menu menu : menuList){
-			menu.setSubMenu(this.listAllMenuQx(menu.getMENU_ID()));
+            menu.setSubMenu(this.listAllMenuQx(menu.getMENU_ID()));
 			menu.setTarget("treeFrame");
 		}
 		return menuList;

@@ -29,14 +29,15 @@ public class TestUserClass {
     @Test
     public void testSave()throws Exception{
         TestUser testUser = new TestUser();
-        testUser.setAddress("测试地址9999");
+        testUser.setAddress("测试地址aaa");
         testUser.setAge(20);
         testUser.setId(UUID.randomUUID().toString());
         testUser.setPassword("123456");
         testUser.setTel(1234567);
         testUser.setUsername("admin9999");
         testUser.setSex("男");
-        testUserService.save(testUser);
+        int save = testUserService.save(testUser);
+        System.out.println("**************************"+save);
     }
 
 

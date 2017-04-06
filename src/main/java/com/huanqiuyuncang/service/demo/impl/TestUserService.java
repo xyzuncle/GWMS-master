@@ -23,8 +23,8 @@ public class TestUserService implements TestUserManager {
    @Autowired
    private TestUserDao testUserDao;
 
-    public void save(TestUser testUser) throws Exception {
-         testUserDao.insert(testUser);
+    public int  save(TestUser testUser) throws Exception {
+         return testUserDao.insert(testUser);
     }
 
     public void deleteByID(String id) throws Exception {

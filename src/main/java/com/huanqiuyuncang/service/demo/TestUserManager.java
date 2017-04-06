@@ -13,7 +13,7 @@ import java.util.List;
 public interface TestUserManager {
     /**新增
      */
-    public void save(TestUser testUser)throws Exception;
+    public int save(TestUser testUser)throws Exception;
 
     /**删除
      * @param pd
