@@ -536,39 +536,40 @@
         <include refid="listLimit" />
     </select>
     <!-- 列表(全部) -->
-    <select id="datalistPage" parameterType="page" resultType="pd">
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
         SELECT
-        a.product_id productId ,a.image image,a.productNum productnum,a.productName productname,
-        a.barCode_main barcodeMain,c.brandname brandname,a.unit unit,a.standard standard,b.COUN_C_NAME producingArea,
-        a.CrossBorder_CourierFee crossborderCourierfee,a.remark_1 remark1
-        FROM wms_product a,wms_country b,wms_brand c,wms_luggagemail d
-        WHERE a.brandName = c.brandId AND a.producing_area = b.COUNTRY_ID AND d.luggagemailID = a.luggageMail
+        <include refid="Base_Column_List" />
+        FROM wms_product
+        WHERE 1=1
         <if test="pd.productname!= null and pd.productname != ''"><!-- 商品名称 -->
-            and a.productname LIKE  "%"#{pd.productname,jdbcType=VARCHAR}"%"
+            and productName LIKE  "%"#{pd.productname,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.brandname!= null and pd.brandname != ''"><!-- 品牌-->
-            and c.brandId =  #{pd.brandname,jdbcType=VARCHAR}
+            and brandName =  #{pd.brandname,jdbcType=VARCHAR}
         </if>
         <if test="pd.producingArea!= null and pd.producingArea != ''"><!-- 产地-->
-            and b.COUNTRY_ID =  #{pd.producingArea,jdbcType=VARCHAR}
+            and producing_area =  #{pd.producingArea,jdbcType=VARCHAR}
         </if>
         <if test="pd.remark1!= null and pd.remark1 != ''"><!-- 备注 -->
-            and a.remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
+            and remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.auditStatus!= null and pd.auditStatus != ''"><!-- 审核状态 -->
-            and a.audit_status  =  #{pd.auditStatus,jdbcType=VARCHAR}
+            and audit_status  =  #{pd.auditStatus,jdbcType=VARCHAR}
         </if>
         <if test="pd.luggageMail!= null and pd.luggageMail != ''"><!-- 行邮分类 -->
-            and d.luggagemailID  =  #{pd.luggageMail,jdbcType=VARCHAR}
+            and luggageMail  =  #{pd.luggageMail,jdbcType=VARCHAR}
         </if>
         <if test="pd.barcodeMain!= null and pd.barcodeMain != ''"><!-- 行邮分类 -->
             and(
-            a.barCode_main = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary1 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary2 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary3 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary4 = #{pd.barcodeMain,jdbcType=VARCHAR}
+            barCode_main = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary1 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary2 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary3 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary4 = #{pd.barcodeMain,jdbcType=VARCHAR}
             )
+        </if>
+        <if test="pd.createuser!= null and pd.createuser != ''"><!-- 行邮分类 -->
+            and createuser  =  #{pd.createuser,jdbcType=VARCHAR}
         </if>
     </select>
     <select id="findProductByProductNum" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -592,40 +593,44 @@
         barCode_auxiliary4 = #{barCode,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectForExcel" parameterType="pd" resultType="pd">
+    <select id="selectForExcel" parameterType="pd"  resultMap="BaseResultMap">
         SELECT
-        a.product_id productId ,a.image image,a.productNum productnum,a.productName productname,
-        a.barCode_main barcodeMain,c.brandname brandname,a.unit unit,a.standard standard,b.COUN_C_NAME producingArea,
-        a.CrossBorder_CourierFee crossborderCourierfee,a.remark_1 remark1
-        FROM wms_product a,wms_country b,wms_brand c,wms_luggagemail d
-        WHERE a.brandName = c.brandId AND a.producing_area = b.COUNTRY_ID AND d.luggagemailID = a.luggageMail
+        <include refid="Base_Column_List" />
+        FROM wms_product
+        WHERE 1=1
         <if test="productname!= null and productname != ''"><!-- 商品名称 -->
-            and a.productname LIKE  "%"#{productname,jdbcType=VARCHAR}"%"
+            and productName LIKE  "%"#{productname,jdbcType=VARCHAR}"%"
         </if>
         <if test="brandname!= null and brandname != ''"><!-- 品牌-->
-            and c.brandId =  #{brandname,jdbcType=VARCHAR}
+            and brandName =  #{brandname,jdbcType=VARCHAR}
         </if>
         <if test="producingArea!= null and producingArea != ''"><!-- 产地-->
-            and b.COUNTRY_ID =  #{producingArea,jdbcType=VARCHAR}
+            and producing_area =  #{producingArea,jdbcType=VARCHAR}
         </if>
         <if test="remark1!= null and remark1 != ''"><!-- 备注 -->
-            and a.remark_1 LIKE  "%"#{remark1,jdbcType=VARCHAR}"%"
+            and remark_1 LIKE  "%"#{remark1,jdbcType=VARCHAR}"%"
         </if>
         <if test="auditStatus!= null and auditStatus != ''"><!-- 审核状态 -->
-            and a.audit_status  =  #{auditStatus,jdbcType=VARCHAR}
+            and audit_status  =  #{auditStatus,jdbcType=VARCHAR}
         </if>
         <if test="luggageMail!= null and luggageMail != ''"><!-- 行邮分类 -->
-            and d.luggagemailID  =  #{luggageMail,jdbcType=VARCHAR}
+            and luggageMail  =  #{luggageMail,jdbcType=VARCHAR}
         </if>
         <if test="barcodeMain!= null and barcodeMain != ''"><!-- 行邮分类 -->
             and(
-            a.barCode_main = #{barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary1 = #{barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary2 = #{barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary3 = #{barcodeMain,jdbcType=VARCHAR} OR
-            a.barCode_auxiliary4 = #{barcodeMain,jdbcType=VARCHAR}
+            barCode_main = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary1 = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary2 = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary3 = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary4 = #{barcodeMain,jdbcType=VARCHAR}
             )
         </if>
     </select>
 
+    <select id="selectCountryNameByID" parameterType="java.lang.String" resultType="java.lang.String">
+      SELECT t.COUN_C_NAME FROM wms_country t WHERE t.COUNTRY_ID =  #{producingArea,jdbcType=VARCHAR}
+    </select>
+    <select id="selectCountryIDByName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT t.COUNTRY_ID FROM wms_country t WHERE t.COUN_C_NAME =  #{producingArea,jdbcType=VARCHAR} OR t.COUN_E_NAME =  #{producingArea,jdbcType=VARCHAR}
+    </select>
 </mapper>

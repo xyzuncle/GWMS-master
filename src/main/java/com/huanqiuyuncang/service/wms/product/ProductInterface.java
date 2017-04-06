@@ -20,7 +20,7 @@ public interface ProductInterface {
 
     ProductEntity selectByPrimaryKey(String id) throws Exception ;
 
-    int updateByPrimaryKeySelective(PageData pageData) throws Exception ;
+    int updateByPrimaryKeySelective(ProductEntity productEntity) throws Exception ;
 
     int updateByPrimaryKey(ProductEntity record) throws Exception ;
 
@@ -33,11 +33,13 @@ public interface ProductInterface {
 
     List<PageData> list(Page page)throws Exception;
 
-    public List<PageData> datalistPage(Page page)throws Exception;
+    public List<ProductEntity> datalistPage(Page page)throws Exception;
 
     ProductEntity findProductByProductNum(String productnum)throws Exception;
 
     ProductEntity findProductByBarCode(String barCode)throws Exception;
 
-    List<PageData> selectForExcel(PageData pageData)throws Exception;
+    List<ProductEntity> selectForExcel(PageData pageData)throws Exception;
+
+    String saveProductFromExcel(List<PageData> listPd);
 }

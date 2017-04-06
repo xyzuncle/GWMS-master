@@ -8,6 +8,8 @@ import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.luggagemail.LuggageMailEntity;
 import com.huanqiuyuncang.entity.packagetype.PackageTypeEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
+import com.huanqiuyuncang.entity.system.Role;
+import com.huanqiuyuncang.service.system.fhlog.FHlogManager;
 import com.huanqiuyuncang.service.wms.brand.BrandInterface;
 import com.huanqiuyuncang.service.wms.brand.impl.BrandService;
 import com.huanqiuyuncang.service.wms.carton.CartonInterface;
@@ -16,17 +18,20 @@ import com.huanqiuyuncang.service.wms.customs.CustomsInterface;
 import com.huanqiuyuncang.service.wms.luggagemail.LuggageMailInterface;
 import com.huanqiuyuncang.service.wms.packagetype.PackageTypeInterface;
 import com.huanqiuyuncang.service.wms.product.ProductInterface;
-import com.huanqiuyuncang.util.AppUtil;
-import com.huanqiuyuncang.util.Jurisdiction;
-import com.huanqiuyuncang.util.ObjectExcelView;
-import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.*;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -53,7 +58,8 @@ public class ProductController extends BaseController {
     private PackageTypeInterface packageTypeService;
     @Autowired
     private CartonInterface cartonService;
-
+    @Resource(name="fhlogService")
+    private FHlogManager FHLOG;
     /**保存
      * @param
      * @throws Exception
@@ -74,12 +80,6 @@ public class ProductController extends BaseController {
         productEntity.setUpdateuser(username);
         productEntity.setUpdatetime(date);
         System.out.println(productEntity.toString());
-    /*    pd.put("productId", this.get32UUID());	//主键
-        pd.put("auditStatus", 0);	//主键
-        pd.put("createuser", username);	//创建者
-        pd.put("updateuser", username);	//第一次保存，创建者就是修改者
-        pd.put("createtime", date);	//创建时间
-        pd.put("updatetime", date);	//第一次保存，创建时间就是修改时间*/
         productService.insertSelective(productEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -107,13 +107,17 @@ public class ProductController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value="/edit")
-    public ModelAndView edit() throws Exception{
+    public ModelAndView edit(ProductEntity productEntity) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"修改Product");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
-        productService.updateByPrimaryKeySelective(pd);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        productEntity.setUpdateuser(username);
+        productEntity.setUpdatetime(date);
+        productService.updateByPrimaryKeySelective(productEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
         return mv;
@@ -126,11 +130,16 @@ public class ProductController extends BaseController {
     @RequestMapping(value="/list")
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表Product");
-        ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
+        ModelAndView mv = this.getModelAndView();
+        Map<String, String> hc = Jurisdiction.getHC();
+        //!hc.get("productAuditor").equals("1")
+        if(!hc.keySet().contains("productAuditor")){
+            pd.put("createuser",Jurisdiction.getUsername());
+        }
         page.setPd(pd);
-        List<PageData> varList = productService.datalistPage(page);
+        List<ProductEntity> varList = productService.datalistPage(page);
         setSelectList(mv);
         mv.setViewName("wms/product/product_list");
         mv.addObject("varList", varList);
@@ -168,6 +177,47 @@ public class ProductController extends BaseController {
         mv.setViewName("wms/product/product_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+
+    /**下载模版
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value="/downExcel")
+    public void downExcel(HttpServletResponse response)throws Exception{
+        FileDownload.fileDownload(response, PathUtil.getClasspath() + Const.FILEPATHFILE + "product.xls", "product.xls");
+    }
+    /**从EXCEL导入到数据库
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/readExcel" , produces = "text/html;charset=UTF-8")
+
+    public  ModelAndView readExcel(@RequestParam(value="excel",required=false) MultipartFile file) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        FHLOG.save(Jurisdiction.getUsername(), "从EXCEL导入到数据库");
+        PageData pd = new PageData();
+        if (null != file && !file.isEmpty()) {
+            String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+            String fileName =  FileUpload.fileUp(file, filePath, "productexcel");							//执行上传
+            List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+            String resturt = productService.saveProductFromExcel(listPd);
+            //*存入数据库操作======================================*//*
+            if(StringUtils.isNotBlank(resturt)){
+                StringBuffer start = new StringBuffer("请将一下错误数据摘出修改后重新导入：\n");
+                start.append(resturt);
+                mv.addObject("msg","product_error");
+                mv.addObject("resturt",start.toString());
+            }else{
+                mv.addObject("msg","success");
+            }
+
+        }
+        mv.addObject("pd",pd);
+        mv.setViewName("save_result");
         return mv;
     }
 
@@ -187,6 +237,23 @@ public class ProductController extends BaseController {
         mv.addObject("msg", "edit");
         mv.addObject("product", product);
         mv.addObject("pd", pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+
+    @RequestMapping(value="/goAuditor")
+    public ModelAndView goAuditor()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        String productId = pd.getString("productId");
+        ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
+        setSelectList(mv);
+        mv.setViewName("wms/product/product_auditor");
+        mv.addObject("msg", "edit");
+        mv.addObject("product", product);
+        mv.addObject("pd", pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
         return mv;
     }
 
@@ -227,24 +294,79 @@ public class ProductController extends BaseController {
         ModelAndView mv = new ModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
-      /*  Map<String,Object> dataMap = new HashMap<String,Object>();
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(!hc.keySet().contains("productAuditor")){
+            pd.put("createuser",Jurisdiction.getUsername());
+        }
+        List<ProductEntity> varOList = productService.selectForExcel(pd);
+        Map<String, Object> dataMap = getDataMap(varOList);
+        ObjectExcelView erv = new ObjectExcelView();
+        mv = new ModelAndView(erv,dataMap);
+        return mv;
+    }
+
+    private Map<String, Object> getDataMap(List<ProductEntity> varOList) {
+        Map<String,Object> dataMap = new HashMap<String,Object>();
         List<String> titles = new ArrayList<String>();
-        titles.add("名称");	//1
-        titles.add("权限标识");	//2
-        titles.add("备注");	//3
+        titles.add("货号");	//1
+        titles.add("商品名称");	//2
+        titles.add("外文名称");	//3
+        titles.add("主条码");	//4
+        titles.add("辅助条码1");	//5
+        titles.add("辅助条码2");	//6
+        titles.add("辅助条码3");	//7
+        titles.add("辅助条码4");	//8
+        titles.add("品牌");	//9
+        titles.add("单位");	//10
+        titles.add("规格");	//11
+        titles.add("产地");	//12
+        titles.add("保质期（天）");	//13
+        titles.add("毛重（g）");	//14
+        titles.add("净重（g）");	//15
+        titles.add("长（cm）");	//16
+        titles.add("宽（cm）");	//17
+        titles.add("高（cm）");	//18
+        titles.add("体积（cm³）");	//19
+        titles.add("备注");	//20
         dataMap.put("titles", titles);
-        List<PageData> varOList = productService.listAll(pd);
         List<PageData> varList = new ArrayList<PageData>();
         for(int i=0;i<varOList.size();i++){
+            ProductEntity productEntity = varOList.get(i);
             PageData vpd = new PageData();
-            vpd.put("var1", varOList.get(i).getString("NAME"));	//1
-            vpd.put("var2", varOList.get(i).getString("QX_NAME"));	//2
-            vpd.put("var3", varOList.get(i).getString("BZ"));	//3
+            vpd.put("var1", productEntity.getProductnum());	//1
+            vpd.put("var2", productEntity.getProductname());	//2
+            vpd.put("var3", productEntity.getProductename());	//3
+            vpd.put("var4", productEntity.getBarcodeMain());	//3
+            vpd.put("var5", productEntity.getBarcodeAuxiliary1());	//3
+            vpd.put("var6", productEntity.getBarcodeAuxiliary2());	//3
+            vpd.put("var7", productEntity.getBarcodeAuxiliary3());	//3
+            vpd.put("var8", productEntity.getBarcodeAuxiliary4());	//3
+            vpd.put("var9", productEntity.getBrandname());	//3
+            vpd.put("var10", productEntity.getUnit());	//3
+            vpd.put("var11", productEntity.getStandard());	//3
+            vpd.put("var12", productEntity.getProducingArea());	//3
+            vpd.put("var13", productEntity.getExpirationDate());	//3
+            vpd.put("var14", productEntity.getGrossWeight()+"");	//3
+            vpd.put("var15", productEntity.getNetWeight()+"");	//3
+            vpd.put("var16", productEntity.getProductLength()+"");	//3
+            vpd.put("var17", productEntity.getProductWidth()+"");	//3
+            vpd.put("var18", productEntity.getProductHigh()+"");	//3
+            vpd.put("var19", productEntity.getProductVolume()+"");	//3
+            vpd.put("var20", productEntity.getRemark1());	//3
             varList.add(vpd);
         }
         dataMap.put("varList", varList);
-        ObjectExcelView erv = new ObjectExcelView();
-        mv = new ModelAndView(erv,dataMap);*/
+        return dataMap;
+    }
+
+    /**打开上传EXCEL页面
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/goUploadExcel")
+    public ModelAndView goUploadExcel()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        mv.setViewName("wms/product/uploadexcel");
         return mv;
     }
     @RequestMapping(value="/findProductByProductNum")

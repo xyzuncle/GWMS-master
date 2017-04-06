@@ -23,4 +23,6 @@ public interface BrandDAO {
     List<BrandEntity> selectAll();
 
     BrandEntity findBrandByBrandCode(String brandcode);
+
+    BrandEntity selectBrandByBrandName(String brandname);
 }

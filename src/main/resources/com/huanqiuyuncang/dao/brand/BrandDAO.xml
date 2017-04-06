@@ -168,4 +168,11 @@
         wms_brand
         where brandcode = #{brandcode,jdbcType=VARCHAR}
     </select>
+    <select id="selectBrandByBrandName"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_brand
+        where brandname = #{pd.brandname,jdbcType=VARCHAR}
+    </select>
 </mapper>

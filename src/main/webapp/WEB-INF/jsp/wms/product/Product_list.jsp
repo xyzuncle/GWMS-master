@@ -60,7 +60,6 @@
                                             <span class="input-icon">
 											    	<select class="chosen-select form-control" name="brandname" id="brandname" data-placeholder="请选择" style="vertical-align:top;width: 100px;">
                                                         <option value=""></option>
-                                                        <option value="">全部</option>
                                                         <c:choose>
                                                         <c:when test="${not empty brandList}">
                                                             <c:forEach items="${brandList}" var="brand" varStatus="brandStatus">
@@ -84,7 +83,6 @@
 										   <span class="input-icon">
 											    	<select class="chosen-select form-control" name="luggagemail" id="luggagemail" data-placeholder="请选择" style="vertical-align:top;width: 100px;">
                                                         <option value=""></option>
-                                                        <option value="">全部</option>
                                                         <c:choose>
                                                         <c:when test="${not empty luggageMailList}">
                                                             <c:forEach items="${luggageMailList}" var="luggageMail" varStatus="luggageMailStatus">
@@ -107,7 +105,6 @@
 										   <span class="input-icon">
 											    	<select class="chosen-select form-control" name="producingArea" id="producingArea" data-placeholder="请选择" style="vertical-align:top;width: 100px;">
                                                         <option value=""></option>
-                                                        <option value="">全部</option>
                                                         <c:choose>
                                                         <c:when test="${not empty producingAreaList}">
                                                             <c:forEach items="${producingAreaList}" var="producingArea" varStatus="producingAreaStatus">
@@ -133,7 +130,11 @@
                                         </div>
                                     </td>
                                     <c:if test="${QX.cha == 1 }">
-                                        <td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
+                                        <td style="vertical-align:top;padding-left:2px">
+                                            <a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a>
+                                        <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if>
+                                        <c:if test="${QX.FromExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="fromExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td></c:if>
+                                        </td>
                                     </c:if>
                                 </tr>
                             </table>
@@ -143,15 +144,18 @@
                                         <h4 class="widget-title lighter">商品管理</h4>
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
+
                                                 <li id="baseTab">
                                                     <a data-toggle="tab" href="#base" onclick="changeTable('1')">基础商品库</a>
                                                 </li>
                                                 <li  id="definedTab">
                                                     <a data-toggle="tab" href="#defined" onclick="changeTable('0')">自定义商品库</a>
                                                 </li>
+                                                <c:if test="${QX.productDisable == 1 }">
                                                 <li id="disableTab">
                                                     <a data-toggle="tab" href="#disable" onclick="changeTable('2')">停用商品库</a>
                                                 </li>
+                                                </c:if>
                                             </ul>
                                         </div>
                                     </div>
@@ -216,6 +220,12 @@
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
+                                                            <c:if test="${QX.productAuditor == 1 }">
+
+                                                                <a class="btn btn-xs btn-success" title="审核" onclick="auditor('${var.productId}');">
+                                                                    <i class="ace-icon fa fa-check bigger-120" title="审核"></i>
+                                                                </a>
+                                                            </c:if>
                                                             <c:if test="${QX.edit == 1 }">
                                                                 <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.productId}');">
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
@@ -234,6 +244,7 @@
                                                                 </button>
 
                                                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
                                                                     <c:if test="${QX.edit == 1 }">
                                                                         <li>
                                                                             <a style="cursor:pointer;" onclick="edit('${var.productId}');" class="tooltip-success" data-rel="tooltip" title="修改">
@@ -439,6 +450,23 @@
         };
         diag.show();
     }
+    //审核
+    function auditor(Id){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="审核";
+        diag.URL = '<%=basePath%>product/goAuditor.do?productId='+Id;
+        diag.Width = 600;
+        diag.Height = 500;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
+            }
+            diag.close();
+        };
+        diag.show();
+    }
 
     //批量操作
     function makeAll(msg){
@@ -495,7 +523,38 @@
 
     //导出excel
     function toExcel(){
-        window.location.href='<%=basePath%>product/excel.do';
+        var auditStatus = $("#nav-search-auditStatus").val();
+        var productname = $("#nav-search-productname").val();
+        var barcodeMain = $("#nav-search-barcodeMain").val();
+        var brandname = $("#brandname").val();
+        var luggagemail = $("#luggagemail").val();
+        var producingArea = $("#producingArea").val();
+        var remark1 = $("#nav-search-remark1").val();
+        window.location.href='<%=basePath%>product/excel.do?auditStatus='+auditStatus+'&productname='+productname+'&barcodeMain='+barcodeMain+'&brandname='+brandname
+                +'&luggagemail='+luggagemail+'&producingArea='+producingArea+'&remark1='+remark1;
+    }
+
+    //打开上传excel页面
+    function fromExcel(){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="EXCEL 导入到数据库";
+        diag.URL = '<%=basePath%>product/goUploadExcel.do';
+        diag.Width = 400;
+        diag.Height = 150;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                if('${page.currentPage}' == '0'){
+                    top.jzts();
+                    setTimeout("self.location.reload()",100);
+                }else{
+                    nextPage(${page.currentPage});
+                }
+            }
+            diag.close();
+        };
+        diag.show();
     }
 </script>
 

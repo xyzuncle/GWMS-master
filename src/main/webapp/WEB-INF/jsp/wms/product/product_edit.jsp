@@ -37,6 +37,15 @@
                             <input type="hidden" name="productId" id="productId" value="${product.productId}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
+                                    <c:if test="${QX.commonForm == 1 }">
+                                    <tr>
+                                        <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">图片:</td>
+                                        <td colspan="3">
+                                            <img id='imgsImgSrc' src="${product.image}" height="100" width="100" />
+                                            <input type='file' size='27' id='imgsFile' name='imgsFile' class="file" onchange='submitUpload()' />
+                                            <input type="hidden" id="image" name="image" value="${product.image}">
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">货号:</td>
                                         <td><input type="text" name="productnum" id="productnum" value="${product.productnum}" maxlength="30" placeholder="这里输入货号" title="货号" style="width:98%;"/></td>
@@ -112,12 +121,6 @@
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">保质期（天）:</td>
                                         <td><input type="text" name="expirationDate" id="expirationDate" value="${product.expirationDate}" maxlength="255" placeholder="这里输入保质期" title="保质期" style="width:98%;"/></td>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">申报价（元）:</td>
-                                        <td><input type="number" name="declarePrice" id="declarePrice" value="${product.declarePrice}" maxlength="255" placeholder="这里输入申报价" title="申报价" style="width:98%;"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">零售价（元）:</td>
-                                        <td><input type="number" name="retailPrice" id="retailPrice" value="${product.retailPrice}" maxlength="255" placeholder="这里输入零售价" title="零售价" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">毛重:</td>
                                         <td><input type="number" name="grossWeight" id="grossWeight" value="${product.grossWeight}" maxlength="255" placeholder="这里输入毛重" title="毛重" style="width:98%;"/></td>
                                     </tr>
@@ -135,9 +138,25 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">体积:</td>
-                                        <td><input type="number" name="productVolume" id="productVolume" value="${product.productVolume}" maxlength="255" placeholder="这里输入体积" title="体积" style="width:98%;"/></td>
+                                        <td colspan="3"><input type="number" name="productVolume" id="productVolume" value="${product.productVolume}" maxlength="255" placeholder="这里输入体积" title="体积" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注:</td>
+                                        <td colspan="3">
+                                            <textarea rows="5" cols="10" id="remark1" name="remark1" style="width:98%;"  title="备注">${product.remark1}</textarea>
+                                        </td>
+                                    </tr>
+                                    </c:if>
+                                    <c:if test="${QX.privateFrom == 1 }">
+                                    <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">跨境速递费:</td>
-                                        <td><input type="number" name="crossborderCourierfee" id="crossborderCourierfee" value="${product.crossborderCourierfee}" maxlength="255" placeholder="这里输入跨境速递费" title="跨境速递费" style="width:98%;"/></td>
+                                        <td colspan="3"><input type="number" name="crossborderCourierfee" id="crossborderCourierfee" value="${product.crossborderCourierfee}" maxlength="255" placeholder="这里输入跨境速递费" title="跨境速递费" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">零售价（元）:</td>
+                                        <td><input type="number" name="retailPrice" id="retailPrice" value="${product.retailPrice}" maxlength="255" placeholder="这里输入零售价" title="零售价" style="width:98%;"/></td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">申报价（元）:</td>
+                                        <td><input type="number" name="declarePrice" id="declarePrice" value="${product.declarePrice}" maxlength="255" placeholder="这里输入申报价" title="申报价" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">海关编码:</td>
@@ -252,12 +271,7 @@
                                              </select>
                                          </td>
                                      </tr>
-                                    <tr>
-                                        <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注:</td>
-                                        <td colspan="3">
-                                            <textarea rows="5" cols="10" id="remark1" name="remark1" style="width:98%;"  title="备注">${product.remark1}</textarea>
-                                        </td>
-                                    </tr>
+
                                     <tr>
                                         <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注1:</td>
                                         <td colspan="3" >
@@ -270,14 +284,27 @@
                                             <textarea rows="5" cols="10" id="remark3"  name="remark3" style="width:98%;"  title="备注2">${product.remark3}</textarea>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">图片:</td>
-                                        <td colspan="3">
-                                            <img id='imgsImgSrc' src="${product.image}" height="100" width="100" />
-                                            <input type='file' size='27' id='imgsFile' name='imgsFile' class="file" onchange='submitUpload()' />
-                                            <input type="hidden" id="image" name="image" value="${product.image}">
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">创建者:</td>
+                                            <td >
+                                                <input type="text" disabled name="createuser" id="createuser" value="${product.createuser}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">创建时间:</td>
+                                            <td >
+                                                <input type="time" disabled name="createtime" id="createtime" value="${product.createtime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">修改者:</td>
+                                            <td >
+                                                <input type="text" disabled name="updateuser" id="updateuser" value="${product.updateuser}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">修改时间:</td>
+                                            <td >
+                                                <input type="time" disabled name="updatetime" id="updatetime" value="${product.updatetime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                        </tr>
+                                    </c:if>
 
                                     <tr>
                                         <td style="text-align: center;" colspan="10">

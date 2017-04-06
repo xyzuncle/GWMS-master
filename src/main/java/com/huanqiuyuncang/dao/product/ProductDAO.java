@@ -23,11 +23,15 @@ public interface ProductDAO {
 
     List<ProductEntity> queryAll(Page page);
 
-    List<PageData> selectForExcel(PageData pd);
+    List<ProductEntity> selectForExcel(PageData pd);
 
-    List<PageData>  datalistPage(Page page);
+    List<ProductEntity>  datalistPage(Page page);
 
     ProductEntity findProductByProductNum(String productnum);
 
     ProductEntity findProductByBarCode(String barCode);
+
+    String selectCountryNameByID(String producingArea);
+
+    String selectCountryIDByName(String producingArea);
 }
