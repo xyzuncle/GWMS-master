@@ -163,15 +163,17 @@ public class PackageTypeController extends BaseController {
         return AppUtil.returnObject(pd, map);
     }
     @RequestMapping(value="/findPackageTypeByPackageType")
-    public void findPackageTypeByPackageType(String packagetype , PrintWriter out) throws Exception{
+    @ResponseBody
+    public Object findPackageTypeByPackageType(String packagetype ) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
         PackageTypeEntity packageTypeEntity = packageTypeService.findPackageTypeByPackageType(packagetype);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        PageData pd = new PageData();
         if (packageTypeEntity != null){
-            out.write("success_"+packageTypeEntity.getPackageid());
-        }else {
-            out.write("error");
+            errInfo = "error";
         }
-
-        out.close();
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
     }
 }

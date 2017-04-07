@@ -165,15 +165,17 @@ public class CustomsController extends BaseController {
     }
 
     @RequestMapping(value="/findCustomsByCustomsCode")
-    public void findCustomsByCustomsCode(String customscode , PrintWriter out) throws Exception{
+    @ResponseBody
+    public Object findCustomsByCustomsCode(String customscode) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
         CustomsEntity customsEntity = customsService.findCustomsByCustomsCode(customscode);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        PageData pd = new PageData();
         if (customsEntity != null){
-            out.write("success_"+customsEntity.getCustomsid());
-        }else {
-            out.write("error");
+            errInfo = "error";
         }
-
-        out.close();
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
     }
 }

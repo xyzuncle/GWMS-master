@@ -36,7 +36,7 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">行邮税号:</td>
-                                        <td><input type="text" name="luggagemailcode" id="luggagemailcode" value="${luggagemail.luggagemailcode}" maxlength="30" placeholder="这里输入行邮税号" title="行邮税号" style="width:98%;"/></td>
+                                        <td><input type="text" name="luggagemailcode" id="luggagemailcode" onblur="checkLuggageMailCode()" value="${luggagemail.luggagemailcode}" maxlength="30" placeholder="这里输入行邮税号" title="行邮税号" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">行邮分类名称:</td>
@@ -83,9 +83,44 @@
     $(top.hangge());
     //保存
     function save(){
+        if($("#luggagemailcode").val()==""){
+
+            $("#luggagemailcode").tips({
+                side:3,
+                msg:'输入行邮税号',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#luggagemailcode").focus();
+            return false;
+        }
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
+    }
+    function checkLuggageMailCode(){
+        var luggagemailid = $("#luggagemailid").val();
+        if(luggagemailid == ""){
+            var luggagemailcode = $.trim($("#luggagemailcode").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>luggagemail/findLuggageMailByLuggageMailCode.do',
+                data: {luggagemailcode:luggagemailcode},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" != data.result){
+                        $("#luggagemailcode").tips({
+                            side:3,
+                            msg:'行邮税号'+luggagemailcode+' 已存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#luggagemailcode").val('');
+                    }
+                }
+            });
+        }
     }
 </script>
 </body>

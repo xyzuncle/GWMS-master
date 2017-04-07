@@ -165,15 +165,17 @@ public class CartonController extends BaseController {
     }
 
     @RequestMapping(value="/findCartonByCartonCode")
-    public void findCartonByCartonCode(String cartontype , PrintWriter out) throws Exception{
+    @ResponseBody
+    public Object findCartonByCartonCode(String cartontype) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
         CartonEntity cartonEntity = cartonService.findCartonByCartonCode(cartontype);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        PageData pd = new PageData();
         if (cartonEntity != null){
-            out.write("success_"+cartonEntity.getCartonid());
-        }else {
-            out.write("error");
+            errInfo = "error";
         }
-
-        out.close();
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
     }
 }

@@ -36,7 +36,7 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">海关编码:</td>
-                                        <td><input type="text" name="customscode" id="customscode" value="${customs.customscode}" maxlength="30" placeholder="这里输入海关编码" title="海关编码" style="width:98%;"/></td>
+                                        <td><input type="text" name="customscode" id="customscode" onblur="checkCustomsCode()" value="${customs.customscode}" maxlength="30" placeholder="这里输入海关编码" title="海关编码" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">海关编码名称:</td>
@@ -83,9 +83,44 @@
     $(top.hangge());
     //保存
     function save(){
+        if($("#customscode").val()==""){
+
+            $("#customscode").tips({
+                side:3,
+                msg:'输入海关编码',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#customscode").focus();
+            return false;
+        }
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
+    }
+    function checkCustomsCode(){
+        var customsid = $("#customsid").val();
+        if(customsid == ""){
+            var customscode = $.trim($("#customscode").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>customs/findCustomsByCustomsCode.do',
+                data: {customscode:customscode},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" != data.result){
+                        $("#customscode").tips({
+                            side:3,
+                            msg:'品牌编号'+customscode+' 已存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#customscode").val('');
+                    }
+                }
+            });
+        }
     }
 </script>
 </body>

@@ -165,15 +165,16 @@ public class BrandController  extends BaseController {
 
 
     @RequestMapping(value="/findBrandByBrandCode")
-    public void findBrandByBrandCode(String brandcode , PrintWriter out) throws Exception{
-        logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
+    @ResponseBody
+    public Object findBrandByBrandCode(String brandcode) throws Exception{
         BrandEntity brandEntity = brandService.findBrandByBrandCode(brandcode);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        PageData pd = new PageData();
         if (brandEntity != null){
-            out.write("success_"+brandEntity.getBrandid());
-        }else {
-            out.write("error");
+            errInfo = "error";
         }
-
-        out.close();
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
     }
 }

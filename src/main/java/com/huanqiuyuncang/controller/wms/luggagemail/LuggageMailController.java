@@ -166,15 +166,17 @@ public class LuggageMailController extends BaseController {
     }
 
     @RequestMapping(value="/findLuggageMailByLuggageMailCode")
-    public void findLuggageMailByLuggageMailCode(String luggagemailcode , PrintWriter out) throws Exception{
+    @ResponseBody
+    public Object findLuggageMailByLuggageMailCode(String luggagemailcode) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
         LuggageMailEntity luggageMailEntity = luggageMailService.findLuggageMailByLuggageMailCode(luggagemailcode);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        PageData pd = new PageData();
         if (luggageMailEntity != null){
-            out.write("success_"+luggageMailEntity.getLuggagemailid());
-        }else {
-            out.write("error");
+            errInfo = "error";
         }
-
-        out.close();
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
     }
 }

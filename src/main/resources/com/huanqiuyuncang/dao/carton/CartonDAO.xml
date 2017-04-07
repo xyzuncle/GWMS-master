@@ -207,7 +207,7 @@
 
     </select>
 
-    <select id="findBrandByCartonCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findCartonByCartonCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from

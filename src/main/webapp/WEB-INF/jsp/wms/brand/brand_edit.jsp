@@ -85,13 +85,45 @@
     $(top.hangge());
     //保存
     function save(){
+        if($("#brandcode").val()==""){
+
+            $("#brandcode").tips({
+                side:3,
+                msg:'输入编号',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#brandcode").focus();
+            return false;
+        }
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
     }
 
     function checkBrandCode(){
-        var brandid = $("#brandid").val()
+        var brandid = $("#brandid").val();
+        if(brandid == ""){
+            var brandcode = $.trim($("#brandcode").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>brand/findBrandByBrandCode.do',
+                data: {brandcode:brandcode},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" != data.result){
+                        $("#brandcode").tips({
+                            side:3,
+                            msg:'品牌编号'+brandcode+' 已存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#brandcode").val('');
+                    }
+                }
+            });
+        }
     }
 
 </script>

@@ -48,7 +48,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">货号:</td>
-                                        <td><input type="text" name="productnum" id="productnum" value="${product.productnum}" maxlength="30" placeholder="这里输入货号" title="货号" style="width:98%;"/></td>
+                                        <td><input type="text" name="productnum" id="productnum" onblur="checkProductNum()" value="${product.productnum}" maxlength="30" placeholder="这里输入货号" title="货号" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">商品名称:</td>
                                         <td><input type="text" name="productname" id="productname" value="${product.productname}" maxlength="30" placeholder="这里输入商品名称" title="商品名称" style="width:98%;"/></td>
                                     </tr>
@@ -62,14 +62,13 @@
                                                 <c:choose>
                                                     <c:when test="${not empty brandList}">
                                                         <c:forEach items="${brandList}" var="brand" varStatus="brandStatus">
-                                                            <c:choose>
-                                                                <c:when test="${not empty product && brand.brandid == product.brandname}">
-                                                                    <option value="${brand.brandid}" id="${brand.brandid}" selected="selected">${brand.brandname}</option>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <option value="${brand.brandid}" id="${brand.brandid}" >${brand.brandname}</option>
-                                                                </c:otherwise>
-                                                            </c:choose>
+
+                                                                    <option value="${brand.brandid}" id="${brand.brandid}"
+                                                                            <c:if test="${brand.brandid == product.brandname}">
+                                                                            selected="selected"
+                                                                            </c:if>
+                                                                    >${brand.brandname}</option>
+
                                                         </c:forEach>
                                                     </c:when>
                                                 </c:choose>
@@ -78,19 +77,19 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">主条码:</td>
-                                        <td><input type="text" name="barcodeMain" id="barcodeMain" value="${product.barcodeMain}" maxlength="255" placeholder="这里输入主条码" title="主条码" style="width:98%;"/></td>
+                                        <td><input type="text" name="barcodeMain" id="barcodeMain" onblur="checkBarcode(this)" value="${product.barcodeMain}" maxlength="255" placeholder="这里输入主条码" title="主条码" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码1:</td>
-                                        <td><input type="text" name="barcodeAuxiliary1" id="barcodeAuxiliary1" value="${product.barcodeAuxiliary1}" maxlength="255" placeholder="这里输入辅助条码1" title="辅助条码1" style="width:98%;"/></td>
+                                        <td><input type="text" name="barcodeAuxiliary1" id="barcodeAuxiliary1" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary1}" maxlength="255" placeholder="这里输入辅助条码1" title="辅助条码1" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码2:</td>
-                                        <td><input type="text" name="barcodeAuxiliary2" id="barcodeAuxiliary2" value="${product.barcodeAuxiliary2}" maxlength="255" placeholder="这里输入辅助条码2" title="辅助条码2" style="width:98%;"/></td>
+                                        <td><input type="text" name="barcodeAuxiliary2" id="barcodeAuxiliary2" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary2}" maxlength="255" placeholder="这里输入辅助条码2" title="辅助条码2" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码3:</td>
-                                        <td><input type="text" name="barcodeAuxiliary3" id="barcodeAuxiliary3" value="${product.barcodeAuxiliary3}" maxlength="255" placeholder="这里输入辅助条码3" title="辅助条码3" style="width:98%;"/></td>
+                                        <td><input type="text" name="barcodeAuxiliary3" id="barcodeAuxiliary3" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary3}" maxlength="255" placeholder="这里输入辅助条码3" title="辅助条码3" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码4:</td>
-                                        <td><input type="text" name="barcodeAuxiliary4" id="barcodeAuxiliary4" value="${product.barcodeAuxiliary4}" maxlength="255" placeholder="这里输入辅助条码4" title="辅助条码4" style="width:98%;"/></td>
+                                        <td><input type="text" name="barcodeAuxiliary4" id="barcodeAuxiliary4" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary4}" maxlength="255" placeholder="这里输入辅助条码4" title="辅助条码4" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">单位:</td>
                                         <td><input type="text" name="unit" id="unit" value="${product.unit}" maxlength="255" placeholder="这里输入单位" title="单位" style="width:98%;"/></td>
                                     </tr>
@@ -104,14 +103,11 @@
                                                 <c:choose>
                                                     <c:when test="${not empty producingAreaList}">
                                                         <c:forEach items="${producingAreaList}" var="producingArea" varStatus="producingAreaStatus">
-                                                            <c:choose>
-                                                                <c:when test="${not empty product &&  producingArea.COUNTRY_ID == product.producingArea}">
-                                                                    <option value="${producingArea.COUNTRY_ID}" id="${producingArea.COUNTRY_ID}" selected="selected">${producingArea.COUN_C_NAME}</option>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <option value="${producingArea.COUNTRY_ID}" id="${producingArea.COUNTRY_ID}" >${producingArea.COUN_C_NAME}</option>
-                                                                </c:otherwise>
-                                                            </c:choose>
+
+                                                                    <option value="${producingArea.COUNTRY_ID}" id="${producingArea.COUNTRY_ID}"
+                                                                            <c:if test="${producingArea.COUNTRY_ID == product.producingArea}">
+                                                                            selected="selected"</c:if>>${producingArea.COUN_C_NAME}</option>
+
                                                         </c:forEach>
                                                     </c:when>
                                                 </c:choose>
@@ -166,14 +162,9 @@
                                                 <c:choose>
                                                     <c:when test="${not empty customsList}">
                                                         <c:forEach items="${customsList}" var="customs" varStatus="customsStatus">
-                                                            <c:choose>
-                                                                <c:when test="${not empty product && customs.customsid== product.customscode}">
-                                                                    <option value="${customs.customsid}" id="${customs.customsid}" selected="selected">${customs.customsname}</option>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <option value="${customs.customsid}" id="${customs.customsid}">${customs.customsname}</option>
-                                                                </c:otherwise>
-                                                            </c:choose>
+                                                                    <option value="${customs.customsid}" id="${customs.customsid}"
+                                                                            <c:if test="${customs.customsid== product.customscode}">
+                                                                            selected="selected"  </c:if>>${customs.customsname}</option>
                                                         </c:forEach>
                                                     </c:when>
                                                 </c:choose>
@@ -187,15 +178,10 @@
                                                 <c:choose>
                                                     <c:when test="${not empty luggageMailList}">
                                                         <c:forEach items="${luggageMailList}" var="luggageMail" varStatus="luggageMailStatus">
-                                                            <c:choose>
-                                                                <c:when test="${not empty product && luggageMail.luggagemailid == product.luggagemail}">
-                                                                    <option value="${luggageMail.luggagemailid}" id="${luggageMail.luggagemailid}" selected="selected">${luggageMail.luggagemailname}</option>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <option value="${luggageMail.luggagemailid}" id="${luggageMail.luggagemailid}">${luggageMail.luggagemailname}</option>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </c:forEach>
+                                                                    <option value="${luggageMail.luggagemailid}" id="${luggageMail.luggagemailid}"
+                                                                            <c:if test="${luggageMail.luggagemailid == product.luggagemail}">
+                                                                            selected="selected" </c:if>>${luggageMail.luggagemailname}</option>
+s                                                        </c:forEach>
                                                     </c:when>
                                                 </c:choose>
                                             </select>
@@ -209,14 +195,10 @@
                                                  <c:choose>
                                                      <c:when test="${not empty cartonList}">
                                                          <c:forEach items="${cartonList}" var="carton" varStatus="cartonStatus">
-                                                             <c:choose>
-                                                                 <c:when test="${not empty product && carton.cartonid == product.cartontypea}">
-                                                                     <option value="${carton.cartonid}" id="${carton.cartonid}" selected="selected">${carton.cartonname}</option>
-                                                                 </c:when>
-                                                                 <c:otherwise>
-                                                                     <option value="${carton.cartonid}" id="${carton.cartonid}">${carton.cartonname}</option>
-                                                                 </c:otherwise>
-                                                             </c:choose>
+                                                                     <option value="${carton.cartonid}" id="${carton.cartonid}"
+                                                                             <c:if test="${carton.cartonid == product.cartontypea }">
+                                                                             selected="selected"</c:if>>${carton.cartonname}</option>
+
                                                          </c:forEach>
                                                      </c:when>
                                                  </c:choose>
@@ -233,14 +215,10 @@
                                                  <c:choose>
                                                      <c:when test="${not empty cartonList}">
                                                          <c:forEach items="${cartonList}" var="carton" varStatus="cartonStatus">
-                                                             <c:choose>
-                                                                 <c:when test="${not empty product && carton.cartonid == product.cartontypea}">
-                                                                     <option value="${carton.cartonid}" id="${carton.cartonid}" selected="selected">${carton.cartonname}</option>
-                                                                 </c:when>
-                                                                 <c:otherwise>
-                                                                     <option value="${carton.cartonid}" id="${carton.cartonid}">${carton.cartonname}</option>
-                                                                 </c:otherwise>
-                                                             </c:choose>
+                                                                     <option value="${carton.cartonid}" id="${carton.cartonid}"
+                                                                             <c:if test="${ carton.cartonid == product.cartontypeb }">
+                                                                             selected="selected" </c:if>>${carton.cartonname}</option>
+
                                                          </c:forEach>
                                                      </c:when>
                                                  </c:choose>
@@ -257,14 +235,11 @@
                                                  <c:choose>
                                                      <c:when test="${not empty packageList}">
                                                          <c:forEach items="${packageList}" var="packagetype" varStatus="packageStatus">
-                                                             <c:choose>
-                                                                 <c:when test="${not empty product && packagetype.packageid == product.defaultpackage}">
-                                                                     <option value="${packagetype.packageid}" id="${packagetype.packageid}" selected="selected">${packagetype.packagename}</option>
-                                                                 </c:when>
-                                                                 <c:otherwise>
-                                                                     <option value="${packagetype.packageid}" id="${packagetype.packageid}">${packagetype.packagename}</option>
-                                                                 </c:otherwise>
-                                                             </c:choose>
+                                                     <option value="${packagetype.packageid}" id="${packagetype.packageid}"
+                                                             <c:if test="${packagetype.packageid == product.defaultpackage }">
+                                                             selected="selected"
+                                                             </c:if>>${packagetype.packagename}</option>
+
                                                          </c:forEach>
                                                      </c:when>
                                                  </c:choose>
@@ -291,7 +266,7 @@
                                             </td>
                                             <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">创建时间:</td>
                                             <td >
-                                                <input type="time" disabled name="createtime" id="createtime" value="${product.createtime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="createtime" id="createtime" value="${product.createtime}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -301,7 +276,7 @@
                                             </td>
                                             <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">修改时间:</td>
                                             <td >
-                                                <input type="time" disabled name="updatetime" id="updatetime" value="${product.updatetime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="updatetime" id="updatetime" value="${product.updatetime}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>
                                         </tr>
                                     </c:if>
@@ -370,6 +345,46 @@
     });
     //保存
     function save(){
+        if($("#productnum").val()==''){
+            $("#productnum").tips({
+                side:3,
+                msg:'请输入货号',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#productnum").focus();
+            return false;
+        }
+        if($("#productname").val()==''){
+            $("#productname").tips({
+                side:3,
+                msg:'请输入商品名称',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#productname").focus();
+            return false;
+        }
+        if($("#barcodeMain").val()==''){
+            $("#barcodeMain").tips({
+                side:3,
+                msg:'请输入主条码',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#barcodeMain").focus();
+            return false;
+        }
+        if($("#producingArea").val()==''){
+            $("#producingArea").tips({
+                side:3,
+                msg:'请输入产地',
+                bg:'#AE81FF',
+                time:2
+            });
+            $("#producingArea").focus();
+            return false;
+        }
         if($("#declarePrice").val() != '' && isNaN($("#declarePrice").val()) ){
             $("#declarePrice").tips({
                 side:3,
@@ -480,7 +495,78 @@
             $("#cartontypebnum").focus();
             return false;
         }
-
+        if($("#barcodeAuxiliary1").val()!=''){
+           var barcodeMain =  $("#barcodeMain").val();
+           var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
+           var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
+           var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
+           var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
+            if(barcodeAuxiliary1==barcodeAuxiliary2 || barcodeAuxiliary1 == barcodeMain
+                    || barcodeAuxiliary1==barcodeAuxiliary3 || barcodeAuxiliary1 ==barcodeAuxiliary4){
+                $("#barcodeAuxiliary1").tips({
+                    side:3,
+                    msg:'条码不能重复',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#barcodeAuxiliary1").focus();
+                return false;
+            }
+        }
+        if($("#barcodeAuxiliary2").val()!=''){
+            var barcodeMain =  $("#barcodeMain").val();
+            var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
+            var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
+            var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
+            var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
+            if(barcodeAuxiliary2==barcodeAuxiliary1 || barcodeAuxiliary2 == barcodeMain
+                    || barcodeAuxiliary2==barcodeAuxiliary3 || barcodeAuxiliary2 ==barcodeAuxiliary4){
+                $("#barcodeAuxiliary2").tips({
+                    side:3,
+                    msg:'条码不能重复',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#barcodeAuxiliary2").focus();
+                return false;
+            }
+        }
+        if($("#barcodeAuxiliary3").val()!=''){
+            var barcodeMain =  $("#barcodeMain").val();
+            var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
+            var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
+            var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
+            var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
+            if(barcodeAuxiliary3==barcodeAuxiliary1 || barcodeAuxiliary3 == barcodeMain
+                    || barcodeAuxiliary3==barcodeAuxiliary2 || barcodeAuxiliary3 ==barcodeAuxiliary4){
+                $("#barcodeAuxiliary3").tips({
+                    side:3,
+                    msg:'条码不能重复',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#barcodeAuxiliary3").focus();
+                return false;
+            }
+        }
+        if($("#barcodeAuxiliary4").val()!=''){
+            var barcodeMain =  $("#barcodeMain").val();
+            var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
+            var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
+            var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
+            var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
+            if(barcodeAuxiliary4==barcodeAuxiliary1 || barcodeAuxiliary4 == barcodeMain
+                    || barcodeAuxiliary4==barcodeAuxiliary2 || barcodeAuxiliary4 ==barcodeAuxiliary3){
+                $("#barcodeAuxiliary4").tips({
+                    side:3,
+                    msg:'条码不能重复',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#barcodeAuxiliary4").focus();
+                return false;
+            }
+        }
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
@@ -510,6 +596,59 @@
         //以ajax的方式提交表单，如果option中指定url那么表单就不再提交到表单中action，而是提交option中的url上
         $("#Form").ajaxSubmit(option);
     }
+
+    function checkBarcode(obj){
+        var productId = $("#productId").val();
+        if(productId == ""){
+            var barcode = $.trim($(obj).val());
+            if(barcode != ""){
+                $.ajax({
+                    type: "POST",
+                    url: '<%=basePath%>product/findProductByProductNum.do',
+                    data: {barcode:barcode},
+                    dataType:'json',
+                    cache: false,
+                    success: function(data){
+                        if("success" != data.result){
+                            $(obj).tips({
+                                side:3,
+                                msg:'条码'+barcode+' 已存在',
+                                bg:'#AE81FF',
+                                time:3
+                            });
+                            $(obj).val('');
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+    function checkProductNum(){
+        var productId = $("#productId").val();
+        if(productId == ""){
+            var productnum = $.trim($("#productnum").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>product/findProductByProductNum.do',
+                data: {productnum:productnum},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" != data.result){
+                        $("#productnum").tips({
+                            side:3,
+                            msg:'货号'+productnum+' 已存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#productnum").val('');
+                    }
+                }
+            });
+        }
+    }
+
 </script>
 </body>
 </html>

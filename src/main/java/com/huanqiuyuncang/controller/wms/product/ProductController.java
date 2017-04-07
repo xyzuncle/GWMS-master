@@ -370,27 +370,31 @@ public class ProductController extends BaseController {
         return mv;
     }
     @RequestMapping(value="/findProductByProductNum")
-    public void findProductByProductNum(String productnum , PrintWriter out) throws Exception{
+    @ResponseBody
+    public Object findProductByProductNum(String productnum) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
         ProductEntity product = productService.findProductByProductNum(productnum);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        PageData pd = new PageData();
         if (product != null){
-            out.write("success_"+product.getProductId());
-        }else {
-            out.write("error");
+            errInfo = "error";
         }
-
-        out.close();
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
     }
     @RequestMapping(value="/findProductByBarCode")
-    public void findProductByBarCode(String barCode , PrintWriter out) throws Exception{
+    @ResponseBody
+    public Object findProductByBarCode(String barCode) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
         ProductEntity product = productService.findProductByBarCode(barCode);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        PageData pd = new PageData();
         if (product != null){
-            out.write("success_"+product.getProductId());
-        }else {
-            out.write("error");
+            errInfo = "error";
         }
-
-        out.close();
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
     }
 }

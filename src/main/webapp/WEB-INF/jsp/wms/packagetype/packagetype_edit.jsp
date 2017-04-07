@@ -36,7 +36,7 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">包装类型编号:</td>
-                                        <td><input type="text" name="packagetype" id="packagetype" value="${packagetype.packagetype}" maxlength="30" placeholder="这里输入行邮税号" title="行邮税号" style="width:98%;"/></td>
+                                        <td><input type="text" name="packagetype" id="packagetype" onblur="checkPackageType()" value="${packagetype.packagetype}" maxlength="30" placeholder="这里输入行邮税号" title="行邮税号" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">包装类型名称:</td>
@@ -83,9 +83,45 @@
     $(top.hangge());
     //保存
     function save(){
+        if($("#packagetype").val()==""){
+
+            $("#packagetype").tips({
+                side:3,
+                msg:'输入包装类型编号',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#packagetype").focus();
+            return false;
+        }
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
+    }
+
+    function checkPackageType(){
+        var packageid = $("#packageid").val();
+        if(packageid == ""){
+            var packagetype = $.trim($("#packagetype").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>packagetype/findPackageTypeByPackageType.do',
+                data: {packagetype:packagetype},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" != data.result){
+                        $("#packagetype").tips({
+                            side:3,
+                            msg:'包装类型编号'+packagetype+' 已存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#packagetype").val('');
+                    }
+                }
+            });
+        }
     }
 </script>
 </body>
