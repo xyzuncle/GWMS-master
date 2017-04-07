@@ -571,8 +571,7 @@ s                                                        </c:forEach>
         $("#zhongxin").hide();
         $("#zhongxin2").show();
     }
-
-
+    //图品上传
     function submitUpload(){
         var option = {
             url:"${pageContext.request.contextPath}/uploadPic.do",
@@ -596,7 +595,7 @@ s                                                        </c:forEach>
         //以ajax的方式提交表单，如果option中指定url那么表单就不再提交到表单中action，而是提交option中的url上
         $("#Form").ajaxSubmit(option);
     }
-
+    //检查条码
     function checkBarcode(obj){
         var productId = $("#productId").val();
         if(productId == ""){
@@ -624,6 +623,7 @@ s                                                        </c:forEach>
 
         }
     }
+    //检查货号
     function checkProductNum(){
         var productId = $("#productId").val();
         if(productId == ""){

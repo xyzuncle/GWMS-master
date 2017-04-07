@@ -344,6 +344,7 @@
         top.jzts();
         $("#Form").submit();
     }
+
     $(function() {
         var auditStatus = ${pd.auditStatus};
         if(auditStatus == 0){
@@ -514,12 +515,12 @@
         });
     };
 
+    //改变商品库
     function changeTable(auditStatus){
         $("#nav-search-auditStatus").val(auditStatus);
         top.jzts();
         $("#Form").submit();
     }
-
 
     //导出excel
     function toExcel(){

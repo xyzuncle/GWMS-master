@@ -134,7 +134,7 @@ public class ProductController extends BaseController {
         pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
         Map<String, String> hc = Jurisdiction.getHC();
-        //!hc.get("productAuditor").equals("1")
+        //与审核权限挂钩，没有权限就只显示自己创建的商品
         if(!hc.keySet().contains("productAuditor")){
             pd.put("createuser",Jurisdiction.getUsername());
         }
@@ -189,13 +189,13 @@ public class ProductController extends BaseController {
     public void downExcel(HttpServletResponse response)throws Exception{
         FileDownload.fileDownload(response, PathUtil.getClasspath() + Const.FILEPATHFILE + "product.xls", "product.xls");
     }
+
     /**从EXCEL导入到数据库
      * @param file
      * @return
      * @throws Exception
      */
     @RequestMapping(value="/readExcel" , produces = "text/html;charset=UTF-8")
-
     public  ModelAndView readExcel(@RequestParam(value="excel",required=false) MultipartFile file) throws Exception{
         ModelAndView mv = this.getModelAndView();
         FHLOG.save(Jurisdiction.getUsername(), "从EXCEL导入到数据库");
@@ -241,6 +241,10 @@ public class ProductController extends BaseController {
         return mv;
     }
 
+    /**去审核页面
+     * @param
+     * @throws Exception
+     */
     @RequestMapping(value="/goAuditor")
     public ModelAndView goAuditor()throws Exception{
         ModelAndView mv = this.getModelAndView();
@@ -369,6 +373,11 @@ public class ProductController extends BaseController {
         mv.setViewName("wms/product/uploadexcel");
         return mv;
     }
+
+    /**检查货号
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value="/findProductByProductNum")
     @ResponseBody
     public Object findProductByProductNum(String productnum) throws Exception{
@@ -383,6 +392,11 @@ public class ProductController extends BaseController {
         map.put("result", errInfo);				//返回结果
         return AppUtil.returnObject(new PageData(), map);
     }
+
+    /**检查条码
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value="/findProductByBarCode")
     @ResponseBody
     public Object findProductByBarCode(String barCode) throws Exception{
