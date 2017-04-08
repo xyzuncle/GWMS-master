@@ -25,10 +25,6 @@ public interface ProductInterface {
     int updateByPrimaryKey(ProductEntity record) throws Exception ;
 
 
-    List<ProductEntity> queryByPage(Page page);
-
-    List<ProductEntity> queryAll(Page page);
-
     void deleteAll(String[] arrayDATA_ids);
 
     List<PageData> list(Page page)throws Exception;

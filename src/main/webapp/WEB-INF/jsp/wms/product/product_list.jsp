@@ -42,6 +42,7 @@
                                     <td>
                                         <div class="nav-search">
                                             <input type="hidden" id="nav-search-auditStatus" name="auditStatus" value="${pd.auditStatus }"  >
+                                            <input type="hidden" id="nav-search-blockStatus" name="blockStatus" value="${pd.blockStatus }"  >
                                             <span class="input-icon">
 											    商品名称：
 										    </span>
@@ -220,10 +221,22 @@
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
-                                                            <c:if test="${QX.productAuditor == 1 }">
+                                                            <c:if test="${var.auditStatus == 0 && QX.productAuditor == 1 }">
 
-                                                                <a class="btn btn-xs btn-success" title="审核" onclick="auditor('${var.productId}');">
+                                                                <a class="btn btn-xs btn-primary" title="审核" onclick="auditor('${var.productId}');">
                                                                     <i class="ace-icon fa fa-check bigger-120" title="审核"></i>
+                                                                </a>
+                                                            </c:if>
+                                                            <c:if test="${var.blockStatus == 0 && QX.productBlock == 1 }">
+
+                                                                <a class="btn btn-xs btn-warning" title="停用" onclick="blockStatus('${var.productId}');">
+                                                                    <i class="ace-icon fa  fa-key bigger-120" title="停用"></i>
+                                                                </a>
+                                                            </c:if>
+                                                            <c:if test="${var.blockStatus == 1 && QX.productBlock == 1 }">
+
+                                                                <a class="btn btn-xs btn-warning" title="启用" onclick="blockStatus('${var.productId}');">
+                                                                    <i class="ace-icon fa  fa-key bigger-120" title="启用"></i>
                                                                 </a>
                                                             </c:if>
                                                             <c:if test="${QX.edit == 1 }">
@@ -346,16 +359,17 @@
     }
 
     $(function() {
-        var auditStatus = ${pd.auditStatus};
-        if(auditStatus == 0){
+        var auditStatus = ${pd.auditStatus} ;
+        var blockStatus = ${pd.blockStatus};
+        if(auditStatus == 0 && blockStatus == 0){
             $("#baseTab").removeClass("active");
             $("#disableTab").removeClass("active");
             $("#definedTab").addClass("active");
-        }else if (auditStatus == 1){
+        }else if (auditStatus == 1 && blockStatus == 0){
             $("#disableTab").removeClass("active");
             $("#definedTab").removeClass("active");
             $("#baseTab").addClass("active");
-        }else if (auditStatus == 2){
+        }else if (blockStatus == 1){
             $("#baseTab").removeClass("active");
             $("#definedTab").removeClass("active");
             $("#disableTab").addClass("active");
@@ -454,21 +468,19 @@
     //审核
     function auditor(Id){
         top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="审核";
-        diag.URL = '<%=basePath%>product/goAuditor.do?productId='+Id;
-        diag.Width = 600;
-        diag.Height = 500;
-        diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                nextPage(${page.currentPage});
-            }
-            diag.close();
-        };
-        diag.show();
+        var url = "<%=basePath%>product/updateAuditor.do?productId="+Id+"&tm="+new Date().getTime();
+        $.get(url,function(data){
+            nextPage(${page.currentPage});
+        });
     }
-
+    //停用
+    function blockStatus(Id){
+        top.jzts();
+        var url = "<%=basePath%>product/updateBlock.do?productId="+Id+"&tm="+new Date().getTime();
+        $.get(url,function(data){
+            nextPage(${page.currentPage});
+        });
+    }
     //批量操作
     function makeAll(msg){
         bootbox.confirm(msg, function(result) {
@@ -517,7 +529,16 @@
 
     //改变商品库
     function changeTable(auditStatus){
-        $("#nav-search-auditStatus").val(auditStatus);
+        if(auditStatus == 1){
+            $("#nav-search-auditStatus").val(1);
+            $("#nav-search-blockStatus").val(0);
+        }else if(auditStatus == 0){
+            $("#nav-search-auditStatus").val(0);
+            $("#nav-search-blockStatus").val(0);
+        }else if(auditStatus == 2){
+            $("#nav-search-auditStatus").val(0);
+            $("#nav-search-blockStatus").val(1);
+        }
         top.jzts();
         $("#Form").submit();
     }

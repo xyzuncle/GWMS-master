@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.huanqiuyuncang.dao.product.ProductDAO" >
     <resultMap id="BaseResultMap" type="Product" >
-        <constructor>
-            <idArg  column="product_id" jdbcType="VARCHAR" javaType="java.lang.String" />
-            <arg  column="image" jdbcType="VARCHAR" javaType="java.lang.String" />
+        <constructor >
+            <idArg column="product_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="image" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="productNum" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="productName" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="productEName" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -38,6 +38,7 @@
             <arg column="remark_2" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="remark_3" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="audit_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="block_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
             <arg column="createUser" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
             <arg column="updateUser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -45,14 +46,14 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List" >
-        product_id, image, productNum, productName, productEName, barCode_main, barCode_auxiliary1,
-        barCode_auxiliary2, barCode_auxiliary3, barCode_auxiliary4, brandName, unit, standard,
-        producing_area, expiration_date, Declare_price, retail_price, Gross_weight, net_weight,
-        product_length, product_width, product_high, product_volume, CrossBorder_CourierFee,
-        customsCode, luggageMail, CartonTypeA, CartonTypeANum, CartonTypeB, CartonTypeBNum,
-        defaultPackage, remark_1, remark_2, remark_3, audit_status, createUser, createTime,
-        updateUser, updateTime
-    </sql>
+    product_id, image, productNum, productName, productEName, barCode_main, barCode_auxiliary1,
+    barCode_auxiliary2, barCode_auxiliary3, barCode_auxiliary4, brandName, unit, standard,
+    producing_area, expiration_date, Declare_price, retail_price, Gross_weight, net_weight,
+    product_length, product_width, product_high, product_volume, CrossBorder_CourierFee,
+    customsCode, luggageMail, CartonTypeA, CartonTypeANum, CartonTypeB, CartonTypeBNum,
+    defaultPackage, remark_1, remark_2, remark_3, audit_status, block_status, createUser,
+    createTime, updateUser, updateTime
+  </sql>
 
     <sql id="listLimit">
         limit #{currentPage},#{showCount}
@@ -80,9 +81,9 @@
         customsCode, luggageMail, CartonTypeA,
         CartonTypeANum, CartonTypeB, CartonTypeBNum,
         defaultPackage, remark_1, remark_2,
-        remark_3, audit_status, createUser,
-        createTime, updateUser, updateTime
-        )
+        remark_3, audit_status, block_status,
+        createUser, createTime, updateUser,
+        updateTime)
         values (#{productId,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{productnum,jdbcType=VARCHAR},
         #{productname,jdbcType=VARCHAR}, #{productename,jdbcType=VARCHAR}, #{barcodeMain,jdbcType=VARCHAR},
         #{barcodeAuxiliary1,jdbcType=VARCHAR}, #{barcodeAuxiliary2,jdbcType=VARCHAR}, #{barcodeAuxiliary3,jdbcType=VARCHAR},
@@ -94,9 +95,9 @@
         #{customscode,jdbcType=VARCHAR}, #{luggagemail,jdbcType=VARCHAR}, #{cartontypea,jdbcType=VARCHAR},
         #{cartontypeanum,jdbcType=INTEGER}, #{cartontypeb,jdbcType=VARCHAR}, #{cartontypebnum,jdbcType=INTEGER},
         #{defaultpackage,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},
-        #{remark3,jdbcType=VARCHAR}, #{auditStatus,jdbcType=INTEGER}, #{createuser,jdbcType=VARCHAR},
-        #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
-        )
+        #{remark3,jdbcType=VARCHAR}, #{auditStatus,jdbcType=INTEGER}, #{blockStatus,jdbcType=INTEGER},
+        #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
+        #{updatetime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="Product" >
         insert into wms_product
@@ -205,6 +206,9 @@
             </if>
             <if test="auditStatus != null" >
                 audit_status,
+            </if>
+            <if test="blockStatus != null" >
+                block_status,
             </if>
             <if test="createuser != null" >
                 createUser,
@@ -325,6 +329,9 @@
             <if test="auditStatus != null" >
                 #{auditStatus,jdbcType=INTEGER},
             </if>
+            <if test="blockStatus != null" >
+                #{blockStatus,jdbcType=INTEGER},
+            </if>
             <if test="createuser != null" >
                 #{createuser,jdbcType=VARCHAR},
             </if>
@@ -444,6 +451,9 @@
             <if test="auditStatus != null" >
                 audit_status = #{auditStatus,jdbcType=INTEGER},
             </if>
+            <if test="blockStatus != null" >
+                block_status = #{blockStatus,jdbcType=INTEGER},
+            </if>
             <if test="createuser != null" >
                 createUser = #{createuser,jdbcType=VARCHAR},
             </if>
@@ -495,6 +505,7 @@
       remark_2 = #{remark2,jdbcType=VARCHAR},
       remark_3 = #{remark3,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=INTEGER},
+      block_status = #{blockStatus,jdbcType=INTEGER},
       createUser = #{createuser,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateUser = #{updateuser,jdbcType=VARCHAR},
@@ -502,39 +513,6 @@
     where product_id = #{productId,jdbcType=VARCHAR}
   </update>
 
-    <!-- 分页查询 -->
-    <select id="queryByPage" parameterType="page" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from
-        wms_product
-        where 1=1
-        <if test="pd.productname!= null and pd.productname != ''"><!-- 商品名称 -->
-        and productName LIKE  "%"#{pd.productname,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.brandname!= null and pd.brandname != ''"><!-- 品牌-->
-            and brandName LIKE  "%"#{pd.brandname,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.producingArea!= null and pd.producingArea != ''"><!-- 产地-->
-            and producing_area LIKE  "%"#{pd.producingArea,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.remark1!= null and pd.remark1 != ''"><!-- 备注 -->
-            and remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.luggageMail!= null and pd.luggageMail != ''"><!-- 行邮分类 -->
-            and luggageMail LIKE  "%"#{pd.luggageMail,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="pd.barcodeMain!= null and pd.barcodeMain != ''"><!-- 行邮分类 -->
-            and(
-            barCode_main = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary1 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary2 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary3 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
-            barCode_auxiliary4 = #{pd.barcodeMain,jdbcType=VARCHAR}
-            )
-        </if>
-        <include refid="listLimit" />
-    </select>
     <!-- 列表(全部) -->
     <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
         SELECT
@@ -553,9 +531,6 @@
         <if test="pd.remark1!= null and pd.remark1 != ''"><!-- 备注 -->
             and remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.auditStatus!= null and pd.auditStatus != ''"><!-- 审核状态 -->
-            and audit_status  =  #{pd.auditStatus,jdbcType=VARCHAR}
-        </if>
         <if test="pd.luggageMail!= null and pd.luggageMail != ''"><!-- 行邮分类 -->
             and luggageMail  =  #{pd.luggageMail,jdbcType=VARCHAR}
         </if>
@@ -571,7 +546,14 @@
         <if test="pd.createuser!= null and pd.createuser != ''"><!-- 行邮分类 -->
             and createuser  =  #{pd.createuser,jdbcType=VARCHAR}
         </if>
+        <if test="pd.auditStatus!= null and pd.auditStatus != ''"><!-- 审核状态 -->
+            and audit_status  =  #{pd.auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.blockStatus!= null and pd.blockStatus != ''"><!-- 审核状态 -->
+            and block_status  =  #{pd.blockStatus,jdbcType=VARCHAR}
+        </if>
     </select>
+
     <select id="findProductByProductNum" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

@@ -67,15 +67,6 @@ public class ProductService implements ProductInterface {
         return productDAO.updateByPrimaryKey(record);
     }
 
-    @Override
-    public List<ProductEntity> queryByPage(Page page) {
-        return productDAO.queryByPage(page);
-    }
-
-    @Override
-    public List<ProductEntity> queryAll(Page page) {
-        return productDAO.queryAll(page);
-    }
 
     @Override
     public void deleteAll(String[] arrayDATA_ids) {

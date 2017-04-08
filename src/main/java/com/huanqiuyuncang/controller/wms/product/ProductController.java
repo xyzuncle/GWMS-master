@@ -71,6 +71,7 @@ public class ProductController extends BaseController {
         Date date = new Date();
         productEntity.setProductId(this.get32UUID());
         productEntity.setAuditStatus(0);
+        productEntity.setBlockStatus(0);
         productEntity.setCreateuser(username);
         productEntity.setCreatetime(date);
         productEntity.setUpdateuser(username);
@@ -134,6 +135,13 @@ public class ProductController extends BaseController {
         if(!hc.keySet().contains("productAuditor")){
             pd.put("createuser",Jurisdiction.getUsername());
         }
+        if(!hc.keySet().contains("productBlock")){
+            pd.put("createuser",Jurisdiction.getUsername());
+        }
+        String blockStatus = pd.getString("blockStatus");
+        if("1".equals(blockStatus)){
+            pd.put("auditStatus","");
+        }
         page.setPd(pd);
         List<ProductEntity> varList = productService.datalistPage(page);
         setSelectList(mv);
@@ -141,7 +149,9 @@ public class ProductController extends BaseController {
         mv.addObject("varList", varList);
         mv.addObject("pd", pd);
         mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-
+        if("1".equals(blockStatus)){
+            pd.put("auditStatus","0");
+        }
         return mv;
     }
 
@@ -237,24 +247,42 @@ public class ProductController extends BaseController {
         return mv;
     }
 
-    /**去审核页面
+    /**修改审核状态
      * @param
      * @throws Exception
      */
-    @RequestMapping(value="/goAuditor")
-    public ModelAndView goAuditor()throws Exception{
+    @RequestMapping(value="/updateAuditor")
+    public void updateAuditor(PrintWriter out)throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
-        setSelectList(mv);
-        mv.setViewName("wms/product/product_auditor");
-        mv.addObject("msg", "edit");
-        mv.addObject("product", product);
-        mv.addObject("pd", pd);
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        return mv;
+        product.setAuditStatus(1);
+        productService.updateByPrimaryKeySelective(product);
+        out.write("success");
+        out.close();
+    }
+
+    /**修改停用状态
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value="/updateBlock")
+    public void updateBlock(PrintWriter out)throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        String productId = pd.getString("productId");
+        ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
+        if(product.getBlockStatus() == 0){
+            product.setBlockStatus(1);
+        }else{
+            product.setBlockStatus(0);
+        }
+        productService.updateByPrimaryKeySelective(product);
+        out.write("success");
+        out.close();
     }
 
     /**批量删除

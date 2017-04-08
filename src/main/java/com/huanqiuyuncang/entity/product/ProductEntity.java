@@ -1,95 +1,89 @@
 package com.huanqiuyuncang.entity.product;
 
-
 import java.util.Date;
 
 public class ProductEntity {
-    private String productId; //主键
+    private String productId;
 
-    private String image; //主图
+    private String image;
 
-    private String productnum; // 货号
+    private String productnum;
 
-    private String productname;//商品名称
+    private String productname;
 
-    private String productename;//外文名称
+    private String productename;
 
-    private String barcodeMain;//主条码
+    private String barcodeMain;
 
-    private String barcodeAuxiliary1;//辅助条码1
+    private String barcodeAuxiliary1;
 
-    private String barcodeAuxiliary2;//辅助条码2
+    private String barcodeAuxiliary2;
 
-    private String barcodeAuxiliary3;//辅助条码3
+    private String barcodeAuxiliary3;
 
-    private String barcodeAuxiliary4;//辅助条码4
+    private String barcodeAuxiliary4;
 
-    private String brandname;//品牌
+    private String brandname;
 
-    private String unit;//单位
+    private String unit;
 
-    private String standard;//规格
+    private String standard;
 
-    private String producingArea;//产地
+    private String producingArea;
 
-    private String expirationDate;//保质期（天）
+    private String expirationDate;
 
-    private Double declarePrice;//申报价（元）
+    private Double declarePrice;
 
-    private Double retailPrice;//零售价
+    private Double retailPrice;
 
-    private Double grossWeight;//毛重
+    private Double grossWeight;
 
-    private Double netWeight;//净重
+    private Double netWeight;
 
-    private Double productLength;//长
+    private Double productLength;
 
-    private Double productWidth;//宽
+    private Double productWidth;
 
-    private Double productHigh;//高
+    private Double productHigh;
 
-    private Double productVolume;//体积
+    private Double productVolume;
 
-    private Double crossborderCourierfee;//跨境速递费
+    private Double crossborderCourierfee;
 
-    private String customscode;//海关编码
+    private String customscode;
 
-    private String luggagemail;//行邮分类
+    private String luggagemail;
 
-    private String cartontypea;//默认纸箱型号A
+    private String cartontypea;
 
-    private Integer cartontypeanum;//可打包数量A
+    private Integer cartontypeanum;
 
-    private String cartontypeb;//默认纸箱型号B
+    private String cartontypeb;
 
-    private Integer cartontypebnum;//可打包数量B
+    private Integer cartontypebnum;
 
-    private String defaultpackage;//默认包装类型
+    private String defaultpackage;
 
-    private String remark1; //备注
+    private String remark1;
 
-    private String remark2;//备注1
+    private String remark2;
 
-    private String remark3;//备注2
+    private String remark3;
 
-    private Integer auditStatus; //审核状态
+    private Integer auditStatus;
 
-    private String createuser; //创建者
+    private Integer blockStatus;
 
-    private Date createtime;//创建时间
+    private String createuser;
 
-    private String updateuser;//修改者
+    private Date createtime;
 
-    private Date updatetime; //修改时间
+    private String updateuser;
 
-    public ProductEntity(String productId, String image, String productnum, String productname, String productename,
-                         String barcodeMain, String barcodeAuxiliary1, String barcodeAuxiliary2, String barcodeAuxiliary3,
-                         String barcodeAuxiliary4, String brandname, String unit, String standard, String producingArea,
-                         String expirationDate, Double declarePrice, Double retailPrice, Double grossWeight, Double netWeight,
-                         Double productLength, Double productWidth, Double productHigh, Double productVolume, Double crossborderCourierfee,
-                         String customscode, String luggagemail, String cartontypea, Integer cartontypeanum, String cartontypeb, Integer cartontypebnum,
-                         String defaultpackage, String remark1, String remark2, String remark3, Integer auditStatus, String createuser, Date createtime,
-                         String updateuser, Date updatetime) {
+    private Date updatetime;
+
+    public ProductEntity(String productId, String image, String productnum, String productname, String productename, String barcodeMain, String barcodeAuxiliary1, String barcodeAuxiliary2, String barcodeAuxiliary3, String barcodeAuxiliary4, String brandname, String unit, String standard, String producingArea, String expirationDate, Double declarePrice, Double retailPrice, Double grossWeight, Double netWeight, Double productLength, Double productWidth, Double productHigh, Double productVolume, Double crossborderCourierfee, String customscode, String luggagemail, String cartontypea, Integer cartontypeanum, String cartontypeb, Integer cartontypebnum, String defaultpackage, String remark1, String remark2, String remark3, Integer auditStatus, Integer blockStatus, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.productId = productId;
         this.image = image;
         this.productnum = productnum;
@@ -125,6 +119,7 @@ public class ProductEntity {
         this.remark2 = remark2;
         this.remark3 = remark3;
         this.auditStatus = auditStatus;
+        this.blockStatus = blockStatus;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -236,7 +231,7 @@ public class ProductEntity {
     }
 
     public void setStandard(String standard) {
-        this.standard = standard;
+        this.standard = standard == null ? null : standard.trim();
     }
 
     public String getProducingArea() {
@@ -413,6 +408,14 @@ public class ProductEntity {
 
     public void setAuditStatus(Integer auditStatus) {
         this.auditStatus = auditStatus;
+    }
+
+    public Integer getBlockStatus() {
+        return blockStatus;
+    }
+
+    public void setBlockStatus(Integer blockStatus) {
+        this.blockStatus = blockStatus;
     }
 
     public String getCreateuser() {
