@@ -40,6 +40,24 @@ public class TestUserClass {
         System.out.println("**************************"+save);
     }
 
+    @Test
+    public void testTransaction(){
+        TestUser testUser = new TestUser();
+        testUser.setAddress("测试Transaction");
+        testUser.setAge(20);
+        testUser.setId(UUID.randomUUID().toString());
+        testUser.setPassword("123456");
+        testUser.setTel(1234567);
+        testUser.setUsername("测试Transaction");
+        testUser.setSex("男");
+        int save = 0;
+        try {
+            save = testUserService.saveTestTransaction(testUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("**************************"+save);
+    }
 
     @Test
     public void testDeleteByID()throws Exception{

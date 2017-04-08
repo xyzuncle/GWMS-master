@@ -37,32 +37,6 @@
 
                         <!-- 检索  -->
                         <form action="customs/list.do" method="post" name="Form" id="Form">
-                            <table style="margin-top:5px;">
-                                <tr>
-                                    <td>
-                                        <div class="nav-search">
-
-                                            <span class="input-icon">
-											    海关编码：
-										    </span>
-										    <span class="input-icon">
-											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-customscode" autocomplete="off" name="customscode" value="${pd.customscode }" placeholder="这里输入关键词"/>
-										    </span>
-                                             <span class="input-icon">
-											    海关编码名称：
-										    </span>
-										    <span class="input-icon">
-											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-customsname" autocomplete="off" name="customsname" value="${pd.customsname }" placeholder="这里输入关键词"/>
-										    </span>
-
-                                        </div>
-                                    </td>
-                                    <c:if test="${QX.cha == 1 }">
-                                        <td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
-                                    </c:if>
-                                </tr>
-                            </table>
-                            <!-- 检索  -->
 
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>

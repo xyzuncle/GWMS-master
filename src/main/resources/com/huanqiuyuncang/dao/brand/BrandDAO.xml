@@ -150,8 +150,11 @@
         <if test="pd.brandcode!= null and pd.brandcode != ''"><!-- 商品名称 -->
             and brandcode LIKE  "%"#{pd.brandcode,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.brandcode!= null and pd.brandcode != ''"><!-- 商品名称 -->
+        <if test="pd.brandname!= null and pd.brandname != ''"><!-- 商品名称 -->
             and brandname LIKE  "%"#{pd.brandname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.brandename!= null and pd.brandename != ''"><!-- 商品名称 -->
+            and brandEname LIKE  "%"#{pd.brandename,jdbcType=VARCHAR}"%"
         </if>
     </select>
     <select id="selectAll"  resultMap="BaseResultMap">

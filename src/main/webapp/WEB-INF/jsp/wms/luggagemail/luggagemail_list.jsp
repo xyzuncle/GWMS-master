@@ -49,7 +49,7 @@
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-luggagemailcode" autocomplete="off" name="luggagemailcode" value="${pd.luggagemailcode }" placeholder="这里输入关键词"/>
 										    </span>
                                              <span class="input-icon">
-											    行邮分类名称：
+											    行邮名称：
 										    </span>
 										    <span class="input-icon">
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-luggagemailname" autocomplete="off" name="luggagemailname" value="${pd.luggagemailname }" placeholder="这里输入关键词"/>
@@ -73,6 +73,8 @@
                                     <th class="center" style="width:50px;">序号</th>
                                     <th class="center">行邮税号</th>
                                     <th class="center">行邮分类名称</th>
+                                    <th class="center">单位</th>
+                                    <th class="center">完税价格</th>
                                     <th class="center">税率</th>
                                     <th class="center">备注</th>
                                     <th class="center">操作</th>
@@ -92,6 +94,8 @@
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
                                                     <td class='center'>${var.luggagemailcode}</td>
                                                     <td class='center'>${var.luggagemailname}</td>
+                                                    <td class='center'>${var.unit}</td>
+                                                    <td class='center'>${var.dutiable}</td>
                                                     <td class='center'>${var.rates}</td>
                                                     <td class='center'>${var.remark}</td>
                                                     <td class="center">

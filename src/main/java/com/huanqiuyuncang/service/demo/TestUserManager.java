@@ -31,4 +31,6 @@ public interface TestUserManager {
     List<TestUser> queryByTestUser(TestUser testUser)throws Exception ;
 
     List<TestUser> queryByMap(HashMap<String, String> userMap)throws Exception;
+
+    int saveTestTransaction(TestUser testUser)throws Exception;
 }

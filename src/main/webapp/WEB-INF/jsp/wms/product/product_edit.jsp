@@ -124,13 +124,13 @@
                                         <td style="width:82px;text-align: right;padding-top: 13px;">净重:</td>
                                         <td><input type="number" name="netWeight" id="netWeight" value="${product.netWeight}" maxlength="255" placeholder="这里输入净重" title="净重" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">长:</td>
-                                        <td><input type="number" name="productLength" id="productLength" value="${product.productLength}" maxlength="255" placeholder="这里输入长" title="长" style="width:98%;"/></td>
+                                        <td><input type="number" name="productLength" id="productLength"  onblur="volume()" value="${product.productLength}" maxlength="255" placeholder="这里输入长" title="长" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">宽:</td>
-                                        <td><input type="number" name="productWidth" id="productWidth" value="${product.productWidth}" maxlength="255" placeholder="这里输入宽" title="宽" style="width:98%;"/></td>
+                                        <td><input type="number" name="productWidth" id="productWidth"  onblur="volume()" value="${product.productWidth}" maxlength="255" placeholder="这里输入宽" title="宽" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">高:</td>
-                                        <td><input type="number" name="productHigh" id="productHigh" value="${product.productHigh}" maxlength="255" placeholder="这里输入高" title="高" style="width:98%;"/></td>
+                                        <td><input type="number" name="productHigh" id="productHigh" onblur="volume()" value="${product.productHigh}" maxlength="255" placeholder="这里输入高" title="高" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">体积:</td>
@@ -649,6 +649,16 @@ s                                                        </c:forEach>
         }
     }
 
+    //自动计算体积
+    function volume(){
+        var length = $("#productLength").val();
+        var width = $("#productWidth").val();
+        var high = $("#productHigh").val();
+        if( length != ''&& width != ''&& high != ''){
+            var volume = length*width*high;
+            $("#productVolume").val(volume);
+        }
+    }
 </script>
 </body>
 </html>

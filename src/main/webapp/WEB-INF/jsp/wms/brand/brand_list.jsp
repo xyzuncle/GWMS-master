@@ -54,7 +54,12 @@
 										    <span class="input-icon">
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-brandname" autocomplete="off" name="brandname" value="${pd.brandname }" placeholder="这里输入关键词"/>
 										    </span>
-
+                                            <span class="input-icon">
+											    英文名称：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-brandename" autocomplete="off" name="brandename" value="${pd.brandename }" placeholder="这里输入关键词"/>
+										    </span>
                                         </div>
                                     </td>
                                     <c:if test="${QX.cha == 1 }">

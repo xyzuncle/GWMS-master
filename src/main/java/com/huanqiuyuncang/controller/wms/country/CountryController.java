@@ -99,10 +99,6 @@ public class CountryController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		String keywords = pd.getString("keywords");				//关键词检索条件
-		if(null != keywords && !"".equals(keywords)){
-			pd.put("keywords", keywords.trim());
-		}
 		page.setPd(pd);
 		List<PageData>	varList = countryService.list(page);	//列出Country列表
 		mv.setViewName("wms/country/country_list");

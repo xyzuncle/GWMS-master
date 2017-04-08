@@ -6,6 +6,8 @@
             <idArg column="luggagemailID" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="luggagemailcode" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="luggagemailName" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="dutiable" jdbcType="DOUBLE" javaType="java.lang.Double" />
             <arg column="rates" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -15,8 +17,8 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List" >
-        luggagemailID, luggagemailcode, luggagemailName, rates, remark, createuser, createtime,
-        updateuser, updatetime
+        luggagemailID, luggagemailcode, luggagemailName, unit, dutiable, rates, remark, createuser,
+        createtime, updateuser, updatetime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
@@ -30,13 +32,13 @@
     </delete>
     <insert id="insert" parameterType="LuggageMail" >
         insert into wms_luggagemail (luggagemailID, luggagemailcode, luggagemailName,
-        rates, remark, createuser,
-        createtime, updateuser, updatetime
-        )
+        unit, dutiable, rates,
+        remark, createuser, createtime,
+        updateuser, updatetime)
         values (#{luggagemailid,jdbcType=VARCHAR}, #{luggagemailcode,jdbcType=VARCHAR}, #{luggagemailname,jdbcType=VARCHAR},
-        #{rates,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
-        #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
-        )
+        #{unit,jdbcType=VARCHAR}, #{dutiable,jdbcType=DOUBLE}, #{rates,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+        #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="LuggageMail" >
         insert into wms_luggagemail
@@ -49,6 +51,12 @@
             </if>
             <if test="luggagemailname != null" >
                 luggagemailName,
+            </if>
+            <if test="unit != null" >
+                unit,
+            </if>
+            <if test="dutiable != null" >
+                dutiable,
             </if>
             <if test="rates != null" >
                 rates,
@@ -79,6 +87,12 @@
             <if test="luggagemailname != null" >
                 #{luggagemailname,jdbcType=VARCHAR},
             </if>
+            <if test="unit != null" >
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="dutiable != null" >
+                #{dutiable,jdbcType=DOUBLE},
+            </if>
             <if test="rates != null" >
                 #{rates,jdbcType=VARCHAR},
             </if>
@@ -108,6 +122,12 @@
             <if test="luggagemailname != null" >
                 luggagemailName = #{luggagemailname,jdbcType=VARCHAR},
             </if>
+            <if test="unit != null" >
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="dutiable != null" >
+                dutiable = #{dutiable,jdbcType=DOUBLE},
+            </if>
             <if test="rates != null" >
                 rates = #{rates,jdbcType=VARCHAR},
             </if>
@@ -133,6 +153,8 @@
     update wms_luggagemail
     set luggagemailcode = #{luggagemailcode,jdbcType=VARCHAR},
       luggagemailName = #{luggagemailname,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      dutiable = #{dutiable,jdbcType=DOUBLE},
       rates = #{rates,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       createuser = #{createuser,jdbcType=VARCHAR},
@@ -153,6 +175,9 @@
         <if test="pd.luggagemailname!= null and pd.luggagemailname != ''"><!-- 商品名称 -->
             and luggagemailname LIKE  "%"#{pd.luggagemailname,jdbcType=VARCHAR}"%"
         </if>
+        <if test="pd.luggagemailname!= null and pd.luggagemailname != ''"><!-- 商品名称 -->
+            and luggagemailname LIKE  "%"#{pd.luggagemailname,jdbcType=VARCHAR}"%"
+        </if>
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select
@@ -160,7 +185,6 @@
         from
         wms_luggagemail
     </select>
-
     <select id="findLuggageMailByLuggageMailCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

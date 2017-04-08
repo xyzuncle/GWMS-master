@@ -43,12 +43,20 @@
                                         <td><input  type="text" name="luggagemailname" id="luggagemailname" value="${luggagemail.luggagemailname}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">单位:</td>
+                                        <td><input  type="text" name="unit" id="unit" value="${luggagemail.unit}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">完税价格:</td>
+                                        <td><input  type="number" name="dutiable" id="dutiable" value="${luggagemail.dutiable}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">税率:</td>
                                         <td><input type="text" name="rates" id="rates" value="${luggagemail.rates}" maxlength="255" placeholder="这里输入税率" title="税率" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>
-                                        <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${product.remark}</textarea></td>
+                                        <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${luggagemail.remark}</textarea></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
