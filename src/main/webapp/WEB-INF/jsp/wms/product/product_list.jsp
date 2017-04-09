@@ -221,6 +221,14 @@
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
+                                                            <a class="btn btn-xs btn-primary" onclick="viewProduct('${var.productId}');">
+                                                                <i class="ace-icon fa   fa-eye bigger-120" title="详情"></i>
+                                                            </a>
+                                                            <c:if test="${QX.edit == 1 }">
+                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.productId}');">
+                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+                                                                </a>
+                                                            </c:if>
                                                             <c:if test="${var.auditStatus == 0 && QX.productAuditor == 1 }">
 
                                                                 <a class="btn btn-xs btn-primary" title="审核" onclick="auditor('${var.productId}');">
@@ -237,16 +245,6 @@
 
                                                                 <a class="btn btn-xs btn-warning" title="启用" onclick="blockStatus('${var.productId}');">
                                                                     <i class="ace-icon fa  fa-key bigger-120" title="启用"></i>
-                                                                </a>
-                                                            </c:if>
-                                                            <c:if test="${QX.edit == 1 }">
-                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.productId}');">
-                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
-                                                                </a>
-                                                            </c:if>
-                                                            <c:if test="${QX.del == 1 }">
-                                                                <a class="btn btn-xs btn-danger" onclick="del('${var.productId}');">
-                                                                    <i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
                                                                 </a>
                                                             </c:if>
                                                         </div>
@@ -448,6 +446,22 @@
         });
     }
 
+    function viewProduct(Id){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="编辑";
+        diag.URL = '<%=basePath%>product/goView.do?productId='+Id;
+        diag.Width = 600;
+        diag.Height = 500;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
+            }
+            diag.close();
+        };
+        diag.show();
+    }
     //修改
     function edit(Id){
         top.jzts();

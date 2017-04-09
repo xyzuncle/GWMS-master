@@ -38,4 +38,6 @@ public interface ProductInterface {
     List<ProductEntity> selectForExcel(PageData pageData)throws Exception;
 
     String saveProductFromExcel(List<PageData> listPd);
+
+    String selectCountryNameByID(String countryId);
 }

@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -238,6 +239,11 @@ public class ProductController extends BaseController {
         pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formateCreateTime = formatter.format(product.getCreatetime());
+        String formateUpdateTime = formatter.format(product.getUpdatetime());
+        product.setFormatCreateTime(formateCreateTime);
+        product.setFormateUpdateTime(formateUpdateTime);
         setSelectList(mv);
         mv.setViewName("wms/product/product_edit");
         mv.addObject("msg", "edit");
@@ -247,6 +253,45 @@ public class ProductController extends BaseController {
         return mv;
     }
 
+
+    /**去详情页面
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value="/goView")
+    public ModelAndView goView()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        String productId = pd.getString("productId");
+        ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
+        BrandEntity brandEntity = brandService.selectByPrimaryKey(product.getBrandname());
+        CustomsEntity customsEntity = customsService.selectByPrimaryKey(product.getCustomscode());
+        String s = productService.selectCountryNameByID(product.getProducingArea());
+        PackageTypeEntity packageTypeEntity = packageTypeService.selectByPrimaryKey(product.getDefaultpackage());
+        LuggageMailEntity luggageMailEntity = luggageMailService.selectByPrimaryKey(product.getLuggagemail());
+        CartonEntity cartonEntityA = cartonService.selectByPrimaryKey(product.getCartontypea());
+        CartonEntity cartonEntityB = cartonService.selectByPrimaryKey(product.getCartontypeb());
+        product.setBrandname(brandEntity.getBrandname());
+        product.setCustomscode(customsEntity.getCustomsname());
+        product.setProducingArea(s);
+        product.setDefaultpackage(packageTypeEntity.getPackagename());
+        product.setLuggagemail(luggageMailEntity.getLuggagemailname());
+        product.setCartontypea(cartonEntityA.getCartonname());
+        product.setCartontypeb(cartonEntityB.getCartonname());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formateCreateTime = formatter.format(product.getCreatetime());
+        String formateUpdateTime = formatter.format(product.getUpdatetime());
+        product.setFormatCreateTime(formateCreateTime);
+        product.setFormateUpdateTime(formateUpdateTime);
+        setSelectList(mv);
+        mv.setViewName("wms/product/product_view");
+        mv.addObject("msg", "edit");
+        mv.addObject("product", product);
+        mv.addObject("pd", pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
     /**修改审核状态
      * @param
      * @throws Exception
@@ -355,7 +400,8 @@ public class ProductController extends BaseController {
         titles.add("宽（cm）");	//17
         titles.add("高（cm）");	//18
         titles.add("体积（cm³）");	//19
-        titles.add("备注");	//20
+        titles.add("商品分类");	//20
+        titles.add("备注");	//21
         dataMap.put("titles", titles);
         List<PageData> varList = new ArrayList<PageData>();
         for(int i=0;i<varOList.size();i++){
@@ -380,7 +426,8 @@ public class ProductController extends BaseController {
             vpd.put("var17", productEntity.getProductWidth()+"");	//3
             vpd.put("var18", productEntity.getProductHigh()+"");	//3
             vpd.put("var19", productEntity.getProductVolume()+"");	//3
-            vpd.put("var20", productEntity.getRemark1());	//3
+            vpd.put("var20", productEntity.getLuggagemail());	//3
+            vpd.put("var21", productEntity.getRemark1());	//3
             varList.add(vpd);
         }
         dataMap.put("varList", varList);

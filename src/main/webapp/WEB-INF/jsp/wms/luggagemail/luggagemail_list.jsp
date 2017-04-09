@@ -72,11 +72,11 @@
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
                                     <th class="center">行邮税号</th>
-                                    <th class="center">行邮分类名称</th>
+                                    <th class="center">品名及规格</th>
                                     <th class="center">单位</th>
+                                    <th class="center">单位编码</th>
                                     <th class="center">完税价格</th>
                                     <th class="center">税率</th>
-                                    <th class="center">备注</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
@@ -95,9 +95,9 @@
                                                     <td class='center'>${var.luggagemailcode}</td>
                                                     <td class='center'>${var.luggagemailname}</td>
                                                     <td class='center'>${var.unit}</td>
+                                                    <td class='center'>${var.unitcode}</td>
                                                     <td class='center'>${var.dutiable}</td>
                                                     <td class='center'>${var.rates}</td>
-                                                    <td class='center'>${var.remark}</td>
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>

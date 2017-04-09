@@ -170,7 +170,7 @@
                                                 </c:choose>
                                             </select>
                                         </td>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">行邮分类:</td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">商品分类:</td>
                                         <td>
                                             <select class="chosen-select form-control" name="luggagemail" id="luggagemail" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
                                                 <option value="">请选择</option>
@@ -266,7 +266,7 @@ s                                                        </c:forEach>
                                             </td>
                                             <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">创建时间:</td>
                                             <td >
-                                                <input type="text" disabled name="createtime" id="createtime" value="${product.createtime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="createtime" id="createtime" value="${product.formatCreateTime}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -276,7 +276,7 @@ s                                                        </c:forEach>
                                             </td>
                                             <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">修改时间:</td>
                                             <td >
-                                                <input type="text" disabled name="updatetime" id="updatetime" value="${product.updatetime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="updatetime" id="updatetime" value="${product.formateUpdateTime}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>
                                         </tr>
                                     </c:if>

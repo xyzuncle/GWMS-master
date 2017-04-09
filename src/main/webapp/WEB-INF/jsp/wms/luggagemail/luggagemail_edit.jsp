@@ -47,6 +47,10 @@
                                         <td><input  type="text" name="unit" id="unit" value="${luggagemail.unit}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">单位编码:</td>
+                                        <td><input  type="text" name="unitcode" id="unitcode" value="${luggagemail.unitcode}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">完税价格:</td>
                                         <td><input  type="number" name="dutiable" id="dutiable" value="${luggagemail.dutiable}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
                                     </tr>

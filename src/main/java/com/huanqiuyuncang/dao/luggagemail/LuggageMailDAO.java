@@ -2,7 +2,6 @@ package com.huanqiuyuncang.dao.luggagemail;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.luggagemail.LuggageMailEntity;
-import com.huanqiuyuncang.entity.product.ProductEntity;
 
 import java.util.List;
 
@@ -24,4 +23,6 @@ public interface LuggageMailDAO {
     List<LuggageMailEntity> selectAll();
 
     LuggageMailEntity findLuggageMailByLuggageMailCode(String luggagemailcode);
+
+    LuggageMailEntity selectLuggaageMailByName(String luggagemail);
 }

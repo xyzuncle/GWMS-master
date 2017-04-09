@@ -6,6 +6,7 @@ import com.huanqiuyuncang.dao.luggagemail.LuggageMailDAO;
 import com.huanqiuyuncang.dao.product.ProductDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.brand.BrandEntity;
+import com.huanqiuyuncang.entity.luggagemail.LuggageMailEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.util.BeanMapUtil;
@@ -33,6 +34,8 @@ public class ProductService implements ProductInterface {
 
     @Autowired
     private BrandDAO brandDAO;
+    @Autowired
+    private LuggageMailDAO luggageMailDAO;
 
     @Override
     public int deleteByPrimaryKey(PageData pageData) throws Exception{
@@ -90,7 +93,14 @@ public class ProductService implements ProductInterface {
                 product.setProducingArea(producingArea);
                 String brandname = product.getBrandname();
                 BrandEntity brandEntity = brandDAO.selectByPrimaryKey(brandname);
-                product.setBrandname(brandEntity.getBrandname());
+                if(brandEntity != null){
+                    product.setBrandname(brandEntity.getBrandname());
+                }
+                LuggageMailEntity luggageMailEntity = luggageMailDAO.selectByPrimaryKey(product.getLuggagemail());
+                if(luggageMailEntity != null){
+                    product.setLuggagemail(luggageMailEntity.getLuggagemailname());
+                }
+
             });
         }
         return productList;
@@ -117,6 +127,7 @@ public class ProductService implements ProductInterface {
                 String brandname = product.getBrandname();
                 BrandEntity brandEntity = brandDAO.selectByPrimaryKey(brandname);
                 product.setBrandname(brandEntity.getBrandname());
+
             });
         }
         return productList;
@@ -171,7 +182,8 @@ public class ProductService implements ProductInterface {
                 String productWidth = pageData.getString("var16");
                 String productHigh = pageData.getString("var17");
                 String productVolume = pageData.getString("var18");
-                String remark1 = pageData.getString("var19");
+                String luggagemail = pageData.getString("var19");
+                String remark1 = pageData.getString("var20");
                 if(StringUtils.isBlank(productnum)){
                     resturt.append("表格第"+step+"行货号不能为空。" );
                 }else{
@@ -287,6 +299,14 @@ public class ProductService implements ProductInterface {
                 }else {
                     productVolume = "0";
                 }
+                if(StringUtils.isNotBlank(luggagemail)){
+                    LuggageMailEntity luggageMailEntity = luggageMailDAO.selectLuggaageMailByName(luggagemail);
+                    if(luggageMailEntity != null){
+                        luggagemail = luggageMailEntity.getLuggagemailid();
+                    }else{
+                        resturt.append("表格第"+step+"行商品分类不存在。");
+                    }
+                }
                 if(StringUtils.isBlank(resturt.toString())){
                     String userName = Jurisdiction.getUsername();
                     ProductEntity product = new ProductEntity();
@@ -310,12 +330,14 @@ public class ProductService implements ProductInterface {
                     product.setProductWidth(Double.parseDouble(productWidth));
                     product.setProductHigh(Double.parseDouble(productHigh));
                     product.setProductVolume(Double.parseDouble(productVolume));
+                    product.setLuggagemail(luggagemail);
                     product.setRemark1(remark1);
                     product.setCreatetime(new Date());
                     product.setCreateuser(userName);
                     product.setUpdatetime(new Date());
                     product.setUpdateuser(userName);
                     product.setAuditStatus(0);
+                    product.setBlockStatus(0);
                     productDAO.insertSelective(product);
                 }else{
                     resturt.append("\n");
@@ -325,6 +347,11 @@ public class ProductService implements ProductInterface {
             });
         }
         return resturt.toString();
+    }
+
+    @Override
+    public String selectCountryNameByID(String countryId) {
+        return productDAO.selectCountryNameByID(countryId);
     }
 
 
