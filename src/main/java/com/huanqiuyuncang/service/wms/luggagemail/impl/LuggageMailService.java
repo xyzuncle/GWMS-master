@@ -35,6 +35,10 @@ public class LuggageMailService implements LuggageMailInterface {
         return luggageMailDAO.insertSelective(luggageMailEntity);
     }
 
+    public int insertSelective(LuggageMailEntity luggageMailEntity)throws Exception {
+        return luggageMailDAO.insertSelective(luggageMailEntity);
+    }
+
     @Override
     public LuggageMailEntity selectByPrimaryKey(String luggagemailid) throws Exception{
 

@@ -13,6 +13,8 @@ public interface LuggageMailInterface {
 
     int insertSelective(PageData record) throws Exception;
 
+    int insertSelective(LuggageMailEntity luggageMailEntity)throws Exception;
+
     LuggageMailEntity selectByPrimaryKey(String luggagemailid) throws Exception;
 
     int updateByPrimaryKeySelective(PageData pageData) throws Exception;

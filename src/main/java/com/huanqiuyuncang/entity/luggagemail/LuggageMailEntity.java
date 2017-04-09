@@ -13,7 +13,7 @@ public class LuggageMailEntity {
 
     private String unitcode;
 
-    private Double dutiable;
+    private String dutiable;
 
     private String rates;
 
@@ -27,7 +27,7 @@ public class LuggageMailEntity {
 
     private Date updatetime;
 
-    public LuggageMailEntity(String luggagemailid, String luggagemailcode, String luggagemailname, String unit, String unitcode, Double dutiable, String rates, String remark, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public LuggageMailEntity(String luggagemailid, String luggagemailcode, String luggagemailname, String unit, String unitcode, String dutiable, String rates, String remark, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.luggagemailid = luggagemailid;
         this.luggagemailcode = luggagemailcode;
         this.luggagemailname = luggagemailname;
@@ -86,11 +86,11 @@ public class LuggageMailEntity {
         this.unitcode = unitcode == null ? null : unitcode.trim();
     }
 
-    public Double getDutiable() {
+    public String getDutiable() {
         return dutiable;
     }
 
-    public void setDutiable(Double dutiable) {
+    public void setDutiable(String dutiable) {
         this.dutiable = dutiable;
     }
 
