@@ -3057,7 +3057,7 @@ $(function(){
             });
         },
         
-       //using `white-space: pre-wrap` solves \n  <--> BR conversion very elegant!
+       //using `white-space: pre-wrap` solves \n  <--> BR pdconversion very elegant!
        /* 
        value2html: function(value, element) {
             var html = '', lines;

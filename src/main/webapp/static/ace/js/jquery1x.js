@@ -8730,7 +8730,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 function ajaxConvert( s, response, jqXHR, isSuccess ) {
 	var conv2, current, conv, tmp, prev,
 		converters = {},
-		// Work with a copy of dataTypes in case we need to modify it for conversion
+		// Work with a copy of dataTypes in case we need to modify it for pdconversion
 		dataTypes = s.dataTypes.slice();
 
 	// Create converters map with lowercased keys
@@ -8807,7 +8807,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 						try {
 							response = conv( response );
 						} catch ( e ) {
-							return { state: "parsererror", error: conv ? e : "No conversion from " + prev + " to " + current };
+							return { state: "parsererror", error: conv ? e : "No pdconversion from " + prev + " to " + current };
 						}
 					}
 				}

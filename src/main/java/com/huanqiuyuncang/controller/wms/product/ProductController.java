@@ -452,7 +452,7 @@ public class ProductController extends BaseController {
     @RequestMapping(value="/findProductByProductNum")
     @ResponseBody
     public Object findProductByProductNum(String productnum) throws Exception{
-        logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
+        logBefore(logger, Jurisdiction.getUsername()+"findProductByProductNum");
         ProductEntity product = productService.findProductByProductNum(productnum);
         Map<String,String> map = new HashMap<String,String>();
         String errInfo = "success";

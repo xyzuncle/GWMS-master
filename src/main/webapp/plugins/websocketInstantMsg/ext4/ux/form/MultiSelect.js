@@ -298,7 +298,7 @@ Ext.define('Ext.ux.form.MultiSelect', {
         return value;
     },
 
-    // no conversion
+    // no pdconversion
     valueToRaw: function(value) {
         return value;
     },
