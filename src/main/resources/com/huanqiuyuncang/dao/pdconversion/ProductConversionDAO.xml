@@ -288,4 +288,11 @@
           )
       </if>
     </select>
+
+    <select id="selectByOuterPdNum" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productconversion
+        where outerproductnum = #{outerproductnum,jdbcType=VARCHAR}
+    </select>
 </mapper>

@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.order.InnerOrderDAO" >
+    <resultMap id="BaseResultMap" type="InnerOrder" >
+         <constructor >
+              <idArg column="innerorderid" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="customerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="customernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="outerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="ordertime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+              <arg column="sender" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="senderphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="sendercountry" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="senderprovince" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="sendercity" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="senderarea" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="senderaddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="senderpostcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipient" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientidcard" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientcountry" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientprovince" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientcity" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientarea" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientaddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="recipientpostcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="paymentmethod" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="paymentnum" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="paymenttime" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="orderproductcount" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="customerremarks" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="couriername" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="couriernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="customsmodel" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="ordervalue" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="declarevalue" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="taxesfees" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="freight" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="packingcost" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="orthercost" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="warehousedelivery" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="orderstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="remark1" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="remark2" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+              <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        innerorderid,customerordernum,customernum,outerordernum,ordertime,
+        sender,senderphone,sendercountry,senderprovince,sendercity,senderarea,senderaddress,
+        senderpostcode,recipient,recipientidcard,recipientphone,recipientcountry,recipientprovince,
+        recipientcity,recipientarea,recipientaddress,recipientpostcode,paymentmethod,paymentnum,
+        paymenttime,orderproductcount,customerremarks,couriername,couriernum,customsmodel,ordervalue,
+        declarevalue,taxesfees,freight,packingcost,orthercost,warehousedelivery,orderstatus,remark,remark1,
+        remark2,createuser,createtime,updateuser,updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_innerorder
+        where innerorderid = #{innerorderid,jdbcType=VARCHAR}
+    </select>
+    <insert id="insert" parameterType="InnerOrder" >
+    insert into wms_innerorder (innerorderid, customerordernum, customernum, 
+      outerordernum, ordertime, sender, 
+      senderphone, sendercountry, senderprovince, 
+      sendercity, senderarea, senderaddress, 
+      senderpostcode, recipient, recipientidcard, 
+      recipientphone, recipientcountry, recipientprovince, 
+      recipientcity, recipientarea, recipientaddress, 
+      recipientpostcode, paymentmethod, paymentnum, 
+      paymenttime, orderproductcount, customerremarks, 
+      couriername, couriernum, customsmodel, 
+      ordervalue, declarevalue, taxesfees, 
+      freight, packingcost, orthercost, 
+      warehousedelivery, orderstatus, remark, 
+      remark1, remark2, createuser, 
+      createtime, updateuser, updatetime
+      )
+    values (#{innerorderid,jdbcType=VARCHAR}, #{customerordernum,jdbcType=VARCHAR}, #{customernum,jdbcType=VARCHAR}, 
+      #{outerordernum,jdbcType=VARCHAR}, #{ordertime,jdbcType=TIMESTAMP}, #{sender,jdbcType=VARCHAR}, 
+      #{senderphone,jdbcType=VARCHAR}, #{sendercountry,jdbcType=VARCHAR}, #{senderprovince,jdbcType=VARCHAR}, 
+      #{sendercity,jdbcType=VARCHAR}, #{senderarea,jdbcType=VARCHAR}, #{senderaddress,jdbcType=VARCHAR}, 
+      #{senderpostcode,jdbcType=VARCHAR}, #{recipient,jdbcType=VARCHAR}, #{recipientidcard,jdbcType=VARCHAR}, 
+      #{recipientphone,jdbcType=VARCHAR}, #{recipientcountry,jdbcType=VARCHAR}, #{recipientprovince,jdbcType=VARCHAR}, 
+      #{recipientcity,jdbcType=VARCHAR}, #{recipientarea,jdbcType=VARCHAR}, #{recipientaddress,jdbcType=VARCHAR}, 
+      #{recipientpostcode,jdbcType=VARCHAR}, #{paymentmethod,jdbcType=VARCHAR}, #{paymentnum,jdbcType=VARCHAR}, 
+      #{paymenttime,jdbcType=VARCHAR}, #{orderproductcount,jdbcType=VARCHAR}, #{customerremarks,jdbcType=VARCHAR},
+      #{couriername,jdbcType=VARCHAR}, #{couriernum,jdbcType=VARCHAR}, #{customsmodel,jdbcType=VARCHAR}, 
+      #{ordervalue,jdbcType=VARCHAR}, #{declarevalue,jdbcType=VARCHAR}, #{taxesfees,jdbcType=VARCHAR}, 
+      #{freight,jdbcType=VARCHAR}, #{packingcost,jdbcType=VARCHAR}, #{orthercost,jdbcType=VARCHAR}, 
+      #{warehousedelivery,jdbcType=VARCHAR}, #{orderstatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="InnerOrder" >
+    insert into wms_innerorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="innerorderid != null" >
+        innerorderid,
+      </if>
+      <if test="customerordernum != null" >
+        customerordernum,
+      </if>
+      <if test="customernum != null" >
+        customernum,
+      </if>
+      <if test="outerordernum != null" >
+        outerordernum,
+      </if>
+      <if test="ordertime != null" >
+        ordertime,
+      </if>
+      <if test="sender != null" >
+        sender,
+      </if>
+      <if test="senderphone != null" >
+        senderphone,
+      </if>
+      <if test="sendercountry != null" >
+        sendercountry,
+      </if>
+      <if test="senderprovince != null" >
+        senderprovince,
+      </if>
+      <if test="sendercity != null" >
+        sendercity,
+      </if>
+      <if test="senderarea != null" >
+        senderarea,
+      </if>
+      <if test="senderaddress != null" >
+        senderaddress,
+      </if>
+      <if test="senderpostcode != null" >
+        senderpostcode,
+      </if>
+      <if test="recipient != null" >
+        recipient,
+      </if>
+      <if test="recipientidcard != null" >
+        recipientidcard,
+      </if>
+      <if test="recipientphone != null" >
+        recipientphone,
+      </if>
+      <if test="recipientcountry != null" >
+        recipientcountry,
+      </if>
+      <if test="recipientprovince != null" >
+        recipientprovince,
+      </if>
+      <if test="recipientcity != null" >
+        recipientcity,
+      </if>
+      <if test="recipientarea != null" >
+        recipientarea,
+      </if>
+      <if test="recipientaddress != null" >
+        recipientaddress,
+      </if>
+      <if test="recipientpostcode != null" >
+        recipientpostcode,
+      </if>
+      <if test="paymentmethod != null" >
+        paymentmethod,
+      </if>
+      <if test="paymentnum != null" >
+        paymentnum,
+      </if>
+      <if test="paymenttime != null" >
+        paymenttime,
+      </if>
+      <if test="orderproductcount != null" >
+        orderproductcount,
+      </if>
+      <if test="customerremarks != null" >
+        customerremarks,
+      </if>
+      <if test="couriername != null" >
+        couriername,
+      </if>
+      <if test="couriernum != null" >
+        couriernum,
+      </if>
+      <if test="customsmodel != null" >
+        customsmodel,
+      </if>
+      <if test="ordervalue != null" >
+        ordervalue,
+      </if>
+      <if test="declarevalue != null" >
+        declarevalue,
+      </if>
+      <if test="taxesfees != null" >
+        taxesfees,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="packingcost != null" >
+        packingcost,
+      </if>
+      <if test="orthercost != null" >
+        orthercost,
+      </if>
+      <if test="warehousedelivery != null" >
+        warehousedelivery,
+      </if>
+      <if test="orderstatus != null" >
+        orderstatus,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="remark1 != null" >
+        remark1,
+      </if>
+      <if test="remark2 != null" >
+        remark2,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="innerorderid != null" >
+        #{innerorderid,jdbcType=VARCHAR},
+      </if>
+      <if test="customerordernum != null" >
+        #{customerordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="customernum != null" >
+        #{customernum,jdbcType=VARCHAR},
+      </if>
+      <if test="outerordernum != null" >
+        #{outerordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null" >
+        #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="senderphone != null" >
+        #{senderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendercountry != null" >
+        #{sendercountry,jdbcType=VARCHAR},
+      </if>
+      <if test="senderprovince != null" >
+        #{senderprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="sendercity != null" >
+        #{sendercity,jdbcType=VARCHAR},
+      </if>
+      <if test="senderarea != null" >
+        #{senderarea,jdbcType=VARCHAR},
+      </if>
+      <if test="senderaddress != null" >
+        #{senderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="senderpostcode != null" >
+        #{senderpostcode,jdbcType=VARCHAR},
+      </if>
+      <if test="recipient != null" >
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientidcard != null" >
+        #{recipientidcard,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientphone != null" >
+        #{recipientphone,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientcountry != null" >
+        #{recipientcountry,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientprovince != null" >
+        #{recipientprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientcity != null" >
+        #{recipientcity,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientarea != null" >
+        #{recipientarea,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientaddress != null" >
+        #{recipientaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="recipientpostcode != null" >
+        #{recipientpostcode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentmethod != null" >
+        #{paymentmethod,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentnum != null" >
+        #{paymentnum,jdbcType=VARCHAR},
+      </if>
+      <if test="paymenttime != null" >
+        #{paymenttime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderproductcount != null" >
+        #{orderproductcount,jdbcType=VARCHAR},
+      </if>
+      <if test="customerremarks != null" >
+        #{customerremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="couriername != null" >
+        #{couriername,jdbcType=VARCHAR},
+      </if>
+      <if test="couriernum != null" >
+        #{couriernum,jdbcType=VARCHAR},
+      </if>
+      <if test="customsmodel != null" >
+        #{customsmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="ordervalue != null" >
+        #{ordervalue,jdbcType=VARCHAR},
+      </if>
+      <if test="declarevalue != null" >
+        #{declarevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="taxesfees != null" >
+        #{taxesfees,jdbcType=VARCHAR},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=VARCHAR},
+      </if>
+      <if test="packingcost != null" >
+        #{packingcost,jdbcType=VARCHAR},
+      </if>
+      <if test="orthercost != null" >
+        #{orthercost,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousedelivery != null" >
+        #{warehousedelivery,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        #{remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null" >
+        #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="InnerOrder" >
+    update wms_innerorder
+    <set >
+        <if test="innerorderid != null" >
+            innerorderid =  #{innerorderid,jdbcType=VARCHAR},
+        </if>
+        <if test="customerordernum != null" >
+            customerordernum = #{customerordernum,jdbcType=VARCHAR},
+        </if>
+        <if test="customernum != null" >
+            customernum = #{customernum,jdbcType=VARCHAR},
+        </if>
+        <if test="outerordernum != null" >
+            outerordernum =  #{outerordernum,jdbcType=VARCHAR},
+        </if>
+        <if test="ordertime != null" >
+            ordertime = #{ordertime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="sender != null" >
+            sender = #{sender,jdbcType=VARCHAR},
+        </if>
+        <if test="senderphone != null" >
+            senderphone =  #{senderphone,jdbcType=VARCHAR},
+        </if>
+        <if test="sendercountry != null" >
+            sendercountry = #{sendercountry,jdbcType=VARCHAR},
+        </if>
+        <if test="senderprovince != null" >
+            senderprovince =  #{senderprovince,jdbcType=VARCHAR},
+        </if>
+        <if test="sendercity != null" >
+            sendercity =  #{sendercity,jdbcType=VARCHAR},
+        </if>
+        <if test="senderarea != null" >
+            senderarea =  #{senderarea,jdbcType=VARCHAR},
+        </if>
+        <if test="senderaddress != null" >
+            senderaddress = #{senderaddress,jdbcType=VARCHAR},
+        </if>
+        <if test="senderpostcode != null" >
+            senderpostcode = #{senderpostcode,jdbcType=VARCHAR},
+        </if>
+        <if test="recipient != null" >
+            recipient = #{recipient,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientidcard != null" >
+            recipientidcard = #{recipientidcard,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientphone != null" >
+            recipientphone = #{recipientphone,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientcountry != null" >
+            recipientcountry = #{recipientcountry,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientprovince != null" >
+            recipientprovince = #{recipientprovince,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientcity != null" >
+            recipientcity = #{recipientcity,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientarea != null" >
+            recipientarea = #{recipientarea,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientaddress != null" >
+            recipientaddress = #{recipientaddress,jdbcType=VARCHAR},
+        </if>
+        <if test="recipientpostcode != null" >
+            recipientpostcode = #{recipientpostcode,jdbcType=VARCHAR},
+        </if>
+        <if test="paymentmethod != null" >
+            paymentmethod =  #{paymentmethod,jdbcType=VARCHAR},
+        </if>
+        <if test="paymentnum != null" >
+            paymentnum = #{paymentnum,jdbcType=VARCHAR},
+        </if>
+        <if test="paymenttime != null" >
+            paymenttime = #{paymenttime,jdbcType=VARCHAR},
+        </if>
+        <if test="orderproductcount != null" >
+            orderproductcount = #{orderproductcount,jdbcType=VARCHAR},
+        </if>
+        <if test="customerremarks != null" >
+            customerremarks =  #{customerremarks,jdbcType=VARCHAR},
+        </if>
+        <if test="couriername != null" >
+            couriername = #{couriername,jdbcType=VARCHAR},
+        </if>
+        <if test="couriernum != null" >
+            couriernum = #{couriernum,jdbcType=VARCHAR},
+        </if>
+        <if test="customsmodel != null" >
+            customsmodel = #{customsmodel,jdbcType=VARCHAR},
+        </if>
+        <if test="ordervalue != null" >
+            ordervalue =  #{ordervalue,jdbcType=VARCHAR},
+        </if>
+        <if test="declarevalue != null" >
+            declarevalue = #{declarevalue,jdbcType=VARCHAR},
+        </if>
+        <if test="taxesfees != null" >
+            taxesfees = #{taxesfees,jdbcType=VARCHAR},
+        </if>
+        <if test="freight != null" >
+            freight = #{freight,jdbcType=VARCHAR},
+        </if>
+        <if test="packingcost != null" >
+            packingcost = #{packingcost,jdbcType=VARCHAR},
+        </if>
+        <if test="orthercost != null" >
+            orthercost = #{orthercost,jdbcType=VARCHAR},
+        </if>
+        <if test="warehousedelivery != null" >
+            warehousedelivery = #{warehousedelivery,jdbcType=VARCHAR},
+        </if>
+        <if test="orderstatus != null" >
+            orderstatus = #{orderstatus,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null" >
+            remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="remark1 != null" >
+            remark1 =  #{remark1,jdbcType=VARCHAR},
+        </if>
+        <if test="remark2 != null" >
+            remark2 = #{remark2,jdbcType=VARCHAR},
+        </if>
+        <if test="createuser != null" >
+            createuser = #{createuser,jdbcType=VARCHAR},
+        </if>
+        <if test="createtime != null" >
+            createtime = #{createtime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="updateuser != null" >
+            updateuser =  #{updateuser,jdbcType=VARCHAR},
+        </if>
+        <if test="updatetime != null" >
+            updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        </if>
+    </set>
+        where innerorderid = #{innerorderid,jdbcType=VARCHAR}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_innerorder
+        where innerorderid = #{innerorderid,jdbcType=VARCHAR}
+    </delete>
+    <!-- 列表(分页查询) -->
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_innerorder
+        WHERE 1=1
+        <if test="pd.starttime!=null and pd.starttime!=''"><!-- 时间检索 -->
+            and ordertime &gt;= #{pd.starttime}
+        </if>
+        <if test="pd.endtime!=null and pd.endtime!=''"><!-- 时间检索 -->
+            and ordertime &lt;= #{pd.endtime}
+        </if>
+        <if test="pd.customernum!=null and pd.customernum!=''">
+            and customernum = #{pd.customernum}
+        </if>
+        <if test="pd.outerordernum!=null and pd.outerordernum!=''">
+            and outerordernum LIKE "%"#{pd.outerordernum}"%"
+        </if>
+        <if test="pd.sendercountry!=null and pd.sendercountry!=''">
+            and sendercountry LIKE "%"#{pd.sendercountry}"%"
+        </if>
+        <if test="pd.sender!=null and pd.sender!=''">
+            and (
+            sender LIKE "%"#{pd.sender}"%" OR
+            senderphone LIKE "%"#{pd.sender}"%"
+            )
+        </if>
+        <if test="pd.recipient!=null and pd.recipient!=''">
+            and (
+            recipient LIKE "%"#{pd.recipient}"%" OR
+            recipientidcard LIKE "%"#{pd.recipient}"%" OR
+            recipientphone LIKE "%"#{pd.recipient}"%"
+            )
+        </if>
+        <if test="pd.createuser!=null and pd.createuser!=''">
+            and createuser LIKE "%"#{pd.createuser}"%"
+        </if>
+        <if test="pd.orderstatus!=null and pd.orderstatus!=''">
+            and orderstatus = #{pd.orderstatus}
+        </if>
+        ORDER BY createtime desc
+    </select>
+
+    <select id="selectDictionaries"  parameterType="java.lang.String" resultType="pd" >
+        SELECT * FROM sys_dictionaries t WHERE t.PARENT_ID = #{PARENT_ID,jdbcType=VARCHAR} ORDER BY ORDER_BY ASC
+    </select>
+
+    <select id="selectDictBianMaByName"  parameterType="java.lang.String" resultType="java.lang.String" >
+       SELECT BIANMA FROM sys_dictionaries WHERE NAME = #{name,jdbcType=VARCHAR} ORDER BY ORDER_BY ASC
+    </select>
+
+    <select id="selectProvince"  resultType="pd" >
+        SELECT provinceid, province FROM provinces
+    </select>
+
+    <select id="selectCity" parameterType="java.lang.String"  resultType="pd" >
+        SELECT cityid,city FROM cities WHERE provinceid = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectArea" parameterType="java.lang.String"  resultType="pd" >
+        SELECT areaid , AREA FROM areas WHERE cityid = #{code,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectProvinceNameByCode"  parameterType="java.lang.String"  resultType="java.lang.String" >
+        SELECT province FROM provinces  WHERE provinceid = #{code,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectCityNameByCode" parameterType="java.lang.String"  resultType="java.lang.String" >
+        SELECT city FROM cities WHERE cityid = #{code,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -188,6 +188,19 @@ public class ProductController extends BaseController {
         return mv;
     }
 
+    /**打开上传EXCEL页面
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/goUploadExcel")
+    public ModelAndView goUploadExcel()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        mv.setViewName("wms/product/uploadexcel");
+        return mv;
+    }
+
+
+
     /**下载模版
      * @param response
      * @throws Exception
@@ -434,16 +447,6 @@ public class ProductController extends BaseController {
         return dataMap;
     }
 
-    /**打开上传EXCEL页面
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value="/goUploadExcel")
-    public ModelAndView goUploadExcel()throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        mv.setViewName("wms/product/uploadexcel");
-        return mv;
-    }
 
     /**检查货号
      * @return

@@ -19,4 +19,6 @@ public interface ProductConversionDAO {
     int updateByPrimaryKey(ProductConversionEntity record);
 
     List<ProductConversionEntity> datalistPage(Page page);
+
+    ProductConversionEntity selectByOuterPdNum(String outerproductnum);
 }

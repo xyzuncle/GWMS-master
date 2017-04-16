@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.order.OrderProductDAO" >
+  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.OrderProductEntity" >
+    <constructor >
+      <idArg column="orderproducrtid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="customerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="outerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="outerproductnum" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="barcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="count" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="declarePrice" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="retailPrice" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderproducrtid, customerordernum, outerordernum, outerproductnum, barcode, count,
+    declarePrice, retailPrice, remark, createuser, createtime, updateuser, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_orderproduct
+    where orderproducrtid = #{orderproducrtid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_orderproduct
+    where orderproducrtid = #{orderproducrtid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.OrderProductEntity" >
+    insert into wms_orderproduct (orderproducrtid, customerordernum,
+      outerordernum, outerproductnum, barcode, 
+      count, declarePrice, retailPrice, 
+      remark, createuser, createtime, 
+      updateuser, updatetime)
+    values (#{orderproducrtid,jdbcType=VARCHAR}, #{customerordernum,jdbcType=VARCHAR},
+      #{outerordernum,jdbcType=VARCHAR}, #{outerproductnum,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, 
+      #{count,jdbcType=VARCHAR}, #{declareprice,jdbcType=VARCHAR}, #{retailprice,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.order.OrderProductEntity" >
+    insert into wms_orderproduct
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderproducrtid != null" >
+        orderproducrtid,
+      </if>
+      <if test="customerordernum != null" >
+        customerordernum,
+      </if>
+      <if test="outerordernum != null" >
+        outerordernum,
+      </if>
+      <if test="outerproductnum != null" >
+        outerproductnum,
+      </if>
+      <if test="barcode != null" >
+        barcode,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="declareprice != null" >
+        declarePrice,
+      </if>
+      <if test="retailprice != null" >
+        retailPrice,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderproducrtid != null" >
+        #{orderproducrtid,jdbcType=VARCHAR},
+      </if>
+      <if test="customerordernum != null" >
+        #{customerordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="outerordernum != null" >
+        #{outerordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="outerproductnum != null" >
+        #{outerproductnum,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=VARCHAR},
+      </if>
+      <if test="declareprice != null" >
+        #{declareprice,jdbcType=VARCHAR},
+      </if>
+      <if test="retailprice != null" >
+        #{retailprice,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.OrderProductEntity" >
+    update wms_orderproduct
+    <set >
+      <if test="customerordernum != null" >
+        customerordernum = #{customerordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="outerordernum != null" >
+        outerordernum = #{outerordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="outerproductnum != null" >
+        outerproductnum = #{outerproductnum,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null" >
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=VARCHAR},
+      </if>
+      <if test="declareprice != null" >
+        declarePrice = #{declareprice,jdbcType=VARCHAR},
+      </if>
+      <if test="retailprice != null" >
+        retailPrice = #{retailprice,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orderproducrtid = #{orderproducrtid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.OrderProductEntity" >
+    update wms_orderproduct
+    set customerordernum = #{customerordernum,jdbcType=VARCHAR},
+      outerordernum = #{outerordernum,jdbcType=VARCHAR},
+      outerproductnum = #{outerproductnum,jdbcType=VARCHAR},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      count = #{count,jdbcType=VARCHAR},
+      declarePrice = #{declareprice,jdbcType=VARCHAR},
+      retailPrice = #{retailprice,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where orderproducrtid = #{orderproducrtid,jdbcType=VARCHAR}
+  </update>
+    <select id="selectOrderProduct" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List" />
+        from wms_orderproduct
+        WHERE customerordernum = #{customerordernum,jdbcType=VARCHAR}
+        ORDER BY createtime DESC
+    </select>
+    <delete id="deleteByCustomerordernum" parameterType="java.lang.String">
+        delete from wms_orderproduct
+        where customerordernum = #{customerordernum,jdbcType=VARCHAR}
+    </delete>
+</mapper>

@@ -48,7 +48,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>
-                                        <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${product.remark}</textarea></td>
+                                        <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${packagetype.remark}</textarea></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">

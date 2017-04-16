@@ -161,8 +161,9 @@ public class ProductService implements ProductInterface {
 
         StringBuffer resturt = new StringBuffer("");
         if(listPd != null && listPd.size()>0){
-            listPd.forEach(pageData -> {
-                int step = 1;
+            for(int i = 0 ;i<listPd.size();i++){
+                int step = i+1;
+                PageData pageData = listPd.get(i);
                 String productnum = pageData.getString("var0");
                 String productname = pageData.getString("var1");
                 String productename = pageData.getString("var2");
@@ -343,8 +344,7 @@ public class ProductService implements ProductInterface {
                     resturt.append("\n");
 
                 }
-                step++;
-            });
+            };
         }
         return resturt.toString();
     }

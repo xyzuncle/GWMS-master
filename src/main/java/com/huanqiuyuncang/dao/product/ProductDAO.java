@@ -19,7 +19,6 @@ public interface ProductDAO {
 
     int updateByPrimaryKey(ProductEntity record);
 
-
     List<ProductEntity> selectForExcel(PageData pd);
 
     List<ProductEntity>  datalistPage(Page page);
