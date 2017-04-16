@@ -4,117 +4,107 @@ import org.apache.log4j.Logger;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.Properties;
 
 public class PropUtil {
-	private static Properties props;
-	private static String defaultPropertiesFileName = "MyConfig.properties";
-	private static final Logger logger = Logger.getLogger(PropUtil.class);
-	private static long lastTime=new Date().getTime();
-	public static String webPath=null;
-	
-	static {
-		try {
-			init(defaultPropertiesFileName);
-		} catch (IOException e) {
-			logger.warn("默认属性文件读取失败!");
-		}
-	}
 
-	public static void init(String resourceName) throws IOException {
-		props = PropertiesLoaderUtils.loadAllProperties(resourceName);
-	}
-
-	/**
-	 * 默认返回String类型的属性值
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public static String getProperty(String key) {
-		long nowTime=new Date().getTime();
-		if(nowTime-lastTime>10000){
-			try {
-				lastTime=nowTime;
-				init(defaultPropertiesFileName);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return props.getProperty(key);
-	}
-
-    public static void setProperty(String key,String value) {
-        long nowTime=new Date().getTime();
-        if(nowTime-lastTime>10000){
-            try {
-                lastTime=nowTime;
-                init(defaultPropertiesFileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    //属性文件的路径
+    static String profilepath="MyConfig.properties";
+    /**
+     * 采用静态方法
+     */
+    private static Properties props ;
+    static {
+        try {
+            props= PropertiesLoaderUtils.loadAllProperties(profilepath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        } catch (IOException e) {
+            System.exit(-1);
         }
-         props.setProperty(key,value);
     }
 
-	/**
-	 * 指定获取Integer类型的属性值
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public static Integer getIntegerProperty(String key) {
-		long nowTime=new Date().getTime();
-		if(nowTime-lastTime>10000){
-			try {
-				lastTime=nowTime;
-				init(defaultPropertiesFileName);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		Integer i;
-		try{
-			i= Integer.parseInt(getProperty(key));
-		}catch(NumberFormatException e){
-			logger.warn("默认属性文件中 存在的属性值不能解析为整数，将会返回null！");
-			return null;
-		}
-		return i;
-	}
-	/**
-	 * 从指定的属性文件中读取属性值
-	 * @param fileName 指定属性文件名
-	 * @param key
-	 * @return
-	 */
-	public static String getProperty(String fileName, String key) {
-		Properties p;
-		try {
-			p = PropertiesLoaderUtils.loadAllProperties(fileName);
-			String value = p.getProperty(key);
-			if (StringUtils.hasText(value)) {
-				return value;
-			} else {
-				logger.warn("指定属性文件中不存在的属性！");
-				return null;
-			}
-		} catch (IOException e) {
-			logger.warn("指定属性文件读取失败！");
-			return null;
-		}
-	}
-	/**
-	 * 从指定的属性文件中读取Integer类型属性值
-	 * @param fileName 指定属性文件名
-	 * @param key
-	 * @return
-	 */
-	public static Integer getIntegerProperty(String fileName, String key) {
-		String value = getProperty(fileName, key);
-		return Integer.parseInt(value);
-	}
+
+    /**
+     * 读取属性文件中相应键的值
+     * @param key
+     *            主键
+     * @return String
+     */
+    public static String getKeyValue(String key) {
+        return props.getProperty(key);
+    }
+
+    /**
+     * 根据主键key读取主键的值value
+     * @param filePath 属性文件路径
+     * @param key 键名
+     */
+    public static String readValue(String filePath, String key) {
+        Properties props = new Properties();
+        try {
+            InputStream in = new BufferedInputStream(new FileInputStream(
+                    filePath));
+            props.load(in);
+            String value = props.getProperty(key);
+            System.out.println(key +"键的值是："+ value);
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 更新（或插入）一对properties信息(主键及其键值)
+     * 如果该主键已经存在，更新该主键的值；
+     * 如果该主键不存在，则插件一对键值。
+     * @param keyname 键名
+     * @param keyvalue 键值
+     */
+    public static void writeProperties(String keyname,String keyvalue) {
+        try {
+            // 调用 Hashtable 的方法 put，使用 getProperty 方法提供并行性。
+            // 强制要求为属性的键和值使用字符串。返回值是 Hashtable 调用 put 的结果。
+            OutputStream fos = new FileOutputStream(profilepath);
+            props.setProperty(keyname, keyvalue);
+            // 以适合使用 load 方法加载到 Properties 表中的格式，
+            // 将此 Properties 表中的属性列表（键和元素对）写入输出流
+            props.store(fos, "Update '" + keyname + "' value");
+        } catch (IOException e) {
+            System.err.println("属性文件更新错误");
+        }
+    }
+
+    /**
+     * 更新properties文件的键值对
+     * 如果该主键已经存在，更新该主键的值；
+     * 如果该主键不存在，则插件一对键值。
+     * @param keyname 键名
+     * @param keyvalue 键值
+     */
+    public void updateProperties(String keyname,String keyvalue) {
+        try {
+            props.load(new FileInputStream(profilepath));
+            // 调用 Hashtable 的方法 put，使用 getProperty 方法提供并行性。
+            // 强制要求为属性的键和值使用字符串。返回值是 Hashtable 调用 put 的结果。
+            OutputStream fos = new FileOutputStream(profilepath);
+            props.setProperty(keyname, keyvalue);
+            // 以适合使用 load 方法加载到 Properties 表中的格式，
+            // 将此 Properties 表中的属性列表（键和元素对）写入输出流
+            props.store(fos, "Update '" + keyname + "' value");
+        } catch (IOException e) {
+            System.err.println("属性文件更新错误");
+        }
+    }
+    //测试代码
+    public static void main(String[] args) {
+        readValue("mail.properties", "MAIL_SERVER_PASSWORD");
+        writeProperties("MAIL_SERVER_INCOMING", "327@qq.com");
+        System.out.println("操作完成");
+    }
 }
 

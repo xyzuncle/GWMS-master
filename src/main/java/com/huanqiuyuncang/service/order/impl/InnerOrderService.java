@@ -1,5 +1,6 @@
 package com.huanqiuyuncang.service.order.impl;
 
+import com.huanqiuyuncang.dao.customer.CustomerDAO;
 import com.huanqiuyuncang.dao.order.InnerOrderDAO;
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
 import com.huanqiuyuncang.dao.pdconversion.ProductConversionDAO;
@@ -11,6 +12,7 @@ import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.pdconversion.ProductConversionInterface;
+import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import com.huanqiuyuncang.util.PropUtil;
 import com.huanqiuyuncang.util.UuidUtil;
@@ -36,6 +38,10 @@ public class InnerOrderService implements InnerOrderInterface {
 
     @Autowired
     private ProductConversionDAO productConversionDAO;
+
+    @Autowired
+    private CustomerDAO customerDAO;
+
 
     @Autowired
     private ProductDAO productDAO;
@@ -90,8 +96,8 @@ public class InnerOrderService implements InnerOrderInterface {
             SimpleDateFormat format = new SimpleDateFormat("YYMMdd");
             String formatDate = format.format(date);
             String customernum = innerOrder.getCustomernum();
-            Integer serialnumber = PropUtil.getIntegerProperty("serialnumber");
-            PropUtil.setProperty("serialnumber",serialnumber+1+"");
+            Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+            PropUtil.writeProperties("serialnumber",serialnumber+1+"");
             String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);
             String customerordernum = "O"+customernum.split("_")[1]+formatDate+serialnumberStr;
             innerOrder.setCustomerordernum(customerordernum);
@@ -315,8 +321,17 @@ public class InnerOrderService implements InnerOrderInterface {
         String shoujianrenTel = pageData.getString("var12");
         String shoujianrenCountry = pageData.getString("var13");
         String shoujianrensheng = pageData.getString("var14");
+        if(StringUtils.isNotBlank(shoujianrensheng)){
+            shoujianrensheng = innerOrderDAO.selectProvinceCodeByName(shoujianrensheng);
+        }
         String shoujianrenshi = pageData.getString("var15");
+        if(StringUtils.isNotBlank(shoujianrenshi)){
+            shoujianrenshi = innerOrderDAO.selectCityCodeByName(shoujianrenshi);
+        }
         String shoujianrenqu = pageData.getString("var16");
+        if(StringUtils.isNotBlank(shoujianrenqu)){
+            shoujianrenqu = innerOrderDAO.selectAreaCodeByName(shoujianrenqu);
+        }
         String shoujianrendizhi = pageData.getString("var17");
         String shoujianrenyoubian = pageData.getString("var18");
         String zhifufangshi = pageData.getString("var19");
@@ -324,11 +339,19 @@ public class InnerOrderService implements InnerOrderInterface {
         String zhifushijian = pageData.getString("var21");
         String gukebeizhu = pageData.getString("var22");
         String beizhu = pageData.getString("var25");
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("YYMMdd");
+        String formatDate = format.format(date);
+        String username = Jurisdiction.getUsername();
+        String customernum = customerDAO.selectCodeByCode(username);
+        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        PropUtil.writeProperties("serialnumber",serialnumber+1+"");
+        String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);
+        String customerordernum = "O"+customernum.split("_")[1]+formatDate+serialnumberStr;
 
-        String customerOrderNum = UuidUtil.get32UUID();
 
         InnerOrderEntity order = new InnerOrderEntity();
-        order.setCustomerordernum(customerOrderNum);
+        order.setCustomerordernum(customerordernum);
         order.setOuterordernum(waibudingdanhao);
         order.setOrdertime(ordertime);
         order.setSender(jijianren);
@@ -355,26 +378,26 @@ public class InnerOrderService implements InnerOrderInterface {
         order.setCustomsmodel(baoguanmoshi);
         order.setOrdervalue(dingdanhuozhi);
         order.setRemark(beizhu);
+        order.setOrderstatus("orderStatus_daiqueren");
         orderList.add(order);
-        outerOrderNum.put(waibudingdanhao,customerOrderNum);
+        outerOrderNum.put(waibudingdanhao,customerordernum);
         return "";
     }
 
-    public static void main(String[] args) {
-       // System.out.println((int)((Math.random()*9+1)*10000));
-        /*Integer serialnumber = PropUtil.getIntegerProperty("serialnumber");
-        String aa = String.format("%0" + 5 + "d", 1000012);
-        System.out.println(aa);
-
-        PropUtil.setProperty("serialnumber",serialnumber+1+"");
-        Integer serialnumber1 = PropUtil.getIntegerProperty("serialnumber");
+    public static void main(String[] args) throws InterruptedException {
+        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        System.out.println(serialnumber);
+        PropUtil.writeProperties("serialnumber",serialnumber+1+"");
+        Integer serialnumber1 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
         System.out.println(serialnumber1);
-        */
-        String [] arr = {"1","2","","4","5","6"};
-        Arrays.asList(arr).forEach(a->{
+        PropUtil.writeProperties("serialnumber",serialnumber1+1+"");
+        Integer serialnumber2 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        System.out.println(serialnumber2);
+        PropUtil.writeProperties("serialnumber",serialnumber2+1+"");
+        Integer serialnumber3 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        System.out.println(serialnumber3);
 
-            System.out.println(a);
-        });
+
     }
 
 }

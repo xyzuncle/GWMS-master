@@ -73,7 +73,7 @@ public class ObjectExcelRead {
 						cellValue = "";
 					}
 					
-					varpd.put("var"+j, cellValue);
+					varpd.put("var"+j, cellValue.trim());
 					
 				}
 				varList.add(varpd);

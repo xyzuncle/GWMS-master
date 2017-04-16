@@ -26,4 +26,6 @@ public interface CustomerDAO {
     List<CustomsEntity> selectByCreateUser(String createUser);
 
     String selectNameByCode(String code);
+
+    String selectCodeByCode(String code);
 }

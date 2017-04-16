@@ -190,4 +190,11 @@
         WHERE customercode = #{code,jdbcType=VARCHAR}
 
     </select>
+
+    <select id="selectCodeByCode" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT  customercode
+        FROM wms_customer
+        WHERE customercode like  "%"#{code,jdbcType=VARCHAR}"%"
+
+    </select>
 </mapper>

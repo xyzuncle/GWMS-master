@@ -32,4 +32,10 @@ public interface InnerOrderDAO {
     String selectCityNameByCode(String code);
 
     String selectDictBianMaByName(String baoguanmoshi);
+
+    String selectProvinceCodeByName(String code);
+
+    String selectCityCodeByName(String code);
+
+    String selectAreaCodeByName(String baoguanmoshi);
 }

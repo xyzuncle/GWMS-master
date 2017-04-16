@@ -591,4 +591,16 @@
         SELECT city FROM cities WHERE cityid = #{code,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectProvinceCodeByName"  parameterType="java.lang.String"  resultType="java.lang.String" >
+        SELECT provinceid FROM provinces  WHERE province LIKE "%"#{code,jdbcType=VARCHAR}"%"
+    </select>
+
+    <select id="selectCityCodeByName" parameterType="java.lang.String"  resultType="java.lang.String" >
+        SELECT cityid FROM cities WHERE  city LIKE "%"#{code,jdbcType=VARCHAR}"%"
+    </select>
+
+    <select id="selectAreaCodeByName" parameterType="java.lang.String"  resultType="java.lang.String" >
+        SELECT areaid FROM areas WHERE AREA LIKE "%"#{code,jdbcType=VARCHAR}"%"
+    </select>
+
 </mapper>

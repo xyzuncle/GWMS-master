@@ -392,6 +392,7 @@ public class InnerOrderController extends BaseController {
         pingZhengEnetity.setOrderTime(format.format(order.getOrdertime()));
         pingZhengEnetity.setFukuanfangshi(order.getPaymentmethod());
         pingZhengEnetity.setDingdanbeizhu(order.getCustomerremarks());
+        pingZhengEnetity.setYouxiaoqi("30天");
         List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProduct(order.getCustomerordernum());
         List<ProductOrderBase> list = new ArrayList<>();
         orderProductEntities.forEach(orderProduct ->{
