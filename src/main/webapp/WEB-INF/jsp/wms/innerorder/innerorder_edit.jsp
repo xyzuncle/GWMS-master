@@ -507,6 +507,16 @@
             $("#senderphone").focus();
             return false;
         }
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test($("#senderphone").val()))){
+            $("#senderphone").tips({
+                side:3,
+                msg:'电话格式不正确',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#senderphone").focus();
+            return false;
+        }
         if($("#sendercountry").val()==""){
             $("#sendercountry").tips({
                 side:3,
@@ -577,6 +587,17 @@
             $("#recipientidcard").focus();
             return false;
         }
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if(reg.test($("#recipientidcard").val()) === false){
+            $("#recipientidcard").tips({
+                side:3,
+                msg:'身份证格式不正确',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#recipientidcard").focus();
+            return false;
+        }
         if($("#recipientphone").val()==""){
             $("#recipientphone").tips({
                 side:3,
@@ -587,7 +608,17 @@
             $("#recipientphone").focus();
             return false;
         }
-        if($("#recipientcountry").val()==""){
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test($("#recipientphone").val()))){
+            $("#recipientphone").tips({
+                side:3,
+                msg:'电话格式不正确',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#recipientphone").focus();
+            return false;
+        }
+            if($("#recipientcountry").val()==""){
             $("#recipientcountry").tips({
                 side:3,
                 msg:'输入收件人国别',

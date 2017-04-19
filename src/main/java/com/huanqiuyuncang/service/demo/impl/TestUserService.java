@@ -55,8 +55,8 @@ public class TestUserService implements TestUserManager {
     @Override
     public int saveTestTransaction(TestUser testUser) throws Exception {
          testUserDao.insert(testUser);
-         throw new RuntimeException("测试testTransaction。。。。。");
-        //return 0;
+         //throw new RuntimeException("测试testTransaction。。。。。");
+        return 0;
     }
 
 

@@ -5,6 +5,7 @@ import com.huanqiuyuncang.service.wms.luggagemail.LuggageMailInterface;
 import com.huanqiuyuncang.service.wms.luggagemail.impl.LuggageMailService;
 import com.huanqiuyuncang.util.ObjectExcelRead;
 import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.PropUtil;
 import com.huanqiuyuncang.util.UuidUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,4 +65,19 @@ public class exportLuggageMailDate {
             });
         }
     }
+    @Test
+    public void aaa() {
+        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        System.out.println(serialnumber);
+        PropUtil.writeProperties("serialnumber",serialnumber+1+"");
+        Integer serialnumber1 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        System.out.println(serialnumber1);
+        PropUtil.writeProperties("serialnumber",serialnumber1+1+"");
+        Integer serialnumber2 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        System.out.println(serialnumber2);
+        PropUtil.writeProperties("serialnumber",serialnumber2+1+"");
+        Integer serialnumber3 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        System.out.println(serialnumber3);
+    }
+
 }

@@ -394,6 +394,14 @@ public class InnerOrderController extends BaseController {
         pingZhengEnetity.setDingdanbeizhu(order.getCustomerremarks());
         pingZhengEnetity.setYouxiaoqi("30天");
         List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProduct(order.getCustomerordernum());
+        Double dingdanjine = new Double(0);
+        for(OrderProductEntity orderProductEntity : orderProductEntities) {
+            String retailprice = orderProductEntity.getDeclareprice();
+            String count = orderProductEntity.getCount();
+            dingdanjine = dingdanjine + (Double.parseDouble(retailprice)*Double.parseDouble(count));
+        };
+        pingZhengEnetity.setDingdanjine("");
+
         List<ProductOrderBase> list = new ArrayList<>();
         orderProductEntities.forEach(orderProduct ->{
             try {

@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -220,15 +221,15 @@ public class InnerOrderService implements InnerOrderInterface {
                     ProductEntity productByBarCode = productDAO.findProductByProductNum(pdNum);
                     if(productByBarCode != null){
                         String[] arry = pdNumMap.get(pdNum);
+                        BigDecimal lingshoujiaReal = new BigDecimal(shenbaojia).multiply(new BigDecimal(arry[1]));
+                        BigDecimal jiesuanjiaReal = new BigDecimal(lingshoujia).multiply(new BigDecimal(arry[1]));
                         OrderProductEntity pd = new OrderProductEntity();
                         pd.setCustomerordernum(customerOrderNum);
                         pd.setOuterordernum(waibudingdanhao);
                         pd.setCount(arry[0]);
                         pd.setRemark(beizhu);
-                        double v = Double.parseDouble(shenbaojia) * Double.parseDouble(arry[1]) * Double.parseDouble(arry[0]);
-                        double f = Double.parseDouble(lingshoujia) * Double.parseDouble(arry[1]) * Double.parseDouble(arry[0]);
-                        pd.setDeclareprice(Double.toString(v));
-                        pd.setRetailprice(Double.toString(f));
+                        pd.setDeclareprice(jiesuanjiaReal.toString());
+                        pd.setRetailprice(lingshoujiaReal.toString());
                         pd.setBarcode(barcode);
                         pd.setOuterproductnum(waibuhuohao);
                         pdList.add(pd);
