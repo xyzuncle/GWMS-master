@@ -72,7 +72,7 @@
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
                                     <th class="center">行邮税号</th>
-                                    <th class="center">品名及规格</th>
+                                    <th class="center">行邮分类名称</th>
                                     <th class="center">单位</th>
                                     <th class="center">单位编码</th>
                                     <th class="center">完税价格</th>

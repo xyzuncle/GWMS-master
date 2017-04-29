@@ -171,21 +171,21 @@
                                         </td>
                                     </tr>
                                         <tr>
-                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">创建者:</td>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">创建者:</td>
                                             <td >
                                                 <input type="text" readonly name="createuser" id="createuser" value="${product.createuser}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>
-                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">创建时间:</td>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">创建时间:</td>
                                             <td >
                                                 <input type="text" readonly name="createtime" id="createtime" value="${product.formatCreateTime}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">修改者:</td>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">修改者:</td>
                                             <td >
                                                 <input type="text" readonly name="updateuser" id="updateuser" value="${product.updateuser}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>
-                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">修改时间:</td>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">修改时间:</td>
                                             <td >
                                                 <input type="text" readonly name="updatetime" id="updatetime" value="${product.formateUpdateTime}" maxlength="255" title="申报价" style="width:98%;"/>
                                             </td>

@@ -182,6 +182,7 @@
         <include refid="Base_Column_List" />
         from
         wms_luggagemail
+        WHERE 1=1
         <if test="pd.luggagemailcode!= null and pd.luggagemailcode != ''"><!-- 商品名称 -->
             and luggagemailcode LIKE  "%"#{pd.luggagemailcode,jdbcType=VARCHAR}"%"
         </if>

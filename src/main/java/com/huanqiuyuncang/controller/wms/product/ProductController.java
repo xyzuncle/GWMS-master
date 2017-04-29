@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -266,6 +267,24 @@ public class ProductController extends BaseController {
         return mv;
     }
 
+    /**去修改页面
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value="/goImage")
+    public ModelAndView goImage()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        String src = pd.getString("src");
+        String yuantu = src.substring(src.lastIndexOf("/") + 1).split(ImageUtil.DEFAULT_PREVFIX)[1];
+        yuantu = this.getRequest().getContextPath()+ImageUtil.DEFAULT_PATH +"/"+yuantu;
+        mv.setViewName("wms/product/product_imageView");
+        mv.addObject("msg", "view");
+        mv.addObject("yuantu", yuantu);
+        return mv;
+    }
+
 
     /**去详情页面
      * @param
@@ -278,20 +297,46 @@ public class ProductController extends BaseController {
         pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
-        BrandEntity brandEntity = brandService.selectByPrimaryKey(product.getBrandname());
-        CustomsEntity customsEntity = customsService.selectByPrimaryKey(product.getCustomscode());
+        String brandname = "";
+        if(StringUtils.isNotBlank(product.getBrandname())){
+            BrandEntity brandEntity = brandService.selectByPrimaryKey(product.getBrandname());
+            brandname = brandEntity.getBrandname();
+        }
+        String customsname = "";
+        if(StringUtils.isNotBlank(product.getCustomscode())){
+            CustomsEntity customsEntity = customsService.selectByPrimaryKey(product.getCustomscode());
+            customsname = customsEntity.getCustomsname();
+        }
         String s = productService.selectCountryNameByID(product.getProducingArea());
-        PackageTypeEntity packageTypeEntity = packageTypeService.selectByPrimaryKey(product.getDefaultpackage());
-        LuggageMailEntity luggageMailEntity = luggageMailService.selectByPrimaryKey(product.getLuggagemail());
-        CartonEntity cartonEntityA = cartonService.selectByPrimaryKey(product.getCartontypea());
-        CartonEntity cartonEntityB = cartonService.selectByPrimaryKey(product.getCartontypeb());
-        product.setBrandname(brandEntity.getBrandname());
-        product.setCustomscode(customsEntity.getCustomsname());
+        String packagerName ="";
+        if(StringUtils.isNotBlank(product.getDefaultpackage())){
+            PackageTypeEntity packageTypeEntity = packageTypeService.selectByPrimaryKey(product.getDefaultpackage());
+            packagerName = packageTypeEntity.getPackagename();
+        }
+        String luggagemailname = "";
+        if(StringUtils.isNotBlank(product.getLuggagemail())){
+            LuggageMailEntity luggageMailEntity = luggageMailService.selectByPrimaryKey(product.getLuggagemail());
+            luggagemailname = luggageMailEntity.getLuggagemailname();
+        }
+        String cartonnameA = "";
+        if(StringUtils.isNotBlank(product.getCartontypea())){
+            CartonEntity cartonEntityA = cartonService.selectByPrimaryKey(product.getCartontypea());
+            cartonnameA = cartonEntityA.getCartonname();
+        }
+        String cartonnameB = "";
+        if(StringUtils.isNotBlank(product.getCartontypea())){
+            CartonEntity cartonEntityB = cartonService.selectByPrimaryKey(product.getCartontypeb());
+            cartonnameB = cartonEntityB.getCartonname();
+        }
+
+
+        product.setBrandname(brandname);
+        product.setCustomscode(customsname);
         product.setProducingArea(s);
-        product.setDefaultpackage(packageTypeEntity.getPackagename());
-        product.setLuggagemail(luggageMailEntity.getLuggagemailname());
-        product.setCartontypea(cartonEntityA.getCartonname());
-        product.setCartontypeb(cartonEntityB.getCartonname());
+        product.setDefaultpackage(packagerName);
+        product.setLuggagemail(luggagemailname);
+        product.setCartontypea(cartonnameA);
+        product.setCartontypeb(cartonnameB);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formateCreateTime = formatter.format(product.getCreatetime());
         String formateUpdateTime = formatter.format(product.getUpdatetime());

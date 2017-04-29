@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,8 @@ public class ImageUtil {
 
     private static Logger log = LoggerFactory.getLogger(ImageUtil.class);
 
-    private static String DEFAULT_PREVFIX = "product_";
+    public static String DEFAULT_PREVFIX = "product_";
+    public static String DEFAULT_PATH = "/upload";
     private static Boolean DEFAULT_FORCE = false;
 
     /**
@@ -102,10 +104,15 @@ public class ImageUtil {
         return thumbnailImage(imgFile, w, h, DEFAULT_PREVFIX, DEFAULT_FORCE);
     }
 
+    public static String getImagePath(HttpServletRequest request) {
+        String realPath = request.getSession().getServletContext().getRealPath("/");
+        return realPath+DEFAULT_PATH;
+    }
 
 
     public static void main(String[] args) {
          ImageUtil.thumbnailImage("D:\\test.jpg", 100, 150,true);
     }
+
 
 }

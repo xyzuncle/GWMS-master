@@ -59,8 +59,7 @@ public class AttachmentController {
         suffix = orgFileName.substring(orgFileName.lastIndexOf("."));
        // tfileName =  tfileName+suffix;
         //String path = request.getRealPath("/")+"img";
-        String realPath = request.getSession().getServletContext().getRealPath("/");
-        String uploadPath = realPath+"/upload";
+        String uploadPath = ImageUtil.getImagePath(request);
         String newFileName = FileUpload.fileUp(cfile,uploadPath , tfileName);
         String image = ImageUtil.thumbnailImage(uploadPath+"/"+newFileName, 100, 150, true);
         Map<String,String> pd = new HashMap<>();
@@ -69,4 +68,6 @@ public class AttachmentController {
         out.write(jsonStr);
 
     }
+
+
 }

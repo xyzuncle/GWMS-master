@@ -206,7 +206,7 @@
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.productId}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
-                                                    <td class='center'> <img id='imgsImgSrc' src="${var.image}" height="100" width="100" /></td>
+                                                    <td class='center'> <img id='imgsImgSrc' src="${var.image}" onclick="imageView('${var.image}')" height="100" width="100" /></td>
                                                     <td class='center'>${var.productnum}</td>
                                                     <td class='center'>${var.productname}</td>
                                                     <td class='center'>${var.barcodeMain}</td>
@@ -592,6 +592,41 @@
         };
         diag.show();
     }
+
+    function imageView(src){
+        if(src == "" || src == undefined || src == null){
+            bootbox.dialog({
+                message: "<span class='bigger-110'>该商品没有图片！</span>",
+                buttons:
+                { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+            });
+            return;
+        }
+
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="原图";
+        diag.URL = '<%=basePath%>product/goImage.do?src='+src;
+        diag.Width = 600;
+        diag.Height = 500;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                if('${page.currentPage}' == '0'){
+                    top.jzts();
+                    setTimeout("self.location=self.location",100);
+                }else{
+                    nextPage(${page.currentPage});
+                }
+            }
+            diag.close();
+        };
+        diag.show();
+    }
+
+
+
+
 </script>
 
 
