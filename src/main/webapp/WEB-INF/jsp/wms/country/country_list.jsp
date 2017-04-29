@@ -44,7 +44,7 @@
 								</td>
                                 <td>
                                     <span class="input-icon">
-                                            中文名称：
+                                            国别：
                                     </span>
                                     <span class="input-icon">
                                         <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-COUN_C_NAME" autocomplete="off" name="COUN_C_NAME" value="${pd.COUN_C_NAME }" placeholder="这里输入关键词"/>

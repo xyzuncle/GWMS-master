@@ -79,7 +79,7 @@
 			and COUN_CODE LIKE "%"#{pd.COUN_CODE}"%"
 		</if>
         <if test="pd.COUN_C_NAME!= null and pd.COUN_C_NAME != ''"><!-- 关键词检索 -->
-            and COUN_CCOUN_C_NAMEODE LIKE "%"#{pd.COUN_C_NAME}"%"
+            and COUN_C_NAME LIKE "%"#{pd.COUN_C_NAME}"%"
         </if>
         <if test="pd.COUN_E_NAME!= null and pd.COUN_E_NAME != ''"><!-- 关键词检索 -->
             and COUN_E_NAME LIKE "%"#{pd.COUN_E_NAME}"%"

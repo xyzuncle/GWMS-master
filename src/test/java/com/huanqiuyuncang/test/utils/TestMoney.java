@@ -1,5 +1,7 @@
 package com.huanqiuyuncang.test.utils;
 
+import redis.clients.jedis.JedisPool;
+
 import java.math.BigDecimal;
 
 /**
@@ -11,5 +13,7 @@ public class TestMoney {
         BigDecimal bigDecimal = new BigDecimal("120.5");
         BigDecimal bigDecima2 = new BigDecimal("0.4");
         System.out.println(bigDecimal.multiply(bigDecima2).toString());
+
+        JedisPool pool = new JedisPool(null,"qq",22,22,"111");
     }
 }

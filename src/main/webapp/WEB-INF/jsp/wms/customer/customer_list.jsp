@@ -34,6 +34,7 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
+                        <form action="customer/list.do" method="post" name="Form" id="Form">
                         <table style="margin-top:5px;">
                             <tr>
                                 <td>
@@ -66,7 +67,7 @@
                             </tr>
                         </table>
                         <!-- 检索  -->
-                        <form action="customer/list.do" method="post" name="Form" id="Form">
+
 
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
