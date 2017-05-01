@@ -5,11 +5,13 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.packagetype.PackageTypeEntity;
 import com.huanqiuyuncang.service.wms.packagetype.PackageTypeInterface;
 import com.huanqiuyuncang.util.BeanMapUtil;
+import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +47,10 @@ public class PackageTypeService implements PackageTypeInterface {
     @Override
     public int updateByPrimaryKeySelective(PageData pageData)throws Exception {
         PackageTypeEntity packageTypeEntity = (PackageTypeEntity) BeanMapUtil.mapToObject(pageData, PackageTypeEntity.class);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        packageTypeEntity.setUpdatetime(date);
+        packageTypeEntity.setUpdateuser(username);
         return packageTypeDAO.updateByPrimaryKeySelective(packageTypeEntity);
     }
 

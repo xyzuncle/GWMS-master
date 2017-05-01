@@ -5,11 +5,13 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.brand.BrandEntity;
 import com.huanqiuyuncang.service.wms.brand.BrandInterface;
 import com.huanqiuyuncang.util.BeanMapUtil;
+import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +47,10 @@ public class BrandService implements BrandInterface {
     @Override
     public int updateByPrimaryKeySelective(PageData pageData) throws Exception {
         BrandEntity brand = (BrandEntity) BeanMapUtil.mapToObject(pageData, BrandEntity.class);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        brand.setUpdatetime(date);
+        brand.setUpdateuser(username);
         return brandDAO.updateByPrimaryKeySelective(brand);
     }
 

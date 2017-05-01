@@ -24,6 +24,11 @@ import java.util.*;
 @Controller
 @RequestMapping("customer")
 public class CustomerController extends BaseController {
+    // 默认客户状态
+    // 1.计算跨境速递费	是否外部商品转换	发货仓库
+    // 2.按商品内部货值计算申报货值	收款状态	计算预计纸箱和包装及费用	计算运费
+
+    public static final String CUSTOMERSTATUS = "1_1_1_1_1_1_1";
 
     String menuUrl = "customer/list.do"; //菜单地址(权限用)
     @Autowired
@@ -50,6 +55,7 @@ public class CustomerController extends BaseController {
         customerEntity.setCreatetime(date);
         customerEntity.setUpdateuser(username);
         customerEntity.setUpdatetime(date);
+        customerEntity.setCustomerstatus(CUSTOMERSTATUS);
         customerService.insertSelective(customerEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -85,6 +91,10 @@ public class CustomerController extends BaseController {
         PageData pd = new PageData();
         pd = this.getPageData();
         CustomerEntity customerEntity = (CustomerEntity) BeanMapUtil.mapToObject(pd,CustomerEntity.class);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        customerEntity.setUpdatetime(date);
+        customerEntity.setUpdateuser(username);
         customerService.updateByPrimaryKeySelective(customerEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");

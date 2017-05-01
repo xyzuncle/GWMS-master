@@ -1,7 +1,9 @@
 package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
+import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
@@ -61,6 +63,7 @@ public class InnerOrderController extends BaseController {
         innerOrder.setCreatetime(date);
         innerOrder.setUpdateuser(username);
         innerOrder.setUpdatetime(date);
+        innerOrder.setOrdermultistatus(CustomerController.CUSTOMERSTATUS);
         String token = (String)this.getRequest().getSession().getAttribute("token");
         innerOrderService.insertOrderInfo(innerOrder,token);
         this.getRequest().getSession().removeAttribute("token");
@@ -97,6 +100,10 @@ public class InnerOrderController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        innerOrder.setUpdatetime(date);
+        innerOrder.setUpdateuser(username);
         innerOrderService.updateByPrimaryKeySelective(innerOrder);
         mv.addObject("msg","success");
         mv.setViewName("save_result");

@@ -5,11 +5,13 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.carton.CartonEntity;
 import com.huanqiuyuncang.service.wms.carton.CartonInterface;
 import com.huanqiuyuncang.util.BeanMapUtil;
+import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +47,10 @@ public class CartonService implements CartonInterface {
     @Override
     public int updateByPrimaryKeySelective(PageData pageData)throws Exception  {
         CartonEntity cartonEntity = (CartonEntity) BeanMapUtil.mapToObject(pageData, CartonEntity.class);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        cartonEntity.setUpdatetime(date);
+        cartonEntity.setUpdateuser(username);
         return cartonDAO.updateByPrimaryKeySelective(cartonEntity);
     }
 

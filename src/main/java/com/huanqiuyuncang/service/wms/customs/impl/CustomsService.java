@@ -5,11 +5,13 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.service.wms.customs.CustomsInterface;
 import com.huanqiuyuncang.util.BeanMapUtil;
+import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,6 +48,10 @@ public class CustomsService implements CustomsInterface {
     @Override
     public int updateByPrimaryKeySelective(PageData record)throws Exception {
         CustomsEntity customsEntity = (CustomsEntity) BeanMapUtil.mapToObject(record, CustomsEntity.class);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        customsEntity.setUpdatetime(date);
+        customsEntity.setUpdateuser(username);
         return customsDAO.updateByPrimaryKeySelective(customsEntity);
     }
 

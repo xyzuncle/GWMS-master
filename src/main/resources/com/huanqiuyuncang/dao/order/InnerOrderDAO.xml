@@ -41,6 +41,7 @@
               <arg column="orthercost" jdbcType="VARCHAR" javaType="java.lang.String" />
               <arg column="warehousedelivery" jdbcType="VARCHAR" javaType="java.lang.String" />
               <arg column="orderstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+              <arg column="ordermultistatus" jdbcType="VARCHAR" javaType="java.lang.String" />
               <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
               <arg column="remark1" jdbcType="VARCHAR" javaType="java.lang.String" />
               <arg column="remark2" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -56,7 +57,7 @@
         senderpostcode,recipient,recipientidcard,recipientphone,recipientcountry,recipientprovince,
         recipientcity,recipientarea,recipientaddress,recipientpostcode,paymentmethod,paymentnum,
         paymenttime,orderproductcount,customerremarks,couriername,couriernum,customsmodel,ordervalue,
-        declarevalue,taxesfees,freight,packingcost,orthercost,warehousedelivery,orderstatus,remark,remark1,
+        declarevalue,taxesfees,freight,packingcost,orthercost,warehousedelivery,orderstatus,ordermultistatus,remark,remark1,
         remark2,createuser,createtime,updateuser,updatetime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -78,7 +79,7 @@
       couriername, couriernum, customsmodel, 
       ordervalue, declarevalue, taxesfees, 
       freight, packingcost, orthercost, 
-      warehousedelivery, orderstatus, remark, 
+      warehousedelivery, orderstatus,ordermultistatus, remark,
       remark1, remark2, createuser, 
       createtime, updateuser, updatetime
       )
@@ -94,7 +95,7 @@
       #{couriername,jdbcType=VARCHAR}, #{couriernum,jdbcType=VARCHAR}, #{customsmodel,jdbcType=VARCHAR}, 
       #{ordervalue,jdbcType=VARCHAR}, #{declarevalue,jdbcType=VARCHAR}, #{taxesfees,jdbcType=VARCHAR}, 
       #{freight,jdbcType=VARCHAR}, #{packingcost,jdbcType=VARCHAR}, #{orthercost,jdbcType=VARCHAR}, 
-      #{warehousedelivery,jdbcType=VARCHAR}, #{orderstatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{warehousedelivery,jdbcType=VARCHAR}, #{orderstatus,jdbcType=VARCHAR},#{ordermultistatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
       )
@@ -216,6 +217,9 @@
       <if test="orderstatus != null" >
         orderstatus,
       </if>
+        <if test="ordermultistatus != null" >
+            ordermultistatus,
+        </if>
       <if test="remark != null" >
         remark,
       </if>
@@ -352,6 +356,9 @@
       </if>
       <if test="orderstatus != null" >
         #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordermultistatus != null" >
+        #{ordermultistatus,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -492,6 +499,9 @@
         </if>
         <if test="orderstatus != null" >
             orderstatus = #{orderstatus,jdbcType=VARCHAR},
+        </if>
+        <if test="ordermultistatus != null" >
+            ordermultistatus = #{ordermultistatus,jdbcType=VARCHAR},
         </if>
         <if test="remark != null" >
             remark = #{remark,jdbcType=VARCHAR},

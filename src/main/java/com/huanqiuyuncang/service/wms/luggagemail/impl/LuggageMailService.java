@@ -5,11 +5,13 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.luggagemail.LuggageMailEntity;
 import com.huanqiuyuncang.service.wms.luggagemail.LuggageMailInterface;
 import com.huanqiuyuncang.util.BeanMapUtil;
+import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +50,10 @@ public class LuggageMailService implements LuggageMailInterface {
     @Override
     public int updateByPrimaryKeySelective(PageData pageData)throws Exception {
         LuggageMailEntity luggageMailEntity = (LuggageMailEntity) BeanMapUtil.mapToObject(pageData, LuggageMailEntity.class);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        luggageMailEntity.setUpdatetime(date);
+        luggageMailEntity.setUpdateuser(username);
         return luggageMailDAO.updateByPrimaryKeySelective(luggageMailEntity);
     }
 

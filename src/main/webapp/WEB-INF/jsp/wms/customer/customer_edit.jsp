@@ -49,7 +49,7 @@
                                     <c:if test="${QX.adminOrder == 1 }">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户状态:</td>
-                                        <td><input  type="text" name="customerstatus" id="customerstatus" value="${customer.customerstatus}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
+                                        <td><input  type="text" name="customerstatus" id="customerstatus" value="${customer.customerstatus}" maxlength="50"  style="width:98%;"/></td>
                                     </tr>
                                     </c:if>
                                     <tr>

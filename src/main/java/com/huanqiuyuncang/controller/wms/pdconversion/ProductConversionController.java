@@ -84,6 +84,10 @@ public class ProductConversionController extends BaseController {
         PageData pd = new PageData();
         pd = this.getPageData();
         ProductConversionEntity pdconversionid = (ProductConversionEntity)BeanMapUtil.mapToObject(pd,ProductConversionEntity.class);
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        pdconversionid.setUpdatetime(date);
+        pdconversionid.setUpdateuser(username);
         productConversionService.updateByPrimaryKeySelective(pdconversionid);
         mv.addObject("msg","success");
         mv.setViewName("save_result");

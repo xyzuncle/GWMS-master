@@ -1,5 +1,6 @@
 package com.huanqiuyuncang.service.order.impl;
 
+import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.dao.customer.CustomerDAO;
 import com.huanqiuyuncang.dao.order.InnerOrderDAO;
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
@@ -380,6 +381,7 @@ public class InnerOrderService implements InnerOrderInterface {
         order.setOrdervalue(dingdanhuozhi);
         order.setRemark(beizhu);
         order.setOrderstatus("orderStatus_daiqueren");
+        order.setOrdermultistatus(CustomerController.CUSTOMERSTATUS);
         orderList.add(order);
         outerOrderNum.put(waibudingdanhao,customerordernum);
         return "";
