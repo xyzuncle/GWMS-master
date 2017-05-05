@@ -5,6 +5,8 @@ import java.util.Date;
 public class OrderProductEntity {
     private String orderproducrtid;
 
+    private String innerpackagenum;
+
     private String customerordernum;
 
     private String outerordernum;
@@ -51,8 +53,11 @@ public class OrderProductEntity {
 
 
 
-    public OrderProductEntity(String orderproducrtid, String customerordernum, String outerordernum, String outerproductnum, String barcode, String count, String declareprice, String retailprice, String remark, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public OrderProductEntity(String orderproducrtid,String innerpackagenum, String customerordernum, String outerordernum,
+                              String outerproductnum, String barcode, String count, String declareprice, String retailprice,
+                              String remark, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.orderproducrtid = orderproducrtid;
+        this.innerpackagenum = innerpackagenum;
         this.customerordernum = customerordernum;
         this.outerordernum = outerordernum;
         this.outerproductnum = outerproductnum;
@@ -69,6 +74,14 @@ public class OrderProductEntity {
 
     public OrderProductEntity() {
         super();
+    }
+
+    public String getinnerpackagenum() {
+        return innerpackagenum;
+    }
+
+    public void setinnerpackagenum(String innerpackagenum) {
+        this.innerpackagenum = innerpackagenum == null ? null:innerpackagenum.trim();
     }
 
     public String getorderproducrtid() {

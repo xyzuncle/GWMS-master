@@ -72,7 +72,6 @@ public class InnerOrderController extends BaseController {
         return mv;
     }
 
-
     /**删除
      * @param out
      * @throws Exception
@@ -142,26 +141,6 @@ public class InnerOrderController extends BaseController {
         return mv;
     }
 
-    @RequestMapping(value="/orderpdlist")
-    public void orderpdlist(PrintWriter printWriter,String customerordernum) throws Exception{
-        List<OrderProductEntity> list = orderProductService.selectOrderProduct(customerordernum);
-        String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
-        String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
-        printWriter.write(resultJson);
-    }
-
-    private List<CustomsEntity> getCustomsList() {
-        List<CustomsEntity> customerList = null;
-        Map<String, String> hc = Jurisdiction.getHC();
-        if(hc.keySet().contains("customerlist")){
-            customerList = customerService.selectAll();
-        }else{
-            String createUser = Jurisdiction.getUsername();
-            customerList = customerService.selectByCreateUser(createUser);
-        }
-        return customerList;
-    }
-
     /**去新增页面
      * @param
      * @throws Exception
@@ -188,6 +167,91 @@ public class InnerOrderController extends BaseController {
         mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
         return mv;
     }
+
+    /**去修改页面
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value="/goEdit")
+    public ModelAndView goEdit()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        String innerorderid = pd.getString("innerorderid");
+        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
+        List<CustomsEntity> customerList = getCustomsList();
+        String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
+        String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
+        List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
+        List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formateCreateTime = formatter.format(innerorderEntity.getCreatetime());
+        String formateUpdateTime = formatter.format(innerorderEntity.getUpdatetime());
+        String formateOrderTime = formatter.format(innerorderEntity.getOrdertime());
+        innerorderEntity.setFormatCreateTime(formateCreateTime);
+        innerorderEntity.setFormateUpdateTime(formateUpdateTime);
+        innerorderEntity.setFormateOrderTime(formateOrderTime);
+        this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
+        mv.setViewName("wms/innerorder/innerorder_edit");
+        mv.addObject("msg", "edit");
+        mv.addObject("innerorder", innerorderEntity);
+        mv.addObject("pd", pd);
+        mv.addObject("customerList", customerList);
+        mv.addObject("baoguanList", baoguanList);
+        mv.addObject("orderStatusList", orderStatusList);
+        mv.addObject("token", innerorderEntity.getCustomerordernum());
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+
+    /**批量删除
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value="/deleteAll")
+    @ResponseBody
+    public Object deleteAll() throws Exception{
+        logBefore(logger, Jurisdiction.getUsername()+"批量删除innerorder");
+        if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
+        PageData pd = new PageData();
+        Map<String,Object> map = new HashMap<String,Object>();
+        pd = this.getPageData();
+        List<PageData> pdList = new ArrayList<PageData>();
+        String DATA_IDS = pd.getString("DATA_IDS");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            innerOrderService.deleteAll(ArrayDATA_IDS);
+            pd.put("msg", "ok");
+        }else{
+            pd.put("msg", "no");
+        }
+        pdList.add(pd);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+
+
+    @RequestMapping(value="/orderpdlist")
+    public void orderpdlist(PrintWriter printWriter,String customerordernum) throws Exception{
+        List<OrderProductEntity> list = orderProductService.selectOrderProduct(customerordernum);
+        String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
+        String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
+        printWriter.write(resultJson);
+    }
+
+    private List<CustomsEntity> getCustomsList() {
+        List<CustomsEntity> customerList = null;
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("customerlist")){
+            customerList = customerService.selectAll();
+        }else{
+            String createUser = Jurisdiction.getUsername();
+            customerList = customerService.selectByCreateUser(createUser);
+        }
+        return customerList;
+    }
+
+
 
     @RequestMapping(value="/goAddProduct")
     public ModelAndView goAddProduct()throws Exception{
@@ -265,67 +329,7 @@ public class InnerOrderController extends BaseController {
         return AppUtil.returnObject(new PageData(), map);
     }
 
-    /**去修改页面
-     * @param
-     * @throws Exception
-     */
-    @RequestMapping(value="/goEdit")
-    public ModelAndView goEdit()throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
-        String innerorderid = pd.getString("innerorderid");
-        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
-        List<CustomsEntity> customerList = getCustomsList();
-        String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
-        String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
-        List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
-        List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String formateCreateTime = formatter.format(innerorderEntity.getCreatetime());
-        String formateUpdateTime = formatter.format(innerorderEntity.getUpdatetime());
-        String formateOrderTime = formatter.format(innerorderEntity.getOrdertime());
-        innerorderEntity.setFormatCreateTime(formateCreateTime);
-        innerorderEntity.setFormateUpdateTime(formateUpdateTime);
-        innerorderEntity.setFormateOrderTime(formateOrderTime);
-        this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
-        mv.setViewName("wms/innerorder/innerorder_edit");
-        mv.addObject("msg", "edit");
-        mv.addObject("innerorder", innerorderEntity);
-        mv.addObject("pd", pd);
-        mv.addObject("customerList", customerList);
-        mv.addObject("baoguanList", baoguanList);
-        mv.addObject("orderStatusList", orderStatusList);
-        mv.addObject("token", innerorderEntity.getCustomerordernum());
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        return mv;
-    }
 
-    /**批量删除
-     * @param
-     * @throws Exception
-     */
-    @RequestMapping(value="/deleteAll")
-    @ResponseBody
-    public Object deleteAll() throws Exception{
-        logBefore(logger, Jurisdiction.getUsername()+"批量删除innerorder");
-        if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-        PageData pd = new PageData();
-        Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
-        List<PageData> pdList = new ArrayList<PageData>();
-        String DATA_IDS = pd.getString("DATA_IDS");
-        if(null != DATA_IDS && !"".equals(DATA_IDS)){
-            String ArrayDATA_IDS[] = DATA_IDS.split(",");
-            innerOrderService.deleteAll(ArrayDATA_IDS);
-            pd.put("msg", "ok");
-        }else{
-            pd.put("msg", "no");
-        }
-        pdList.add(pd);
-        map.put("list", pdList);
-        return AppUtil.returnObject(pd, map);
-    }
 
     @RequestMapping(value="/getprovince")
     @ResponseBody

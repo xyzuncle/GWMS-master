@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.OrderProductEntity" >
     <constructor >
       <idArg column="orderproducrtid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="innerpackagenum" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="customerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="outerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="outerproductnum" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -19,7 +20,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    orderproducrtid, customerordernum, outerordernum, outerproductnum, barcode, count,
+    orderproducrtid, innerpackagenum, customerordernum, outerordernum, outerproductnum, barcode, count,
     declarePrice, retailPrice, remark, createuser, createtime, updateuser, updatetime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -33,12 +34,12 @@
     where orderproducrtid = #{orderproducrtid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.OrderProductEntity" >
-    insert into wms_orderproduct (orderproducrtid, customerordernum,
+    insert into wms_orderproduct (orderproducrtid,innerpackagenum, customerordernum,
       outerordernum, outerproductnum, barcode, 
       count, declarePrice, retailPrice, 
       remark, createuser, createtime, 
       updateuser, updatetime)
-    values (#{orderproducrtid,jdbcType=VARCHAR}, #{customerordernum,jdbcType=VARCHAR},
+    values (#{orderproducrtid,jdbcType=VARCHAR},#{innerpackagenum,jdbcType=VARCHAR}, #{customerordernum,jdbcType=VARCHAR},
       #{outerordernum,jdbcType=VARCHAR}, #{outerproductnum,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, 
       #{count,jdbcType=VARCHAR}, #{declareprice,jdbcType=VARCHAR}, #{retailprice,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
@@ -49,6 +50,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="orderproducrtid != null" >
         orderproducrtid,
+      </if>
+      <if test="innerpackagenum != null" >
+        innerpackagenum,
       </if>
       <if test="customerordernum != null" >
         customerordernum,
@@ -91,6 +95,9 @@
       <if test="orderproducrtid != null" >
         #{orderproducrtid,jdbcType=VARCHAR},
       </if>
+      <if test="innerpackagenum != null" >
+        #{innerpackagenum,jdbcType=VARCHAR},
+      </if>
       <if test="customerordernum != null" >
         #{customerordernum,jdbcType=VARCHAR},
       </if>
@@ -132,6 +139,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.OrderProductEntity" >
     update wms_orderproduct
     <set >
+      <if test="innerpackagenum != null" >
+            innerpackagenum = #{innerpackagenum,jdbcType=VARCHAR},
+      </if>
       <if test="customerordernum != null" >
         customerordernum = #{customerordernum,jdbcType=VARCHAR},
       </if>
@@ -173,7 +183,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.OrderProductEntity" >
     update wms_orderproduct
-    set customerordernum = #{customerordernum,jdbcType=VARCHAR},
+    set innerpackagenum = #{innerpackagenum,jdbcType=VARCHAR},
+        customerordernum = #{customerordernum,jdbcType=VARCHAR},
       outerordernum = #{outerordernum,jdbcType=VARCHAR},
       outerproductnum = #{outerproductnum,jdbcType=VARCHAR},
       barcode = #{barcode,jdbcType=VARCHAR},

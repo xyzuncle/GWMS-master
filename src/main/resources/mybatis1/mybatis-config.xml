@@ -27,6 +27,7 @@
 		<typeAlias type="com.huanqiuyuncang.entity.packagetype.PackageTypeEntity" alias="PackageType"/>
 		<typeAlias type="com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity" alias="ProductConversion"/>
 		<typeAlias type="com.huanqiuyuncang.entity.order.InnerOrderEntity" alias="InnerOrder"/>
+		<typeAlias type="com.huanqiuyuncang.entity.order.InnerPackageEntity" alias="InnerPackage"/>
 
 		<!-- 这里添加生成的实体类 -->
 		

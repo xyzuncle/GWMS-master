@@ -70,6 +70,8 @@ public class InnerOrderService implements InnerOrderInterface {
 
     @Override
     public int deleteByPrimaryKey(String innerorderid) {
+        InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(innerorderid);
+        orderProductDAO.deleteByCustomerordernum(innerOrderEntity.getCustomerordernum());
         return innerOrderDAO.deleteByPrimaryKey(innerorderid);
     }
 
@@ -81,6 +83,8 @@ public class InnerOrderService implements InnerOrderInterface {
     @Override
     public void deleteAll(String[] arrayDATA_ids) {
         for (String id : arrayDATA_ids){
+            InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
+            orderProductDAO.deleteByCustomerordernum(innerOrderEntity.getCustomerordernum());
             innerOrderDAO.deleteByPrimaryKey(id);
         }
     }
