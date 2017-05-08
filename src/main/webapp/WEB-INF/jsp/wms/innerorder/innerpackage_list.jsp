@@ -38,8 +38,11 @@
                     <div class="col-xs-12">
 
                         <!-- 检索  -->
-                        <form action="innerPackage/list.do" method="post" name="Form" id="Form">
+                        <form action="innerpackage/list.do" method="post" name="Form" id="Form">
                             <table style="margin-top:5px;">
+                                <tr>
+                                    <td><input type="hidden" id="nav-search-orderstatus" name="orderstatus" value="${pd.orderstatus }"></td>
+                                </tr>
                                 <tr>
                                     <td>
                                         <div class="nav-search">
@@ -90,7 +93,36 @@
                                 </tr>
                             </table>
 
+                            <div class="col-sm-12 widget-container-col">
+                                <div class="widget-box transparent">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title lighter">包裹管理</h4>
+                                        <div class="widget-toolbar no-border">
+                                            <ul class="nav nav-tabs" id="myTab2">
 
+                                                <li id="baseTab">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daidabao')">待打包/入库</a>
+                                                </li>
+                                                <li  id="definedTab">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yidabao')">已打包/存库</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main padding-12 no-padding-left no-padding-right">
+                                            <div class="tab-content padding-4">
+                                                <div id="base" class="tab-pane in active">
+                                                </div>
+                                                <div id="defined" class="tab-pane">
+                                                </div>
+                                                <div id="disable" class="tab-pane">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
@@ -127,21 +159,13 @@
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
-                                                        </c:if>
+                                                        </c:if>+
                                                         <div class="hidden-sm hidden-xs btn-group">
-                                                           <%-- <a class="btn btn-xs btn-primary" onclick="viewinnerorder('${var.innerorderid}');">
-                                                                <i class="ace-icon fa   fa-eye bigger-120" title="详情"></i>
-                                                            </a>--%>
                                                             <c:if test="${QX.edit == 1 }">
                                                                 <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.innerorderid}');">
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
                                                                 </a>
                                                             </c:if>
-                                                               <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
-                                                                   <a class="btn btn-xs btn-success" title="凭证" onclick="pingzheng('${var.innerorderid}');">
-                                                                       <i class="ace-icon fa fa-eye bigger-120" title="凭证"></i>
-                                                                   </a>
-                                                               </c:if>
                                                         </div>
                                                         <div class="hidden-md hidden-lg">
                                                             <div class="inline pos-rel">
@@ -154,18 +178,9 @@
                                                                     <c:if test="${QX.edit == 1 }">
                                                                         <li>
                                                                             <a style="cursor:pointer;" onclick="edit('${var.innerorderid}');" class="tooltip-success" data-rel="tooltip" title="修改">
-																	<span class="green">
-																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																	</span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </c:if>
-                                                                    <c:if test="${QX.del == 1 }">
-                                                                        <li>
-                                                                            <a style="cursor:pointer;" onclick="del('${var.innerorderid}');" class="tooltip-error" data-rel="tooltip" title="删除">
-																	<span class="red">
-																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																	</span>
+                                                                            <span class="green">
+                                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                                            </span>
                                                                             </a>
                                                                         </li>
                                                                     </c:if>
@@ -197,14 +212,6 @@
                                 <table style="width:100%;">
                                     <tr>
                                         <td style="vertical-align:top;">
-                                            <c:if test="${QX.add == 1 }">
-                                                <a class="btn btn-sm btn-success" onclick="add();">新增</a>
-                                                <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
-
-                                            </c:if>
-                                            <c:if test="${QX.del == 1 && pd.orderstatus == 'orderStatus_daiqueren' }">
-                                                <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-                                            </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
@@ -259,14 +266,14 @@
 
     $(function() {
 
-       /* var orderstatus = "${pd.orderstatus}";
-        if(orderstatus == "orderStatus_daiqueren" ){
+       var orderstatus = "${pd.orderstatus}";
+        if(orderstatus == "orderStatus_daidabao" ){
             $("#definedTab").removeClass("active");
             $("#baseTab").addClass("active");
-        }else if (orderstatus == "orderStatus_yiqueren"){
+        }else if (orderstatus == "orderStatus_yidabao"){
             $("#baseTab").removeClass("active");
             $("#definedTab").addClass("active");
-        }*/
+        }
 
         //日期框
         $('.date-picker').datepicker({autoclose: true,todayHighlight: true});
@@ -347,7 +354,7 @@
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerorder/goEdit.do?innerorderid='+Id;
+        diag.URL = '<%=basePath%>innerpackage/goEdit.do?innerorderid='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件

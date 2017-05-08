@@ -40,4 +40,6 @@ public interface InnerOrderInterface {
     void shenheAll(String[] arrayDATA_ids);
 
     String saveOrderFromExcel(List<PageData> orderListPd, List<PageData> listPd);
+
+    void createpackage(String id);
 }

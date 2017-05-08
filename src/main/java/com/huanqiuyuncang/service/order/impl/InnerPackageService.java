@@ -3,10 +3,14 @@ package com.huanqiuyuncang.service.order.impl;
 import com.huanqiuyuncang.dao.order.InnerPackageDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.order.InnerPackageEntity;
+import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.service.order.InnerPackageInterface;
+import com.huanqiuyuncang.util.PropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,4 +56,11 @@ public class InnerPackageService implements InnerPackageInterface {
     public List<InnerPackageEntity> datalistPage(Page page) {
         return innerPackageDAO.datalistPage(page);
     }
+
+    @Override
+    public void insertPackageInfo(InnerPackageEntity innerPackageEntity) {
+
+    }
+
+
 }

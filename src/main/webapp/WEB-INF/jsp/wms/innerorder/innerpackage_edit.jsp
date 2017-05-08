@@ -37,30 +37,24 @@
                     <div class="col-xs-12">
 
                         <form action="innerpackage/${msg }.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="innerpackageid" id="innerpackageid" value="${innerpackage.innerpackageid}"/>
+                            <input type="hidden" name="innerorderid" id="innerorderid" value="${innerorder.innerorderid}"/>
                             <input type="hidden" name="token" id="token" value="${token}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">包裹单号:</td>
-                                        <td><input type="text" name="innerpackagenum" id="innerpackagenum" value="${innerpackage.innerpackagenum}" maxlength="30" style="width:98%;"/></td>
-                                        <td style="width:90px;text-align: right;padding-top: 13px;">客户订单号:</td>
-                                        <td><input type="text" name="customerordernum" id="customerordernum" value="${innerpackage.customerordernum}" maxlength="30" style="width:98%;"/></td>
-                                    </tr>
-                                    <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户编号:</td>
                                         <td>
                                             <select class="chosen-select form-control"
-                                                <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
-                                                    disabled
-                                                </c:if>
+                                                    <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
+                                                        disabled
+                                                    </c:if>
                                                     name="customernum" id="customernum" data-placeholder="请选择" style="vertical-align:top;width:98%;">
                                                 <option value="">请选择</option>
                                                 <c:choose>
                                                     <c:when test="${not empty customerList}">
                                                         <c:forEach items="${customerList}" var="customer" varStatus="customerStatus">
                                                             <option value="${customer.customercode}" id="${customer.customercode}"
-                                                                    <c:if test="${customer.customercode == innerpackage.customernum}">
+                                                                    <c:if test="${customer.customercode == innerorder.customernum}">
                                                                         selected="selected"
                                                                     </c:if>
                                                             >${customer.customername}</option>
@@ -70,45 +64,45 @@
                                             </select>
                                         </td>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">外部订单号:</td>
-                                        <td><input type="text" name="outerordernum" id="outerordernum" value="${innerpackage.outerordernum}" maxlength="30" style="width:98%;"/></td>
+                                        <td><input type="text" name="outerordernum" id="outerordernum" value="${innerorder.outerordernum}" maxlength="30" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">下单时间:</td>
-                                        <td><input type="text" class="date-picker" name="ordertime" id="ordertime" data-date-format="yyyy-mm-dd" readonly="readonly" value="${innerpackage.formateOrderTime}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" class="date-picker" name="ordertime" id="ordertime" data-date-format="yyyy-mm-dd" readonly="readonly" value="${innerorder.formateOrderTime}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">寄件人姓名:</td>
-                                        <td><input type="text" name="sender" id="sender" value="${innerpackage.sender}" maxlength="30"style="width:98%;"/></td>
+                                        <td><input type="text" name="sender" id="sender" value="${innerorder.sender}" maxlength="30"style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">寄件人电话:</td>
-                                        <td><input type="text" name="senderphone" id="senderphone"  value="${innerpackage.senderphone}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="senderphone" id="senderphone"  value="${innerorder.senderphone}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">寄件人国别:</td>
-                                        <td><input type="text" name="sendercountry" id="sendercountry" value="${innerpackage.sendercountry}" maxlength="30" style="width:98%;"/></td>
+                                        <td><input type="text" name="sendercountry" id="sendercountry" value="${innerorder.sendercountry}" maxlength="30" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">寄件人省|州:</td>
-                                        <td><input type="text" name="senderprovince" id="senderprovince"  value="${innerpackage.senderprovince}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="senderprovince" id="senderprovince"  value="${innerorder.senderprovince}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">寄件人城市:</td>
-                                        <td><input type="text" name="sendercity" id="sendercity" value="${innerpackage.sendercity}" maxlength="30" style="width:98%;"/></td>
+                                        <td><input type="text" name="sendercity" id="sendercity" value="${innerorder.sendercity}" maxlength="30" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">寄件人区域:</td>
-                                        <td><input type="text" name="senderarea" id="senderarea"  value="${innerpackage.senderarea}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="senderarea" id="senderarea"  value="${innerorder.senderarea}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">寄件人邮编:</td>
-                                        <td><input type="text" name="senderpostcode" id="senderpostcode"  value="${innerpackage.senderpostcode}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="senderpostcode" id="senderpostcode"  value="${innerorder.senderpostcode}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">寄件人地址:</td>
-                                        <td colspan="3"><input type="text" name="senderaddress" id="senderaddress" value="${innerpackage.senderaddress}" maxlength="30" style="width:98%;"/></td>
+                                        <td colspan="3"><input type="text" name="senderaddress" id="senderaddress" value="${innerorder.senderaddress}" maxlength="30" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人:</td>
-                                        <td><input type="text" name="recipient" id="recipient"  value="${innerpackage.recipient}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="recipient" id="recipient"  value="${innerorder.recipient}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人身份证:</td>
-                                        <td><input type="text" name="recipientidcard" id="recipientidcard"  value="${innerpackage.recipientidcard}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="recipientidcard" id="recipientidcard"  value="${innerorder.recipientidcard}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人电话:</td>
-                                        <td><input type="text" name="recipientphone" id="recipientphone"  value="${innerpackage.recipientphone}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="recipientphone" id="recipientphone"  value="${innerorder.recipientphone}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人国家:</td>
                                         <td>
                                             <select class="chosen-select form-control" style="vertical-align:top;width:98%;"  id="recipientcountry" name="recipientcountry" >
@@ -122,14 +116,14 @@
                                             <select id="recipientprovince"  style="vertical-align:top;width:98%;" name="recipientprovince" onchange="changeprovince(this.value)">
                                                 <option>请选择</option>
                                             </select>
-                                            <input type="hidden" id="provinceHidden"  value="${innerpackage.recipientprovince}" maxlength="30"  style="width:98%;"/>
+                                            <input type="hidden" id="provinceHidden"  value="${innerorder.recipientprovince}" maxlength="30"  style="width:98%;"/>
                                         </td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人城市:</td>
                                         <td>
                                             <select id="recipientcity" style="vertical-align:top;width:98%;" name="recipientcity" onchange="changeCity(this.value)">
                                                 <option>请选择</option>
                                             </select>
-                                            <input type="hidden" id="cityHidden"  value="${innerpackage.recipientcity}" maxlength="30"  style="width:98%;"/></td>
+                                            <input type="hidden" id="cityHidden"  value="${innerorder.recipientcity}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人区:</td>
@@ -137,33 +131,33 @@
                                             <select id="recipientarea" style="vertical-align:top;width:98%;" name="recipientarea" >
                                                 <option>请选择</option>
                                             </select>
-                                            <input type="hidden" id="areaHidden"  value="${innerpackage.recipientarea}" maxlength="30"  style="width:98%;"/>
+                                            <input type="hidden" id="areaHidden"  value="${innerorder.recipientarea}" maxlength="30"  style="width:98%;"/>
                                         </td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人邮编:</td>
-                                        <td><input type="text" name="recipientpostcode" id="recipientpostcode"  value="${innerpackage.recipientpostcode}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="recipientpostcode" id="recipientpostcode"  value="${innerorder.recipientpostcode}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">收件人地址:</td>
-                                        <td colspan="3"><input type="text" name="recipientaddress" id="recipientaddress"  value="${innerpackage.recipientaddress}" maxlength="30"  style="width:98%;"/></td>
+                                        <td colspan="3"><input type="text" name="recipientaddress" id="recipientaddress"  value="${innerorder.recipientaddress}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">支付方式:</td>
-                                        <td><input type="text" name="paymentmethod" id="paymentmethod"  value="${innerpackage.paymentmethod}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="paymentmethod" id="paymentmethod"  value="${innerorder.paymentmethod}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">支付交易号:</td>
-                                        <td><input type="text" name="paymentnum" id="paymentnum"  value="${innerpackage.paymentnum}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="paymentnum" id="paymentnum"  value="${innerorder.paymentnum}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">支付时间:</td>
-                                        <td><input type="text" class="date-picker" name="paymenttime" id="paymenttime" data-date-format="yyyy-mm-dd" readonly="readonly" value="${innerpackage.paymenttime}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" class="date-picker" name="paymenttime" id="paymenttime" data-date-format="yyyy-mm-dd" readonly="readonly" value="${innerorder.paymenttime}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">订单商品总件数:</td>
                                         <td><input type="text"
-                                            <c:if test="${QX.adminOrder == 1 }">
-                                                disabled
-                                            </c:if> name="orderproductcount" id="orderproductcount"  value="${innerpackage.orderproductcount}" maxlength="30"  style="width:98%;"/></td>
+                                                <c:if test="${QX.adminOrder == 1 }">
+                                                    disabled
+                                                </c:if> name="orderproductcount" id="orderproductcount"  value="${innerorder.orderproductcount}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">顾客备注:</td>
-                                        <td><input type="text" name="customerremarks" id="customerremarks"  value="${innerpackage.customerremarks}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="customerremarks" id="customerremarks"  value="${innerorder.customerremarks}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">报关模式:</td>
                                         <td>
                                             <select class="chosen-select form-control" name="customsmodel" id="customsmodel" data-placeholder="请选择" style="vertical-align:top;width:98%;">
@@ -172,7 +166,7 @@
                                                     <c:when test="${not empty baoguanList}">
                                                         <c:forEach items="${baoguanList}" var="baoguan" varStatus="baoguanStatus">
                                                             <option value="${baoguan.BIANMA}" id="${baoguan.BIANMA}"
-                                                                    <c:if test="${baoguan.BIANMA == innerpackage.customsmodel}">
+                                                                    <c:if test="${baoguan.BIANMA == innerorder.customsmodel}">
                                                                         selected="selected"
                                                                     </c:if>
                                                             >${baoguan.NAME}</option>
@@ -183,60 +177,22 @@
                                         </td>
                                     </tr>
                                     <c:if test="${QX.adminOrder == 1 }">
-                                    <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">快递企业名称:</td>
-                                        <td><input type="text" name="couriername" id="couriername" disabled value="${innerpackage.couriername}" maxlength="30"  style="width:98%;"/></td>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">快递单号:</td>
-                                        <td><input type="text" name="couriernum" id="couriernum" disabled value="${innerpackage.couriernum}" maxlength="30"  style="width:98%;"/></td>
-                                    </tr>
+                                        <tr>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">快递企业名称:</td>
+                                            <td><input type="text" name="couriername" id="couriername" disabled value="${innerorder.couriername}" maxlength="30"  style="width:98%;"/></td>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">快递单号:</td>
+                                            <td><input type="text" name="couriernum" id="couriernum" disabled value="${innerorder.couriernum}" maxlength="30"  style="width:98%;"/></td>
+                                        </tr>
                                     </c:if>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">订单货值:</td>
-                                        <td><input type="text" name="ordervalue" id="ordervalue"  value="${innerpackage.ordervalue}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="ordervalue" id="ordervalue"  value="${innerorder.ordervalue}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">申报货值:</td>
                                         <td><input type="text" name="declarevalue" id="declarevalue"
                                                 <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
                                                     disabled
                                                 </c:if>
-                                                   value="${innerpackage.declarevalue}" maxlength="30"  style="width:98%;"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">预计纸箱型号:</td>
-                                        <td>
-                                            <select class="chosen-select form-control" name="cartonid" id="cartonid" data-placeholder="请选择" style="vertical-align:top;width:98%;">
-                                                <option value="">请选择</option>
-                                                <c:choose>
-                                                    <c:when test="${not empty cartonList}">
-                                                        <c:forEach items="${cartonList}" var="carton" varStatus="cartonStatus">
-                                                            <option value="${carton.cartonid}" id="${carton.cartonid}"
-                                                                    <c:if test="${carton.cartonid == innerpackage.cartonid}">
-                                                                        selected="selected"
-                                                                    </c:if>
-                                                            >${carton.cartonname}</option>
-                                                        </c:forEach>
-                                                    </c:when>
-                                                </c:choose>
-                                            </select>
-
-                                        </td>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">预计包装类型:</td>
-                                        <td>
-                                            <select class="chosen-select form-control" name="packageid" id="packageid" data-placeholder="请选择" style="vertical-align:top;width:98%;">
-                                                <option value="">请选择</option>
-                                                <c:choose>
-                                                    <c:when test="${not empty packageTypeList}">
-                                                        <c:forEach items="${packageTypeList}" var="packagetype" varStatus="packagetypeStatus">
-                                                            <option value="${packagetype.packageid}" id="${packagetype.packageid}"
-                                                                    <c:if test="${packagetype.packageid == innerpackage.packageid}">
-                                                                        selected="selected"
-                                                                    </c:if>
-                                                            >${packagetype.packagename}</option>
-                                                        </c:forEach>
-                                                    </c:when>
-                                                </c:choose>
-                                            </select>
-
-                                        </td>
+                                                   value="${innerorder.declarevalue}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">税费:</td>
@@ -244,13 +200,51 @@
                                                 <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
                                                     disabled
                                                 </c:if>
-                                                   value="${innerpackage.taxesfees}" maxlength="30"  style="width:98%;"/></td>
+                                                   value="${innerorder.taxesfees}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">运费:</td>
                                         <td><input type="text" name="freight" id="freight"
                                                 <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
                                                     disabled
                                                 </c:if>
-                                                   value="${innerpackage.freight}" maxlength="30"  style="width:98%;"/></td>
+                                                   value="${innerorder.freight}" maxlength="30"  style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">预计纸箱型号:</td>
+                                        <td>
+                                            <select class="chosen-select form-control"
+                                                    name="cartonid" id="cartonid" data-placeholder="请选择" style="vertical-align:top;width:98%;">
+                                                <option value="">请选择</option>
+                                                <c:choose>
+                                                    <c:when test="${not empty cartonList}">
+                                                        <c:forEach items="${cartonList}" var="carton" varStatus="cartonIndex">
+                                                                <option value="${carton.cartonid}" id="${carton.cartonid}"
+                                                                        <c:if test="${carton.cartonid == innerorder.cartonid}">
+                                                                            selected="selected"
+                                                                        </c:if>
+                                                                >${carton.cartonname}</option>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                </c:choose>
+                                            </select>
+                                        </td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">预计包装类型:</td>
+                                        <td>
+                                            <select class="chosen-select form-control"
+                                                    name="packageId" id="packageId" data-placeholder="请选择" style="vertical-align:top;width:98%;">
+                                                <option value="">请选择</option>
+                                                <c:choose>
+                                                    <c:when test="${not empty packageTypeList}">
+                                                        <c:forEach items="${packageTypeList}" var="packageType" varStatus="packageTypeInex">
+                                                                <option value="${packageType.packageid}" id="${packageType.packageid}"
+                                                                        <c:if test="${packageType.packageid == innerorder.packageid}">
+                                                                            selected="selected"
+                                                                        </c:if>
+                                                                >${packageType.packagename}</option>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                </c:choose>
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">包裹费用:</td>
@@ -258,13 +252,13 @@
                                                 <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
                                                     disabled
                                                 </c:if>
-                                                   value="${innerpackage.packingcost}" maxlength="30"  style="width:98%;"/></td>
+                                                   value="${innerorder.packingcost}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">其他费用:</td>
                                         <td><input type="text" name="orthercost" id="orthercost"
                                                 <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
                                                     disabled
                                                 </c:if>
-                                                   value="${innerpackage.orthercost}" maxlength="30"  style="width:98%;"/></td>
+                                                   value="${innerorder.orthercost}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">发货仓库:</td>
@@ -272,8 +266,8 @@
                                                 <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
                                                     disabled
                                                 </c:if>
-                                                   value="${innerpackage.warehousedelivery}" maxlength="30"  style="width:98%;"/></td>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">包裹状态:</td>
+                                                   value="${innerorder.warehousedelivery}" maxlength="30"  style="width:98%;"/></td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">订单状态:</td>
                                         <td>
                                             <select class="chosen-select form-control"
                                                     <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
@@ -285,11 +279,11 @@
                                                     <c:when test="${not empty orderStatusList}">
                                                         <c:forEach items="${orderStatusList}" var="orderstatus" varStatus="orderstatusInex">
                                                             <c:if test="${orderstatusInex.index < 3 }">
-                                                            <option value="${orderstatus.BIANMA}" id="${orderstatus.BIANMA}"
-                                                                    <c:if test="${orderstatus.BIANMA == innerpackage.orderstatus}">
-                                                                        selected="selected"
-                                                                    </c:if>
-                                                            >${orderstatus.NAME}</option>
+                                                                <option value="${orderstatus.BIANMA}" id="${orderstatus.BIANMA}"
+                                                                        <c:if test="${orderstatus.BIANMA == innerorder.orderstatus}">
+                                                                            selected="selected"
+                                                                        </c:if>
+                                                                >${orderstatus.NAME}</option>
                                                             </c:if>
                                                         </c:forEach>
                                                     </c:when>
@@ -300,47 +294,44 @@
                                     <tr>
                                         <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注:</td>
                                         <td colspan="3" >
-                                            <textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注1">${innerpackage.remark}</textarea>
+                                            <textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注1">${innerorder.remark}</textarea>
                                         </td>
                                     </tr>
                                     <c:if test="${QX.adminOrder == 1 }">
-                                    <tr>
-                                        <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注1:</td>
-                                        <td colspan="3" >
-                                            <textarea rows="5" cols="10" id="remark1" name="remark1" style="width:98%;"  title="备注1">${innerpackage.remark1}</textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注2:</td>
-                                        <td colspan="3">
-                                            <textarea rows="5" cols="10" id="remark2"  name="remark2" style="width:98%;"  title="备注2">${innerpackage.remark2}</textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:78px;text-align: right;padding-top: 13px;">创建者:</td>
-                                        <td >
-                                            <input type="text" disabled name="createuser" id="createuser" value="${innerpackage.createuser}" maxlength="255" title="申报价" style="width:98%;"/>
-                                        </td>
-                                        <td style="width:78px;text-align: right;padding-top: 13px;">创建时间:</td>
-                                        <td >
-                                            <input type="text" disabled name="createtime" id="createtime" value="${innerpackage.formatCreateTime}" maxlength="255" title="申报价" style="width:98%;"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:78px;text-align: right;padding-top: 13px;">修改者:</td>
-                                        <td >
-                                            <input type="text" disabled name="updateuser" id="updateuser" value="${innerpackage.updateuser}" maxlength="255" title="申报价" style="width:98%;"/>
-                                        </td>
-                                        <td style="width:78px;text-align: right;padding-top: 13px;">修改时间:</td>
-                                        <td >
-                                            <input type="text" disabled name="updatetime" id="updatetime" value="${innerpackage.formateUpdateTime}" maxlength="255" title="申报价" style="width:98%;"/>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注1:</td>
+                                            <td colspan="3" >
+                                                <textarea rows="5" cols="10" id="remark1" name="remark1" style="width:98%;"  title="备注1">${innerorder.remark1}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注2:</td>
+                                            <td colspan="3">
+                                                <textarea rows="5" cols="10" id="remark2"  name="remark2" style="width:98%;"  title="备注2">${innerorder.remark2}</textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">创建者:</td>
+                                            <td >
+                                                <input type="text" disabled name="createuser" id="createuser" value="${innerorder.createuser}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">创建时间:</td>
+                                            <td >
+                                                <input type="text" disabled name="createtime" id="createtime" value="${innerorder.formatCreateTime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">修改者:</td>
+                                            <td >
+                                                <input type="text" disabled name="updateuser" id="updateuser" value="${innerorder.updateuser}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                            <td style="width:78px;text-align: right;padding-top: 13px;">修改时间:</td>
+                                            <td >
+                                                <input type="text" disabled name="updatetime" id="updatetime" value="${innerorder.formateUpdateTime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                            </td>
+                                        </tr>
                                     </c:if>
                                     <tr>
-                                        <td colspan="4">
-                                            <a class="btn btn-sm btn-success" onclick="addProduct();">添加商品</a>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">
@@ -356,7 +347,7 @@
                                 </table>
                             </div>
                         </form>
-                            <div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
+                        <div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
 
 
                     </div>
@@ -390,7 +381,7 @@
 
         $.ajax({
             type: "POST",
-            url: '<%=basePath%>innerpackage/getprovince.do?tm='+new Date().getTime(),
+            url: '<%=basePath%>innerorder/getprovince.do?tm='+new Date().getTime(),
             data: {},
             dataType:'json',
             cache: false,
@@ -437,7 +428,7 @@
             });
         }
         var option = {
-            url: '${pageContext.request.contextPath}/innerpackage/orderpdlist.do', //请求地址
+            url: '${pageContext.request.contextPath}/innerorder/orderpdlist.do', //请求地址
             columns: [
                 {
                     field : 'outerordernum',
@@ -478,13 +469,10 @@
                     align : "center",
                     title : '操作',
                     formatter : function operateFormatter(value, row,index) {
-                    //'+row["orderproducrtid"]+'
+                        //'+row["orderproducrtid"]+'
                         var json = [
                             '<a class="btn btn-xs btn-primary" onclick="editOrderPd(\''+row["orderproducrtid"]+'\');">',
                             '<i class="ace-icon fa   fa-eye bigger-120" title="详情"></i>',
-                            '</a>',
-                            '<a class="btn btn-xs btn-danger" onclick="delOrderPd(\''+row["orderproducrtid"]+'\');">',
-                            '  <i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>',
                             '</a>'
                         ].join('');
                         return json;
@@ -662,7 +650,7 @@
             $("#recipientphone").focus();
             return false;
         }
-            if($("#recipientcountry").val()==""){
+        if($("#recipientcountry").val()==""){
             $("#recipientcountry").tips({
                 side:3,
                 msg:'输入收件人国别',
@@ -737,54 +725,10 @@
         $("#zhongxin2").show();
     }
 
-    function addProduct(){
-        top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="新增商品";
-        diag.URL = '<%=basePath%>innerpackage/goAddProduct.do';
-        diag.Width = 500;
-        diag.Height = 500;
-        diag.CancelEvent = function(){ //关闭事件
-            $("#orderpdTable").bootstrapTable("refresh");
-            diag.close();
-        };
-        diag.show();
-    }
-
-    function editOrderPd(id){
-
-        top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="编辑商品";
-        diag.URL = '<%=basePath%>innerpackage/goEditProduct.do?orderproducrtid='+id;
-        diag.Width = 500;
-        diag.Height = 500;
-        diag.CancelEvent = function(){ //关闭事件
-            $("#orderpdTable").bootstrapTable("refresh");
-            diag.close();
-        };
-        diag.show();
-    }
-
-    function delOrderPd(id){
-        $.ajax({
-            type: "POST",
-            url: '<%=basePath%>innerpackage/delOrderPd.do',
-            data: {orderproducrtid:id},
-            dataType:'json',
-            cache: false,
-            success: function(data){
-                $("#orderpdTable").bootstrapTable("refresh");
-            }
-        });
-    }
-
     function changeprovince(code){
         $.ajax({
             type: "POST",
-            url: '<%=basePath%>innerpackage/getCity.do?tm='+new Date().getTime(),
+            url: '<%=basePath%>innerorder/getCity.do?tm='+new Date().getTime(),
             data: {code:code},
             dataType:'json',
             cache: false,
@@ -805,7 +749,7 @@
     function changeCity(code){
         $.ajax({
             type: "POST",
-            url: '<%=basePath%>innerpackage/getArea.do?tm='+new Date().getTime(),
+            url: '<%=basePath%>innerorder/getArea.do?tm='+new Date().getTime(),
             data: {code:code},
             dataType:'json',
             cache: false,

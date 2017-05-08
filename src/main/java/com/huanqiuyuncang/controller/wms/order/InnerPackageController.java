@@ -5,6 +5,7 @@ import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.carton.CartonEntity;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
+import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.InnerPackageEntity;
 import com.huanqiuyuncang.entity.packagetype.PackageTypeEntity;
 import com.huanqiuyuncang.service.order.InnerOrderInterface;
@@ -37,8 +38,6 @@ public class InnerPackageController extends BaseController {
 
     String menuUrl = "innerpackage/list.do"; //菜单地址(权限用)
 
-    @Autowired
-    private InnerPackageInterface innerPackageService;
 
     @Autowired
     private CustomerInterface customerService;
@@ -69,7 +68,7 @@ public class InnerPackageController extends BaseController {
         PageData pd = new PageData();
         pd = this.getPageData();
         page.setPd(pd);
-        List<InnerPackageEntity> varList =   innerPackageService.datalistPage(page);
+        List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         varList.forEach(innerOrderEntity -> {
             String formateCreateTime = formatter.format(innerOrderEntity.getOrdertime());
@@ -85,56 +84,12 @@ public class InnerPackageController extends BaseController {
     }
 
 
-
-    /**保存
-     * @param
-     * @throws Exception
-     */
-    @RequestMapping(value="/save")
-    public ModelAndView save(InnerPackageEntity innerPackageEntity) throws Exception{
-        logBefore(logger, Jurisdiction.getUsername()+"新增innerPackage");
-        if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
-        innerPackageEntity.setInnerpackageid(this.get32UUID());
-        innerPackageEntity.setCreateuser(username);
-        innerPackageEntity.setCreatetime(date);
-        innerPackageEntity.setUpdateuser(username);
-        innerPackageEntity.setUpdatetime(date);
-        innerPackageEntity.setPackagemultistatus(CustomerController.CUSTOMERSTATUS);
-        String token = (String)this.getRequest().getSession().getAttribute("token");
-        innerPackageService.insertSelective(innerPackageEntity);
-        this.getRequest().getSession().removeAttribute("token");
-        mv.addObject("msg","success");
-        mv.setViewName("save_result");
-        return mv;
-    }
-
-    /**删除
-     * @param out
-     * @throws Exception
-     */
-    @RequestMapping(value="/delete")
-    public void delete(PrintWriter out) throws Exception{
-        logBefore(logger, Jurisdiction.getUsername()+"删除innerorder");
-        if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = new PageData();
-        pd = this.getPageData();
-        String innerpackageid = pd.getString("innerpackageid");
-        innerPackageService.deleteByPrimaryKey(innerpackageid);
-        out.write("success");
-        out.close();
-    }
-
     /**修改
      * @param
      * @throws Exception
      */
     @RequestMapping(value="/edit")
-    public ModelAndView edit(InnerPackageEntity innerPackageEntity) throws Exception{
+    public ModelAndView edit(InnerOrderEntity innerOrder) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"修改innerpackageid");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
@@ -142,9 +97,9 @@ public class InnerPackageController extends BaseController {
         pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
-        innerPackageEntity.setUpdatetime(date);
-        innerPackageEntity.setUpdateuser(username);
-        innerPackageService.updateByPrimaryKeySelective(innerPackageEntity);
+        innerOrder.setUpdatetime(date);
+        innerOrder.setUpdateuser(username);
+        innerOrderService.updateByPrimaryKeySelective(innerOrder);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
         return mv;
@@ -152,41 +107,6 @@ public class InnerPackageController extends BaseController {
 
 
 
-    /**去新增页面
-     * @param
-     * @throws Exception
-     */
-    @RequestMapping(value="/goAdd")
-    public ModelAndView goAdd()throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
-        List<CustomsEntity> customerList = getCustomsList();
-        String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
-        String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
-        List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
-        List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
-        orderStatusList.remove(0);
-        orderStatusList.remove(0);
-        orderStatusList.remove(2);
-        orderStatusList.remove(2);
-        orderStatusList.remove(2);
-        String token = this.get32UUID();
-        List<PackageTypeEntity> packageTypeList = packageTypeService.selectAll();
-        List<CartonEntity> cartonList = cartonService.selectAll();
-        this.getRequest().getSession().setAttribute("token",token);
-        mv.setViewName("wms/innerorder/innerpackage_edit");
-        mv.addObject("msg", "save");
-        mv.addObject("pd", pd);
-        mv.addObject("customerList", customerList);
-        mv.addObject("baoguanList", baoguanList);
-        mv.addObject("packageTypeList", packageTypeList);
-        mv.addObject("cartonList", cartonList);
-        mv.addObject("orderStatusList", orderStatusList);
-        mv.addObject("token", token);
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        return mv;
-    }
 
     /**去修改页面
      * @param
@@ -195,21 +115,39 @@ public class InnerPackageController extends BaseController {
     @RequestMapping(value="/goEdit")
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
-
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        String innerorderid = pd.getString("innerorderid");
+        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
+        List<CustomsEntity> customerList = getCustomsList();
+        String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
+        String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
+        List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
+        List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
+        List<CartonEntity> cartonList = cartonService.selectAll();
+        List<PackageTypeEntity> packageTypeList = packageTypeService.selectAll();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formateCreateTime = formatter.format(innerorderEntity.getCreatetime());
+        String formateUpdateTime = formatter.format(innerorderEntity.getUpdatetime());
+        String formateOrderTime = formatter.format(innerorderEntity.getOrdertime());
+        innerorderEntity.setFormatCreateTime(formateCreateTime);
+        innerorderEntity.setFormateUpdateTime(formateUpdateTime);
+        innerorderEntity.setFormateOrderTime(formateOrderTime);
+        this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
+        mv.setViewName("wms/innerorder/innerpackage_edit");
+        mv.addObject("msg", "edit");
+        mv.addObject("innerorder", innerorderEntity);
+        mv.addObject("cartonList", cartonList);
+        mv.addObject("packageTypeList", packageTypeList);
+        mv.addObject("pd", pd);
+        mv.addObject("customerList", customerList);
+        mv.addObject("baoguanList", baoguanList);
+        mv.addObject("orderStatusList", orderStatusList);
+        mv.addObject("token", innerorderEntity.getCustomerordernum());
         mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
         return mv;
     }
 
-    /**批量删除
-     * @param
-     * @throws Exception
-     */
-    @RequestMapping(value="/deleteAll")
-    @ResponseBody
-    public Object deleteAll() throws Exception{
-
-        return null;
-    }
 
 
     @RequestMapping(value="/goAddProduct")

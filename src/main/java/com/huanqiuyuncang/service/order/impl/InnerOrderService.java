@@ -13,13 +13,11 @@ import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.pdconversion.ProductConversionInterface;
-import com.huanqiuyuncang.util.Jurisdiction;
-import com.huanqiuyuncang.util.PageData;
-import com.huanqiuyuncang.util.PropUtil;
-import com.huanqiuyuncang.util.UuidUtil;
+import com.huanqiuyuncang.util.*;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.OrderUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -98,14 +96,8 @@ public class InnerOrderService implements InnerOrderInterface {
     @Override
     public void insertOrderInfo(InnerOrderEntity innerOrder, String token) {
         try{
-            Date date = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("YYMMdd");
-            String formatDate = format.format(date);
             String customernum = innerOrder.getCustomernum();
-            Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-            PropUtil.writeProperties("serialnumber",serialnumber+1+"");
-            String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);
-            String customerordernum = "O"+customernum.split("_")[1]+formatDate+serialnumberStr;
+            String customerordernum = OrderUtil.getOrderNum(customernum.split("_")[1]);
             innerOrder.setCustomerordernum(customerordernum);
             innerOrderDAO.insertSelective(innerOrder);
             List<OrderProductEntity> list = orderProductDAO.selectOrderProduct(token);
@@ -116,6 +108,23 @@ public class InnerOrderService implements InnerOrderInterface {
         }catch (Exception e){
             orderProductDAO.deleteByCustomerordernum(token);
         }
+    }
+
+    public void createpackage(String id){
+
+        InnerOrderEntity innerOrder = innerOrderDAO.selectByPrimaryKey(id);
+        String customernum = innerOrder.getCustomernum();
+        String packagenum = OrderUtil.getPackageNum(customernum.split("_")[1]);
+        List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrder.getCustomerordernum());
+        orderProductEntities.forEach( orderProductEntity -> {
+            orderProductEntity.setinnerpackagenum(packagenum);
+            orderProductDAO.updateByPrimaryKeySelective(orderProductEntity);
+        });
+        innerOrder.setInnerpackagenum(packagenum);
+        innerOrder.setOrderstatus("orderStatus_daidabao");
+        innerOrder.setCartonid("");
+        innerOrder.setPackageid("");
+        innerOrderDAO.updateByPrimaryKeySelective(innerOrder);
     }
 
     @Override
@@ -151,6 +160,8 @@ public class InnerOrderService implements InnerOrderInterface {
             innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
         }
     }
+
+
 
     @Override
     public String saveOrderFromExcel(List<PageData> orderListPd, List<PageData> listPd) {

@@ -7,6 +7,8 @@ import java.util.Date;
 public class InnerOrderEntity {
     private String innerorderid;
 
+    private String innerpackagenum;
+
     private String customerordernum;
 
     private String customernum;
@@ -15,8 +17,6 @@ public class InnerOrderEntity {
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date ordertime;
-
-    private String formateOrderTime;
 
     private String sender;
 
@@ -70,6 +70,10 @@ public class InnerOrderEntity {
 
     private String ordervalue;
 
+    private String cartonid;
+
+    private String packageid;
+
     private String declarevalue;
 
     private String taxesfees;
@@ -100,6 +104,8 @@ public class InnerOrderEntity {
 
     private Date updatetime;
 
+    private String formateOrderTime;
+
     private String formatCreateTime;
 
     private String formateUpdateTime;
@@ -128,15 +134,9 @@ public class InnerOrderEntity {
         this.formateOrderTime = formateOrderTime;
     }
 
-    public InnerOrderEntity(String innerorderid, String customerordernum, String customernum, String outerordernum, Date ordertime, String sender,
-                            String senderphone, String sendercountry, String senderprovince, String sendercity, String senderarea, String senderaddress,
-                            String senderpostcode, String recipient, String recipientidcard, String recipientphone, String recipientcountry,
-                            String recipientprovince, String recipientcity, String recipientarea, String recipientaddress, String recipientpostcode,
-                            String paymentmethod, String paymentnum, String paymenttime, String orderproductcount, String customerremarks, String couriername,
-                            String couriernum, String customsmodel, String ordervalue, String declarevalue, String taxesfees, String freight, String packingcost,
-                            String orthercost, String warehousedelivery, String orderstatus, String ordermultistatus, String remark, String remark1, String remark2, String createuser,
-                            Date createtime, String updateuser, Date updatetime) {
+    public InnerOrderEntity(String innerorderid, String innerpackagenum, String customerordernum, String customernum, String outerordernum, Date ordertime, String sender, String senderphone, String sendercountry, String senderprovince, String sendercity, String senderarea, String senderaddress, String senderpostcode, String recipient, String recipientidcard, String recipientphone, String recipientcountry, String recipientprovince, String recipientcity, String recipientarea, String recipientaddress, String recipientpostcode, String paymentmethod, String paymentnum, String paymenttime, String orderproductcount, String customerremarks, String couriername, String couriernum, String customsmodel, String ordervalue, String cartonid, String packageid, String declarevalue, String taxesfees, String freight, String packingcost, String orthercost, String warehousedelivery, String orderstatus, String ordermultistatus, String remark, String remark1, String remark2, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.innerorderid = innerorderid;
+        this.innerpackagenum = innerpackagenum;
         this.customerordernum = customerordernum;
         this.customernum = customernum;
         this.outerordernum = outerordernum;
@@ -167,6 +167,8 @@ public class InnerOrderEntity {
         this.couriernum = couriernum;
         this.customsmodel = customsmodel;
         this.ordervalue = ordervalue;
+        this.cartonid = cartonid;
+        this.packageid = packageid;
         this.declarevalue = declarevalue;
         this.taxesfees = taxesfees;
         this.freight = freight;
@@ -174,6 +176,7 @@ public class InnerOrderEntity {
         this.orthercost = orthercost;
         this.warehousedelivery = warehousedelivery;
         this.orderstatus = orderstatus;
+        this.ordermultistatus = ordermultistatus;
         this.remark = remark;
         this.remark1 = remark1;
         this.remark2 = remark2;
@@ -557,5 +560,27 @@ public class InnerOrderEntity {
         this.updatetime = updatetime;
     }
 
+    public String getInnerpackagenum() {
+        return innerpackagenum;
+    }
 
+    public void setInnerpackagenum(String innerpackagenum) {
+        this.innerpackagenum = innerpackagenum;
+    }
+
+    public String getCartonid() {
+        return cartonid;
+    }
+
+    public void setCartonid(String cartonid) {
+        this.cartonid = cartonid;
+    }
+
+    public String getPackageid() {
+        return packageid;
+    }
+
+    public void setPackageid(String packageid) {
+        this.packageid = packageid;
+    }
 }

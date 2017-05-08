@@ -20,4 +20,6 @@ public interface InnerPackageInterface {
     int updateByPrimaryKey(InnerPackageEntity record);
 
     List<InnerPackageEntity> datalistPage(Page page);
+
+    void insertPackageInfo(InnerPackageEntity innerPackageEntity);
 }

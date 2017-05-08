@@ -387,6 +387,25 @@ public class InnerOrderController extends BaseController {
         return AppUtil.returnObject(pd, map);
     }
 
+    @RequestMapping(value="/createpackage")
+    @ResponseBody
+    public Object createpackage() throws Exception{
+        PageData pd = new PageData();
+        Map<String,Object> map = new HashMap<String,Object>();
+        pd = this.getPageData();
+        List<PageData> pdList = new ArrayList<PageData>();
+        String id = pd.getString("id");
+        if(null != id && !"".equals(id)){
+            innerOrderService.createpackage(id);
+            pd.put("msg", "ok");
+        }else{
+            pd.put("msg", "no");
+        }
+        pdList.add(pd);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+
 
     @RequestMapping(value="/pingzheng")
     public ModelAndView pingzheng()throws Exception{

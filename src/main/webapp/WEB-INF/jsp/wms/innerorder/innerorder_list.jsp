@@ -204,6 +204,9 @@
                                                                    <a class="btn btn-xs btn-success" title="凭证" onclick="pingzheng('${var.innerorderid}');">
                                                                        <i class="ace-icon fa fa-eye bigger-120" title="凭证"></i>
                                                                    </a>
+                                                                   <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('${var.innerorderid}');">
+                                                                       <i class="ace-icon fa fa-eye bigger-120" title="凭证"></i>
+                                                                   </a>
                                                                </c:if>
                                                         </div>
                                                         <div class="hidden-md hidden-lg">
@@ -216,7 +219,7 @@
 
                                                                     <c:if test="${QX.edit == 1 }">
                                                                         <li>
-                                                                            <a style="cursor:pointer;" onclick="edit('${var.innerorderid}');" class="tooltip-success" data-rel="tooltip" title="修改">
+                                                                                <a style="cursor:pointer;" onclick="edit('${var.innerorderid}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -558,6 +561,23 @@
         };
         diag.show();
     }
+
+    function makepackage(id){
+        $.ajax({
+            type: "POST",
+            url: '<%=basePath%>innerorder/createpackage.do?tm='+new Date().getTime(),
+            data: {id:id},
+            dataType:'json',
+            //beforeSend: validateData,
+            cache: false,
+            success: function(data){
+                $.each(data.list, function(i, list){
+                    nextPage(${page.currentPage});
+                });
+            }
+        });
+    }
+
 
 </script>
 
