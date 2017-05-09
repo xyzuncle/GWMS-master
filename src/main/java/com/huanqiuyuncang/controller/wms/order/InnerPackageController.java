@@ -112,8 +112,8 @@ public class InnerPackageController extends BaseController {
      * @param
      * @throws Exception
      */
-    @RequestMapping(value="/goEdit")
-    public ModelAndView goEdit()throws Exception{
+    @RequestMapping(value="/goView")
+    public ModelAndView goView()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
@@ -134,7 +134,7 @@ public class InnerPackageController extends BaseController {
         innerorderEntity.setFormateUpdateTime(formateUpdateTime);
         innerorderEntity.setFormateOrderTime(formateOrderTime);
         this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
-        mv.setViewName("wms/innerorder/innerpackage_edit");
+        mv.setViewName("wms/innerorder/innerpackage_view");
         mv.addObject("msg", "edit");
         mv.addObject("innerorder", innerorderEntity);
         mv.addObject("cartonList", cartonList);
@@ -208,7 +208,7 @@ public class InnerPackageController extends BaseController {
     @RequestMapping(value="/goUploadExcel")
     public ModelAndView goUploadExcel()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        mv.setViewName("wms/innerorder/uploadPackageexcel");
+        mv.setViewName("wms/innerorder/uploadpackageexcel");
         return mv;
     }
 

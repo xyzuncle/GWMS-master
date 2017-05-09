@@ -648,7 +648,7 @@
         <include refid="Base_Column_List" />
         FROM wms_innerorder
         WHERE 1=1
-        <if test="ordertime!=null and ordertime!=''"><!-- 时间检索 -->
+        <if test="ordertime!=null "><!-- 时间检索 -->
             and ordertime = #{ordertime}
         </if>
         <if test="customernum!=null and customernum!=''">

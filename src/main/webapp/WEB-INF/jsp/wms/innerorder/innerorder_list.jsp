@@ -43,7 +43,7 @@
                                 <tr>
                                     <td>
                                         <div class="nav-search">
-                                            <input type="hidden" id="nav-search-orderstatus" name="orderstatus" value="${pd.orderstatus }"  >
+                                        <input type="hidden" id="nav-search-orderstatus" name="orderstatus" value="${pd.orderstatus }" >
                                         <span class="input-icon">
                                             客户：
                                         </span>
@@ -270,10 +270,14 @@
                                             </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
-                                                <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('确定要操作选中的数据吗?');">
+
+                                            </c:if>
+                                            <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
+                                                <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('确定要将选中的数据生成包裹吗?');">
                                                     <i class='ace-icon  fa-briefcase bigger-120'></i>
                                                 </a>
                                             </c:if>
+
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>

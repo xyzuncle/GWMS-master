@@ -41,11 +41,9 @@
                         <form action="innerpackage/list.do" method="post" name="Form" id="Form">
                             <table style="margin-top:5px;">
                                 <tr>
-                                    <td><input type="hidden" id="nav-search-orderstatus" name="orderstatus" value="${pd.orderstatus }"></td>
-                                </tr>
-                                <tr>
                                     <td>
                                         <div class="nav-search">
+                                            <input type="hidden" id="nav-search-orderstatus" name="orderstatus" value="${pd.orderstatus }" >
                                         <span class="input-icon">
                                             客户：
                                         </span>
@@ -66,12 +64,6 @@
                                              </select>
                                         </span>
                                         <span class="input-icon">
-                                            客户订单号：
-                                        </span>
-                                        <span class="input-icon">
-                                            <input type="text"  class="nav-search-input" id="nav-search-customerordernum" autocomplete="off" name="customerordernum" style="width:90px;"  value="${pd.customerordernum}"/>
-                                        </span>
-                                        <span class="input-icon">
                                             外部订单号：
                                         </span>
                                         <span class="input-icon">
@@ -84,7 +76,6 @@
                                             <input class="date-picker" name="starttime" id="starttime"  value="${pd.starttime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="开始日期" />
                                             <input class="date-picker" name="endtime" name="endtime"  value="${pd.endtime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="结束日期"/>
                                         </span>
-
                                         </div>
                                     </td>
                                     <c:if test="${QX.cha == 1 }">
@@ -157,7 +148,9 @@
                                                     <td class='center'>${var.customerremarks}</td>
                                                     <td class='center'>${var.remark}</td>
                                                     <td class="center">
-
+                                                        <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.innerorderid}');">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
 
@@ -286,47 +279,14 @@
         });
     });
 
-    //新增
-    function add(){
-        top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="新增";
-        diag.URL = '<%=basePath%>innerPackage/goAdd.do';
-        diag.Width = 700;
-        diag.Height = 800;
-        diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                if('${page.currentPage}' == '0'){
-                    top.jzts();
-                    setTimeout("self.location=self.location",100);
-                }else{
-                    nextPage(${page.currentPage});
-                }
-            }
-            diag.close();
-        };
-        diag.show();
-    }
-    //删除
-    function del(Id){
-        bootbox.confirm("确定要删除吗?", function(result) {
-            if(result) {
-                top.jzts();
-                var url = "<%=basePath%>innerorder/delete.do?innerorderid="+Id+"&tm="+new Date().getTime();
-                $.get(url,function(data){
-                    nextPage(${page.currentPage});
-                });
-            }
-        });
-    }
+
     //修改
-    function edit(Id){
+    function view(Id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerpackage/goEdit.do?innerorderid='+Id;
+        diag.URL = '<%=basePath%>innerpackage/goView.do?innerorderid='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件
@@ -337,51 +297,6 @@
         };
         diag.show();
     }
-    //批量操作
-    function makeAll(msg){
-        bootbox.confirm(msg, function(result) {
-            if(result) {
-                var str = '';
-                for(var i=0;i < document.getElementsByName('ids').length;i++){
-                    if(document.getElementsByName('ids')[i].checked){
-                        if(str=='') str += document.getElementsByName('ids')[i].value;
-                        else str += ',' + document.getElementsByName('ids')[i].value;
-                    }
-                }
-                if(str==''){
-                    bootbox.dialog({
-                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
-                        buttons:
-                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
-                    });
-                    $("#zcheckbox").tips({
-                        side:1,
-                        msg:'点这里全选',
-                        bg:'#AE81FF',
-                        time:8
-                    });
-                    return;
-                }else{
-                    if(msg == '确定要删除选中的数据吗?'){
-                        top.jzts();
-                        $.ajax({
-                            type: "POST",
-                            url: '<%=basePath%>innerorder/deleteAll.do?tm='+new Date().getTime(),
-                            data: {DATA_IDS:str},
-                            dataType:'json',
-                            //beforeSend: validateData,
-                            cache: false,
-                            success: function(data){
-                                $.each(data.list, function(i, list){
-                                    nextPage(${page.currentPage});
-                                });
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    };
 
     function changeTable(auditStatus){
         $("#nav-search-orderstatus").val(auditStatus);
@@ -434,22 +349,6 @@
         });
     }
 
-    function pingzheng(id){
-        top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerorder/pingzheng.do?innerorderid='+id;
-        diag.Width = 700;
-        diag.Height = 800;
-        diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                nextPage(${page.currentPage});
-            }
-            diag.close();
-        };
-        diag.show();
-    }
 
 
     //打开上传excel页面

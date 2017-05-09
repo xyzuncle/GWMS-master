@@ -217,8 +217,8 @@
                                                 <c:choose>
                                                     <c:when test="${not empty cartonList}">
                                                         <c:forEach items="${cartonList}" var="carton" varStatus="cartonIndex">
-                                                                <option value="${carton.cartonid}" id="${carton.cartonid}"
-                                                                        <c:if test="${carton.cartonid == innerorder.cartonid}">
+                                                                <option value="${carton.cartontype}" id="${carton.cartontype}"
+                                                                        <c:if test="${carton.cartontype == innerorder.cartonid}">
                                                                             selected="selected"
                                                                         </c:if>
                                                                 >${carton.cartonname}</option>
@@ -235,8 +235,8 @@
                                                 <c:choose>
                                                     <c:when test="${not empty packageTypeList}">
                                                         <c:forEach items="${packageTypeList}" var="packageType" varStatus="packageTypeInex">
-                                                                <option value="${packageType.packageid}" id="${packageType.packageid}"
-                                                                        <c:if test="${packageType.packageid == innerorder.packageid}">
+                                                                <option value="${packageType.packagetype}" id="${packageType.packagetype}"
+                                                                        <c:if test="${packageType.packagetype == innerorder.packageid}">
                                                                             selected="selected"
                                                                         </c:if>
                                                                 >${packageType.packagename}</option>
