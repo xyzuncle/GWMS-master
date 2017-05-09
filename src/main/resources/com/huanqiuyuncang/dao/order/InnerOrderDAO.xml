@@ -643,4 +643,72 @@
         SELECT areaid FROM areas WHERE AREA LIKE "%"#{code,jdbcType=VARCHAR}"%"
     </select>
 
+    <select id="selectByCustomerInfo" parameterType="InnerOrder" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_innerorder
+        WHERE 1=1
+        <if test="ordertime!=null and ordertime!=''"><!-- 时间检索 -->
+            and ordertime = #{ordertime}
+        </if>
+        <if test="customernum!=null and customernum!=''">
+            and customernum = #{customernum}
+        </if>
+        <if test="sender != null" >
+            and sender = #{sender,jdbcType=VARCHAR}
+        </if>
+        <if test="senderphone != null" >
+            and senderphone = #{senderphone,jdbcType=VARCHAR}
+        </if>
+        <if test="sendercountry != null" >
+            and sendercountry = #{sendercountry,jdbcType=VARCHAR}
+        </if>
+        <if test="senderprovince != null" >
+            and senderprovince = #{senderprovince,jdbcType=VARCHAR}
+        </if>
+        <if test="sendercity != null" >
+            and sendercity = #{sendercity,jdbcType=VARCHAR}
+        </if>
+        <if test="senderarea != null" >
+            and senderarea = #{senderarea,jdbcType=VARCHAR}
+        </if>
+        <if test="senderaddress != null" >
+            and senderaddress = #{senderaddress,jdbcType=VARCHAR}
+        </if>
+        <if test="senderpostcode != null" >
+            and senderpostcode = #{senderpostcode,jdbcType=VARCHAR}
+        </if>
+        <if test="recipient != null" >
+            and recipient = #{recipient,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientidcard != null" >
+            and recipientidcard = #{recipientidcard,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientphone != null" >
+            and  recipientphone = #{recipientphone,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientcountry != null" >
+            and recipientcountry = #{recipientcountry,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientprovince != null" >
+            and  recipientprovince = #{recipientprovince,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientcity != null" >
+            and recipientcity = #{recipientcity,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientarea != null" >
+            and  recipientarea = #{recipientarea,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientaddress != null" >
+            and recipientaddress = #{recipientaddress,jdbcType=VARCHAR}
+        </if>
+        <if test="recipientpostcode != null" >
+            and recipientpostcode = #{recipientpostcode,jdbcType=VARCHAR}
+        </if>
+          and orderstatus = "orderStatus_daidabao"
+          and innerpackagenum IS NOT NULL
+
+
+    </select>
+
 </mapper>

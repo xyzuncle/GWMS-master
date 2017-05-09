@@ -97,6 +97,7 @@ public class InnerOrderService implements InnerOrderInterface {
     public void insertOrderInfo(InnerOrderEntity innerOrder, String token) {
         try{
             String customernum = innerOrder.getCustomernum();
+            innerOrder.setCustomernum(customernum.split("_")[1]);
             String customerordernum = OrderUtil.getOrderNum(customernum.split("_")[1]);
             innerOrder.setCustomerordernum(customerordernum);
             innerOrderDAO.insertSelective(innerOrder);
@@ -115,16 +116,111 @@ public class InnerOrderService implements InnerOrderInterface {
         InnerOrderEntity innerOrder = innerOrderDAO.selectByPrimaryKey(id);
         String customernum = innerOrder.getCustomernum();
         String packagenum = OrderUtil.getPackageNum(customernum.split("_")[1]);
+        setPackageInfo(innerOrder, packagenum);
+        innerOrderDAO.updateByPrimaryKeySelective(innerOrder);
+    }
+
+    private void setPackageInfo(InnerOrderEntity innerOrder, String packagenum) {
         List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrder.getCustomerordernum());
-        orderProductEntities.forEach( orderProductEntity -> {
+        String defaultCarton = "";
+        String packageType = "";
+        Integer sum = 0;
+        for(int i = 0 ;i<orderProductEntities.size();i++){
+            OrderProductEntity orderProductEntity = orderProductEntities.get(i);
             orderProductEntity.setinnerpackagenum(packagenum);
             orderProductDAO.updateByPrimaryKeySelective(orderProductEntity);
-        });
+            String barcode = orderProductEntity.getBarcode();
+            ProductEntity product = productDAO.findProductByBarCode(barcode);
+            Integer count = Integer.parseInt(orderProductEntity.getCount());
+            sum += count;
+            String cartontypea = product.getCartontypea();
+            Integer cartontypeanum = product.getCartontypeanum();
+            String cartontypeb = product.getCartontypeb();
+            Integer cartontypebnum = product.getCartontypebnum();
+            String defaultpackage = product.getDefaultpackage();
+            Integer cartonA = StringUtil.getNum(cartontypea);
+            Integer cartonB = StringUtil.getNum(cartontypeb);
+            Integer pnum = StringUtil.getNum(defaultpackage);
+            if(sum < cartontypeanum){
+                if(StringUtils.isBlank(defaultCarton)){
+                    defaultCarton = cartontypea;
+                }else{
+                    defaultCarton = StringUtil.getNum(defaultCarton)>cartonA?cartontypea:defaultCarton;
+                }
+            }else if(sum < cartontypebnum){
+                if(StringUtils.isBlank(defaultCarton)){
+                    defaultCarton = cartontypeb;
+                }else{
+                    defaultCarton = StringUtil.getNum(defaultCarton)>cartonB?cartontypeb:defaultCarton;
+                }
+            }else{
+                defaultCarton = "";
+            }
+            if(StringUtils.isBlank(packageType)){
+                packageType = defaultpackage;
+            }else{
+                packageType = StringUtil.getNum(packageType)>pnum?defaultpackage:packageType;
+            }
+        }
+        List<InnerOrderEntity> innerOrderList = innerOrderDAO.selectByCustomerInfo(innerOrder);
+        if(innerOrderList != null && innerOrderList.size()>0){
+            packagenum = innerOrderList.get(0).getInnerpackagenum();
+            for ( InnerOrderEntity innerOrderEntity : innerOrderList){
+                String cartonid = innerOrderEntity.getCartonid();
+                String packageid = innerOrderEntity.getPackageid();
+                Integer cnum = StringUtil.getNum(cartonid);
+                Integer pnum = StringUtil.getNum(packageid);
+                packageType = StringUtil.getNum(packageType)>pnum?packageType:packageid;
+                defaultCarton = StringUtil.getNum(defaultCarton)>cnum?cartonid:defaultCarton;
+            }
+        }
         innerOrder.setInnerpackagenum(packagenum);
         innerOrder.setOrderstatus("orderStatus_daidabao");
-        innerOrder.setCartonid("");
-        innerOrder.setPackageid("");
-        innerOrderDAO.updateByPrimaryKeySelective(innerOrder);
+        innerOrder.setCartonid(defaultCarton);
+        innerOrder.setPackageid(packageType);
+    }
+
+    @Override
+    public String savePackageFromExcel(List<PageData> orderListPd, List<PageData> listPd) {
+        List<InnerOrderEntity> orderList = new ArrayList<>();
+        List<OrderProductEntity> pdList = new ArrayList<>();
+        Map<String,String> outerOrderNum = new HashMap<>();
+        final StringBuffer orderStr = new StringBuffer("订单页");
+        for(int i = 0 ;i<orderListPd.size();i++) {
+            PageData pageData = orderListPd.get(i);
+            String start = "第"+(i+1)+"行有错误";
+            String orderListStr = makeOrderList(orderList,pageData,outerOrderNum);
+            if(StringUtils.isNotBlank(orderListStr)){
+                orderStr.append(start + orderListStr);
+            }
+        };
+        final StringBuffer pdStr = new StringBuffer("订单商品页");
+        for(int i = 0 ;i<listPd.size();i++) {
+            PageData pageData = listPd.get(i);
+            String start = "第"+(i+1)+"行有错误";
+            String pdListStr = makeOrderPdList(pdList,pageData,outerOrderNum);
+            if(StringUtils.isNotBlank(pdListStr)){
+                pdStr.append(start + pdListStr);
+            }
+        };
+
+        if("订单页".equals(orderStr.toString())&&"订单商品页".equals(pdStr.toString())){
+            pdList.forEach(pd->{
+                orderProductDAO.insert(pd);
+            });
+            orderList.forEach(pd->{
+                String customernum = pd.getCustomernum();
+                String packagenum = OrderUtil.getPackageNum(customernum.split("_")[1]);
+                setPackageInfo(pd, packagenum);
+                innerOrderDAO.insert(pd);
+            });
+
+
+            return "";
+        }else{
+            return orderStr.append(pdStr).toString();
+        }
+
     }
 
     @Override
@@ -156,7 +252,12 @@ public class InnerOrderService implements InnerOrderInterface {
     public void shenheAll(String[] arrayDATA_ids) {
         for (String id :arrayDATA_ids){
             InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
-            innerOrderEntity.setOrderstatus("orderStatus_yiqueren");
+            if("orderStatus_daiqueren".equals(innerOrderEntity.getOrderstatus())){
+                innerOrderEntity.setOrderstatus("orderStatus_yiqueren");
+            }else if("orderStatus_daidabao".equals(innerOrderEntity.getOrderstatus())){
+                innerOrderEntity.setOrderstatus("orderStatus_yidabao");
+            }
+
             innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
         }
     }
@@ -403,7 +504,7 @@ public class InnerOrderService implements InnerOrderInterface {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        /*Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
         System.out.println(serialnumber);
         PropUtil.writeProperties("serialnumber",serialnumber+1+"");
         Integer serialnumber1 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
@@ -413,9 +514,11 @@ public class InnerOrderService implements InnerOrderInterface {
         System.out.println(serialnumber2);
         PropUtil.writeProperties("serialnumber",serialnumber2+1+"");
         Integer serialnumber3 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-        System.out.println(serialnumber3);
-
-
+        System.out.println(serialnumber3);*/
+        String[] aa = {"aa"};
+        System.out.println(aa[0]);
+        aa[0] = "bb";
+        System.out.println(aa[0]);
     }
 
 }

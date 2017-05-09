@@ -204,9 +204,7 @@
                                                                    <a class="btn btn-xs btn-success" title="凭证" onclick="pingzheng('${var.innerorderid}');">
                                                                        <i class="ace-icon fa fa-eye bigger-120" title="凭证"></i>
                                                                    </a>
-                                                                   <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('${var.innerorderid}');">
-                                                                       <i class="ace-icon fa fa-eye bigger-120" title="凭证"></i>
-                                                                   </a>
+
                                                                </c:if>
                                                         </div>
                                                         <div class="hidden-md hidden-lg">
@@ -266,13 +264,15 @@
                                             <c:if test="${QX.add == 1 }">
                                                 <a class="btn btn-sm btn-success" onclick="add();">新增</a>
                                                 <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
-
                                             </c:if>
                                             <c:if test="${QX.del == 1 && pd.orderstatus == 'orderStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
                                             </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                                <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('确定要操作选中的数据吗?');">
+                                                    <i class='ace-icon  fa-briefcase bigger-120'></i>
+                                                </a>
                                             </c:if>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -562,21 +562,50 @@
         diag.show();
     }
 
-    function makepackage(id){
-        $.ajax({
-            type: "POST",
-            url: '<%=basePath%>innerorder/createpackage.do?tm='+new Date().getTime(),
-            data: {id:id},
-            dataType:'json',
-            //beforeSend: validateData,
-            cache: false,
-            success: function(data){
-                $.each(data.list, function(i, list){
-                    nextPage(${page.currentPage});
-                });
+    function makepackage(msg){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                    if(msg == '确定要将选中的数据生成包裹吗?'){
+                        top.jzts();
+                        $.ajax({
+                            type: "POST",
+                            url: '<%=basePath%>innerorder/createpackage.do?tm='+new Date().getTime(),
+                            data: {DATA_IDS:str},
+                            dataType:'json',
+                            //beforeSend: validateData,
+                            cache: false,
+                            success: function(data){
+                                $.each(data.list, function(i, list){
+                                    nextPage(${page.currentPage});
+                                });
+                            }
+                        });
+                    }
+                }
             }
         });
-    }
+    };
 
 
 </script>

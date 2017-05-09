@@ -157,36 +157,7 @@
                                                     <td class='center'>${var.customerremarks}</td>
                                                     <td class='center'>${var.remark}</td>
                                                     <td class="center">
-                                                        <c:if test="${QX.edit != 1 && QX.del != 1 }">
-                                                            <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
-                                                        </c:if>+
-                                                        <div class="hidden-sm hidden-xs btn-group">
-                                                            <c:if test="${QX.edit == 1 }">
-                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.innerorderid}');">
-                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
-                                                                </a>
-                                                            </c:if>
-                                                        </div>
-                                                        <div class="hidden-md hidden-lg">
-                                                            <div class="inline pos-rel">
-                                                                <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                                                    <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-                                                                </button>
 
-                                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-
-                                                                    <c:if test="${QX.edit == 1 }">
-                                                                        <li>
-                                                                            <a style="cursor:pointer;" onclick="edit('${var.innerorderid}');" class="tooltip-success" data-rel="tooltip" title="修改">
-                                                                            <span class="green">
-                                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                                            </span>
-                                                                            </a>
-                                                                        </li>
-                                                                    </c:if>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
                                                     </td>
                                                 </tr>
 
@@ -212,7 +183,8 @@
                                 <table style="width:100%;">
                                     <tr>
                                         <td style="vertical-align:top;">
-                                            <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' }">
+                                            <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
+                                            <c:if test="${pd.orderstatus == 'orderStatus_daidabao' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
                                         </td>
@@ -445,7 +417,7 @@
                         top.jzts();
                         $.ajax({
                             type: "POST",
-                            url: '<%=basePath%>innerorder/shenheAll.do?tm='+new Date().getTime(),
+                            url: '<%=basePath%>innerpackage/shenheAll.do?tm='+new Date().getTime(),
                             data: {DATA_IDS:str},
                             dataType:'json',
                             //beforeSend: validateData,
@@ -486,7 +458,7 @@
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="EXCEL 导入到数据库";
-        diag.URL = '<%=basePath%>innerorder/goUploadExcel.do';
+        diag.URL = '<%=basePath%>innerpackage/goUploadExcel.do';
         diag.Width = 400;
         diag.Height = 150;
         diag.CancelEvent = function(){ //关闭事件

@@ -394,9 +394,13 @@ public class InnerOrderController extends BaseController {
         Map<String,Object> map = new HashMap<String,Object>();
         pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
-        String id = pd.getString("id");
-        if(null != id && !"".equals(id)){
-            innerOrderService.createpackage(id);
+        String DATA_IDS = pd.getString("DATA_IDS");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            for(int i = 0;i<ArrayDATA_IDS.length;i++){
+                innerOrderService.createpackage(ArrayDATA_IDS[i]);
+            }
+
             pd.put("msg", "ok");
         }else{
             pd.put("msg", "no");

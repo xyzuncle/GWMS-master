@@ -42,4 +42,6 @@ public interface InnerOrderInterface {
     String saveOrderFromExcel(List<PageData> orderListPd, List<PageData> listPd);
 
     void createpackage(String id);
+
+    String savePackageFromExcel(List<PageData> orderList, List<PageData> orderPdList);
 }
