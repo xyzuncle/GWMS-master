@@ -123,6 +123,7 @@ public class InnerOrderService implements InnerOrderInterface {
     private void setPackageInfo(InnerOrderEntity innerOrder, String packagenum) {
         List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrder.getCustomerordernum());
         String defaultCarton = "";
+        String defaultCartonprefix = "";
         String packageType = "";
         Integer sum = 0;
         for(int i = 0 ;i<orderProductEntities.size();i++){
@@ -141,18 +142,17 @@ public class InnerOrderService implements InnerOrderInterface {
             Integer cartonA = StringUtil.getNum(cartontypea);
             Integer cartonB = StringUtil.getNum(cartontypeb);
             Integer pnum = StringUtil.getNum(defaultpackage);
-            if(sum < cartontypeanum){
-                if(StringUtils.isBlank(defaultCarton)){
-                    defaultCarton = cartontypea;
-                }else{
-                    defaultCarton = StringUtil.getNum(defaultCarton)>cartonA?cartontypea:defaultCarton;
-                }
+            if(i == 0){
+                defaultCartonprefix =cartontypea.substring(0,1);
+            }
+            if(!(cartontypea.startsWith(defaultCartonprefix)&&cartontypeb.startsWith(defaultCartonprefix))){
+                defaultCarton = "";
+            }else if(sum < cartontypeanum){
+                defaultCarton =  StringUtils.isBlank(defaultCarton)?cartontypea:defaultCarton;
+                defaultCarton = StringUtil.getNum(defaultCarton)>cartonA?cartontypea:defaultCarton;
             }else if(sum < cartontypebnum){
-                if(StringUtils.isBlank(defaultCarton)){
-                    defaultCarton = cartontypeb;
-                }else{
-                    defaultCarton = StringUtil.getNum(defaultCarton)>cartonB?cartontypeb:defaultCarton;
-                }
+                defaultCarton =  StringUtils.isBlank(defaultCarton)?cartontypeb:defaultCarton;
+                defaultCarton = StringUtil.getNum(defaultCarton)>cartonB?cartontypeb:defaultCarton;
             }else{
                 defaultCarton = "";
             }
