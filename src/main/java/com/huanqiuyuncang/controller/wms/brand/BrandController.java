@@ -36,8 +36,7 @@ public class BrandController  extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"新增Brand");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd  = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         pd.put("brandid", this.get32UUID());	//主键
@@ -60,8 +59,7 @@ public class BrandController  extends BaseController {
     public void delete(PrintWriter out) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Brand");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String brandid = pd.getString("brandid");
         brandService.deleteByPrimaryKey(brandid);
         out.write("success");
@@ -77,8 +75,7 @@ public class BrandController  extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"修改Brand");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         brandService.updateByPrimaryKeySelective(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -93,8 +90,7 @@ public class BrandController  extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表Brand");
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         page.setPd(pd);
         List<BrandEntity> varList =   brandService.datalistPage(page);
         mv.setViewName("wms/brand/brand_list");
@@ -111,8 +107,7 @@ public class BrandController  extends BaseController {
     @RequestMapping(value="/goAdd")
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         mv.setViewName("wms/brand/brand_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
@@ -126,8 +121,7 @@ public class BrandController  extends BaseController {
     @RequestMapping(value="/goEdit")
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String BrandId = pd.getString("brandid");
         BrandEntity brand = brandService.selectByPrimaryKey(BrandId);//根据ID读取
         mv.setViewName("wms/brand/brand_edit");
@@ -146,9 +140,8 @@ public class BrandController  extends BaseController {
     public Object deleteAll() throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"批量删除Brand");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -170,7 +163,6 @@ public class BrandController  extends BaseController {
         BrandEntity brandEntity = brandService.findBrandByBrandCode(brandcode);
         Map<String,String> map = new HashMap<String,String>();
         String errInfo = "success";
-        PageData pd = new PageData();
         if (brandEntity != null){
             errInfo = "error";
         }

@@ -1,4 +1,4 @@
-package com.huanqiuyuncang.service.order.impl;
+package com.huanqiuyuncang.service.wms.order.impl;
 
 import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.dao.customer.CustomerDAO;
@@ -11,13 +11,10 @@ import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
-import com.huanqiuyuncang.service.order.InnerOrderInterface;
-import com.huanqiuyuncang.service.pdconversion.ProductConversionInterface;
+import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.util.*;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.OrderUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -261,8 +258,6 @@ public class InnerOrderService implements InnerOrderInterface {
             innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
         }
     }
-
-
 
     @Override
     public String saveOrderFromExcel(List<PageData> orderListPd, List<PageData> listPd) {

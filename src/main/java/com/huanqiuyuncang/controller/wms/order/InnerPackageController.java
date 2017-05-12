@@ -1,20 +1,15 @@
 package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
-import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.carton.CartonEntity;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
-import com.huanqiuyuncang.entity.order.InnerPackageEntity;
 import com.huanqiuyuncang.entity.packagetype.PackageTypeEntity;
-import com.huanqiuyuncang.service.order.InnerOrderInterface;
-import com.huanqiuyuncang.service.order.InnerPackageInterface;
-import com.huanqiuyuncang.service.order.OrderProductInterface;
+import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.wms.carton.CartonInterface;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.packagetype.PackageTypeInterface;
-import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -38,15 +31,8 @@ public class InnerPackageController extends BaseController {
 
     String menuUrl = "innerpackage/list.do"; //菜单地址(权限用)
 
-
     @Autowired
     private CustomerInterface customerService;
-
-    @Autowired
-    private ProductInterface productService;
-
-    @Autowired
-    private OrderProductInterface orderProductService;
 
     @Autowired
     private InnerOrderInterface innerOrderService;
@@ -65,14 +51,12 @@ public class InnerPackageController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表innerPackage");
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         page.setPd(pd);
         List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         varList.forEach(innerOrderEntity -> {
-            String formateCreateTime = formatter.format(innerOrderEntity.getOrdertime());
-            innerOrderEntity.setFormateOrderTime(formateCreateTime);
+            String formateOrderTime = DateUtil.format(innerOrderEntity.getOrdertime(),"yyyy-MM-dd HH:mm:ss");
+            innerOrderEntity.setFormateOrderTime(formateOrderTime);
         });
         List<CustomsEntity> customerList = getCustomsList();
         mv.setViewName("wms/innerorder/innerpackage_list");
@@ -93,8 +77,7 @@ public class InnerPackageController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"修改innerpackageid");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         innerOrder.setUpdatetime(date);
@@ -115,8 +98,7 @@ public class InnerPackageController extends BaseController {
     @RequestMapping(value="/goView")
     public ModelAndView goView()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String innerorderid = pd.getString("innerorderid");
         InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
         List<CustomsEntity> customerList = getCustomsList();
@@ -126,10 +108,9 @@ public class InnerPackageController extends BaseController {
         List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
         List<CartonEntity> cartonList = cartonService.selectAll();
         List<PackageTypeEntity> packageTypeList = packageTypeService.selectAll();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String formateCreateTime = formatter.format(innerorderEntity.getCreatetime());
-        String formateUpdateTime = formatter.format(innerorderEntity.getUpdatetime());
-        String formateOrderTime = formatter.format(innerorderEntity.getOrdertime());
+        String formateCreateTime = DateUtil.format(innerorderEntity.getCreatetime(),"yyyy-MM-dd");
+        String formateUpdateTime = DateUtil.format(innerorderEntity.getUpdatetime(),"yyyy-MM-dd");
+        String formateOrderTime =  DateUtil.format(innerorderEntity.getOrdertime(),"yyyy-MM-dd");
         innerorderEntity.setFormatCreateTime(formateCreateTime);
         innerorderEntity.setFormateUpdateTime(formateUpdateTime);
         innerorderEntity.setFormateOrderTime(formateOrderTime);
@@ -153,8 +134,7 @@ public class InnerPackageController extends BaseController {
     @RequestMapping(value="/goAddProduct")
     public ModelAndView goAddProduct()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         mv.setViewName("wms/innerorder/innerorder_orderpd");
         mv.addObject("msg", "saveOrderProduct");
         mv.addObject("pd", pd);
@@ -183,9 +163,8 @@ public class InnerPackageController extends BaseController {
     @RequestMapping(value="/shenheAll")
     @ResponseBody
     public Object shenheAll() throws Exception{
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){

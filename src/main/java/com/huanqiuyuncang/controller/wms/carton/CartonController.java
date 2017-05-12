@@ -37,8 +37,7 @@ public class CartonController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"新增carton");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         pd.put("cartonid", this.get32UUID());	//主键
@@ -61,8 +60,7 @@ public class CartonController extends BaseController {
     public void delete(PrintWriter out) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除carton");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String cartonid = pd.getString("cartonid");
         cartonService.deleteByPrimaryKey(cartonid);
         out.write("success");
@@ -78,8 +76,7 @@ public class CartonController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"修改carton");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         cartonService.updateByPrimaryKeySelective(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -94,8 +91,7 @@ public class CartonController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表carton");
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         page.setPd(pd);
         List<CartonEntity> varList =   cartonService.datalistPage(page);
         mv.setViewName("wms/carton/carton_list");
@@ -112,8 +108,7 @@ public class CartonController extends BaseController {
     @RequestMapping(value="/goAdd")
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         mv.setViewName("wms/carton/carton_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
@@ -127,8 +122,7 @@ public class CartonController extends BaseController {
     @RequestMapping(value="/goEdit")
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String cartonid = pd.getString("cartonid");
         CartonEntity carton = cartonService.selectByPrimaryKey(cartonid);//根据ID读取
         mv.setViewName("wms/carton/carton_edit");
@@ -147,9 +141,8 @@ public class CartonController extends BaseController {
     public Object deleteAll() throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"批量删除carton");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -171,7 +164,6 @@ public class CartonController extends BaseController {
         CartonEntity cartonEntity = cartonService.findCartonByCartonCode(cartontype);
         Map<String,String> map = new HashMap<String,String>();
         String errInfo = "success";
-        PageData pd = new PageData();
         if (cartonEntity != null){
             errInfo = "error";
         }

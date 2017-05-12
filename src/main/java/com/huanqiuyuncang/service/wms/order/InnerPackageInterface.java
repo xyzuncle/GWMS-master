@@ -1,7 +1,6 @@
-package com.huanqiuyuncang.service.order;
+package com.huanqiuyuncang.service.wms.order;
 
 import com.huanqiuyuncang.entity.Page;
-import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.InnerPackageEntity;
 
 import java.util.List;

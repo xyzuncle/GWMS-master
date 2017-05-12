@@ -47,8 +47,7 @@ public class CountryController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"新增Country");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		pd.put("COUNTRY_ID", this.get32UUID());	//主键
 		countryService.save(pd);
 		mv.addObject("msg","success");
@@ -64,8 +63,7 @@ public class CountryController extends BaseController {
 	public void delete(PrintWriter out) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"删除Country");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		countryService.delete(pd);
 		out.write("success");
 		out.close();
@@ -80,8 +78,7 @@ public class CountryController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"修改Country");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		countryService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -97,8 +94,7 @@ public class CountryController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"列表Country");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		page.setPd(pd);
 		List<PageData>	varList = countryService.list(page);	//列出Country列表
 		mv.setViewName("wms/country/country_list");
@@ -115,8 +111,7 @@ public class CountryController extends BaseController {
 	@RequestMapping(value="/goAdd")
 	public ModelAndView goAdd()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		mv.setViewName("wms/country/country_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
@@ -130,8 +125,7 @@ public class CountryController extends BaseController {
 	@RequestMapping(value="/goEdit")
 	public ModelAndView goEdit()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		pd = countryService.findById(pd);	//根据ID读取
 		mv.setViewName("wms/country/country_edit");
 		mv.addObject("msg", "edit");
@@ -148,9 +142,8 @@ public class CountryController extends BaseController {
 	public Object deleteAll() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"批量删除Country");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		List<PageData> pdList = new ArrayList<PageData>();
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -173,9 +166,7 @@ public class CountryController extends BaseController {
 	public ModelAndView exportExcel() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"导出Country到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
-		ModelAndView mv = new ModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("编号");	//1
@@ -195,7 +186,7 @@ public class CountryController extends BaseController {
 		}
 		dataMap.put("varList", varList);
 		ObjectExcelView erv = new ObjectExcelView();
-		mv = new ModelAndView(erv,dataMap);
+        ModelAndView mv = new ModelAndView(erv,dataMap);
 		return mv;
 	}
 	

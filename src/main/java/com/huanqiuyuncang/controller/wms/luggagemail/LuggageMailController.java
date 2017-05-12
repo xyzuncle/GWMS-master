@@ -38,8 +38,7 @@ public class LuggageMailController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"新增luggagemail");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         pd.put("luggagemailid", this.get32UUID());	//主键
@@ -62,8 +61,7 @@ public class LuggageMailController extends BaseController {
     public void delete(PrintWriter out) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除luggagemail");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String luggagemailid = pd.getString("luggagemailid");
         luggageMailService.deleteByPrimaryKey(luggagemailid);
         out.write("success");
@@ -79,8 +77,7 @@ public class LuggageMailController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"修改luggagemail");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         luggageMailService.updateByPrimaryKeySelective(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -95,8 +92,7 @@ public class LuggageMailController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表luggagemail");
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         page.setPd(pd);
         List<LuggageMailEntity> varList =  luggageMailService.datalistPage(page);
         mv.setViewName("wms/luggagemail/luggagemail_list");
@@ -113,8 +109,7 @@ public class LuggageMailController extends BaseController {
     @RequestMapping(value="/goAdd")
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         mv.setViewName("wms/luggagemail/luggagemail_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
@@ -128,8 +123,7 @@ public class LuggageMailController extends BaseController {
     @RequestMapping(value="/goEdit")
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String luggagemailid = pd.getString("luggagemailid");
         LuggageMailEntity luggageMail = luggageMailService.selectByPrimaryKey(luggagemailid);//根据ID读取
         mv.setViewName("wms/luggagemail/luggagemail_edit");
@@ -148,9 +142,8 @@ public class LuggageMailController extends BaseController {
     public Object deleteAll() throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"批量删除luggagemail");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -172,7 +165,6 @@ public class LuggageMailController extends BaseController {
         LuggageMailEntity luggageMailEntity = luggageMailService.findLuggageMailByLuggageMailCode(luggagemailcode);
         Map<String,String> map = new HashMap<String,String>();
         String errInfo = "success";
-        PageData pd = new PageData();
         if (luggageMailEntity != null){
             errInfo = "error";
         }

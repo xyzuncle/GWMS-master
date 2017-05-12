@@ -3,15 +3,14 @@ package com.huanqiuyuncang.controller.wms.order;
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
-import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.order.PingZhengEnetity;
 import com.huanqiuyuncang.entity.order.ProductOrderBase;
 import com.huanqiuyuncang.entity.product.ProductEntity;
-import com.huanqiuyuncang.service.order.InnerOrderInterface;
-import com.huanqiuyuncang.service.order.OrderProductInterface;
+import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
+import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.util.*;
@@ -54,8 +53,6 @@ public class InnerOrderController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"新增innerorder");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         innerOrder.setInnerorderid(this.get32UUID());
@@ -80,8 +77,7 @@ public class InnerOrderController extends BaseController {
     public void delete(PrintWriter out) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除innerorder");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String innerorderid = pd.getString("innerorderid");
         innerOrderService.deleteByPrimaryKey(innerorderid);
         out.write("success");
@@ -97,8 +93,6 @@ public class InnerOrderController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"修改innerorder");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         innerOrder.setUpdatetime(date);
@@ -117,8 +111,7 @@ public class InnerOrderController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表innerorder");
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         page.setPd(pd);
         List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -148,8 +141,7 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/goAdd")
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<CustomsEntity> customerList = getCustomsList();
         String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
         String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
@@ -175,8 +167,7 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/goEdit")
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String innerorderid = pd.getString("innerorderid");
         InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
         List<CustomsEntity> customerList = getCustomsList();
@@ -213,9 +204,8 @@ public class InnerOrderController extends BaseController {
     public Object deleteAll() throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"批量删除innerorder");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -256,8 +246,7 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/goAddProduct")
     public ModelAndView goAddProduct()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         mv.setViewName("wms/innerorder/innerorder_orderpd");
         mv.addObject("msg", "saveOrderProduct");
         mv.addObject("pd", pd);
@@ -267,8 +256,7 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/goEditProduct")
     public ModelAndView goEditProduct()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String orderproducrtid  = pd.getString("orderproducrtid");
         OrderProductEntity orderProductEntity = orderProductService.selectByPrimaryKey(orderproducrtid);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -288,8 +276,7 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/saveOrderProduct")
     public ModelAndView saveOrderProduct(OrderProductEntity orderProductEntity)throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         Date date = new Date();
         String username = Jurisdiction.getUsername();
         String token = (String)this.getRequest().getSession().getAttribute("token");
@@ -309,8 +296,7 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/editOrderProduct")
     public ModelAndView editOrderProduct(OrderProductEntity orderProductEntity)throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         orderProductService.updateByPrimaryKeySelective(orderProductEntity);
         mv.setViewName("save_result");
         mv.addObject("msg","success");
@@ -321,8 +307,6 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/delOrderPd")
     @ResponseBody
     public Object delOrderPd(String orderproducrtid)throws Exception{
-        PageData pd = new PageData();
-        pd = this.getPageData();
         orderProductService.deleteByPrimaryKey(orderproducrtid);
         Map<String,String> map = new HashMap<String,String>();
         map.put("result", "success");
@@ -370,9 +354,8 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/shenheAll")
     @ResponseBody
     public Object shenheAll() throws Exception{
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -390,9 +373,8 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/createpackage")
     @ResponseBody
     public Object createpackage() throws Exception{
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -414,8 +396,7 @@ public class InnerOrderController extends BaseController {
     @RequestMapping(value="/pingzheng")
     public ModelAndView pingzheng()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
         String innerorderid = pd.getString("innerorderid");
         InnerOrderEntity order = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取

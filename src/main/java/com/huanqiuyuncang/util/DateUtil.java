@@ -180,10 +180,33 @@ public class DateUtil {
         String dateStr = sdf.format(date);
         return dateStr;
     }
+
+    public static String format(Date date , String regex){
+        String formate = "";
+        switch (regex){
+            case "yyyy-MM-dd":
+                formate = sdfDay.format(date);
+                break;
+            case "yyyy-MM-dd HH:mm:ss":
+                formate = sdfTime.format(date);
+                break;
+            case "yyyyMMdd":
+                formate = sdfDays.format(date);
+                break;
+            case "yyyyMMddHHmmss":
+                formate = sdfTimes.format(date);
+                break;
+            case "yyyy":
+                formate = sdfYear.format(date);
+                break;
+        }
+
+        return formate;
+    }
+
     
     public static void main(String[] args) {
-    	System.out.println(getDays());
-    	System.out.println(getAfterDayWeek("3"));
+        System.out.println(format(new Date(),"yyyy-MM-dd HH:mm:ss"));
     }
 
 }

@@ -41,9 +41,9 @@ import java.util.*;
 @RequestMapping(value="/product")
 public class ProductController extends BaseController {
     String menuUrl = "product/list.do"; //菜单地址(权限用)
+
     @Resource(name="productService")
     private ProductInterface productService;
-
     @Autowired
     private BrandInterface brandService;
     @Autowired
@@ -67,8 +67,6 @@ public class ProductController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"新增Product");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         productEntity.setProductId(this.get32UUID());
@@ -94,8 +92,7 @@ public class ProductController extends BaseController {
     public void delete(PrintWriter out) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除Product");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         productService.deleteByPrimaryKey(pd);
         out.write("success");
         out.close();
@@ -110,8 +107,6 @@ public class ProductController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"修改Product");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         productEntity.setUpdateuser(username);
@@ -129,8 +124,7 @@ public class ProductController extends BaseController {
     @RequestMapping(value="/list")
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表Product");
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
         Map<String, String> hc = Jurisdiction.getHC();
         //与审核权限挂钩，没有权限就只显示自己创建的商品
@@ -179,8 +173,7 @@ public class ProductController extends BaseController {
     @RequestMapping(value="/goAdd")
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         setSelectList(mv);
         mv.setViewName("wms/product/product_edit");
         mv.addObject("msg", "save");
@@ -249,13 +242,11 @@ public class ProductController extends BaseController {
     @RequestMapping(value="/goEdit")
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formateCreateTime = formatter.format(product.getCreatetime());
-        String formateUpdateTime = formatter.format(product.getUpdatetime());
+        String formateCreateTime = DateUtil.format(product.getCreatetime(),"yyyy-MM-dd HH:mm:ss");
+        String formateUpdateTime = DateUtil.format(product.getUpdatetime(),"yyyy-MM-dd HH:mm:ss");
         product.setFormatCreateTime(formateCreateTime);
         product.setFormateUpdateTime(formateUpdateTime);
         setSelectList(mv);
@@ -274,8 +265,7 @@ public class ProductController extends BaseController {
     @RequestMapping(value="/goImage")
     public ModelAndView goImage()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String src = pd.getString("src");
         String yuantu = src.substring(src.lastIndexOf("/") + 1).split(ImageUtil.DEFAULT_PREVFIX)[1];
         yuantu = this.getRequest().getContextPath()+ImageUtil.DEFAULT_PATH +"/"+yuantu;
@@ -293,8 +283,7 @@ public class ProductController extends BaseController {
     @RequestMapping(value="/goView")
     public ModelAndView goView()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
         String brandname = "";
@@ -337,9 +326,8 @@ public class ProductController extends BaseController {
         product.setLuggagemail(luggagemailname);
         product.setCartontypea(cartonnameA);
         product.setCartontypeb(cartonnameB);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formateCreateTime = formatter.format(product.getCreatetime());
-        String formateUpdateTime = formatter.format(product.getUpdatetime());
+        String formateCreateTime = DateUtil.format(product.getCreatetime(),"yyyy-MM-dd HH:mm:ss");
+        String formateUpdateTime = DateUtil.format(product.getUpdatetime(),"yyyy-MM-dd HH:mm:ss");
         product.setFormatCreateTime(formateCreateTime);
         product.setFormateUpdateTime(formateUpdateTime);
         setSelectList(mv);
@@ -356,9 +344,7 @@ public class ProductController extends BaseController {
      */
     @RequestMapping(value="/updateAuditor")
     public void updateAuditor(PrintWriter out)throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
         product.setAuditStatus(1);
@@ -373,9 +359,7 @@ public class ProductController extends BaseController {
      */
     @RequestMapping(value="/updateBlock")
     public void updateBlock(PrintWriter out)throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
         if(product.getBlockStatus() == 0){
@@ -397,9 +381,8 @@ public class ProductController extends BaseController {
     public Object deleteAll() throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"批量删除Product");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -422,9 +405,7 @@ public class ProductController extends BaseController {
     public ModelAndView exportExcel() throws Exception{
        logBefore(logger, Jurisdiction.getUsername()+"导出Fhbutton到excel");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
-        ModelAndView mv = new ModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         Map<String, String> hc = Jurisdiction.getHC();
         if(!hc.keySet().contains("productAuditor")){
             pd.put("createuser",Jurisdiction.getUsername());
@@ -432,7 +413,7 @@ public class ProductController extends BaseController {
         List<ProductEntity> varOList = productService.selectForExcel(pd);
         Map<String, Object> dataMap = getDataMap(varOList);
         ObjectExcelView erv = new ObjectExcelView();
-        mv = new ModelAndView(erv,dataMap);
+        ModelAndView mv = new ModelAndView(erv,dataMap);
         return mv;
     }
 
@@ -504,7 +485,6 @@ public class ProductController extends BaseController {
         ProductEntity product = productService.findProductByProductNum(productnum);
         Map<String,String> map = new HashMap<String,String>();
         String errInfo = "success";
-        PageData pd = new PageData();
         if (product != null){
             errInfo = "error";
         }
@@ -523,7 +503,6 @@ public class ProductController extends BaseController {
         ProductEntity product = productService.findProductByBarCode(barCode);
         Map<String,String> map = new HashMap<String,String>();
         String errInfo = "success";
-        PageData pd = new PageData();
         if (product != null){
             errInfo = "error";
         }

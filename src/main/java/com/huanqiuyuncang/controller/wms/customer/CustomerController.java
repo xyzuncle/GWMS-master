@@ -4,10 +4,7 @@ import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
-import com.huanqiuyuncang.util.AppUtil;
-import com.huanqiuyuncang.util.BeanMapUtil;
-import com.huanqiuyuncang.util.Jurisdiction;
-import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +39,7 @@ public class CustomerController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"新增CustomerEntity");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         CustomerEntity customerEntity = (CustomerEntity) BeanMapUtil.mapToObject(pd, CustomerEntity.class);
@@ -71,8 +67,7 @@ public class CustomerController extends BaseController {
     public void delete(PrintWriter out) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"删除CustomerEntity");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String customerid = pd.getString("customerid");
         customerService.deleteByPrimaryKey(customerid);
         out.write("success");
@@ -88,8 +83,7 @@ public class CustomerController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"修改CustomerEntity");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         CustomerEntity customerEntity = (CustomerEntity) BeanMapUtil.mapToObject(pd,CustomerEntity.class);
         String username = Jurisdiction.getUsername();
         Date date = new Date();
@@ -109,8 +103,7 @@ public class CustomerController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"列表CustomerEntity");
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         page.setPd(pd);
         pd.put("createuser",Jurisdiction.getUsername());
         //判断是否据有查看所有客户权限
@@ -133,8 +126,7 @@ public class CustomerController extends BaseController {
     @RequestMapping(value="/goAdd")
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         mv.setViewName("wms/customer/customer_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
@@ -148,13 +140,12 @@ public class CustomerController extends BaseController {
     @RequestMapping(value="/goEdit")
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = new PageData();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         String packageid = pd.getString("packageid");
         CustomerEntity customerEntity = customerService.selectByPrimaryKey(packageid);//根据ID读取
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String formateCreateTime = formatter.format(customerEntity.getCreatetime());
-        String formateUpdateTime = formatter.format(customerEntity.getUpdatetime());
+       /* SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");*/
+        String formateCreateTime = DateUtil.format(customerEntity.getCreatetime(),"yyyy-MM-dd");
+        String formateUpdateTime = DateUtil.format(customerEntity.getUpdatetime(),"yyyy-MM-dd");
         customerEntity.setFormatCreateTime(formateCreateTime);
         customerEntity.setFormateUpdateTime(formateUpdateTime);
         mv.setViewName("wms/customer/customer_edit");
@@ -173,9 +164,8 @@ public class CustomerController extends BaseController {
     public Object deleteAll() throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"批量删除CustomerEntity");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-        PageData pd = new PageData();
         Map<String,Object> map = new HashMap<String,Object>();
-        pd = this.getPageData();
+        PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){

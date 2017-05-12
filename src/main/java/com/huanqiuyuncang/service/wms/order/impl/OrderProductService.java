@@ -1,8 +1,8 @@
-package com.huanqiuyuncang.service.order.impl;
+package com.huanqiuyuncang.service.wms.order.impl;
 
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
-import com.huanqiuyuncang.service.order.OrderProductInterface;
+import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
