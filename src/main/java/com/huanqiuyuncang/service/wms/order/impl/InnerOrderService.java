@@ -492,7 +492,7 @@ public class InnerOrderService implements InnerOrderInterface {
         order.setOrdervalue(dingdanhuozhi);
         order.setRemark(beizhu);
         order.setOrderstatus("orderStatus_daiqueren");
-        order.setOrdermultistatus(CustomerController.CUSTOMERSTATUS);
+        //order.setOrdermultistatus(CustomerController.CUSTOMERSTATUS);
         orderList.add(order);
         outerOrderNum.put(waibudingdanhao,customerordernum);
         return "";

@@ -1,0 +1,26 @@
+package com.huanqiuyuncang.dao.warehouse;
+
+import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
+import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
+import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
+
+import java.util.List;
+
+public interface ProductWarehouseDAO {
+    int deleteByPrimaryKey(String productwarehouseid);
+
+    int insert(ProductWarehouseEntity record);
+
+    int insertSelective(ProductWarehouseEntity record);
+
+    ProductWarehouseEntity selectByPrimaryKey(String productwarehouseid);
+
+    int updateByPrimaryKeySelective(ProductWarehouseEntity record);
+
+    int updateByPrimaryKey(ProductWarehouseEntity record);
+
+    List<ProductWarehouseEntity> datalistPage(Page page);
+
+    ProductWarehouseEntity selectByChuKuShangPin(ChuKuShangPinEntity chuKuShangPinEntity);
+}

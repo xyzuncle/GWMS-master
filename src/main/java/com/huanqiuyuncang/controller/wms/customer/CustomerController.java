@@ -141,8 +141,8 @@ public class CustomerController extends BaseController {
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String packageid = pd.getString("packageid");
-        CustomerEntity customerEntity = customerService.selectByPrimaryKey(packageid);//根据ID读取
+        String customerid = pd.getString("customerid");
+        CustomerEntity customerEntity = customerService.selectByPrimaryKey(customerid);//根据ID读取
        /* SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");*/
         String formateCreateTime = DateUtil.format(customerEntity.getCreatetime(),"yyyy-MM-dd");
         String formateUpdateTime = DateUtil.format(customerEntity.getUpdatetime(),"yyyy-MM-dd");
@@ -152,6 +152,37 @@ public class CustomerController extends BaseController {
         mv.addObject("msg", "edit");
         mv.addObject("customer", customerEntity);
         mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/goStatus")
+    public ModelAndView goStatus()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String customerid = pd.getString("customerid");
+        mv.setViewName("wms/customer/customer_statusview");
+        mv.addObject("msg", "changestatus");
+        mv.addObject("pd", pd);
+        mv.addObject("customerid", customerid);
+        return mv;
+    }
+
+
+    @RequestMapping(value="/changestatus")
+    public ModelAndView changestatus() throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String str = "";
+        for(int i = 0;i<7 ; i++){
+            str = str + pd.getString(""+i)+"_";
+        }
+        str =  str.substring(0,str.length()-1);
+        String customerid =  pd.getString("customerid");
+        CustomerEntity customerEntity = customerService.selectByPrimaryKey(customerid);
+        customerEntity.setCustomerstatus(str);
+        customerService.updateByPrimaryKeySelective(customerEntity);
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
         return mv;
     }
 

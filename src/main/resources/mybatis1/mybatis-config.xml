@@ -28,6 +28,10 @@
 		<typeAlias type="com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity" alias="ProductConversion"/>
 		<typeAlias type="com.huanqiuyuncang.entity.order.InnerOrderEntity" alias="InnerOrder"/>
 		<typeAlias type="com.huanqiuyuncang.entity.order.InnerPackageEntity" alias="InnerPackage"/>
+		<typeAlias type="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" alias="ChuKuShangPin"/>
+		<typeAlias type="com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity" alias="PackageWarehouse"/>
+		<typeAlias type="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" alias="ProductWarehouse"/>
+		<typeAlias type="com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity" alias="RuKuBaoGuo"/>
 
 		<!-- 这里添加生成的实体类 -->
 		

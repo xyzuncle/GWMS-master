@@ -60,7 +60,7 @@ public class InnerOrderController extends BaseController {
         innerOrder.setCreatetime(date);
         innerOrder.setUpdateuser(username);
         innerOrder.setUpdatetime(date);
-        innerOrder.setOrdermultistatus(CustomerController.CUSTOMERSTATUS);
+        //innerOrder.setOrdermultistatus(CustomerController.CUSTOMERSTATUS);
         String token = (String)this.getRequest().getSession().getAttribute("token");
         innerOrderService.insertOrderInfo(innerOrder,token);
         this.getRequest().getSession().removeAttribute("token");

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lzf
-  Date: 2017/4/2
-  Time: 21:18
+  Date: 2017/5/14
+  Time: 8:45
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -34,41 +34,62 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
-                        <form action="customer/list.do" method="post" name="Form" id="Form">
-                        <table style="margin-top:5px;">
-                            <tr>
-                                <td>
-                                    <div class="nav-search">
-
-                                        <span class="input-icon">
-                                            客户编号：
-                                        </span>
-                                        <span class="input-icon">
-                                            <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-customercode" autocomplete="off" name="customercode" value="${pd.customercode }" placeholder="这里输入关键词"/>
-                                        </span>
-                                        <span class="input-icon">
-                                            客户名称：
-                                        </span>
-                                        <span class="input-icon">
-                                            <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-customername" autocomplete="off" name="customername" value="${pd.customername }" placeholder="这里输入关键词"/>
-                                        </span>
-                                          <span class="input-icon">
-                                            默认发货仓库：
-                                        </span>
-                                        <span class="input-icon">
-                                            <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-defaultwarehouse" autocomplete="off" name="defaultwarehouse" value="${pd.defaultwarehouse }" placeholder="这里输入关键词"/>
-                                        </span>
-
-                                    </div>
-                                </td>
-                                <c:if test="${QX.cha == 1 }">
-                                    <td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
-                                </c:if>
-                            </tr>
-                        </table>
                         <!-- 检索  -->
-
-
+                        <form action="chukushangpin/list.do" method="post" name="Form" id="Form">
+                            <table style="margin-top:5px;">
+                                <tr>
+                                    <td>
+                                        <div class="nav-search">
+                                            <span class="input-icon">
+											    包裹单号：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-baoguodanhao" autocomplete="off" name="baoguodanhao" value="${pd.baoguodanhao }" placeholder="这里输入关键词"/>
+										    </span>
+                                             <span class="input-icon">
+											    客户订单号：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-kehudingdanhao" autocomplete="off" name="kehudingdanhao" value="${pd.kehudingdanhao }" placeholder="这里输入关键词"/>
+										    </span>
+                                            <span class="input-icon">
+											    外部订单号：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-waibudingdanhao" autocomplete="off" name="waibudingdanhao" value="${pd.waibudingdanhao }" placeholder="这里输入关键词"/>
+										    </span>
+                                            <span class="input-icon">
+											    内部货号：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-neibuhuohao" autocomplete="off" name="neibuhuohao" value="${pd.neibuhuohao }" placeholder="这里输入关键词"/>
+										    </span>
+                                            <span class="input-icon">
+											    商品条码：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-shangpintiaoma" autocomplete="off" name="shangpintiaoma" value="${pd.shangpintiaoma }" placeholder="这里输入关键词"/>
+										    </span>
+                                            <span class="input-icon">
+											    仓位：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-cangwei" autocomplete="off" name="cangwei" value="${pd.cangwei }" placeholder="这里输入关键词"/>
+										    </span>
+                                        </div>
+                                    </td>
+                                    <c:if test="${QX.cha == 1 }">
+                                        <td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
+                                    </c:if>
+                                </tr>
+                            </table>
+                            <!-- 检索  -->
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
                                 <tr>
@@ -76,14 +97,16 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">客户编号</th>
-                                    <th class="center">客户名称</th>
-                                    <th class="center">默认发货仓库</th>
-                                    <th class="center">备注</th>
+                                    <th class="center">包裹单号</th>
+                                    <th class="center">客户订单号</th>
+                                    <th class="center">外部订单号</th>
+                                    <th class="center">内部货号</th>
+                                    <th class="center">商品条码</th>
+                                    <th class="center">数量</th>
+                                    <th class="center">仓位</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
-
                                 <tbody>
                                 <!-- 开始循环 -->
                                 <c:choose>
@@ -92,31 +115,36 @@
                                             <c:forEach items="${varList}" var="var" varStatus="vs">
                                                 <tr>
                                                     <td class='center'>
-                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.customerid}" class="ace" /><span class="lbl"></span></label>
+                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.chukushangpinid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
-                                                    <td class='center'>${var.customercode}</td>
-                                                    <td class='center'>${var.customername}</td>
-                                                    <td class='center'>${var.defaultwarehouse}</td>
-                                                    <td class='center'>${var.remark}</td>
+                                                    <td class='center'>${var.baoguodanhao}</td>
+                                                    <td class='center'>${var.kehudingdanhao}</td>
+                                                    <td class='center'>${var.waibudingdanhao}</td>
+                                                    <td class='center'>${var.neibuhuohao}</td>
+                                                    <td class='center'>${var.shangpintiaoma}</td>
+                                                    <td class='center'>${var.shuliang}</td>
+                                                    <td class='center'>${var.cangwei}</td>
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
                                                             <c:if test="${QX.edit == 1 }">
-                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.customerid}');">
+                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.chukushangpinid}');">
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
                                                                 </a>
                                                             </c:if>
                                                             <c:if test="${QX.del == 1 }">
-                                                                <a onclick="del('${var.customerid}');" class="btn btn-xs btn-danger" title="删除">
-                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                            </a>
+                                                                <a class="btn btn-xs btn-danger" onclick="del('${var.chukushangpinid}');">
+                                                                    <i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
+                                                                </a>
                                                             </c:if>
-                                                            <a class="btn btn-xs btn-success" title="修改客户状态" onclick="changestatus('${var.customerid}');">
-                                                                <i class="ace-icon fa 	fa-exchange  bigger-120" title="修改客户状态"></i>
-                                                            </a>
+                                                            <c:if test="${QX.saoma == 1 }">
+                                                                <a class="btn btn-xs btn-info" onclick="saoma('${var.chukushangpinid}');">
+                                                                    <i class="ace-icon fa 	fa-barcode  bigger-120" title="扫码确认"></i>
+                                                                </a>
+                                                            </c:if>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -137,7 +165,6 @@
                                 </c:choose>
                                 </tbody>
                             </table>
-                            <!-- 检索  -->
                             <div class="page-header position-relative">
                                 <table style="width:100%;">
                                     <tr>
@@ -157,7 +184,6 @@
 
                     </div>
                     <!-- /.col -->
-
                 </div>
                 <!-- /.row -->
             </div>
@@ -177,17 +203,14 @@
 <!-- basic scripts -->
 <!-- 页面底部js¨ -->
 <%@ include file="../../system/index/foot.jsp"%>
-
 <!-- 删除时确认窗口 -->
 <script src="static/ace/js/bootbox.js"></script>
 <!-- ace scripts -->
 <script src="static/ace/js/ace/ace.js"></script>
 <!-- 下拉框 -->
 <script src="static/ace/js/chosen.jquery.js"></script>
-
 <!--提示框-->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
-
 <script type="text/javascript">
     $(top.hangge());//关闭加载状态
     //检索
@@ -195,33 +218,7 @@
         top.jzts();
         $("#Form").submit();
     }
-
     $(function() {
-        //下拉框
-        if(!ace.vars['touch']) {
-            $('.chosen-select').chosen({allow_single_deselect:true});
-            $(window)
-                    .off('resize.chosen')
-                    .on('resize.chosen', function() {
-                        $('.chosen-select').each(function() {
-                            var $this = $(this);
-                            $this.next().css({'width': $this.parent().width()});
-                        });
-                    }).trigger('resize.chosen');
-            $(document).on('settings.ace.chosen', function(e, event_name, event_val) {
-                if(event_name != 'sidebar_collapsed') return;
-                $('.chosen-select').each(function() {
-                    var $this = $(this);
-                    $this.next().css({'width': $this.parent().width()});
-                });
-            });
-            $('#chosen-multiple-style .btn').on('click', function(e){
-                var target = $(this).find('input[type=radio]');
-                var which = parseInt(target.val());
-                if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
-                else $('#form-field-select-4').removeClass('tag-input-style');
-            });
-        }
         //复选框全选控制
         var active_class = 'active';
         $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
@@ -240,7 +237,7 @@
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="新增";
-        diag.URL = '<%=basePath%>customer/goAdd.do';
+        diag.URL = '<%=basePath%>chukushangpin/goAdd.do';
         diag.Width = 600;
         diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件
@@ -256,25 +253,27 @@
         };
         diag.show();
     }
+
     //删除
     function del(Id){
         bootbox.confirm("确定要删除吗?", function(result) {
             if(result) {
                 top.jzts();
-                var url = "<%=basePath%>customer/delete.do?customerid="+Id+"&tm="+new Date().getTime();
+                var url = "<%=basePath%>chukushangpin/delete.do?chukushangpinid="+Id+"&tm="+new Date().getTime();
                 $.get(url,function(data){
                     nextPage(${page.currentPage});
                 });
             }
         });
     }
+
     //修改
     function edit(Id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>customer/goEdit.do?customerid='+Id;
+        diag.URL = '<%=basePath%>chukushangpin/goEdit.do?chukushangpinid='+Id;
         diag.Width = 600;
         diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件
@@ -285,6 +284,7 @@
         };
         diag.show();
     }
+
     //批量操作
     function makeAll(msg){
         bootbox.confirm(msg, function(result) {
@@ -314,7 +314,7 @@
                         top.jzts();
                         $.ajax({
                             type: "POST",
-                            url: '<%=basePath%>customer/deleteAll.do?tm='+new Date().getTime(),
+                            url: '<%=basePath%>chukushangpin/deleteAll.do?tm='+new Date().getTime(),
                             data: {DATA_IDS:str},
                             dataType:'json',
                             //beforeSend: validateData,
@@ -331,14 +331,14 @@
         });
     };
 
-    function changestatus(Id){
+    function saoma(id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
-        diag.Title ="修改客户状态";
-        diag.URL = '<%=basePath%>customer/goStatus.do?customerid='+Id;
+        diag.Title ="编辑";
+        diag.URL = '<%=basePath%>chukushangpin/goSaoma.do?chukushangpinid='+id;
         diag.Width = 600;
-        diag.Height = 300;
+        diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件
             if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
                 nextPage(${page.currentPage});
@@ -348,8 +348,12 @@
         diag.show();
     }
 
+    //导出excel
+    function toExcel(){
+        window.location.href='<%=basePath%>chukushangpin/excel.do';
+    }
 </script>
-
 
 </body>
 </html>
+
