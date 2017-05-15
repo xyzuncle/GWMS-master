@@ -6,16 +6,23 @@ import com.huanqiuyuncang.dao.order.InnerOrderDAO;
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
 import com.huanqiuyuncang.dao.pdconversion.ProductConversionDAO;
 import com.huanqiuyuncang.dao.product.ProductDAO;
+import com.huanqiuyuncang.dao.warehouse.ChuKuShangPinDAO;
+import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customer.CustomerEntity;
+import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
+import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
+import com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.dc.pr.PRError;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -39,6 +46,11 @@ public class InnerOrderService implements InnerOrderInterface {
     @Autowired
     private CustomerDAO customerDAO;
 
+    @Autowired
+    private ChuKuShangPinDAO chuKuShangPinDAO;
+
+    @Autowired
+    private RuKuBaoGuoDAO ruKuBaoGuoDAO;
 
     @Autowired
     private ProductDAO productDAO;
@@ -247,12 +259,43 @@ public class InnerOrderService implements InnerOrderInterface {
 
     @Override
     public void shenheAll(String[] arrayDATA_ids) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
         for (String id :arrayDATA_ids){
             InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
             if("orderStatus_daiqueren".equals(innerOrderEntity.getOrderstatus())){
                 innerOrderEntity.setOrderstatus("orderStatus_yiqueren");
+                List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
+                orderProductEntities.forEach(orderProduct ->{
+                    CustomerEntity customer = customerDAO.selectCustomerByCode(innerOrderEntity.getCustomernum());
+                    ChuKuShangPinEntity chuKuShangPinEntity = new ChuKuShangPinEntity();
+                    chuKuShangPinEntity.setChukushangpinid(UuidUtil.get32UUID());
+                    chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
+                    chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
+                    chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
+                    chuKuShangPinEntity.setNeibuhuohao("");
+                    chuKuShangPinEntity.setShangpintiaoma(orderProduct.getBarcode());
+                    chuKuShangPinEntity.setShuliang(orderProduct.getCount());
+                    chuKuShangPinEntity.setRukuzhuangtai("orderStatus_daidabao");
+                    chuKuShangPinEntity.setCangwei(customer.getDefaultwarehouse());
+                    chuKuShangPinEntity.setCreateuser(username);
+                    chuKuShangPinEntity.setCreatetime(date);
+                    chuKuShangPinEntity.setUpdatetime(date);
+                    chuKuShangPinEntity.setUpdateuser(username);
+                    chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
+                });
             }else if("orderStatus_daidabao".equals(innerOrderEntity.getOrderstatus())){
                 innerOrderEntity.setOrderstatus("orderStatus_yidabao");
+                RuKuBaoGuoEntity ruKuBaoGuoEntity = new RuKuBaoGuoEntity();
+                ruKuBaoGuoEntity.setRukubaoguoid(UuidUtil.get32UUID());
+                ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_daidabao");
+                ruKuBaoGuoEntity.setKehubianhao(innerOrderEntity.getCustomernum());
+                ruKuBaoGuoEntity.setCangwei("P0000");
+                ruKuBaoGuoEntity.setCreateuser(username);
+                ruKuBaoGuoEntity.setCreatetime(date);
+                ruKuBaoGuoEntity.setUpdatetime(date);
+                ruKuBaoGuoEntity.setUpdateuser(username);
+                ruKuBaoGuoDAO.insertSelective(ruKuBaoGuoEntity);
             }
 
             innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);

@@ -23,9 +23,9 @@ public interface CustomerInterface {
 
     void deleteAll(String[] arrayDATA_ids);
 
-    List<CustomsEntity> selectAll();
+    List<CustomerEntity> selectAll();
 
-    List<CustomsEntity> selectByCreateUser(String createUser);
+    List<CustomerEntity> selectByCreateUser(String createUser);
 
     String selectNameByCode(String customernum);
 }

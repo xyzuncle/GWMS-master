@@ -62,12 +62,12 @@ public class CustomerService implements CustomerInterface {
     }
 
     @Override
-    public List<CustomsEntity> selectAll() {
+    public List<CustomerEntity> selectAll() {
         return customerDAO.selectAll();
     }
 
     @Override
-    public List<CustomsEntity> selectByCreateUser(String createUser) {
+    public List<CustomerEntity> selectByCreateUser(String createUser) {
         return customerDAO.selectByCreateUser(createUser);
     }
 

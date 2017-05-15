@@ -197,4 +197,11 @@
         WHERE customercode like  "%"#{code,jdbcType=VARCHAR}"%"
 
     </select>
+    <select id="selectCustomerByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_customer
+        WHERE customercode like  "%"#{code,jdbcType=VARCHAR}"%"
+
+    </select>
 </mapper>

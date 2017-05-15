@@ -3,6 +3,7 @@ package com.huanqiuyuncang.controller.wms.order;
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
@@ -125,7 +126,7 @@ public class InnerOrderController extends BaseController {
             innerOrderEntity.setRecipientprovince(recipientprovince);
             innerOrderEntity.setRecipientcity(recipientcity);
         });
-        List<CustomsEntity> customerList = getCustomsList();
+        List<CustomerEntity> customerList = getCustomerList();
         mv.setViewName("wms/innerorder/innerorder_list");
         mv.addObject("varList", varList);
         mv.addObject("customerList", customerList);
@@ -142,7 +143,7 @@ public class InnerOrderController extends BaseController {
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        List<CustomsEntity> customerList = getCustomsList();
+        List<CustomerEntity> customerList = getCustomerList();
         String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
         String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
         List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
@@ -170,7 +171,7 @@ public class InnerOrderController extends BaseController {
         PageData pd = this.getPageData();
         String innerorderid = pd.getString("innerorderid");
         InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
-        List<CustomsEntity> customerList = getCustomsList();
+        List<CustomerEntity> customerList = getCustomerList();
         String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
         String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
         List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
@@ -229,8 +230,8 @@ public class InnerOrderController extends BaseController {
         printWriter.write(resultJson);
     }
 
-    private List<CustomsEntity> getCustomsList() {
-        List<CustomsEntity> customerList = null;
+    private List<CustomerEntity> getCustomerList() {
+        List<CustomerEntity> customerList = null;
         Map<String, String> hc = Jurisdiction.getHC();
         if(hc.keySet().contains("customerlist")){
             customerList = customerService.selectAll();
