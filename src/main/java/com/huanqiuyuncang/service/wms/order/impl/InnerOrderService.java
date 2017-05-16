@@ -276,7 +276,7 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setNeibuhuohao("");
                     chuKuShangPinEntity.setShangpintiaoma(orderProduct.getBarcode());
                     chuKuShangPinEntity.setShuliang(orderProduct.getCount());
-                    chuKuShangPinEntity.setRukuzhuangtai("orderStatus_daidabao");
+                    chuKuShangPinEntity.setRukuzhuangtai("daichuku");
                     chuKuShangPinEntity.setCangwei(customer.getDefaultwarehouse());
                     chuKuShangPinEntity.setCreateuser(username);
                     chuKuShangPinEntity.setCreatetime(date);

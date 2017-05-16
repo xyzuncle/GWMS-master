@@ -76,4 +76,9 @@ public class CustomerService implements CustomerInterface {
 
         return customerDAO.selectNameByCode(customernum);
     }
+
+    @Override
+    public CustomerEntity selectCustomerByCode(String customercode) {
+        return customerDAO.selectCustomerByCode(customercode);
+    }
 }

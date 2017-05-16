@@ -23,9 +23,9 @@ import java.util.*;
 public class CustomerController extends BaseController {
     // 默认客户状态
     // 1.计算跨境速递费	是否外部商品转换	发货仓库
-    // 2.按商品内部货值计算申报货值	收款状态	计算预计纸箱和包装及费用	计算运费
+    // 2.按商品内部货值计算申报货值	收款状态	计算预计纸箱和包装及费用	计算运费 负仓出库
 
-    public static final String CUSTOMERSTATUS = "1_1_1_1_1_1_1";
+    public static final String CUSTOMERSTATUS = "1_1_1_1_1_1_1_1";
 
     String menuUrl = "customer/list.do"; //菜单地址(权限用)
     @Autowired
@@ -43,9 +43,9 @@ public class CustomerController extends BaseController {
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         CustomerEntity customerEntity = (CustomerEntity) BeanMapUtil.mapToObject(pd, CustomerEntity.class);
-        String customercode = customerEntity.getCustomercode();
+       /* String customercode = customerEntity.getCustomercode();
         customercode = username+"_"+customercode;
-        customerEntity.setCustomercode(customercode);
+        customerEntity.setCustomercode(customercode);*/
         customerEntity.setCustomerid(this.get32UUID());
         customerEntity.setCreateuser(username);
         customerEntity.setCreatetime(date);
@@ -173,7 +173,7 @@ public class CustomerController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String str = "";
-        for(int i = 0;i<7 ; i++){
+        for(int i = 0;i<8 ; i++){
             str = str + pd.getString(""+i)+"_";
         }
         str =  str.substring(0,str.length()-1);

@@ -28,4 +28,6 @@ public interface CustomerInterface {
     List<CustomerEntity> selectByCreateUser(String createUser);
 
     String selectNameByCode(String customernum);
+
+    CustomerEntity selectCustomerByCode(String customercode);
 }

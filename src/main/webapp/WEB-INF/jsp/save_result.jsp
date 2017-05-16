@@ -35,10 +35,7 @@
 			document.getElementById('zhongxin').style.display = 'none';
 			top.Dialog.close();
 		}else{
-            if(msg == "product_error"){
-                $("#zhongxin").show();
-            }
-
+            $("#zhongxin").show();
 		}
 	</script>
 </body>

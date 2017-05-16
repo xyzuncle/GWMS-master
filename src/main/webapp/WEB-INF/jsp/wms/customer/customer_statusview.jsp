@@ -93,6 +93,15 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td style="width:130px;text-align: right;padding-top: 13px;">是否负仓出库:</td>
+                                        <td colspan="3">
+                                            <select style="width:80px;" name="7" id="7">
+                                                <option value="0">否</option>
+                                                <option value="1">是</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td style="text-align: center;" colspan="10">
                                             <a class="btn btn-mini btn-primary" onclick="save();">保存</a>
                                             <a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>

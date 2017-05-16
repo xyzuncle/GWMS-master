@@ -30,4 +30,5 @@ public interface CustomerDAO {
     String selectCodeByCode(String code);
 
     CustomerEntity selectCustomerByCode(String customernum);
+
 }

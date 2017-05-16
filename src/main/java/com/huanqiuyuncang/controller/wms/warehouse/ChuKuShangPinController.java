@@ -2,9 +2,11 @@ package com.huanqiuyuncang.controller.wms.warehouse;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
+import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ChuKuShangPinInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -32,6 +34,9 @@ public class ChuKuShangPinController extends BaseController {
 
     @Autowired
     private ProductWarehouseInterface productWarehouseService;
+
+    @Autowired
+    private CustomerInterface customerService;
 
     /**列表
      * @param page
@@ -130,30 +135,24 @@ public class ChuKuShangPinController extends BaseController {
         String saomiaocangwei = pd.getString("saomiaocangwei");
         String saomiaotiaoma = pd.getString("saomiaotiaoma");
         ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinService.selectByPrimaryKey(chukushangpinid);
+        CustomerEntity customerEntity = customerService.selectCustomerByCode(chuKuShangPinEntity.getKehubianhao());
+        String customerstatus = customerEntity.getCustomerstatus();
+        String[] statusArr = customerstatus.split("_");
         if(saomiaotiaoma.equals(chuKuShangPinEntity.getShangpintiaoma())){
-            chuKuShangPinEntity.setRukuzhuangtai("orderStatus_yidabao");
-            String cangwei = chuKuShangPinEntity.getCangwei();
-            cangwei =  StringUtils.isBlank(cangwei)?saomiaocangwei:cangwei;
+            chuKuShangPinEntity.setRukuzhuangtai("yichuku");
             ProductWarehouseEntity productWarehouse = productWarehouseService.selectByChuKuShangPin(chuKuShangPinEntity);
-            if(productWarehouse == null){
-                ProductWarehouseEntity productW = new ProductWarehouseEntity();
-                productW.setProductwarehouseid(this.get32UUID());
-                productW.setCangwei(cangwei);
-                productW.setUpdatetime(date);
-                productW.setUpdateuser(username);
-                productW.setCreatetime(date);
-                productW.setCreateuser(username);
-                productW.setNeibuhuohao(chuKuShangPinEntity.getNeibuhuohao());
-                productW.setShangpintiaoma(chuKuShangPinEntity.getShangpintiaoma());
-                productW.setKehubianhao(chuKuShangPinEntity.getKehubianhao());
-                productW.setShuliang(chuKuShangPinEntity.getShuliang());
-                productWarehouseService.insert(productW);
-            }else {
-                Integer sum = Integer.parseInt(productWarehouse.getShuliang());
-                sum = sum+Integer.parseInt(chuKuShangPinEntity.getShuliang());
-                productWarehouse.setShuliang(Integer.toString(sum));
-                productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
+            Integer sum = Integer.parseInt(productWarehouse.getShuliang());
+            int count = Integer.parseInt(chuKuShangPinEntity.getShuliang());
+            if("0".equals(statusArr[7])){
+                if(sum < count){
+                    mv.addObject("msg","error");
+                    mv.addObject("resturt","库存不足！");
+                }
             }
+            sum = sum-count;
+            productWarehouse.setShuliang(Integer.toString(sum));
+            productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
+            chuKuShangPinService.updateByPrimaryKey(chuKuShangPinEntity);
             mv.addObject("msg","success");
         }else{
             mv.addObject("msg","error");
