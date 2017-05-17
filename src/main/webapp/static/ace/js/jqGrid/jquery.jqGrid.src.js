@@ -12018,7 +12018,7 @@ $.jgrid.extend({
                         }, o.ajaxOptions));
                         break;
                     case 'xmlstring' :
-                        // we need to make just the conversion and use the same code as xml
+                        // we need to make just the pdconversion and use the same code as xml
                         if(o.impstring && typeof o.impstring === 'string') {
                             var xmld = $.parseXML(o.impstring);
                             if(xmld) {

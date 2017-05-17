@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.luggagemail.LuggageMailDAO" >
+    <resultMap id="BaseResultMap" type="LuggageMail" >
+        <constructor >
+            <idArg column="luggagemailID" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="luggagemailcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="luggagemailName" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="unitCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="dutiable" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="rates" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        luggagemailID, luggagemailcode, luggagemailName, unit, unitCode, dutiable, rates,
+        remark, createuser, createtime, updateuser, updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_luggagemail
+        where luggagemailID = #{luggagemailid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_luggagemail
+        where luggagemailID = #{luggagemailid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="LuggageMail" >
+        insert into wms_luggagemail (luggagemailID, luggagemailcode, luggagemailName,
+        unit, unitCode, dutiable,
+        rates, remark, createuser,
+        createtime, updateuser, updatetime
+        )
+        values (#{luggagemailid,jdbcType=VARCHAR}, #{luggagemailcode,jdbcType=VARCHAR}, #{luggagemailname,jdbcType=VARCHAR},
+        #{unit,jdbcType=VARCHAR}, #{unitcode,jdbcType=VARCHAR}, #{dutiable,jdbcType=VARCHAR},
+        #{rates,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="LuggageMail" >
+        insert into wms_luggagemail
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="luggagemailid != null" >
+                luggagemailID,
+            </if>
+            <if test="luggagemailcode != null" >
+                luggagemailcode,
+            </if>
+            <if test="luggagemailname != null" >
+                luggagemailName,
+            </if>
+            <if test="unit != null" >
+                unit,
+            </if>
+            <if test="unitcode != null" >
+                unitCode,
+            </if>
+            <if test="dutiable != null" >
+                dutiable,
+            </if>
+            <if test="rates != null" >
+                rates,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="luggagemailid != null" >
+                #{luggagemailid,jdbcType=VARCHAR},
+            </if>
+            <if test="luggagemailcode != null" >
+                #{luggagemailcode,jdbcType=VARCHAR},
+            </if>
+            <if test="luggagemailname != null" >
+                #{luggagemailname,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null" >
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="unitcode != null" >
+                #{unitcode,jdbcType=VARCHAR},
+            </if>
+            <if test="dutiable != null" >
+                #{dutiable,jdbcType=VARCHAR},
+            </if>
+            <if test="rates != null" >
+                #{rates,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="LuggageMail" >
+        update wms_luggagemail
+        <set >
+            <if test="luggagemailcode != null" >
+                luggagemailcode = #{luggagemailcode,jdbcType=VARCHAR},
+            </if>
+            <if test="luggagemailname != null" >
+                luggagemailName = #{luggagemailname,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null" >
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="unitcode != null" >
+                unitCode = #{unitcode,jdbcType=VARCHAR},
+            </if>
+            <if test="dutiable != null" >
+                dutiable = #{dutiable,jdbcType=VARCHAR},
+            </if>
+            <if test="rates != null" >
+                rates = #{rates,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where luggagemailID = #{luggagemailid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="LuggageMail" >
+        update wms_luggagemail
+        set luggagemailcode = #{luggagemailcode,jdbcType=VARCHAR},
+        luggagemailName = #{luggagemailname,jdbcType=VARCHAR},
+        unit = #{unit,jdbcType=VARCHAR},
+        unitCode = #{unitcode,jdbcType=VARCHAR},
+        dutiable = #{dutiable,jdbcType=VARCHAR},
+        rates = #{rates,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        createuser = #{createuser,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+        updatetime = #{updatetime,jdbcType=TIMESTAMP}
+        where luggagemailID = #{luggagemailid,jdbcType=VARCHAR}
+    </update>
+
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_luggagemail
+        WHERE 1=1
+        <if test="pd.luggagemailcode!= null and pd.luggagemailcode != ''"><!-- 商品名称 -->
+            and luggagemailcode LIKE  "%"#{pd.luggagemailcode,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.luggagemailname!= null and pd.luggagemailname != ''"><!-- 商品名称 -->
+            and luggagemailname LIKE  "%"#{pd.luggagemailname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.luggagemailname!= null and pd.luggagemailname != ''"><!-- 商品名称 -->
+            and luggagemailname LIKE  "%"#{pd.luggagemailname,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_luggagemail
+    </select>
+    <select id="findLuggageMailByLuggageMailCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_luggagemail
+        WHERE  luggagemailcode = #{luggagemailcode,jdbcType=VARCHAR}
+    </select>
+    <select id="selectLuggaageMailByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_luggagemail
+        WHERE  luggagemailname = #{luggagemailname,jdbcType=VARCHAR}
+    </select>
+</mapper>

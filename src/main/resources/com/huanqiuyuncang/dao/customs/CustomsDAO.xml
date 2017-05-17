@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.customs.CustomsDAO" >
+    <resultMap id="BaseResultMap" type="Customs" >
+        <constructor >
+            <idArg column="customsID" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="customscode" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="customsname" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="rates" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        customsID, customscode, customsname, rates, remark, createuser, createtime, updateuser,
+        updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_customs
+        where customsID = #{customsid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_customs
+        where customsID = #{customsid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="Customs" >
+        insert into wms_customs (customsID, customscode, customsname,
+        rates, remark, createuser,
+        createtime, updateuser, updatetime
+        )
+        values (#{customsid,jdbcType=VARCHAR}, #{customscode,jdbcType=VARCHAR}, #{customsname,jdbcType=VARCHAR},
+        #{rates,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="Customs" >
+        insert into wms_customs
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="customsid != null" >
+                customsID,
+            </if>
+            <if test="customscode != null" >
+                customscode,
+            </if>
+            <if test="customsname != null" >
+                customsname,
+            </if>
+            <if test="rates != null" >
+                rates,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="customsid != null" >
+                #{customsid,jdbcType=VARCHAR},
+            </if>
+            <if test="customscode != null" >
+                #{customscode,jdbcType=VARCHAR},
+            </if>
+            <if test="customsname != null" >
+                #{customsname,jdbcType=VARCHAR},
+            </if>
+            <if test="rates != null" >
+                #{rates,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="Customs" >
+        update wms_customs
+        <set >
+            <if test="customscode != null" >
+                customscode = #{customscode,jdbcType=VARCHAR},
+            </if>
+            <if test="customsname != null" >
+                customsname = #{customsname,jdbcType=VARCHAR},
+            </if>
+            <if test="rates != null" >
+                rates = #{rates,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where customsID = #{customsid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="Customs" >
+        update wms_customs
+        set customscode = #{customscode,jdbcType=VARCHAR},
+        customsname = #{customsname,jdbcType=VARCHAR},
+        rates = #{rates,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        createuser = #{createuser,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+        updatetime = #{updatetime,jdbcType=TIMESTAMP}
+        where customsID = #{customsid,jdbcType=VARCHAR}
+    </update>
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+
+        <include refid="Base_Column_List" />
+        from
+        wms_customs where  1=1
+        <if test="pd.customscode!= null and pd.customscode != ''"><!-- 商品名称 -->
+            and customscode LIKE  "%"#{pd.customscode,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.customsname!= null and pd.customsname != ''"><!-- 商品名称 -->
+            and customsname LIKE  "%"#{pd.customsname,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+    <select id="selectAll"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_customs
+
+    </select>
+    <select id="findCustomsByCustomsCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_customs
+        WHERE customscode = #{customscode,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

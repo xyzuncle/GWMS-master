@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.pdconversion.ProductConversionDAO" >
+  <resultMap id="BaseResultMap" type="ProductConversion" >
+    <constructor >
+      <idArg column="productconversionid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="outerproductnum" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="customercode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productnum1" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productcount1" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priceof1" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productnum2" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productcount2" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priceof2" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productnum3" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productcount3" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priceof3" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productnum4" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productcount4" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="priceof4" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productconversionid, outerproductnum, customercode, productnum1, productcount1, priceof1, 
+    productnum2, productcount2, priceof2, productnum3, productcount3, priceof3, productnum4, 
+    productcount4, priceof4, remark, createuser, createtime, updateuser, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_productconversion
+    where productconversionid = #{productconversionid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_productconversion
+    where productconversionid = #{productconversionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ProductConversion" >
+    insert into wms_productconversion (productconversionid, outerproductnum, 
+      customercode, productnum1, productcount1, 
+      priceof1, productnum2, productcount2, 
+      priceof2, productnum3, productcount3, 
+      priceof3, productnum4, productcount4, 
+      priceof4, remark, createuser, 
+      createtime, updateuser, updatetime
+      )
+    values (#{productconversionid,jdbcType=VARCHAR}, #{outerproductnum,jdbcType=VARCHAR}, 
+      #{customercode,jdbcType=VARCHAR}, #{productnum1,jdbcType=VARCHAR}, #{productcount1,jdbcType=VARCHAR}, 
+      #{priceof1,jdbcType=VARCHAR}, #{productnum2,jdbcType=VARCHAR}, #{productcount2,jdbcType=VARCHAR}, 
+      #{priceof2,jdbcType=VARCHAR}, #{productnum3,jdbcType=VARCHAR}, #{productcount3,jdbcType=VARCHAR}, 
+      #{priceof3,jdbcType=VARCHAR}, #{productnum4,jdbcType=VARCHAR}, #{productcount4,jdbcType=VARCHAR}, 
+      #{priceof4,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ProductConversion" >
+    insert into wms_productconversion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productconversionid != null" >
+        productconversionid,
+      </if>
+      <if test="outerproductnum != null" >
+        outerproductnum,
+      </if>
+      <if test="customercode != null" >
+        customercode,
+      </if>
+      <if test="productnum1 != null" >
+        productnum1,
+      </if>
+      <if test="productcount1 != null" >
+        productcount1,
+      </if>
+      <if test="priceof1 != null" >
+        priceof1,
+      </if>
+      <if test="productnum2 != null" >
+        productnum2,
+      </if>
+      <if test="productcount2 != null" >
+        productcount2,
+      </if>
+      <if test="priceof2 != null" >
+        priceof2,
+      </if>
+      <if test="productnum3 != null" >
+        productnum3,
+      </if>
+      <if test="productcount3 != null" >
+        productcount3,
+      </if>
+      <if test="priceof3 != null" >
+        priceof3,
+      </if>
+      <if test="productnum4 != null" >
+        productnum4,
+      </if>
+      <if test="productcount4 != null" >
+        productcount4,
+      </if>
+      <if test="priceof4 != null" >
+        priceof4,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productconversionid != null" >
+        #{productconversionid,jdbcType=VARCHAR},
+      </if>
+      <if test="outerproductnum != null" >
+        #{outerproductnum,jdbcType=VARCHAR},
+      </if>
+      <if test="customercode != null" >
+        #{customercode,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum1 != null" >
+        #{productnum1,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount1 != null" >
+        #{productcount1,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof1 != null" >
+        #{priceof1,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum2 != null" >
+        #{productnum2,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount2 != null" >
+        #{productcount2,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof2 != null" >
+        #{priceof2,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum3 != null" >
+        #{productnum3,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount3 != null" >
+        #{productcount3,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof3 != null" >
+        #{priceof3,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum4 != null" >
+        #{productnum4,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount4 != null" >
+        #{productcount4,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof4 != null" >
+        #{priceof4,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ProductConversion" >
+    update wms_productconversion
+    <set >
+      <if test="outerproductnum != null" >
+        outerproductnum = #{outerproductnum,jdbcType=VARCHAR},
+      </if>
+      <if test="customercode != null" >
+        customercode = #{customercode,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum1 != null" >
+        productnum1 = #{productnum1,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount1 != null" >
+        productcount1 = #{productcount1,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof1 != null" >
+        priceof1 = #{priceof1,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum2 != null" >
+        productnum2 = #{productnum2,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount2 != null" >
+        productcount2 = #{productcount2,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof2 != null" >
+        priceof2 = #{priceof2,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum3 != null" >
+        productnum3 = #{productnum3,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount3 != null" >
+        productcount3 = #{productcount3,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof3 != null" >
+        priceof3 = #{priceof3,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum4 != null" >
+        productnum4 = #{productnum4,jdbcType=VARCHAR},
+      </if>
+      <if test="productcount4 != null" >
+        productcount4 = #{productcount4,jdbcType=VARCHAR},
+      </if>
+      <if test="priceof4 != null" >
+        priceof4 = #{priceof4,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where productconversionid = #{productconversionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ProductConversion" >
+    update wms_productconversion
+    set outerproductnum = #{outerproductnum,jdbcType=VARCHAR},
+      customercode = #{customercode,jdbcType=VARCHAR},
+      productnum1 = #{productnum1,jdbcType=VARCHAR},
+      productcount1 = #{productcount1,jdbcType=VARCHAR},
+      priceof1 = #{priceof1,jdbcType=VARCHAR},
+      productnum2 = #{productnum2,jdbcType=VARCHAR},
+      productcount2 = #{productcount2,jdbcType=VARCHAR},
+      priceof2 = #{priceof2,jdbcType=VARCHAR},
+      productnum3 = #{productnum3,jdbcType=VARCHAR},
+      productcount3 = #{productcount3,jdbcType=VARCHAR},
+      priceof3 = #{priceof3,jdbcType=VARCHAR},
+      productnum4 = #{productnum4,jdbcType=VARCHAR},
+      productcount4 = #{productcount4,jdbcType=VARCHAR},
+      priceof4 = #{priceof4,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where productconversionid = #{productconversionid,jdbcType=VARCHAR}
+  </update>
+  <select id="datalistPage" resultMap="BaseResultMap" parameterType="page" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productconversion
+        WHERE 1=1
+        <if test="pd.outerproductnum != null  and pd.outerproductnum != ''" >
+         AND outerproductnum = #{pd.outerproductnum,jdbcType=VARCHAR}
+       </if>
+      <if test="pd.productnum1 != null  and pd.productnum1 != ''" >
+          AND (
+          productnum1 = #{pd.productnum1,jdbcType=VARCHAR} OR
+          productnum2 = #{pd.productnum1,jdbcType=VARCHAR} OR
+          productnum3 = #{pd.productnum1,jdbcType=VARCHAR} OR
+          productnum4 = #{pd.productnum1,jdbcType=VARCHAR}
+          )
+      </if>
+    </select>
+
+    <select id="selectByOuterPdNum" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productconversion
+        where outerproductnum = #{outerproductnum,jdbcType=VARCHAR}
+    </select>
+</mapper>

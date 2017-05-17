@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.warehouse.ChuKuShangPinDAO" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
+        <constructor >
+            <idArg column="chukushangpinid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="baoguodanhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kehudingdanhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="waibudingdanhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kehubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="neibuhuohao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="shangpintiaoma" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="shuliang" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="rukuzhuangtai" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        chukushangpinid, baoguodanhao, kehudingdanhao, waibudingdanhao, kehubianhao, neibuhuohao,
+        shangpintiaoma, shuliang, cangwei, rukuzhuangtai, createuser, createtime, updateuser,
+        updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_chukushangpin
+        where chukushangpinid = #{chukushangpinid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_chukushangpin
+        where chukushangpinid = #{chukushangpinid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
+        insert into wms_chukushangpin (chukushangpinid, baoguodanhao, kehudingdanhao,
+        waibudingdanhao, kehubianhao, neibuhuohao,
+        shangpintiaoma, shuliang, cangwei,
+        rukuzhuangtai, createuser, createtime,
+        updateuser, updatetime)
+        values (#{chukushangpinid,jdbcType=VARCHAR}, #{baoguodanhao,jdbcType=VARCHAR}, #{kehudingdanhao,jdbcType=VARCHAR},
+        #{waibudingdanhao,jdbcType=VARCHAR}, #{kehubianhao,jdbcType=VARCHAR}, #{neibuhuohao,jdbcType=VARCHAR},
+        #{shangpintiaoma,jdbcType=VARCHAR}, #{shuliang,jdbcType=VARCHAR}, #{cangwei,jdbcType=VARCHAR},
+        #{rukuzhuangtai,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+        #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
+        insert into wms_chukushangpin
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="chukushangpinid != null" >
+                chukushangpinid,
+            </if>
+            <if test="baoguodanhao != null" >
+                baoguodanhao,
+            </if>
+            <if test="kehudingdanhao != null" >
+                kehudingdanhao,
+            </if>
+            <if test="waibudingdanhao != null" >
+                waibudingdanhao,
+            </if>
+            <if test="kehubianhao != null" >
+                kehubianhao,
+            </if>
+            <if test="neibuhuohao != null" >
+                neibuhuohao,
+            </if>
+            <if test="shangpintiaoma != null" >
+                shangpintiaoma,
+            </if>
+            <if test="shuliang != null" >
+                shuliang,
+            </if>
+            <if test="cangwei != null" >
+                cangwei,
+            </if>
+            <if test="rukuzhuangtai != null" >
+                rukuzhuangtai,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="chukushangpinid != null" >
+                #{chukushangpinid,jdbcType=VARCHAR},
+            </if>
+            <if test="baoguodanhao != null" >
+                #{baoguodanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehudingdanhao != null" >
+                #{kehudingdanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="waibudingdanhao != null" >
+                #{waibudingdanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehubianhao != null" >
+                #{kehubianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="neibuhuohao != null" >
+                #{neibuhuohao,jdbcType=VARCHAR},
+            </if>
+            <if test="shangpintiaoma != null" >
+                #{shangpintiaoma,jdbcType=VARCHAR},
+            </if>
+            <if test="shuliang != null" >
+                #{shuliang,jdbcType=VARCHAR},
+            </if>
+            <if test="cangwei != null" >
+                #{cangwei,jdbcType=VARCHAR},
+            </if>
+            <if test="rukuzhuangtai != null" >
+                #{rukuzhuangtai,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
+        update wms_chukushangpin
+        <set >
+            <if test="baoguodanhao != null" >
+                baoguodanhao = #{baoguodanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehudingdanhao != null" >
+                kehudingdanhao = #{kehudingdanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="waibudingdanhao != null" >
+                waibudingdanhao = #{waibudingdanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehubianhao != null" >
+                kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="neibuhuohao != null" >
+                neibuhuohao = #{neibuhuohao,jdbcType=VARCHAR},
+            </if>
+            <if test="shangpintiaoma != null" >
+                shangpintiaoma = #{shangpintiaoma,jdbcType=VARCHAR},
+            </if>
+            <if test="shuliang != null" >
+                shuliang = #{shuliang,jdbcType=VARCHAR},
+            </if>
+            <if test="cangwei != null" >
+                cangwei = #{cangwei,jdbcType=VARCHAR},
+            </if>
+            <if test="rukuzhuangtai != null" >
+                rukuzhuangtai = #{rukuzhuangtai,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where chukushangpinid = #{chukushangpinid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
+    update wms_chukushangpin
+    set baoguodanhao = #{baoguodanhao,jdbcType=VARCHAR},
+      kehudingdanhao = #{kehudingdanhao,jdbcType=VARCHAR},
+      waibudingdanhao = #{waibudingdanhao,jdbcType=VARCHAR},
+      kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
+      neibuhuohao = #{neibuhuohao,jdbcType=VARCHAR},
+      shangpintiaoma = #{shangpintiaoma,jdbcType=VARCHAR},
+      shuliang = #{shuliang,jdbcType=VARCHAR},
+      cangwei = #{cangwei,jdbcType=VARCHAR},
+      rukuzhuangtai = #{rukuzhuangtai,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where chukushangpinid = #{chukushangpinid,jdbcType=VARCHAR}
+  </update>
+  <select id="datalistPage" parameterType="page" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_chukushangpin
+        where 1=1
+      <if test="pd.baoguodanhao!= null and pd.baoguodanhao != ''"><!-- 商品名称 -->
+          and baoguodanhao LIKE  "%"#{pd.baoguodanhao,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="pd.kehudingdanhao!= null and pd.kehudingdanhao != ''"><!-- 商品名称 -->
+          and kehudingdanhao LIKE  "%"#{pd.kehudingdanhao,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="pd.waibudingdanhao!= null and pd.waibudingdanhao != ''"><!-- 商品名称 -->
+          and waibudingdanhao LIKE  "%"#{pd.waibudingdanhao,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="pd.neibuhuohao!= null and pd.neibuhuohao != ''"><!-- 商品名称 -->
+          and neibuhuohao LIKE  "%"#{pd.neibuhuohao,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="pd.shangpintiaoma!= null and pd.shangpintiaoma != ''"><!-- 商品名称 -->
+          and shangpintiaoma LIKE  "%"#{pd.shangpintiaoma,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
+          and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
+      </if>
+  </select>
+</mapper>

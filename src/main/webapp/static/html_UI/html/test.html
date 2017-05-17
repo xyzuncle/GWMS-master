@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='../assets/js/jquery.js'>"+"<"+"/script>");
+    </script>
+    <script src="../assets/js/bootstrap.js"></script>
+    <script src="../assets/js/upload.js"></script>
+    <title></title>
+</head>
+<body>
+<form id="form1" runat="server">
+    <div style="width: 100%; float: left;">
+        <input type="hidden" id="hfThumbnail" value="/uploads/2014/04/23/635338686611432716.jpg" />
+        <div class="imgdiv"></div>
+    <span class="img_span">
+        <input type="file" name="file" />
+    </span>
+
+        <input type="button" value="上传" class="upload" />
+    </div>
+    <div style="width: 100%; float: left;">
+        <input type="hidden" id="hfThumbnail" value="/uploads/2014/04/23/635338686611432716.jpg" />
+        <div class="imgdiv"></div>
+    <span class="img_span">
+        <input type="file" name="file" />
+    </span>
+
+        <input type="button" value="上传" class="upload" />
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$(".upload").upload({
+        //    uploadData: { id: "12233" },
+        //    successFn: function (response, statusText, xhr, $this) {
+        //        alert(response.Data.RelativePath)
+        //    },
+        //    deleteData: { id: function () { return "asdfasdf" } }
+        //});
+        $(".upload").upload({
+            uploadData: { id: "12233" },
+            successFn: "success",
+            deleteData: { id: function () { return "asdfasdf" } }
+        });
+    });
+
+    //上传成功后执行该函数
+    function success(response, statusText, xhr, $this) {
+        //比如插入编辑器
+        alert(response.Data.RelativePath + $this.attr("value"))
+    }
+</script>
+</body>
+</html>
+

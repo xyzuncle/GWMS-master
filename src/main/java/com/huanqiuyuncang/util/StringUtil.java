@@ -63,6 +63,24 @@ public class StringUtil {
 	       } catch (Exception exception3) {      
 	       }      
 	      return "";      
-	   } 
-	
+	   }
+
+    public static Integer getNum(String str) {
+        str=str.trim();
+        String str2="";
+        if(str != null && !"".equals(str)){
+            for(int i=0;i<str.length();i++){
+                if(str.charAt(i)>=48 && str.charAt(i)<=57){
+                    str2+=str.charAt(i);
+                }
+            }
+
+        }
+        if(str2 != null && !"".equals(str2)){
+            return Integer.parseInt(str2);
+        }else{
+            return null;
+        }
+    }
+
 }

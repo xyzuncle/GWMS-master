@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.product.ProductDAO" >
+    <resultMap id="BaseResultMap" type="Product" >
+        <constructor >
+            <idArg column="product_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="image" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="productNum" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="productName" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="productEName" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="barCode_main" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="barCode_auxiliary1" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="barCode_auxiliary2" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="barCode_auxiliary3" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="barCode_auxiliary4" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="brandName" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="standard" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="producing_area" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="expiration_date" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="Declare_price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="retail_price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="Gross_weight" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="net_weight" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="product_length" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="product_width" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="product_high" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="product_volume" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="CrossBorder_CourierFee" jdbcType="DOUBLE" javaType="java.lang.Double" />
+            <arg column="customsCode" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="luggageMail" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="CartonTypeA" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="CartonTypeANum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="CartonTypeB" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="CartonTypeBNum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="defaultPackage" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark_1" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark_2" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark_3" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="audit_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="block_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="createUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updateTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+    product_id, image, productNum, productName, productEName, barCode_main, barCode_auxiliary1,
+    barCode_auxiliary2, barCode_auxiliary3, barCode_auxiliary4, brandName, unit, standard,
+    producing_area, expiration_date, Declare_price, retail_price, Gross_weight, net_weight,
+    product_length, product_width, product_high, product_volume, CrossBorder_CourierFee,
+    customsCode, luggageMail, CartonTypeA, CartonTypeANum, CartonTypeB, CartonTypeBNum,
+    defaultPackage, remark_1, remark_2, remark_3, audit_status, block_status, createUser,
+    createTime, updateUser, updateTime
+  </sql>
+
+    <sql id="listLimit">
+        limit #{currentPage},#{showCount}
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_product
+        where product_id = #{productId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_product
+        where product_id = #{productId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="Product" >
+        insert into wms_product (product_id, image, productNum,
+        productName, productEName, barCode_main,
+        barCode_auxiliary1, barCode_auxiliary2, barCode_auxiliary3,
+        barCode_auxiliary4, brandName, unit,
+        standard, producing_area, expiration_date,
+        Declare_price, retail_price, Gross_weight,
+        net_weight, product_length, product_width,
+        product_high, product_volume, CrossBorder_CourierFee,
+        customsCode, luggageMail, CartonTypeA,
+        CartonTypeANum, CartonTypeB, CartonTypeBNum,
+        defaultPackage, remark_1, remark_2,
+        remark_3, audit_status, block_status,
+        createUser, createTime, updateUser,
+        updateTime)
+        values (#{productId,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{productnum,jdbcType=VARCHAR},
+        #{productname,jdbcType=VARCHAR}, #{productename,jdbcType=VARCHAR}, #{barcodeMain,jdbcType=VARCHAR},
+        #{barcodeAuxiliary1,jdbcType=VARCHAR}, #{barcodeAuxiliary2,jdbcType=VARCHAR}, #{barcodeAuxiliary3,jdbcType=VARCHAR},
+        #{barcodeAuxiliary4,jdbcType=VARCHAR}, #{brandname,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR},
+        #{standard,jdbcType=VARCHAR}, #{producingArea,jdbcType=VARCHAR}, #{expirationDate,jdbcType=VARCHAR},
+        #{declarePrice,jdbcType=DOUBLE}, #{retailPrice,jdbcType=DOUBLE}, #{grossWeight,jdbcType=DOUBLE},
+        #{netWeight,jdbcType=DOUBLE}, #{productLength,jdbcType=DOUBLE}, #{productWidth,jdbcType=DOUBLE},
+        #{productHigh,jdbcType=DOUBLE}, #{productVolume,jdbcType=DOUBLE}, #{crossborderCourierfee,jdbcType=DOUBLE},
+        #{customscode,jdbcType=VARCHAR}, #{luggagemail,jdbcType=VARCHAR}, #{cartontypea,jdbcType=VARCHAR},
+        #{cartontypeanum,jdbcType=INTEGER}, #{cartontypeb,jdbcType=VARCHAR}, #{cartontypebnum,jdbcType=INTEGER},
+        #{defaultpackage,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},
+        #{remark3,jdbcType=VARCHAR}, #{auditStatus,jdbcType=INTEGER}, #{blockStatus,jdbcType=INTEGER},
+        #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
+        #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="Product" >
+        insert into wms_product
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="image != null" >
+                image,
+            </if>
+            <if test="productnum != null" >
+                productNum,
+            </if>
+            <if test="productname != null" >
+                productName,
+            </if>
+            <if test="productename != null" >
+                productEName,
+            </if>
+            <if test="barcodeMain != null" >
+                barCode_main,
+            </if>
+            <if test="barcodeAuxiliary1 != null" >
+                barCode_auxiliary1,
+            </if>
+            <if test="barcodeAuxiliary2 != null" >
+                barCode_auxiliary2,
+            </if>
+            <if test="barcodeAuxiliary3 != null" >
+                barCode_auxiliary3,
+            </if>
+            <if test="barcodeAuxiliary4 != null" >
+                barCode_auxiliary4,
+            </if>
+            <if test="brandname != null" >
+                brandName,
+            </if>
+            <if test="unit != null" >
+                unit,
+            </if>
+            <if test="standard != null" >
+                standard,
+            </if>
+            <if test="producingArea != null" >
+                producing_area,
+            </if>
+            <if test="expirationDate != null" >
+                expiration_date,
+            </if>
+            <if test="declarePrice != null" >
+                Declare_price,
+            </if>
+            <if test="retailPrice != null" >
+                retail_price,
+            </if>
+            <if test="grossWeight != null" >
+                Gross_weight,
+            </if>
+            <if test="netWeight != null" >
+                net_weight,
+            </if>
+            <if test="productLength != null" >
+                product_length,
+            </if>
+            <if test="productWidth != null" >
+                product_width,
+            </if>
+            <if test="productHigh != null" >
+                product_high,
+            </if>
+            <if test="productVolume != null" >
+                product_volume,
+            </if>
+            <if test="crossborderCourierfee != null" >
+                CrossBorder_CourierFee,
+            </if>
+            <if test="customscode != null" >
+                customsCode,
+            </if>
+            <if test="luggagemail != null" >
+                luggageMail,
+            </if>
+            <if test="cartontypea != null" >
+                CartonTypeA,
+            </if>
+            <if test="cartontypeanum != null" >
+                CartonTypeANum,
+            </if>
+            <if test="cartontypeb != null" >
+                CartonTypeB,
+            </if>
+            <if test="cartontypebnum != null" >
+                CartonTypeBNum,
+            </if>
+            <if test="defaultpackage != null" >
+                defaultPackage,
+            </if>
+            <if test="remark1 != null" >
+                remark_1,
+            </if>
+            <if test="remark2 != null" >
+                remark_2,
+            </if>
+            <if test="remark3 != null" >
+                remark_3,
+            </if>
+            <if test="auditStatus != null" >
+                audit_status,
+            </if>
+            <if test="blockStatus != null" >
+                block_status,
+            </if>
+            <if test="createuser != null" >
+                createUser,
+            </if>
+            <if test="createtime != null" >
+                createTime,
+            </if>
+            <if test="updateuser != null" >
+                updateUser,
+            </if>
+            <if test="updatetime != null" >
+                updateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="productId != null" >
+                #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="image != null" >
+                #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="productnum != null" >
+                #{productnum,jdbcType=VARCHAR},
+            </if>
+            <if test="productname != null" >
+                #{productname,jdbcType=VARCHAR},
+            </if>
+            <if test="productename != null" >
+                #{productename,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeMain != null" >
+                #{barcodeMain,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary1 != null" >
+                #{barcodeAuxiliary1,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary2 != null" >
+                #{barcodeAuxiliary2,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary3 != null" >
+                #{barcodeAuxiliary3,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary4 != null" >
+                #{barcodeAuxiliary4,jdbcType=VARCHAR},
+            </if>
+            <if test="brandname != null" >
+                #{brandname,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null" >
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="standard != null" >
+                #{standard,jdbcType=VARCHAR},
+            </if>
+            <if test="producingArea != null" >
+                #{producingArea,jdbcType=VARCHAR},
+            </if>
+            <if test="expirationDate != null" >
+                #{expirationDate,jdbcType=VARCHAR},
+            </if>
+            <if test="declarePrice != null" >
+                #{declarePrice,jdbcType=DOUBLE},
+            </if>
+            <if test="retailPrice != null" >
+                #{retailPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="grossWeight != null" >
+                #{grossWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="netWeight != null" >
+                #{netWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="productLength != null" >
+                #{productLength,jdbcType=DOUBLE},
+            </if>
+            <if test="productWidth != null" >
+                #{productWidth,jdbcType=DOUBLE},
+            </if>
+            <if test="productHigh != null" >
+                #{productHigh,jdbcType=DOUBLE},
+            </if>
+            <if test="productVolume != null" >
+                #{productVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="crossborderCourierfee != null" >
+                #{crossborderCourierfee,jdbcType=DOUBLE},
+            </if>
+            <if test="customscode != null" >
+                #{customscode,jdbcType=VARCHAR},
+            </if>
+            <if test="luggagemail != null" >
+                #{luggagemail,jdbcType=VARCHAR},
+            </if>
+            <if test="cartontypea != null" >
+                #{cartontypea,jdbcType=VARCHAR},
+            </if>
+            <if test="cartontypeanum != null" >
+                #{cartontypeanum,jdbcType=INTEGER},
+            </if>
+            <if test="cartontypeb != null" >
+                #{cartontypeb,jdbcType=VARCHAR},
+            </if>
+            <if test="cartontypebnum != null" >
+                #{cartontypebnum,jdbcType=INTEGER},
+            </if>
+            <if test="defaultpackage != null" >
+                #{defaultpackage,jdbcType=VARCHAR},
+            </if>
+            <if test="remark1 != null" >
+                #{remark1,jdbcType=VARCHAR},
+            </if>
+            <if test="remark2 != null" >
+                #{remark2,jdbcType=VARCHAR},
+            </if>
+            <if test="remark3 != null" >
+                #{remark3,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null" >
+                #{auditStatus,jdbcType=INTEGER},
+            </if>
+            <if test="blockStatus != null" >
+                #{blockStatus,jdbcType=INTEGER},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="Product" >
+        update wms_product
+        <set >
+            <if test="image != null" >
+                image = #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="productnum != null" >
+                productNum = #{productnum,jdbcType=VARCHAR},
+            </if>
+            <if test="productname != null" >
+                productName = #{productname,jdbcType=VARCHAR},
+            </if>
+            <if test="productename != null" >
+                productEName = #{productename,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeMain != null" >
+                barCode_main = #{barcodeMain,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary1 != null" >
+                barCode_auxiliary1 = #{barcodeAuxiliary1,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary2 != null" >
+                barCode_auxiliary2 = #{barcodeAuxiliary2,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary3 != null" >
+                barCode_auxiliary3 = #{barcodeAuxiliary3,jdbcType=VARCHAR},
+            </if>
+            <if test="barcodeAuxiliary4 != null" >
+                barCode_auxiliary4 = #{barcodeAuxiliary4,jdbcType=VARCHAR},
+            </if>
+            <if test="brandname != null" >
+                brandName = #{brandname,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null" >
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="standard != null" >
+                standard = #{standard,jdbcType=VARCHAR},
+            </if>
+            <if test="producingArea != null" >
+                producing_area = #{producingArea,jdbcType=VARCHAR},
+            </if>
+            <if test="expirationDate != null" >
+                expiration_date = #{expirationDate,jdbcType=VARCHAR},
+            </if>
+            <if test="declarePrice != null" >
+                Declare_price = #{declarePrice,jdbcType=DOUBLE},
+            </if>
+            <if test="retailPrice != null" >
+                retail_price = #{retailPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="grossWeight != null" >
+                Gross_weight = #{grossWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="netWeight != null" >
+                net_weight = #{netWeight,jdbcType=DOUBLE},
+            </if>
+            <if test="productLength != null" >
+                product_length = #{productLength,jdbcType=DOUBLE},
+            </if>
+            <if test="productWidth != null" >
+                product_width = #{productWidth,jdbcType=DOUBLE},
+            </if>
+            <if test="productHigh != null" >
+                product_high = #{productHigh,jdbcType=DOUBLE},
+            </if>
+            <if test="productVolume != null" >
+                product_volume = #{productVolume,jdbcType=DOUBLE},
+            </if>
+            <if test="crossborderCourierfee != null" >
+                CrossBorder_CourierFee = #{crossborderCourierfee,jdbcType=DOUBLE},
+            </if>
+            <if test="customscode != null" >
+                customsCode = #{customscode,jdbcType=VARCHAR},
+            </if>
+            <if test="luggagemail != null" >
+                luggageMail = #{luggagemail,jdbcType=VARCHAR},
+            </if>
+            <if test="cartontypea != null" >
+                CartonTypeA = #{cartontypea,jdbcType=VARCHAR},
+            </if>
+            <if test="cartontypeanum != null" >
+                CartonTypeANum = #{cartontypeanum,jdbcType=INTEGER},
+            </if>
+            <if test="cartontypeb != null" >
+                CartonTypeB = #{cartontypeb,jdbcType=VARCHAR},
+            </if>
+            <if test="cartontypebnum != null" >
+                CartonTypeBNum = #{cartontypebnum,jdbcType=INTEGER},
+            </if>
+            <if test="defaultpackage != null" >
+                defaultPackage = #{defaultpackage,jdbcType=VARCHAR},
+            </if>
+            <if test="remark1 != null" >
+                remark_1 = #{remark1,jdbcType=VARCHAR},
+            </if>
+            <if test="remark2 != null" >
+                remark_2 = #{remark2,jdbcType=VARCHAR},
+            </if>
+            <if test="remark3 != null" >
+                remark_3 = #{remark3,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null" >
+                audit_status = #{auditStatus,jdbcType=INTEGER},
+            </if>
+            <if test="blockStatus != null" >
+                block_status = #{blockStatus,jdbcType=INTEGER},
+            </if>
+            <if test="createuser != null" >
+                createUser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateUser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where product_id = #{productId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="Product" >
+    update wms_product
+    set image = #{image,jdbcType=VARCHAR},
+      productNum = #{productnum,jdbcType=VARCHAR},
+      productName = #{productname,jdbcType=VARCHAR},
+      productEName = #{productename,jdbcType=VARCHAR},
+      barCode_main = #{barcodeMain,jdbcType=VARCHAR},
+      barCode_auxiliary1 = #{barcodeAuxiliary1,jdbcType=VARCHAR},
+      barCode_auxiliary2 = #{barcodeAuxiliary2,jdbcType=VARCHAR},
+      barCode_auxiliary3 = #{barcodeAuxiliary3,jdbcType=VARCHAR},
+      barCode_auxiliary4 = #{barcodeAuxiliary4,jdbcType=VARCHAR},
+      brandName = #{brandname,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      standard = #{standard,jdbcType=VARCHAR},
+      producing_area = #{producingArea,jdbcType=VARCHAR},
+      expiration_date = #{expirationDate,jdbcType=VARCHAR},
+      Declare_price = #{declarePrice,jdbcType=DOUBLE},
+      retail_price = #{retailPrice,jdbcType=DOUBLE},
+      Gross_weight = #{grossWeight,jdbcType=DOUBLE},
+      net_weight = #{netWeight,jdbcType=DOUBLE},
+      product_length = #{productLength,jdbcType=DOUBLE},
+      product_width = #{productWidth,jdbcType=DOUBLE},
+      product_high = #{productHigh,jdbcType=DOUBLE},
+      product_volume = #{productVolume,jdbcType=DOUBLE},
+      CrossBorder_CourierFee = #{crossborderCourierfee,jdbcType=DOUBLE},
+      customsCode = #{customscode,jdbcType=VARCHAR},
+      luggageMail = #{luggagemail,jdbcType=VARCHAR},
+      CartonTypeA = #{cartontypea,jdbcType=VARCHAR},
+      CartonTypeANum = #{cartontypeanum,jdbcType=INTEGER},
+      CartonTypeB = #{cartontypeb,jdbcType=VARCHAR},
+      CartonTypeBNum = #{cartontypebnum,jdbcType=INTEGER},
+      defaultPackage = #{defaultpackage,jdbcType=VARCHAR},
+      remark_1 = #{remark1,jdbcType=VARCHAR},
+      remark_2 = #{remark2,jdbcType=VARCHAR},
+      remark_3 = #{remark3,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=INTEGER},
+      block_status = #{blockStatus,jdbcType=INTEGER},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateUser = #{updateuser,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where product_id = #{productId,jdbcType=VARCHAR}
+  </update>
+
+    <!-- 列表(全部) -->
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_product
+        WHERE 1=1
+        <if test="pd.productname!= null and pd.productname != ''"><!-- 商品名称 -->
+            and productName LIKE  "%"#{pd.productname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.brandname!= null and pd.brandname != ''"><!-- 品牌-->
+            and brandName =  #{pd.brandname,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.producingArea!= null and pd.producingArea != ''"><!-- 产地-->
+            and producing_area =  #{pd.producingArea,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.remark1!= null and pd.remark1 != ''"><!-- 备注 -->
+            and remark_1 LIKE  "%"#{pd.remark1,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.luggageMail!= null and pd.luggageMail != ''"><!-- 行邮分类 -->
+            and luggageMail  =  #{pd.luggageMail,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.barcodeMain!= null and pd.barcodeMain != ''"><!-- 行邮分类 -->
+            and(
+            barCode_main = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary1 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary2 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary3 = #{pd.barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary4 = #{pd.barcodeMain,jdbcType=VARCHAR}
+            )
+        </if>
+        <if test="pd.createuser!= null and pd.createuser != ''"><!-- 行邮分类 -->
+            and createuser  =  #{pd.createuser,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.auditStatus!= null and pd.auditStatus != ''"><!-- 审核状态 -->
+            and audit_status  =  #{pd.auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.blockStatus!= null and pd.blockStatus != ''"><!-- 审核状态 -->
+            and block_status  =  #{pd.blockStatus,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="findProductByProductNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_product
+        where productNum = #{productnum,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findProductByBarCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_product
+        where
+        barCode_main = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary1 = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary2 = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary3 = #{barCode,jdbcType=VARCHAR} OR
+        barCode_auxiliary4 = #{barCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectForExcel" parameterType="pd"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_product
+        WHERE 1=1
+        <if test="productname!= null and productname != ''"><!-- 商品名称 -->
+            and productName LIKE  "%"#{productname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="brandname!= null and brandname != ''"><!-- 品牌-->
+            and brandName =  #{brandname,jdbcType=VARCHAR}
+        </if>
+        <if test="producingArea!= null and producingArea != ''"><!-- 产地-->
+            and producing_area =  #{producingArea,jdbcType=VARCHAR}
+        </if>
+        <if test="remark1!= null and remark1 != ''"><!-- 备注 -->
+            and remark_1 LIKE  "%"#{remark1,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="auditStatus!= null and auditStatus != ''"><!-- 审核状态 -->
+            and audit_status  =  #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="luggageMail!= null and luggageMail != ''"><!-- 行邮分类 -->
+            and luggageMail  =  #{luggageMail,jdbcType=VARCHAR}
+        </if>
+        <if test="barcodeMain!= null and barcodeMain != ''"><!-- 行邮分类 -->
+            and(
+            barCode_main = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary1 = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary2 = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary3 = #{barcodeMain,jdbcType=VARCHAR} OR
+            barCode_auxiliary4 = #{barcodeMain,jdbcType=VARCHAR}
+            )
+        </if>
+    </select>
+
+    <select id="selectCountryNameByID" parameterType="java.lang.String" resultType="java.lang.String">
+      SELECT t.COUN_C_NAME FROM wms_country t WHERE t.COUNTRY_ID =  #{producingArea,jdbcType=VARCHAR}
+    </select>
+    <select id="selectCountryIDByName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT t.COUNTRY_ID FROM wms_country t WHERE t.COUN_C_NAME =  #{producingArea,jdbcType=VARCHAR} OR t.COUN_E_NAME =  #{producingArea,jdbcType=VARCHAR}
+    </select>
+</mapper>

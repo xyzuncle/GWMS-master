@@ -7901,7 +7901,7 @@ function ajaxConvert( s, response ) {
 		conversion,
 		// Conversion function
 		conv,
-		// Conversion functions (transitive conversion)
+		// Conversion functions (transitive pdconversion)
 		conv1,
 		conv2;
 
@@ -7953,7 +7953,7 @@ function ajaxConvert( s, response ) {
 			}
 			// If we found no converter, dispatch an error
 			if ( !( conv || conv2 ) ) {
-				jQuery.error( "No conversion from " + conversion.replace(" "," to ") );
+				jQuery.error( "No pdconversion from " + conversion.replace(" "," to ") );
 			}
 			// If found converter is not an equivalence
 			if ( conv !== true ) {

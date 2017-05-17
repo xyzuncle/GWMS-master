@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.brand.BrandDAO" >
+    <resultMap id="BaseResultMap" type="Brand" >
+        <constructor >
+            <idArg column="brandId" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="brandcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="brandname" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="brandEname" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        brandId, brandcode, brandname, brandEname, remark, createuser, createtime, updateuser,
+        updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_brand
+        where brandId = #{brandid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_brand
+        where brandId = #{brandid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="Brand" >
+        insert into wms_brand (brandId, brandcode, brandname,
+        brandEname, remark, createuser,
+        createtime, updateuser, updatetime
+        )
+        values (#{brandid,jdbcType=VARCHAR}, #{brandcode,jdbcType=VARCHAR}, #{brandname,jdbcType=VARCHAR},
+        #{brandename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="Brand" >
+        insert into wms_brand
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="brandid != null" >
+                brandId,
+            </if>
+            <if test="brandcode != null" >
+                brandcode,
+            </if>
+            <if test="brandname != null" >
+                brandname,
+            </if>
+            <if test="brandename != null" >
+                brandEname,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="brandid != null" >
+                #{brandid,jdbcType=VARCHAR},
+            </if>
+            <if test="brandcode != null" >
+                #{brandcode,jdbcType=VARCHAR},
+            </if>
+            <if test="brandname != null" >
+                #{brandname,jdbcType=VARCHAR},
+            </if>
+            <if test="brandename != null" >
+                #{brandename,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="Brand" >
+        update wms_brand
+        <set >
+            <if test="brandcode != null" >
+                brandcode = #{brandcode,jdbcType=VARCHAR},
+            </if>
+            <if test="brandname != null" >
+                brandname = #{brandname,jdbcType=VARCHAR},
+            </if>
+            <if test="brandename != null" >
+                brandEname = #{brandename,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where brandId = #{brandid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="Brand" >
+    update wms_brand
+    set brandcode = #{brandcode,jdbcType=VARCHAR},
+      brandname = #{brandname,jdbcType=VARCHAR},
+      brandEname = #{brandename,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where brandId = #{brandid,jdbcType=VARCHAR}
+  </update>
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_brand
+        WHERE 1=1
+        <if test="pd.brandcode!= null and pd.brandcode != ''"><!-- 商品名称 -->
+            and brandcode LIKE  "%"#{pd.brandcode,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.brandname!= null and pd.brandname != ''"><!-- 商品名称 -->
+            and brandname LIKE  "%"#{pd.brandname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.brandename!= null and pd.brandename != ''"><!-- 商品名称 -->
+            and brandEname LIKE  "%"#{pd.brandename,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+    <select id="selectAll"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_brand
+    </select>
+
+    <select id="findBrandByBrandCode"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_brand
+        where brandcode = #{brandcode,jdbcType=VARCHAR}
+    </select>
+    <select id="selectBrandByBrandName"  resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_brand
+        where brandname = #{pd.brandname,jdbcType=VARCHAR}
+    </select>
+</mapper>

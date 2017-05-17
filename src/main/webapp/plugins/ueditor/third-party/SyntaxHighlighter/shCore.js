@@ -352,7 +352,7 @@ if (XRegExp) {
             if (!search.global)
                 origLastIndex = search.lastIndex;
         } else {
-            search = search + ""; // Type conversion
+            search = search + ""; // Type pdconversion
         }
 
         if (Object.prototype.toString.call(replacement) === "[object Function]") {
@@ -372,7 +372,7 @@ if (XRegExp) {
                 return replacement.apply(null, arguments);
             });
         } else {
-            str = this + ""; // Type conversion, so `args[args.length - 1]` will be a string (given nonstring `this`)
+            str = this + ""; // Type pdconversion, so `args[args.length - 1]` will be a string (given nonstring `this`)
             result = nativ.replace.call(str, search, function () {
                 var args = arguments; // Keep this function's `arguments` available through closure
                 return nativ.replace.call(replacement + "", replacementToken, function ($0, $1, $2) {
@@ -394,7 +394,7 @@ if (XRegExp) {
                                 // - "$01" is equivalent to "$1" if a capturing group exists, otherwise it's the string "$01"
                                 // - There is no "$0" token ("$&" is the entire match)
                                 var literalNumbers = "";
-                                $1 = +$1; // Type conversion; drop leading zero
+                                $1 = +$1; // Type pdconversion; drop leading zero
                                 if (!$1) // `$1` was "0" or "00"
                                     return $0;
                                 while ($1 > args.length - 3) {
@@ -411,7 +411,7 @@ if (XRegExp) {
                         //   - Backreference 0 is allowed, and is the entire match
                         // - Backreference to named capture n, if it exists and is not a number overridden by numbered capture
                         // - Otherwise, it's the string "${n}"
-                        var n = +$2; // Type conversion; drop leading zeros
+                        var n = +$2; // Type pdconversion; drop leading zeros
                         if (n <= args.length - 3)
                             return args[n];
                         n = captureNames ? indexOf(captureNames, $2) : -1;
@@ -437,7 +437,7 @@ if (XRegExp) {
         if (!XRegExp.isRegExp(s))
             return nativ.split.apply(this, arguments);
 
-        var str = this + "", // Type conversion
+        var str = this + "", // Type pdconversion
             output = [],
             lastLastIndex = 0,
             match, lastLength;

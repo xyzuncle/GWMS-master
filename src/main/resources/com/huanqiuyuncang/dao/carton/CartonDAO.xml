@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.carton.CartonDAO" >
+  <resultMap id="BaseResultMap" type="Carton" >
+    <constructor >
+      <idArg column="cartonID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cartontype" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cartonname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="length" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="width" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="high" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="volume" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="price" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="weight" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cartonID, cartontype, cartonname, length, width, high, volume, price, weight, createuser, 
+    createtime, updateuser, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_carton
+    where cartonID = #{cartonid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_carton
+    where cartonID = #{cartonid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="Carton" >
+    insert into wms_carton (cartonID, cartontype, cartonname, 
+      length, width, high, 
+      volume, price, weight, 
+      createuser, createtime, updateuser, 
+      updatetime)
+    values (#{cartonid,jdbcType=VARCHAR}, #{cartontype,jdbcType=VARCHAR}, #{cartonname,jdbcType=VARCHAR}, 
+      #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{high,jdbcType=VARCHAR}, 
+      #{volume,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, 
+      #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="Carton" >
+    insert into wms_carton
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cartonid != null" >
+        cartonID,
+      </if>
+      <if test="cartontype != null" >
+        cartontype,
+      </if>
+      <if test="cartonname != null" >
+        cartonname,
+      </if>
+      <if test="length != null" >
+        length,
+      </if>
+      <if test="width != null" >
+        width,
+      </if>
+      <if test="high != null" >
+        high,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cartonid != null" >
+        #{cartonid,jdbcType=VARCHAR},
+      </if>
+      <if test="cartontype != null" >
+        #{cartontype,jdbcType=VARCHAR},
+      </if>
+      <if test="cartonname != null" >
+        #{cartonname,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null" >
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="high != null" >
+        #{high,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="Carton" >
+    update wms_carton
+    <set >
+      <if test="cartontype != null" >
+        cartontype = #{cartontype,jdbcType=VARCHAR},
+      </if>
+      <if test="cartonname != null" >
+        cartonname = #{cartonname,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null" >
+        width = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="high != null" >
+        high = #{high,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cartonID = #{cartonid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="Carton" >
+    update wms_carton
+    set cartontype = #{cartontype,jdbcType=VARCHAR},
+      cartonname = #{cartonname,jdbcType=VARCHAR},
+      length = #{length,jdbcType=VARCHAR},
+      width = #{width,jdbcType=VARCHAR},
+      high = #{high,jdbcType=VARCHAR},
+      volume = #{volume,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where cartonID = #{cartonid,jdbcType=VARCHAR}
+  </update>
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    wms_carton
+    <if test="pd.cartontype!= null and pd.cartontype != ''"><!-- 商品名称 -->
+        and cartontype LIKE  "%"#{pd.cartontype,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="pd.cartonname!= null and pd.cartonname != ''"><!-- 商品名称 -->
+        and cartonname LIKE  "%"#{pd.cartonname,jdbcType=VARCHAR}"%"
+    </if>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_carton
+
+    </select>
+
+    <select id="findCartonByCartonCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_carton
+        WHERE cartontype = #{cartontype,jdbcType=VARCHAR}
+    </select>
+</mapper>

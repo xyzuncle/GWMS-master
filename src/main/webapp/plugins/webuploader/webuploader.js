@@ -7204,7 +7204,7 @@
     
         /**
          * Appends a string.
-         * A conversion will be applied if an utf8 string is detected.
+         * A pdconversion will be applied if an utf8 string is detected.
          *
          * @param {String} str The string to be appended
          *
@@ -7331,7 +7331,7 @@
     
         /**
          * Performs the md5 hash on a string.
-         * A conversion will be applied if utf8 string is detected.
+         * A pdconversion will be applied if utf8 string is detected.
          *
          * @param {String}  str The string
          * @param {Boolean} raw True to get the raw result, false to get the hex result

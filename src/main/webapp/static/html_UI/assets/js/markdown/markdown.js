@@ -864,7 +864,7 @@ Markdown.dialects.Gruber.inline = {
 
       if ( m ) {
         // We can't check if the reference is known here as it likely wont be
-        // found till after. Check it in md tree->hmtl tree conversion
+        // found till after. Check it in md tree->hmtl tree pdconversion
         return [ m[0].length, [ "img_ref", { alt: m[1], ref: m[2].toLowerCase(), original: m[0] } ] ];
       }
 
@@ -947,8 +947,8 @@ Markdown.dialects.Gruber.inline = {
         link = [ "link_ref", attrs ].concat( children );
 
         // We can't check if the reference is known here as it likely wont be
-        // found till after. Check it in md tree->hmtl tree conversion.
-        // Store the original so that conversion can revert if the ref isn't found.
+        // found till after. Check it in md tree->hmtl tree pdconversion.
+        // Store the original so that pdconversion can revert if the ref isn't found.
         return [ consumed, link ];
       }
 

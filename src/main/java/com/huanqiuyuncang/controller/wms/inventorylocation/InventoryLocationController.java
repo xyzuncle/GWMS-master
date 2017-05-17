@@ -49,8 +49,7 @@ public class InventoryLocationController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"新增InventoryLocation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		pd.put("INVENTORYLOCATION_ID", this.get32UUID());	//主键
 		inventorylocationService.save(pd);
 		mv.addObject("msg","success");
@@ -66,8 +65,7 @@ public class InventoryLocationController extends BaseController {
 	public void delete(PrintWriter out) throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"删除InventoryLocation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		inventorylocationService.delete(pd);
 		out.write("success");
 		out.close();
@@ -82,8 +80,7 @@ public class InventoryLocationController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"修改InventoryLocation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		inventorylocationService.edit(pd);
 		mv.addObject("msg","success");
 		mv.setViewName("save_result");
@@ -99,8 +96,7 @@ public class InventoryLocationController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"列表InventoryLocation");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		String keywords = pd.getString("keywords");				//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
@@ -121,8 +117,7 @@ public class InventoryLocationController extends BaseController {
 	@RequestMapping(value="/goAdd")
 	public ModelAndView goAdd()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		mv.setViewName("wms/inventorylocation/inventorylocation_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
@@ -136,8 +131,7 @@ public class InventoryLocationController extends BaseController {
 	@RequestMapping(value="/goEdit")
 	public ModelAndView goEdit()throws Exception{
 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		pd = inventorylocationService.findById(pd);	//根据ID读取
 		mv.setViewName("wms/inventorylocation/inventorylocation_edit");
 		mv.addObject("msg", "edit");
@@ -154,9 +148,8 @@ public class InventoryLocationController extends BaseController {
 	public Object deleteAll() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"批量删除InventoryLocation");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
-		PageData pd = new PageData();		
 		Map<String,Object> map = new HashMap<String,Object>();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		List<PageData> pdList = new ArrayList<PageData>();
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
@@ -179,9 +172,7 @@ public class InventoryLocationController extends BaseController {
 	public ModelAndView exportExcel() throws Exception{
 		logBefore(logger, Jurisdiction.getUsername()+"导出InventoryLocation到excel");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;}
-		ModelAndView mv = new ModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+        PageData pd = this.getPageData();
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		List<String> titles = new ArrayList<String>();
 		titles.add("商品名称");	//1
@@ -203,7 +194,7 @@ public class InventoryLocationController extends BaseController {
 		}
 		dataMap.put("varList", varList);
 		ObjectExcelView erv = new ObjectExcelView();
-		mv = new ModelAndView(erv,dataMap);
+		ModelAndView mv = new ModelAndView(erv,dataMap);
 		return mv;
 	}
 
@@ -215,9 +206,8 @@ public class InventoryLocationController extends BaseController {
 	public Object hasUPC(){
 		Map<String,String> map = new HashMap<String,String>();
 		String errInfo = "success";
-		PageData pd = new PageData();
 		try{
-			pd = this.getPageData();
+            PageData pd = this.getPageData();
 			if(inventorylocationService.findByUPC(pd) != null){
 				errInfo = "error";
 			}

@@ -23,9 +23,17 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="dataSource" ref="dataSource" />
         <property name="configLocation" value="classpath:mybatis1/mybatis-config.xml"></property>
-        <!-- mapper扫描 -->
+        <!-- mapper扫描-->
         <property name="mapperLocations" value="classpath:mybatis1/*/*.xml"></property>
+
     </bean>
+
+    <!-- mapper扫描器，这里自动由于没有在sqlMapConfig配置mapper，所以必须保证mapper和dao接口在同一个目录且同名 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.huanqiuyuncang.dao.*"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
 	<!-- 阿里 druid数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">  
          <!-- 数据库基本信息配置 -->

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.warehouse.ProductWarehouseDAO" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
+        <constructor >
+            <idArg column="productwarehouseid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="neibuhuohao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kehubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="shangpintiaoma" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="shuliang" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        productwarehouseid, cangwei, neibuhuohao, kehubianhao, shangpintiaoma, shuliang,
+        createuser, createtime, updateuser, updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productwarehouse
+        where productwarehouseid = #{productwarehouseid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_productwarehouse
+        where productwarehouseid = #{productwarehouseid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
+        insert into wms_productwarehouse (productwarehouseid, cangwei, neibuhuohao,
+        kehubianhao, shangpintiaoma, shuliang,
+        createuser, createtime, updateuser,
+        updatetime)
+        values (#{productwarehouseid,jdbcType=VARCHAR}, #{cangwei,jdbcType=VARCHAR}, #{neibuhuohao,jdbcType=VARCHAR},
+        #{kehubianhao,jdbcType=VARCHAR}, #{shangpintiaoma,jdbcType=VARCHAR}, #{shuliang,jdbcType=VARCHAR},
+        #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
+        #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
+        insert into wms_productwarehouse
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="productwarehouseid != null" >
+                productwarehouseid,
+            </if>
+            <if test="cangwei != null" >
+                cangwei,
+            </if>
+            <if test="neibuhuohao != null" >
+                neibuhuohao,
+            </if>
+            <if test="kehubianhao != null" >
+                kehubianhao,
+            </if>
+            <if test="shangpintiaoma != null" >
+                shangpintiaoma,
+            </if>
+            <if test="shuliang != null" >
+                shuliang,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="productwarehouseid != null" >
+                #{productwarehouseid,jdbcType=VARCHAR},
+            </if>
+            <if test="cangwei != null" >
+                #{cangwei,jdbcType=VARCHAR},
+            </if>
+            <if test="neibuhuohao != null" >
+                #{neibuhuohao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehubianhao != null" >
+                #{kehubianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="shangpintiaoma != null" >
+                #{shangpintiaoma,jdbcType=VARCHAR},
+            </if>
+            <if test="shuliang != null" >
+                #{shuliang,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
+        update wms_productwarehouse
+        <set >
+            <if test="cangwei != null" >
+                cangwei = #{cangwei,jdbcType=VARCHAR},
+            </if>
+            <if test="neibuhuohao != null" >
+                neibuhuohao = #{neibuhuohao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehubianhao != null" >
+                kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="shangpintiaoma != null" >
+                shangpintiaoma = #{shangpintiaoma,jdbcType=VARCHAR},
+            </if>
+            <if test="shuliang != null" >
+                shuliang = #{shuliang,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where productwarehouseid = #{productwarehouseid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
+    update wms_productwarehouse
+    set cangwei = #{cangwei,jdbcType=VARCHAR},
+      neibuhuohao = #{neibuhuohao,jdbcType=VARCHAR},
+      kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
+      shangpintiaoma = #{shangpintiaoma,jdbcType=VARCHAR},
+      shuliang = #{shuliang,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where productwarehouseid = #{productwarehouseid,jdbcType=VARCHAR}
+  </update>
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productwarehouse
+        where 1=1
+        <if test="pd.neibuhuohao!= null and pd.neibuhuohao != ''"><!-- 商品名称 -->
+            and neibuhuohao LIKE  "%"#{pd.neibuhuohao,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.shangpintiaoma!= null and pd.shangpintiaoma != ''"><!-- 商品名称 -->
+            and shangpintiaoma LIKE  "%"#{pd.shangpintiaoma,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
+            and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+
+    <select id="selectByChuKuShangPin" parameterType="ChuKuShangPin" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productwarehouse
+        where 1=1
+        <if test="shangpintiaoma!= null and shangpintiaoma != ''"><!-- 商品名称 -->
+            and shangpintiaoma LIKE  "%"#{shangpintiaoma,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="cangwei!= null and cangwei != ''"><!-- 商品名称 -->
+            and cangwei LIKE  "%"#{cangwei,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="kehubianhao!= null and kehubianhao != ''">
+            and kehubianhao LIKE  "%"#{kehubianhao,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+</mapper>
