@@ -97,6 +97,10 @@ public class BarCodeController {
                     e.printStackTrace();
                 }
             });
+
+            //包裹单号，用于生产面单号使用
+            String innerpackagenum = innerOrderEntity.getInnerpackagenum();
+
             //需要通过拉取面单的接口来获取面单号
             ExpressBill bill = ExpressBillService.mites();
             String msg1= bill.getMailNo();

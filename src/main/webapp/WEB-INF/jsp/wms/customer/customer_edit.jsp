@@ -29,7 +29,6 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
-
                         <form action="customer/${msg }.do" name="Form" id="Form" method="post">
                             <input type="hidden" name="customerid" id="customerid" value="${customer.customerid}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
@@ -97,9 +96,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
                         </form>
-
                         <div id="zhongxin2" class="center" style="display:none"><img src="static/images/jzx.gif" style="width: 50px;" /><br/><h4 class="lighter block green"></h4></div>
                     </div>
                     <!-- /.col -->
@@ -122,11 +119,8 @@
     $(top.hangge());
     //保存
 
-
     function save(){
-
         if($("#customercode").val()==""){
-
             $("#customercode").tips({
                 side:3,
                 msg:'输入编号',
@@ -137,7 +131,6 @@
             return false;
         }
         if($("#customername").val()==""){
-
             $("#customername").tips({
                 side:3,
                 msg:'输入名称',
@@ -147,8 +140,6 @@
             $("#customername").focus();
             return false;
         }
-
-
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
@@ -158,7 +149,6 @@
         var customerid = $("#customerid").val();
         var yuanshicode = $("#yuanshicode").val();
         var customercode = $("#customercode").val();
-
         if(customerid == "" || yuanshicode != customercode ){
             var customercode = $.trim($("#customercode").val());
             $.ajax({
