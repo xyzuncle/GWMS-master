@@ -151,6 +151,9 @@
                                                         <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.innerorderid}');">
                                                             <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
                                                         </a>
+                                                        <c:if test="${pd.orderstatus == 'orderStatus_yidabao' }">
+                                                            <a class="btn btn-sm btn-primary" onclick="miandan('${var.innerorderid}');" title="面单" ><i class='ace-icon fa fa-barcode bigger-120'></i></a>
+                                                        </c:if>
                                                     </td>
                                                 </tr>
 
@@ -287,6 +290,23 @@
         diag.Drag=true;
         diag.Title ="编辑";
         diag.URL = '<%=basePath%>innerpackage/goView.do?innerorderid='+Id;
+        diag.Width = 700;
+        diag.Height = 800;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
+            }
+            diag.close();
+        };
+        diag.show();
+    }
+
+    function miandan(Id){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="编辑";
+        diag.URL = '<%=basePath%>barcode/getBillInfo.do?innerorderid='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件

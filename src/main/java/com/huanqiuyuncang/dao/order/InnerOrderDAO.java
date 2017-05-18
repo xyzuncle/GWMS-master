@@ -40,4 +40,6 @@ public interface InnerOrderDAO {
     String selectAreaCodeByName(String baoguanmoshi);
 
     List<InnerOrderEntity> selectByCustomerInfo(InnerOrderEntity innerOrder);
+
+    String selectAreaNameByCode(String areaCode);
 }

@@ -1,12 +1,20 @@
 package com.huanqiuyuncang.controller.wms.barcode;
 
 
+import com.huanqiuyuncang.entity.order.InnerOrderEntity;
+import com.huanqiuyuncang.entity.order.OrderProductEntity;
+import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.entity.yto.ExpressBill;
 import com.huanqiuyuncang.entity.yto.TransferCenter;
+import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
+import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
+import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.service.yto.ExpressBillService;
 import com.huanqiuyuncang.service.yto.LogisticsInterface;
 import com.huanqiuyuncang.util.CustomerBarcodeUtil;
 import com.huanqiuyuncang.util.XMLUtils;
+import org.apache.ibatis.type.Alias;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +27,7 @@ import java.io.DataOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +36,15 @@ import java.util.Map;
 @Controller
 @RequestMapping("/barcode")
 public class BarCodeController {
+
+    @Autowired
+    private InnerOrderInterface innerOrderService;
+
+    @Autowired
+    private OrderProductInterface orderProductService;
+
+    @Autowired
+    private ProductInterface productService;
 
     @RequestMapping("/destination")
     @ResponseBody
@@ -56,18 +74,39 @@ public class BarCodeController {
     }
 
     @RequestMapping("/getBillInfo")
-    public ModelAndView getBarCodeImgInfo(String msg){
+    public ModelAndView getBarCodeImgInfo(String innerorderid){
 
         Map<String,Object> billMap = new HashMap<String,Object>();
         ModelAndView view = new ModelAndView();
         try {
+            InnerOrderEntity innerOrderEntity = innerOrderService.selectByPrimaryKey(innerorderid);
+            Integer sum = orderProductService.orderproductSum(innerOrderEntity.getInnerpackagenum());
+            String recipientarea = innerOrderService.selectAreaNameByCode(innerOrderEntity.getRecipientarea());
+            String recipientprovince = innerOrderService.selectProvinceNameByCode(innerOrderEntity.getRecipientprovince());
+            String recipientcity = innerOrderService.selectCityNameByCode(innerOrderEntity.getRecipientcity());
+            innerOrderEntity.setRecipientarea(recipientarea);
+            innerOrderEntity.setRecipientprovince(recipientprovince);
+            innerOrderEntity.setRecipientcity(recipientcity);
+            List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProductBypackagenum(innerOrderEntity.getInnerpackagenum());
+            StringBuffer goods = new StringBuffer("");
+            orderProductEntities.forEach(orderProduct -> {
+                try {
+                    ProductEntity product = productService.findProductByBarCode(orderProduct.getBarcode());
+                    goods.append(product.getProductename()+",");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
             //需要通过拉取面单的接口来获取面单号
             ExpressBill bill = ExpressBillService.mites();
             String msg1= bill.getMailNo();
             view.setViewName("/barcode");
             view.addObject("mailNo",msg1);
             view.addObject("MarkDestination",bill.getDistributeInfo().get(0).getShortAddress());
-            view.addObject("recipient","");
+            view.addObject("order",innerOrderEntity);
+            view.addObject("sum",sum);
+            view.addObject("goods",goods.substring(0,goods.length()-1));
+            /*view.addObject("recipient","");
             view.addObject("recipientprovince","");
             view.addObject("recipientcity","");
             view.addObject("recipientarea","");
@@ -81,7 +120,7 @@ public class BarCodeController {
             view.addObject("sendercountry","");
             view.addObject("senderarea","");
             view.addObject("senderaddress","");
-            view.addObject("senderpostcode","");
+            view.addObject("senderpostcode","");*/
         }catch (Exception e){
             e.printStackTrace();
         }

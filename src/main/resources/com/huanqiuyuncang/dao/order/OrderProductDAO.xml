@@ -205,8 +205,24 @@
         WHERE customerordernum = #{customerordernum,jdbcType=VARCHAR}
         ORDER BY createtime DESC
     </select>
+
+    <select id="selectOrderProductBypackagenum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        from wms_orderproduct
+        WHERE innerpackagenum = #{innerpackagenum,jdbcType=VARCHAR}
+        ORDER BY createtime DESC
+    </select>
+
     <delete id="deleteByCustomerordernum" parameterType="java.lang.String">
         delete from wms_orderproduct
         where customerordernum = #{customerordernum,jdbcType=VARCHAR}
     </delete>
+
+    <select id="orderproductSum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+        sum(count)
+        from wms_orderproduct
+        WHERE innerpackagenum = #{innerpackagenum,jdbcType=VARCHAR}
+    </select>
 </mapper>

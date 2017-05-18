@@ -33,9 +33,11 @@ public interface InnerOrderInterface {
 
     List<PageData> selectArea(String code);
 
-    String selectProvinceNameByCode(String recipientprovince);
+    String selectProvinceNameByCode(String code);
 
-    String selectCityNameByCode(String recipientcity);
+    String selectCityNameByCode(String code);
+
+    String selectAreaNameByCode(String code);
 
     void shenheAll(String[] arrayDATA_ids);
 
