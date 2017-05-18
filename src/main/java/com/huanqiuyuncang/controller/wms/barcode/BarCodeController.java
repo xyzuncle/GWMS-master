@@ -102,7 +102,7 @@ public class BarCodeController {
             String innerpackagenum = innerOrderEntity.getInnerpackagenum();
 
             //需要通过拉取面单的接口来获取面单号
-            ExpressBill bill = ExpressBillService.mites();
+            ExpressBill bill = ExpressBillService.mites(innerpackagenum);
             String msg1= bill.getMailNo();
             view.setViewName("/barcode");
             view.addObject("mailNo",msg1);
