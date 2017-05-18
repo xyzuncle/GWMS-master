@@ -194,21 +194,21 @@
     <select id="selectCodeByCode" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT  customercode
         FROM wms_customer
-        WHERE customercode like  "%"#{code,jdbcType=VARCHAR}"%"
+        WHERE customercode =  #{code,jdbcType=VARCHAR}
 
     </select>
     <select id="selectCustomerByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM wms_customer
-        WHERE customercode like  "%"#{code,jdbcType=VARCHAR}"%"
+        WHERE customercode =  #{code,jdbcType=VARCHAR}
 
     </select>
     <select id="selectCustomerByName" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM wms_customer
-        WHERE customername like  "%"#{name,jdbcType=VARCHAR}"%"
+        WHERE customername =  #{name,jdbcType=VARCHAR}
 
     </select>
 </mapper>

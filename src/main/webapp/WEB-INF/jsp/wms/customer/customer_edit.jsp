@@ -159,7 +159,7 @@
         var yuanshicode = $("#yuanshicode").val();
         var customercode = $("#customercode").val();
 
-        if(customerid == "" || yuanshiCode != customercode){
+        if(customerid == "" || yuanshicode != customercode ){
             var customercode = $.trim($("#customercode").val());
             $.ajax({
                 type: "POST",
@@ -185,7 +185,7 @@
         var customerid = $("#customerid").val();
         var yuanshiname = $("#yuanshiname").val();
         var customername = $("#customername").val();
-        if(customerid == "" || yuanshiName != customername){
+        if(customerid == "" || yuanshiname != customername){
             var customername = $.trim($("#customername").val());
             $.ajax({
                 type: "POST",
