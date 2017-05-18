@@ -67,16 +67,16 @@ public class exportLuggageMailDate {
     }
     @Test
     public void aaa() {
-        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("orderserialnumber"));
         System.out.println(serialnumber);
-        PropUtil.writeProperties("serialnumber",serialnumber+1+"");
-        Integer serialnumber1 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        PropUtil.writeProperties("orderserialnumber",serialnumber+1+"");
+        Integer serialnumber1 = Integer.parseInt(PropUtil.getKeyValue("orderserialnumber"));
         System.out.println(serialnumber1);
-        PropUtil.writeProperties("serialnumber",serialnumber1+1+"");
-        Integer serialnumber2 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        PropUtil.writeProperties("orderserialnumber",serialnumber1+1+"");
+        Integer serialnumber2 = Integer.parseInt(PropUtil.getKeyValue("orderserialnumber"));
         System.out.println(serialnumber2);
-        PropUtil.writeProperties("serialnumber",serialnumber2+1+"");
-        Integer serialnumber3 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
+        PropUtil.writeProperties("orderserialnumber",serialnumber2+1+"");
+        Integer serialnumber3 = Integer.parseInt(PropUtil.getKeyValue("orderserialnumber"));
         System.out.println(serialnumber3);
     }
 

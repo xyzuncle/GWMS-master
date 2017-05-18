@@ -2,6 +2,7 @@ package com.huanqiuyuncang.controller.wms.customer;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.brand.BrandEntity;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.util.*;
@@ -210,4 +211,31 @@ public class CustomerController extends BaseController {
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
+
+    @RequestMapping(value="/findCustomerByCode")
+    @ResponseBody
+    public Object findCustomerByCode(String customercode) throws Exception{
+        CustomerEntity customerEntity = customerService.selectCustomerByCode(customercode);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        if (customerEntity != null){
+            errInfo = "error";
+        }
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
+    }
+
+    @RequestMapping(value="/findCustomerByName")
+    @ResponseBody
+    public Object findCustomerByName(String customername) throws Exception{
+        CustomerEntity customerEntity = customerService.selectCustomerByName(customername);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        if (customerEntity != null){
+            errInfo = "error";
+        }
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
+    }
+
 }

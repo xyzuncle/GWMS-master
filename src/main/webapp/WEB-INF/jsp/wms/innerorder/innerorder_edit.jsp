@@ -229,7 +229,7 @@
                                                     disabled
                                                 </c:if>
                                                    value="${innerorder.warehousedelivery}" maxlength="30"  style="width:98%;"/></td>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">订单状态:</td>
+                                        <%--<td style="width:82px;text-align: right;padding-top: 13px;">订单状态:</td>
                                         <td>
                                             <select class="chosen-select form-control"
                                                     <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
@@ -251,7 +251,7 @@
                                                     </c:when>
                                                 </c:choose>
                                             </select>
-                                        </td>
+                                        </td>--%>
                                     </tr>
                                     <tr>
                                         <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注:</td>

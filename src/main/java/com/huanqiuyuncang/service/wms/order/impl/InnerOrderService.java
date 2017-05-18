@@ -508,8 +508,8 @@ public class InnerOrderService implements InnerOrderInterface {
         String formatDate = format.format(date);
         String username = Jurisdiction.getUsername();
         String customernum = customerDAO.selectCodeByCode(username);
-        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-        PropUtil.writeProperties("serialnumber",serialnumber+1+"");
+        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("orderserialnumber"));
+        PropUtil.writeProperties("orderserialnumber",serialnumber+1+"");
         String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);
         String customerordernum = "O"+customernum+formatDate+serialnumberStr;
 

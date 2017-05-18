@@ -36,15 +36,22 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户编号:</td>
-                                        <td><input type="text" name="customercode" id="customercode" value="${customer.customercode}" maxlength="30" placeholder="这里输入行邮税号" title="行邮税号" style="width:98%;"/></td>
+                                        <td>
+                                            <input type="text" name="customercode" id="customercode" onblur="checkCode()" value="${customer.customercode}" maxlength="30" placeholder="这里输入客户编号" title="客户编号" style="width:98%;"/>
+                                            <input type="hidden" id="yuanshicode" value="${customer.customercode}">
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户名称:</td>
-                                        <td><input  type="text" name="customername" id="customername" value="${customer.customername}" maxlength="50" placeholder="这里输入行邮分类名称" title="行邮分类名称" style="width:98%;"/></td>
+                                        <td>
+                                            <input  type="text" name="customername" id="customername" onblur="checkName()" value="${customer.customername}"
+                                                    maxlength="50" placeholder="这里输入客户名称" title="客户名称" style="width:98%;"/>
+                                            <input type="hidden" id="yuanshiname" value="${customer.customername}">
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">默认发货仓库:</td>
-                                        <td><input type="text" name="defaultwarehouse" id="defaultwarehouse" value="${customer.defaultwarehouse}" maxlength="255" placeholder="这里输入税率" title="税率" style="width:98%;"/></td>
+                                        <td><input type="text" name="defaultwarehouse" id="defaultwarehouse" value="${customer.defaultwarehouse}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
                                     </tr>
                                     <c:if test="${QX.adminOrder == 1 }">
                                     <tr>
@@ -114,12 +121,93 @@
 <script type="text/javascript">
     $(top.hangge());
     //保存
+
+
     function save(){
-     
+
+        if($("#customercode").val()==""){
+
+            $("#customercode").tips({
+                side:3,
+                msg:'输入编号',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#customercode").focus();
+            return false;
+        }
+        if($("#customername").val()==""){
+
+            $("#customername").tips({
+                side:3,
+                msg:'输入名称',
+                bg:'#AE81FF',
+                time:3
+            });
+            $("#customername").focus();
+            return false;
+        }
+
+
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
     }
+
+    function checkCode(){
+        var customerid = $("#customerid").val();
+        var yuanshicode = $("#yuanshicode").val();
+        var customercode = $("#customercode").val();
+
+        if(customerid == "" || yuanshiCode != customercode){
+            var customercode = $.trim($("#customercode").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>customer/findCustomerByCode.do',
+                data: {customercode:customercode},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" != data.result){
+                        $("#customercode").tips({
+                            side:3,
+                            msg:'编号'+customercode+' 已存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#customercode").val('');
+                    }
+                }
+            });
+        }
+    }
+    function checkName(){
+        var customerid = $("#customerid").val();
+        var yuanshiname = $("#yuanshiname").val();
+        var customername = $("#customername").val();
+        if(customerid == "" || yuanshiName != customername){
+            var customername = $.trim($("#customername").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>customer/findCustomerByName.do',
+                data: {customername:customername},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" != data.result){
+                        $("#customername").tips({
+                            side:3,
+                            msg:'名称'+customername+' 已存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#customername").val('');
+                    }
+                }
+            });
+        }
+    }
+
 
 </script>
 </body>
