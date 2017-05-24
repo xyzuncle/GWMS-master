@@ -272,6 +272,7 @@ public class ProductController extends BaseController {
         mv.setViewName("wms/product/product_imageView");
         mv.addObject("msg", "view");
         mv.addObject("yuantu", yuantu);
+        mv.addObject("src", src);
         return mv;
     }
 

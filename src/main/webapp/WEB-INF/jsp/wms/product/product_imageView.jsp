@@ -17,8 +17,7 @@
 <html lang="en">
 <head>
     <base href="<%=basePath%>">
-    <!-- 下拉框 -->
-    <link rel="stylesheet" href="static/ace/css/chosen.css" />
+    <link rel="stylesheet" href="plugins/jqzoom/css/base.css" />
     <!-- jsp文件头和头部 -->
     <%@ include file="../../system/index/top.jsp"%>
 
@@ -33,13 +32,15 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div id="zhongxin" style="padding-top: 13px;">
-                        <table>
-                            <tr>
-                                <td>
-                                    <img id='imgsImgSrc' src="${yuantu}"/>
-                                </td>
-                            </tr>
-                        </table>
+                            <div id="preview" class="spec-preview"> <span class="jqzoom"><img jqimg="${yuantu}" src="${yuantu}" /></span> </div>
+                            <!--缩图开始-->
+                            <div class="spec-scroll"> <a class="prev">&lt;</a> <a class="next">&gt;</a>
+                                <div class="items">
+                                    <ul>
+                                        <li><img  bimg="${yuantu}" src="${src}" onmousemove="preview(this);"></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /.col -->
@@ -56,12 +57,9 @@
 
 <!-- 页面底部js¨ -->
 <%@ include file="../../system/index/foot.jsp"%>
-<!--提示框-->
-<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 
-<script type="text/javascript" src="static/ace/js/jquery.form.js"></script>
-<!-- 下拉框 -->
-<script src="static/ace/js/chosen.jquery.js"></script>
+<script src="plugins/jqzoom/js/base.js"></script>
+<script src="plugins/jqzoom/js/jquery.jqzoom.js"></script>
 <script type="text/javascript">
     $(top.hangge());
 </script>
