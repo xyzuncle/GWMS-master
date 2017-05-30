@@ -27,7 +27,7 @@ public interface CustomerDAO {
 
     String selectNameByCode(String code);
 
-    String selectCodeByCode(String code);
+    String selectCodeByCreateUser(String code);
 
     CustomerEntity selectCustomerByCode(String code);
 

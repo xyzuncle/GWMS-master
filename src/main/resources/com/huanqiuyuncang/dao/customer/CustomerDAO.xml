@@ -191,10 +191,10 @@
 
     </select>
 
-    <select id="selectCodeByCode" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="selectCodeByCreateUser" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT  customercode
         FROM wms_customer
-        WHERE customercode =  #{code,jdbcType=VARCHAR}
+        WHERE createuser =  #{code,jdbcType=VARCHAR}
 
     </select>
     <select id="selectCustomerByCode" parameterType="java.lang.String" resultMap="BaseResultMap">

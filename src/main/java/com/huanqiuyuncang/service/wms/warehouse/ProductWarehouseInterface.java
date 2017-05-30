@@ -2,8 +2,8 @@ package com.huanqiuyuncang.service.wms.warehouse;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
-import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -26,4 +26,6 @@ public interface ProductWarehouseInterface {
 
 
     ProductWarehouseEntity selectByChuKuShangPin(ChuKuShangPinEntity chuKuShangPinEntity);
+
+    ProductWarehouseEntity selectByPd(PageData pd);
 }

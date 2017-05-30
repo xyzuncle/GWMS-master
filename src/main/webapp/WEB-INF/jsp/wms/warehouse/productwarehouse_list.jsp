@@ -80,6 +80,7 @@
                                     <th class="center">内部货号</th>
                                     <th class="center">商品条码</th>
                                     <th class="center">数量</th>
+                                    <th class="center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -97,6 +98,19 @@
                                                     <td class='center'>${var.neibuhuohao}</td>
                                                     <td class='center'>${var.shangpintiaoma}</td>
                                                     <td class='center'>${var.shuliang}</td>
+                                                    <td class="center">
+                                                        <c:if test="${QX.edit != 1 && QX.del != 1 }">
+                                                            <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
+                                                        </c:if>
+                                                        <div class="hidden-sm hidden-xs btn-group">
+                                                            <c:if test="${QX.edit == 1 }">
+                                                                <a class="btn btn-xs btn-success" title="移库" onclick="yiku('${var.productwarehouseid}');">
+                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="移库"></i>
+                                                                </a>
+                                                            </c:if>
+                                                        </div>
+
+                                                    </td>
                                                 </tr>
 
                                             </c:forEach>
@@ -175,6 +189,24 @@
             });
         });
     });
+
+
+    function yiku(Id){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="移库";
+        diag.URL = '<%=basePath%>productwarehouse/goyiku.do?productwarehouseid='+Id;
+        diag.Width = 700;
+        diag.Height = 800;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
+            }
+            diag.close();
+        };
+        diag.show();
+    }
 
 </script>
 
