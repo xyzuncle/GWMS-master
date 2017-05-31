@@ -42,7 +42,7 @@
         .pt5{ padding-top: 5px!important;}
         .tc{ text-align: center; }
     </style>
-<table class="print_paper table_first" height="60">
+<table class="print_paper table_first" height="14">
     <tr>
         <td>
             <table class="no_border">
@@ -50,23 +50,19 @@
                     <td  width="197" class="f14 fss pt5" >
                        <img src="" style="vertical-align:middle;float: right" id="bar2">
                     </td>
-
-                   <%-- <td>
-
-                    </td>--%>
                 </tr>
             </table>
         </td>
     </tr>
 </table>
 
-<table class="print_paper table_first" height="140">
-    <tr height="70">
+<table class="print_paper table_first" height="25">
+    <tr height="15">
         <td class="f36 fss b" colspan="2" style="text-align:center; vertical-align:middle;">
             ${MarkDestination}
         </td>
     </tr>
-    <tr>
+    <tr height="10">
         <td colspan="2" class="xx14" style="text-align:center;">
            <img width="280" height="60" src="" id="bar1"/>
 
