@@ -75,11 +75,11 @@
             <table class="no_border fwb">
                 <tr>
                     <td width="60">收件人：</td>
-                    <td>周梦怡 湖北 襄阳市 樊城区 城区人民路20号
-                        ${FromName} ${FromProvinceName} ${FromCityName} ${FromExpAreaName} ${FromAddress}
+                    <td><%--周梦怡 湖北 襄阳市 樊城区 城区人民路20号--%>
+                        ${order.recipient} ${order.recipientphone} ${order.recipientcity} ${order.recipientarea} ${order.recipientaddress}
                         <br/>
-                        ${FromMobile}
-                        15072201022
+                        ${order.recipientphone}
+                        <%--15072201022--%>
                     </td>
                 </tr>
             </table>
@@ -91,11 +91,11 @@
             <table class="no_border ">
                 <tr>
                     <td width="60">寄件人：</td>
-                    <td>杨芳 江西九江市永修县 艾城镇枫林涉外本小区
-                        ${ToName} ${ToProvinceName} ${ToCityName} ${ToExpAreaName} ${ToAddress}
+                    <td><%--杨芳 江西九江市永修县 艾城镇枫林涉外本小区--%>
+                        ${order.sender}${order.sendercountry} ${order.senderprovince} ${order.sendercity} ${order.senderarea} ${order.senderaddress}
                         <br/>
-                        ${ToMobile}
-                        13479831432
+                        ${order.senderphone}
+                       <%-- 13479831432--%>
                     </td>
                 </tr>
             </table>
@@ -135,9 +135,9 @@
                     <td width="60">收件人：</td>
                     <td>
                         周梦怡 湖北 襄阳市 樊城区 城区人民路20号彩虹城
-                        ${FromName} ${FromProvinceName} ${FromCityName} ${FromExpAreaName} ${FromAddress}
+                        ${order.recipient} ${order.recipientphone} ${order.recipientcity} ${order.recipientarea} ${order.recipientaddress}
                         <br/>
-                        ${FromMobile}
+                        ${order.recipientphone}
                         15072201022
                     </td>
                 </tr>
@@ -151,9 +151,9 @@
                 <tr>
                     <td width="60">寄件人：</td>
                     <td>
-                        ${ToName} ${ToProvinceName} ${ToCityName} ${ToExpAreaName} ${ToAddress}
+                        ${order.sender}${order.sendercountry} ${order.senderprovince} ${order.sendercity} ${order.senderarea} ${order.senderaddress}
                         <br/>
-                        ${ToMobile}
+                        ${order.senderphone}
                     </td>
                 </tr>
             </table>
@@ -168,7 +168,7 @@
                 <tr>
                     <td width="70">订单详情：</td>
                     <td>
-                        ${Goods}
+                        ${goods}
                     </td>
                 </tr>
             </table>
@@ -178,10 +178,10 @@
     <tr>
         <td class="xx10 fwb">
             &nbsp;<!--代收货款&nbsp;&nbsp;金额(小写)：￥ - 元-->
-            订单号：KD17280001 ${orderNum}
+            订单号：<%--KD17280001--%> ${order.innerpackagenum}
         </td>
         <td>
-            数量：1 ${orderCountsss}
+            数量：<%--1--%> ${sum}
         </td>
     </tr>
 
@@ -198,9 +198,9 @@
     }
     $(function(){
        var mailNo  = "${mailNo}";
-       var provide = "湖北";
-       var city = "襄阳市";
-       var area = "樊城区";
+       var provide = "${order.recipientprovince}";
+       var city = "${order.recipientcity}";
+       var area = "${order.recipientarea}";
        $("#bar1").attr("src","<%=basePath%>barcode/bar.do?msg="+mailNo);
        $("#bar3").attr("src","<%=basePath%>barcode/bar.do?msg="+mailNo);
        $("#bar2").attr("src","<%=basePath%>barcode/destination.do?provide="+provide+"&city="+city+"&area="+area);

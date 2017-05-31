@@ -23,8 +23,6 @@
     <link rel="stylesheet" href="static/ace/css/chosen.css" />
     <!-- jsp文件头和头部 -->
     <%@ include file="../../system/index/top.jsp"%>
-    <!-- 日期框 -->
-    <link rel="stylesheet" href="static/ace/css/datepicker.css" />
 </head>
 <body class="no-skin">
 
@@ -36,84 +34,42 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
+                        <form action="gongyingshang/list.do" method="post" name="Form" id="Form">
+                        <table style="margin-top:5px;">
+                            <tr>
+                                <td>
+                                    <div class="nav-search">
+                                        <span class="input-icon">
+                                            客户编号：
+                                        </span>
+                                        <span class="input-icon">
+                                            <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-gongyingshangcode"
+                                                   autocomplete="off" name="gongyingshangcode" value="${pd.gongyingshangcode }" placeholder="这里输入关键词"/>
+                                        </span>
+                                        <span class="input-icon">
+                                            客户名称：
+                                        </span>
+                                        <span class="input-icon">
+                                            <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-gongyingshangname"
+                                                   autocomplete="off" name="gongyingshangname" value="${pd.gongyingshangname }" placeholder="这里输入关键词"/>
+                                        </span>
+                                          <span class="input-icon">
+                                            默认发货仓库：
+                                        </span>
+                                        <span class="input-icon">
+                                            <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-defaultwarehouse"
+                                                   autocomplete="off" name="defaultwarehouse" value="${pd.defaultwarehouse }" placeholder="这里输入关键词"/>
+                                        </span>
 
+                                    </div>
+                                </td>
+                                <c:if test="${QX.cha == 1 }">
+                                    <td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
+                                </c:if>
+                            </tr>
+                        </table>
                         <!-- 检索  -->
-                        <form action="innerpackage/list.do" method="post" name="Form" id="Form">
-                            <table style="margin-top:5px;">
-                                <tr>
-                                    <td>
-                                        <div class="nav-search">
-                                            <input type="hidden" id="nav-search-orderstatus" name="orderstatus" value="${pd.orderstatus }" >
-                                        <span class="input-icon">
-                                            客户：
-                                        </span>
-                                        <span class="input-icon">
-                                             <select class="chosen-select form-control" name="customernum" id="customernum" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
-                                                 <option value="">请选择</option>
-                                                 <c:choose>
-                                                     <c:when test="${not empty customerList}">
-                                                         <c:forEach items="${customerList}" var="customer" varStatus="customerStatus">
-                                                             <option value="${customer.customercode}" id="${customer.customercode}"
-                                                                     <c:if test="${customer.customercode == pd.customernum}">
-                                                                         selected="selected"
-                                                                     </c:if>
-                                                             >${customer.customername}</option>
-                                                         </c:forEach>
-                                                     </c:when>
-                                                 </c:choose>
-                                             </select>
-                                        </span>
-                                        <span class="input-icon">
-                                            外部订单号：
-                                        </span>
-                                        <span class="input-icon">
-                                            <input type="text"  class="nav-search-input" id="nav-search-outerordernum" autocomplete="off" name="outerordernum" style="width:90px;"  value="${pd.outerordernum}"/>
-                                        </span>
-                                        <span class="input-icon">
-                                            下单时间：
-                                        </span>
-                                        <span class="input-icon">
-                                            <input class="date-picker" name="starttime" id="starttime"  value="${pd.starttime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="开始日期" />
-                                            <input class="date-picker" name="endtime" name="endtime"  value="${pd.endtime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="结束日期"/>
-                                        </span>
-                                        </div>
-                                    </td>
-                                    <c:if test="${QX.cha == 1 }">
-                                        <td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
-                                    </c:if>
-                                </tr>
-                            </table>
 
-                            <div class="col-sm-12 widget-container-col">
-                                <div class="widget-box transparent">
-                                    <div class="widget-header">
-                                        <h4 class="widget-title lighter">包裹管理</h4>
-                                        <div class="widget-toolbar no-border">
-                                            <ul class="nav nav-tabs" id="myTab2">
-
-                                                <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daidabao')">待打包/入库</a>
-                                                </li>
-                                                <li  id="definedTab">
-                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yidabao')">已打包/存库</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="widget-body">
-                                        <div class="widget-main padding-12 no-padding-left no-padding-right">
-                                            <div class="tab-content padding-4">
-                                                <div id="base" class="tab-pane in active">
-                                                </div>
-                                                <div id="defined" class="tab-pane">
-                                                </div>
-                                                <div id="disable" class="tab-pane">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
@@ -122,10 +78,9 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">客户订单号</th>
-                                    <th class="center">外部订单号</th>
-                                    <th class="center">下单时间</th>
-                                    <th class="center">顾客备注</th>
+                                    <th class="center">客户编号</th>
+                                    <th class="center">客户名称</th>
+                                    <th class="center">默认发货仓库</th>
                                     <th class="center">备注</th>
                                     <th class="center">操作</th>
                                 </tr>
@@ -139,21 +94,32 @@
                                             <c:forEach items="${varList}" var="var" varStatus="vs">
                                                 <tr>
                                                     <td class='center'>
-                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
+                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.gongyingshangid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
-                                                    <td class='center'>${var.customerordernum}</td>
-                                                    <td class='center'>${var.outerordernum}</td>
-                                                    <td class='center'>${var.formateOrderTime}</td>
-                                                    <td class='center'>${var.customerremarks}</td>
+                                                    <td class='center'>${var.gongyingshangcode}</td>
+                                                    <td class='center'>${var.gongyingshangname}</td>
+                                                    <td class='center'>${var.defaultwarehouse}</td>
                                                     <td class='center'>${var.remark}</td>
                                                     <td class="center">
-                                                        <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.innerorderid}');">
-                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
-                                                        </a>
-                                                        <c:if test="${pd.orderstatus == 'orderStatus_yidabao' }">
-                                                            <a class="btn btn-sm btn-primary" onclick="miandan('${var.innerorderid}');" title="面单" ><i class='ace-icon fa fa-barcode bigger-120'></i></a>
+                                                        <c:if test="${QX.edit != 1 && QX.del != 1 }">
+                                                            <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
+                                                        <div class="hidden-sm hidden-xs btn-group">
+                                                            <c:if test="${QX.edit == 1 }">
+                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.gongyingshangid}');">
+                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+                                                                </a>
+                                                            </c:if>
+                                                            <c:if test="${QX.del == 1 }">
+                                                                <a onclick="del('${var.gongyingshangid}');" class="btn btn-xs btn-danger" title="删除">
+                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                            </a>
+                                                            </c:if>
+                                                            <a class="btn btn-xs btn-success" title="修改客户状态" onclick="changestatus('${var.gongyingshangid}');">
+                                                                <i class="ace-icon fa 	fa-exchange  bigger-120" title="修改客户状态"></i>
+                                                            </a>
+                                                        </div>
                                                     </td>
                                                 </tr>
 
@@ -173,15 +139,16 @@
                                 </c:choose>
                                 </tbody>
                             </table>
-
                             <!-- 检索  -->
                             <div class="page-header position-relative">
                                 <table style="width:100%;">
                                     <tr>
                                         <td style="vertical-align:top;">
-                                            <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
-                                            <c:if test="${pd.orderstatus == 'orderStatus_daidabao' }">
-                                                <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                            <c:if test="${QX.add == 1 }">
+                                                <a class="btn btn-sm btn-success" onclick="add();">新增</a>
+                                            </c:if>
+                                            <c:if test="${QX.del == 1 }">
+                                                <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
                                             </c:if>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -219,8 +186,7 @@
 <script src="static/ace/js/ace/ace.js"></script>
 <!-- 下拉框 -->
 <script src="static/ace/js/chosen.jquery.js"></script>
-<!-- 日期框 -->
-<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+
 <!--提示框-->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
 
@@ -233,18 +199,6 @@
     }
 
     $(function() {
-
-       var orderstatus = "${pd.orderstatus}";
-        if(orderstatus == "orderStatus_daidabao" ){
-            $("#definedTab").removeClass("active");
-            $("#baseTab").addClass("active");
-        }else if (orderstatus == "orderStatus_yidabao"){
-            $("#baseTab").removeClass("active");
-            $("#definedTab").addClass("active");
-        }
-
-        //日期框
-        $('.date-picker').datepicker({autoclose: true,todayHighlight: true});
         //下拉框
         if(!ace.vars['touch']) {
             $('.chosen-select').chosen({allow_single_deselect:true});
@@ -282,16 +236,49 @@
         });
     });
 
-
+    //新增
+    function add(){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="新增";
+        diag.URL = '<%=basePath%>gongyingshang/goAdd.do';
+        diag.Width = 600;
+        diag.Height = 500;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                if('${page.currentPage}' == '0'){
+                    top.jzts();
+                    setTimeout("self.location=self.location",100);
+                }else{
+                    nextPage(${page.currentPage});
+                }
+            }
+            diag.close();
+        };
+        diag.show();
+    }
+    //删除
+    function del(Id){
+        bootbox.confirm("确定要删除吗?", function(result) {
+            if(result) {
+                top.jzts();
+                var url = "<%=basePath%>gongyingshang/delete.do?gongyingshangid="+Id+"&tm="+new Date().getTime();
+                $.get(url,function(data){
+                    nextPage(${page.currentPage});
+                });
+            }
+        });
+    }
     //修改
-    function view(Id){
+    function edit(Id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerpackage/goView.do?innerorderid='+Id;
-        diag.Width = 700;
-        diag.Height = 800;
+        diag.URL = '<%=basePath%>gongyingshang/goEdit.do?gongyingshangid='+Id;
+        diag.Width = 600;
+        diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件
             if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
                 nextPage(${page.currentPage});
@@ -300,31 +287,8 @@
         };
         diag.show();
     }
-
-    function miandan(Id){
-        top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="编辑";
-        diag.URL = '<%=basePath%>barcode/getBillInfo.do?innerorderid='+Id;
-        diag.Width = 700;
-        diag.Height = 800;
-        diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                nextPage(${page.currentPage});
-            }
-            diag.close();
-        };
-        diag.show();
-    }
-
-    function changeTable(auditStatus){
-        $("#nav-search-orderstatus").val(auditStatus);
-        top.jzts();
-        $("#Form").submit();
-    }
-
-    function makeAllShenHe(msg){
+    //批量操作
+    function makeAll(msg){
         bootbox.confirm(msg, function(result) {
             if(result) {
                 var str = '';
@@ -348,11 +312,11 @@
                     });
                     return;
                 }else{
-                    if(msg == '确定要审核选中的数据吗?'){
+                    if(msg == '确定要删除选中的数据吗?'){
                         top.jzts();
                         $.ajax({
                             type: "POST",
-                            url: '<%=basePath%>innerpackage/shenheAll.do?tm='+new Date().getTime(),
+                            url: '<%=basePath%>gongyingshang/deleteAll.do?tm='+new Date().getTime(),
                             data: {DATA_IDS:str},
                             dataType:'json',
                             //beforeSend: validateData,
@@ -367,27 +331,19 @@
                 }
             }
         });
-    }
+    };
 
-
-
-    //打开上传excel页面
-    function fromExcel(){
+    function changestatus(Id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
-        diag.Title ="EXCEL 导入到数据库";
-        diag.URL = '<%=basePath%>innerpackage/goUploadExcel.do';
-        diag.Width = 400;
-        diag.Height = 150;
+        diag.Title ="修改客户状态";
+        diag.URL = '<%=basePath%>gongyingshang/goStatus.do?gongyingshangid='+Id;
+        diag.Width = 600;
+        diag.Height = 300;
         diag.CancelEvent = function(){ //关闭事件
             if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                if('${page.currentPage}' == '0'){
-                    top.jzts();
-                    setTimeout("self.location.reload()",100);
-                }else{
-                    nextPage(${page.currentPage});
-                }
+                nextPage(${page.currentPage});
             }
             diag.close();
         };

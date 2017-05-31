@@ -30,4 +30,6 @@ public interface CustomerInterface {
     String selectNameByCode(String customernum);
 
     CustomerEntity selectCustomerByCode(String customercode);
+
+    CustomerEntity selectCustomerByName(String customername);
 }

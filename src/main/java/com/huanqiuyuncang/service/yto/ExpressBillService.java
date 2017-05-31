@@ -21,7 +21,7 @@ public class ExpressBillService {
    // private static String desKey = "INTERFACESTANDARDENCRYPTKEY2014";
 
 
-    public static ExpressBill mites(){
+    public static ExpressBill mites(String innerpackagenum){
         String xmlStr = "";
         //下单示例报文
         StringBuilder sb = new StringBuilder();
@@ -30,7 +30,7 @@ public class ExpressBillService {
         sb.append("<clientID>K11107565</clientID>");//商家代码（必须与customerId一致）
         sb.append("<logisticProviderID>YTO</logisticProviderID>");//物流公司ID
         sb.append("<customerId >K11107565</customerId>");// 商家代码 (由商家设置， 必须与clientID一致)
-        sb.append("<txLogisticID>809949845992</txLogisticID>");//物流订单号
+        sb.append("<txLogisticID>"+innerpackagenum+"</txLogisticID>");//物流订单号
         sb.append("<tradeNo>1</tradeNo>");//业务交易号 可选
         sb.append("<totalServiceFee>0.0</totalServiceFee>");//保值金额=insuranceValue*货品数量(默认为0.0）
         sb.append("<codSplitFee>0.0</codSplitFee>");//物流公司分润，没有使用;

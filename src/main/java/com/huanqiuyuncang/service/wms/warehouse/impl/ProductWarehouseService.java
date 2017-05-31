@@ -6,6 +6,7 @@ import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
+import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,11 @@ public class ProductWarehouseService implements ProductWarehouseInterface {
     @Override
     public ProductWarehouseEntity selectByChuKuShangPin(ChuKuShangPinEntity chuKuShangPinEntity) {
         return productWarehouseDAO.selectByChuKuShangPin(chuKuShangPinEntity);
+    }
+
+    @Override
+    public ProductWarehouseEntity selectByPd(PageData pd) {
+        return productWarehouseDAO.selectByPd(pd);
     }
 
 

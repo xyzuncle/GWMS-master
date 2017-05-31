@@ -623,6 +623,11 @@
         SELECT areaid , AREA FROM areas WHERE cityid = #{code,jdbcType=VARCHAR}
     </select>
 
+
+    <select id="selectAreaNameByCode" parameterType="java.lang.String"   resultType="java.lang.String"  >
+        SELECT area FROM areas WHERE areaid = #{code,jdbcType=VARCHAR}
+    </select>
+
     <select id="selectProvinceNameByCode"  parameterType="java.lang.String"  resultType="java.lang.String" >
         SELECT province FROM provinces  WHERE provinceid = #{code,jdbcType=VARCHAR}
     </select>
@@ -707,7 +712,6 @@
         </if>
           and orderstatus = "orderStatus_daidabao"
           and innerpackagenum IS NOT NULL
-
 
     </select>
 

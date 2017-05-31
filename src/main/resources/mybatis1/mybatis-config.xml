@@ -32,6 +32,8 @@
 		<typeAlias type="com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity" alias="PackageWarehouse"/>
 		<typeAlias type="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" alias="ProductWarehouse"/>
 		<typeAlias type="com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity" alias="RuKuBaoGuo"/>
+		<typeAlias type="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" alias="CaiGouDingDan"/>
+		<typeAlias type="com.huanqiuyuncang.entity.customer.GongYingShangEntity" alias="GongYingShang"/>
 
 		<!-- 这里添加生成的实体类 -->
 		

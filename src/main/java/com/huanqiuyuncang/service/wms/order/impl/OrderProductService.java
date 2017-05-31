@@ -51,4 +51,14 @@ public class OrderProductService implements OrderProductInterface {
     public List<OrderProductEntity> selectOrderProduct(String customerordernum) {
         return orderProductDAO.selectOrderProduct(customerordernum);
     }
+
+    @Override
+    public List<OrderProductEntity> selectOrderProductBypackagenum(String innerpackagenum) {
+        return orderProductDAO.selectOrderProductBypackagenum(innerpackagenum);
+    }
+
+    @Override
+    public Integer orderproductSum(String innerpackagenum) {
+        return orderProductDAO.orderproductSum(innerpackagenum);
+    }
 }

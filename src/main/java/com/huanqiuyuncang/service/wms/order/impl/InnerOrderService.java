@@ -106,8 +106,8 @@ public class InnerOrderService implements InnerOrderInterface {
     public void insertOrderInfo(InnerOrderEntity innerOrder, String token) {
         try{
             String customernum = innerOrder.getCustomernum();
-            innerOrder.setCustomernum(customernum.split("_")[1]);
-            String customerordernum = OrderUtil.getOrderNum(customernum.split("_")[1]);
+            innerOrder.setCustomernum(customernum);
+            String customerordernum = OrderUtil.getOrderNum(customernum);
             innerOrder.setCustomerordernum(customerordernum);
             innerOrderDAO.insertSelective(innerOrder);
             List<OrderProductEntity> list = orderProductDAO.selectOrderProduct(token);
@@ -124,13 +124,17 @@ public class InnerOrderService implements InnerOrderInterface {
 
         InnerOrderEntity innerOrder = innerOrderDAO.selectByPrimaryKey(id);
         String customernum = innerOrder.getCustomernum();
-        String packagenum = OrderUtil.getPackageNum(customernum.split("_")[1]);
+        String packagenum = OrderUtil.getPackageNum(customernum);
         setPackageInfo(innerOrder, packagenum);
         innerOrderDAO.updateByPrimaryKeySelective(innerOrder);
     }
 
     private void setPackageInfo(InnerOrderEntity innerOrder, String packagenum) {
         List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrder.getCustomerordernum());
+        List<InnerOrderEntity> innerOrderList = innerOrderDAO.selectByCustomerInfo(innerOrder);
+        if(innerOrderList != null && innerOrderList.size()>0) {
+            packagenum = innerOrderList.get(0).getInnerpackagenum();
+        }
         String defaultCarton = "";
         String defaultCartonprefix = "";
         String packageType = "";
@@ -171,9 +175,8 @@ public class InnerOrderService implements InnerOrderInterface {
                 packageType = StringUtil.getNum(packageType)>pnum?defaultpackage:packageType;
             }
         }
-        List<InnerOrderEntity> innerOrderList = innerOrderDAO.selectByCustomerInfo(innerOrder);
+
         if(innerOrderList != null && innerOrderList.size()>0){
-            packagenum = innerOrderList.get(0).getInnerpackagenum();
             for ( InnerOrderEntity innerOrderEntity : innerOrderList){
                 String cartonid = innerOrderEntity.getCartonid();
                 String packageid = innerOrderEntity.getPackageid();
@@ -219,7 +222,7 @@ public class InnerOrderService implements InnerOrderInterface {
             });
             orderList.forEach(pd->{
                 String customernum = pd.getCustomernum();
-                String packagenum = OrderUtil.getPackageNum(customernum.split("_")[1]);
+                String packagenum = OrderUtil.getPackageNum(customernum);
                 setPackageInfo(pd, packagenum);
                 innerOrderDAO.insert(pd);
             });
@@ -255,6 +258,11 @@ public class InnerOrderService implements InnerOrderInterface {
     @Override
     public String selectCityNameByCode(String recipientcity) {
         return innerOrderDAO.selectCityNameByCode(recipientcity);
+    }
+
+    @Override
+    public String selectAreaNameByCode(String areaCode) {
+        return innerOrderDAO.selectAreaNameByCode(areaCode);
     }
 
     @Override
@@ -499,11 +507,11 @@ public class InnerOrderService implements InnerOrderInterface {
         SimpleDateFormat format = new SimpleDateFormat("YYMMdd");
         String formatDate = format.format(date);
         String username = Jurisdiction.getUsername();
-        String customernum = customerDAO.selectCodeByCode(username);
-        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-        PropUtil.writeProperties("serialnumber",serialnumber+1+"");
+        String customernum = customerDAO.selectCodeByCreateUser(username);
+        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("orderserialnumber"));
+        PropUtil.writeProperties("orderserialnumber",serialnumber+1+"");
         String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);
-        String customerordernum = "O"+customernum.split("_")[1]+formatDate+serialnumberStr;
+        String customerordernum = "O"+customernum+formatDate+serialnumberStr;
 
 
         InnerOrderEntity order = new InnerOrderEntity();

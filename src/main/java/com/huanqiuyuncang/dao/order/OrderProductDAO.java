@@ -20,4 +20,8 @@ public interface OrderProductDAO {
     List<OrderProductEntity> selectOrderProduct(String customerordernum);
 
     void deleteByCustomerordernum(String token);
+
+    Integer orderproductSum(String innerpackagenum);
+
+    List<OrderProductEntity> selectOrderProductBypackagenum(String innerpackagenum);
 }

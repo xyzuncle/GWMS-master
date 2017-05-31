@@ -29,62 +29,62 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-xs-12">
-                        <form action="customer/${msg }.do" name="Form" id="Form" method="post">
-                            <input type="hidden" name="customerid" id="customerid" value="${customer.customerid}"/>
+                        <form action="gongyingshang/${msg }.do" name="Form" id="Form" method="post">
+                            <input type="hidden" name="gongyingshangid" id="gongyingshangid" value="${gongyingshang.gongyingshangid}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户编号:</td>
                                         <td>
-                                            <input type="text" name="customercode" id="customercode" onblur="checkCode()" value="${customer.customercode}" maxlength="30" placeholder="这里输入客户编号" title="客户编号" style="width:98%;"/>
-                                            <input type="hidden" id="yuanshicode" value="${customer.customercode}">
+                                            <input type="text" name="gongyingshangcode" id="gongyingshangcode" onblur="checkCode()" value="${gongyingshang.gongyingshangcode}" maxlength="30" placeholder="这里输入客户编号" title="客户编号" style="width:98%;"/>
+                                            <input type="hidden" id="yuanshicode" value="${gongyingshang.gongyingshangcode}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户名称:</td>
                                         <td>
-                                            <input  type="text" name="customername" id="customername" onblur="checkName()" value="${customer.customername}"
+                                            <input  type="text" name="gongyingshangname" id="gongyingshangname" onblur="checkName()" value="${gongyingshang.gongyingshangname}"
                                                     maxlength="50" placeholder="这里输入客户名称" title="客户名称" style="width:98%;"/>
-                                            <input type="hidden" id="yuanshiname" value="${customer.customername}">
+                                            <input type="hidden" id="yuanshiname" value="${gongyingshang.gongyingshangname}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">默认发货仓库:</td>
-                                        <td><input type="text" name="defaultwarehouse" id="defaultwarehouse" value="${customer.defaultwarehouse}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
+                                        <td><input type="text" name="defaultwarehouse" id="defaultwarehouse" value="${gongyingshang.defaultwarehouse}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
                                     </tr>
                                     <c:if test="${QX.adminOrder == 1 }">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户状态:</td>
-                                        <td><input  type="text" name="customerstatus" id="customerstatus" value="${customer.customerstatus}" maxlength="50"  style="width:98%;"/></td>
+                                        <td><input  type="text" name="gongyingshangstatus" id="gongyingshangstatus" value="${gongyingshang.gongyingshangstatus}" maxlength="50"  style="width:98%;"/></td>
                                     </tr>
                                     </c:if>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>
-                                        <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${customer.remark}</textarea></td>
+                                        <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${gongyingshang.remark}</textarea></td>
                                     </tr>
                                     <c:if test="${QX.adminOrder == 1 }">
                                         <tr>
                                             <td style="width:78px;text-align: right;padding-top: 13px;">创建者:</td>
                                             <td >
-                                                <input type="text" disabled name="createuser" id="createuser" value="${customer.createuser}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="createuser" id="createuser" value="${gongyingshang.createuser}" maxlength="255" style="width:98%;"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style="width:78px;text-align: right;padding-top: 13px;">创建时间:</td>
                                             <td >
-                                                <input type="text" disabled name="createtime" id="createtime" value="${customer.formatCreateTime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="createtime" id="createtime" value="${gongyingshang.formatCreateTime}" maxlength="255"  style="width:98%;"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style="width:78px;text-align: right;padding-top: 13px;">修改者:</td>
                                             <td >
-                                                <input type="text" disabled name="updateuser" id="updateuser" value="${customer.updateuser}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="updateuser" id="updateuser" value="${gongyingshang.updateuser}" maxlength="255"  style="width:98%;"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style="width:78px;text-align: right;padding-top: 13px;">修改时间:</td>
                                             <td >
-                                                <input type="text" disabled name="updatetime" id="updatetime" value="${customer.formateUpdateTime}" maxlength="255" title="申报价" style="width:98%;"/>
+                                                <input type="text" disabled name="updatetime" id="updatetime" value="${gongyingshang.formateUpdateTime}" maxlength="255"  style="width:98%;"/>
                                             </td>
                                         </tr>
                                     </c:if>
@@ -120,24 +120,24 @@
     //保存
 
     function save(){
-        if($("#customercode").val()==""){
-            $("#customercode").tips({
+        if($("#gongyingshangcode").val()==""){
+            $("#gongyingshangcode").tips({
                 side:3,
                 msg:'输入编号',
                 bg:'#AE81FF',
                 time:3
             });
-            $("#customercode").focus();
+            $("#gongyingshangcode").focus();
             return false;
         }
-        if($("#customername").val()==""){
-            $("#customername").tips({
+        if($("#gongyingshangname").val()==""){
+            $("#gongyingshangname").tips({
                 side:3,
                 msg:'输入名称',
                 bg:'#AE81FF',
                 time:3
             });
-            $("#customername").focus();
+            $("#gongyingshangname").focus();
             return false;
         }
         $("#Form").submit();
@@ -146,52 +146,52 @@
     }
 
     function checkCode(){
-        var customerid = $("#customerid").val();
+        var gongyingshangid = $("#gongyingshangid").val();
         var yuanshicode = $("#yuanshicode").val();
-        var customercode = $("#customercode").val();
-        if(customerid == "" || yuanshicode != customercode ){
-            var customercode = $.trim($("#customercode").val());
+        var gongyingshangcode = $("#gongyingshangcode").val();
+        if(gongyingshangid == "" || yuanshicode != gongyingshangcode ){
+            var gongyingshangcode = $.trim($("#gongyingshangcode").val());
             $.ajax({
                 type: "POST",
-                url: '<%=basePath%>customer/findCustomerByCode.do',
-                data: {customercode:customercode},
+                url: '<%=basePath%>gongyingshang/findgongyingshangByCode.do',
+                data: {gongyingshangcode:gongyingshangcode},
                 dataType:'json',
                 cache: false,
                 success: function(data){
                     if("success" != data.result){
-                        $("#customercode").tips({
+                        $("#gongyingshangcode").tips({
                             side:3,
-                            msg:'编号'+customercode+' 已存在',
+                            msg:'编号'+gongyingshangcode+' 已存在',
                             bg:'#AE81FF',
                             time:3
                         });
-                        $("#customercode").val('');
+                        $("#gongyingshangcode").val('');
                     }
                 }
             });
         }
     }
     function checkName(){
-        var customerid = $("#customerid").val();
+        var gongyingshangid = $("#gongyingshangid").val();
         var yuanshiname = $("#yuanshiname").val();
-        var customername = $("#customername").val();
-        if(customerid == "" || yuanshiname != customername){
-            var customername = $.trim($("#customername").val());
+        var gongyingshangname = $("#gongyingshangname").val();
+        if(gongyingshangid == "" || yuanshiname != gongyingshangname){
+            var gongyingshangname = $.trim($("#gongyingshangname").val());
             $.ajax({
                 type: "POST",
-                url: '<%=basePath%>customer/findCustomerByName.do',
-                data: {customername:customername},
+                url: '<%=basePath%>gongyingshang/findgongyingshangByName.do',
+                data: {gongyingshangname:gongyingshangname},
                 dataType:'json',
                 cache: false,
                 success: function(data){
                     if("success" != data.result){
-                        $("#customername").tips({
+                        $("#gongyingshangname").tips({
                             side:3,
-                            msg:'名称'+customername+' 已存在',
+                            msg:'名称'+gongyingshangname+' 已存在',
                             bg:'#AE81FF',
                             time:3
                         });
-                        $("#customername").val('');
+                        $("#gongyingshangname").val('');
                     }
                 }
             });

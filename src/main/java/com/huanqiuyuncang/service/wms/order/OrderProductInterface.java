@@ -18,4 +18,8 @@ public interface OrderProductInterface {
     int updateByPrimaryKey(OrderProductEntity record);
 
     List<OrderProductEntity> selectOrderProduct(String customerordernum);
+
+    List<OrderProductEntity> selectOrderProductBypackagenum(String innerpackagenum);
+
+    Integer orderproductSum(String innerpackagenum);
 }

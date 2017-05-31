@@ -77,6 +77,49 @@ public class ProductWarehouseController extends BaseController {
         return mv;
     }
 
+
+    /**去修改页面
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value="/goyiku")
+    public ModelAndView goyiku()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String productwarehouseid = pd.getString("productwarehouseid");
+        ProductWarehouseEntity ProductWarehouseEntity = productWarehouseService.selectByPrimaryKey(productwarehouseid);//根据ID读取
+        mv.setViewName("wms/warehouse/productwarehouse_edit");
+        mv.addObject("msg", "yiku");
+        mv.addObject("productwarehouse", ProductWarehouseEntity);
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/yiku")
+    public ModelAndView yiku(ProductWarehouseEntity productWarehouseEntity) throws Exception{
+        if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
+        ModelAndView mv = this.getModelAndView();
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        String productwarehouseid = productWarehouseEntity.getProductwarehouseid();
+        String cangwei = productWarehouseEntity.getCangwei();
+        ProductWarehouseEntity sourceEntity = productWarehouseService.selectByPrimaryKey(productwarehouseid);
+        PageData aa = new PageData();
+        aa.put("cangwei",cangwei);
+        ProductWarehouseEntity productWarehouse = productWarehouseService.selectByPd(aa);
+        if(productWarehouse != null){
+            Integer sum = Integer.parseInt(productWarehouse.getShuliang()) + Integer.parseInt(sourceEntity.getShuliang());
+            productWarehouse.setShuliang(Integer.toString(sum));
+            productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
+        }else{
+            sourceEntity.setCangwei(cangwei);
+            productWarehouseService.updateByPrimaryKeySelective(sourceEntity);
+        }
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
     /**保存
      * @param
      * @throws Exception

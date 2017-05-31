@@ -15,6 +15,8 @@ public class ProductWarehouseEntity {
 
     private String shuliang;
 
+    private String suokustatus;
+
     private String createuser;
 
     private Date createtime;
@@ -23,13 +25,14 @@ public class ProductWarehouseEntity {
 
     private Date updatetime;
 
-    public ProductWarehouseEntity(String productwarehouseid, String cangwei, String neibuhuohao, String kehubianhao, String shangpintiaoma, String shuliang, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public ProductWarehouseEntity(String productwarehouseid, String cangwei, String neibuhuohao, String kehubianhao, String shangpintiaoma, String shuliang, String suokustatus, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.productwarehouseid = productwarehouseid;
         this.cangwei = cangwei;
         this.neibuhuohao = neibuhuohao;
         this.kehubianhao = kehubianhao;
         this.shangpintiaoma = shangpintiaoma;
         this.shuliang = shuliang;
+        this.suokustatus = suokustatus;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -86,6 +89,14 @@ public class ProductWarehouseEntity {
 
     public void setShuliang(String shuliang) {
         this.shuliang = shuliang == null ? null : shuliang.trim();
+    }
+
+    public String getSuokustatus() {
+        return suokustatus;
+    }
+
+    public void setSuokustatus(String suokustatus) {
+        this.suokustatus = suokustatus == null ? null : suokustatus.trim();
     }
 
     public String getCreateuser() {

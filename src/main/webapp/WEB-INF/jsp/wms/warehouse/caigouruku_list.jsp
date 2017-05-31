@@ -38,43 +38,39 @@
                     <div class="col-xs-12">
 
                         <!-- 检索  -->
-                        <form action="innerpackage/list.do" method="post" name="Form" id="Form">
+                        <form action="caigoudingdan/rukulist.do" method="post" name="Form" id="Form">
                             <table style="margin-top:5px;">
                                 <tr>
                                     <td>
                                         <div class="nav-search">
-                                            <input type="hidden" id="nav-search-orderstatus" name="orderstatus" value="${pd.orderstatus }" >
+                                        <input type="hidden" id="nav-search-caigoudingdanstatus" name="caigoudingdanstatus" value="${pd.caigoudingdanstatus }" >
                                         <span class="input-icon">
-                                            客户：
+                                           采购订单号：
                                         </span>
                                         <span class="input-icon">
-                                             <select class="chosen-select form-control" name="customernum" id="customernum" data-placeholder="请选择" style="vertical-align:top;width: 120px;">
-                                                 <option value="">请选择</option>
-                                                 <c:choose>
-                                                     <c:when test="${not empty customerList}">
-                                                         <c:forEach items="${customerList}" var="customer" varStatus="customerStatus">
-                                                             <option value="${customer.customercode}" id="${customer.customercode}"
-                                                                     <c:if test="${customer.customercode == pd.customernum}">
-                                                                         selected="selected"
-                                                                     </c:if>
-                                                             >${customer.customername}</option>
-                                                         </c:forEach>
-                                                     </c:when>
-                                                 </c:choose>
-                                             </select>
+                                            <input type="text"  class="nav-search-input" id="nav-search-caigoudingdanhao" autocomplete="off"
+                                                   name="caigoudingdanhao" style="width:90px;"  value="${pd.caigoudingdanhao}"/>
+                                        </span>
+                                         <span class="input-icon">
+                                            供应商编号：
                                         </span>
                                         <span class="input-icon">
-                                            外部订单号：
+                                            <input type="text" class="nav-search-input" id="nav-search-gongyingshangbianhao" autocomplete="off"
+                                                   name="gongyingshangbianhao" style="width:90px;" value="${pd.gongyingshangbianhao }" />
                                         </span>
                                         <span class="input-icon">
-                                            <input type="text"  class="nav-search-input" id="nav-search-outerordernum" autocomplete="off" name="outerordernum" style="width:90px;"  value="${pd.outerordernum}"/>
+                                            商品编号：
                                         </span>
                                         <span class="input-icon">
-                                            下单时间：
+                                            <input type="text" class="nav-search-input" id="nav-search-shangpinhuohao" autocomplete="off"
+                                                   name="shangpinhuohao" value="${pd.shangpinhuohao }" />
                                         </span>
                                         <span class="input-icon">
-                                            <input class="date-picker" name="starttime" id="starttime"  value="${pd.starttime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="开始日期" />
-                                            <input class="date-picker" name="endtime" name="endtime"  value="${pd.endtime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="结束日期"/>
+                                            客户编号：
+                                        </span>
+                                        <span class="input-icon">
+                                            <input type="text"class="nav-search-input" id="nav-search-kehubianhao" autocomplete="off" name="kehubianhao"
+                                                   value="${pd.kehubianhao }" />
                                         </span>
                                         </div>
                                     </td>
@@ -87,15 +83,14 @@
                             <div class="col-sm-12 widget-container-col">
                                 <div class="widget-box transparent">
                                     <div class="widget-header">
-                                        <h4 class="widget-title lighter">包裹管理</h4>
+                                        <h4 class="widget-title lighter">采购订单管理</h4>
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
-
                                                 <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daidabao')">待打包/入库</a>
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daiqueren')">待入库</a>
                                                 </li>
                                                 <li  id="definedTab">
-                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yidabao')">已打包/存库</a>
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yiqueren')">已入库</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -122,11 +117,11 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">客户订单号</th>
-                                    <th class="center">外部订单号</th>
-                                    <th class="center">下单时间</th>
-                                    <th class="center">顾客备注</th>
-                                    <th class="center">备注</th>
+                                    <th class="center">采购订单号</th>
+                                    <th class="center">供应商编号</th>
+                                    <th class="center">商品货号</th>
+                                    <th class="center">数量</th>
+                                    <th class="center">采购价格</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
@@ -139,21 +134,26 @@
                                             <c:forEach items="${varList}" var="var" varStatus="vs">
                                                 <tr>
                                                     <td class='center'>
-                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
+                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.caigoudingdanid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
-                                                    <td class='center'>${var.customerordernum}</td>
-                                                    <td class='center'>${var.outerordernum}</td>
-                                                    <td class='center'>${var.formateOrderTime}</td>
-                                                    <td class='center'>${var.customerremarks}</td>
-                                                    <td class='center'>${var.remark}</td>
+                                                    <td class='center'>${var.caigoudingdanhao}</td>
+                                                    <td class='center'>${var.gongyingshangbianhao}</td>
+                                                    <td class='center'>${var.shangpinhuohao}</td>
+                                                    <td class='center'>${var.shuliang}</td>
+                                                    <td class='center'>${var.caigoujiage}</td>
                                                     <td class="center">
-                                                        <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.innerorderid}');">
-                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
-                                                        </a>
-                                                        <c:if test="${pd.orderstatus == 'orderStatus_yidabao' }">
-                                                            <a class="btn btn-sm btn-primary" onclick="miandan('${var.innerorderid}');" title="面单" ><i class='ace-icon fa fa-barcode bigger-120'></i></a>
+                                                        <c:if test="${QX.edit != 1 && QX.del != 1 }">
+                                                            <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
+                                                        <div class="hidden-sm hidden-xs btn-group">
+                                                            <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.caigoudingdanid}');">
+                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
+                                                            </a>
+                                                            <c:if test="${pd.caigoudingdanstatus == 'caigouStatus_yiqueren' }">
+                                                                <a class="btn btn-sm btn-primary" onclick="ruku('${var.caigoudingdanid}');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                                            </c:if>
+                                                        </div>
                                                     </td>
                                                 </tr>
 
@@ -178,12 +178,6 @@
                             <div class="page-header position-relative">
                                 <table style="width:100%;">
                                     <tr>
-                                        <td style="vertical-align:top;">
-                                            <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
-                                            <c:if test="${pd.orderstatus == 'orderStatus_daidabao' }">
-                                                <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
-                                            </c:if>
-                                        </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
                                 </table>
@@ -234,11 +228,11 @@
 
     $(function() {
 
-       var orderstatus = "${pd.orderstatus}";
-        if(orderstatus == "orderStatus_daidabao" ){
+        var caigoudingdanstatus = "${pd.caigoudingdanstatus}";
+        if(caigoudingdanstatus == "caigouStatus_yiqueren" ){
             $("#definedTab").removeClass("active");
             $("#baseTab").addClass("active");
-        }else if (orderstatus == "orderStatus_yidabao"){
+        }else if (caigoudingdanstatus == "caigouStatus_yiruku"){
             $("#baseTab").removeClass("active");
             $("#definedTab").addClass("active");
         }
@@ -282,14 +276,13 @@
         });
     });
 
-
     //修改
-    function view(Id){
+    function ruku(Id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerpackage/goView.do?innerorderid='+Id;
+        diag.URL = '<%=basePath%>caigoudingdan/goruku.do?caigoudingdanid='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件
@@ -301,12 +294,12 @@
         diag.show();
     }
 
-    function miandan(Id){
+    function view(Id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>barcode/getBillInfo.do?innerorderid='+Id;
+        diag.URL = '<%=basePath%>caigoudingdan/goview.do?caigoudingdanid='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件
@@ -319,7 +312,7 @@
     }
 
     function changeTable(auditStatus){
-        $("#nav-search-orderstatus").val(auditStatus);
+        $("#nav-search-caigoudingdanstatus").val(auditStatus);
         top.jzts();
         $("#Form").submit();
     }
@@ -352,7 +345,7 @@
                         top.jzts();
                         $.ajax({
                             type: "POST",
-                            url: '<%=basePath%>innerpackage/shenheAll.do?tm='+new Date().getTime(),
+                            url: '<%=basePath%>caigoudingdan/shenheAll.do?tm='+new Date().getTime(),
                             data: {DATA_IDS:str},
                             dataType:'json',
                             //beforeSend: validateData,
@@ -369,30 +362,50 @@
         });
     }
 
-
-
-    //打开上传excel页面
-    function fromExcel(){
-        top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="EXCEL 导入到数据库";
-        diag.URL = '<%=basePath%>innerpackage/goUploadExcel.do';
-        diag.Width = 400;
-        diag.Height = 150;
-        diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                if('${page.currentPage}' == '0'){
-                    top.jzts();
-                    setTimeout("self.location.reload()",100);
+    function makeAllZuofei(msg){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
                 }else{
-                    nextPage(${page.currentPage});
+                    if(msg == '确定要删除选中的数据吗?'){
+                        top.jzts();
+                        $.ajax({
+                            type: "POST",
+                            url: '<%=basePath%>caigoudingdan/zuofeiAll.do?tm='+new Date().getTime(),
+                            data: {DATA_IDS:str},
+                            dataType:'json',
+                            //beforeSend: validateData,
+                            cache: false,
+                            success: function(data){
+                                $.each(data.list, function(i, list){
+                                    nextPage(${page.currentPage});
+                                });
+                            }
+                        });
+                    }
                 }
             }
-            diag.close();
-        };
-        diag.show();
-    }
+        });
+    };
 
 </script>
 
