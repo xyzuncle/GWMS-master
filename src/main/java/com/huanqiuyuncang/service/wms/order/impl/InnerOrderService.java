@@ -218,9 +218,11 @@ public class InnerOrderService implements InnerOrderInterface {
 
         if("订单页".equals(orderStr.toString())&&"订单商品页".equals(pdStr.toString())){
             pdList.forEach(pd->{
+                pd.setorderproducrtid(UuidUtil.get32UUID());
                 orderProductDAO.insert(pd);
             });
             orderList.forEach(pd->{
+                pd.setInnerorderid(UuidUtil.get32UUID());
                 String customernum = pd.getCustomernum();
                 String packagenum = OrderUtil.getPackageNum(customernum);
                 setPackageInfo(pd, packagenum);
@@ -337,9 +339,11 @@ public class InnerOrderService implements InnerOrderInterface {
 
         if("订单页".equals(orderStr.toString())&&"订单商品页".equals(pdStr.toString())){
             orderList.forEach(pd->{
+                pd.setInnerorderid(UuidUtil.get32UUID());
                 innerOrderDAO.insert(pd);
             });
             pdList.forEach(pd->{
+                pd.setorderproducrtid(UuidUtil.get32UUID());
                orderProductDAO.insert(pd);
             });
             return "";
