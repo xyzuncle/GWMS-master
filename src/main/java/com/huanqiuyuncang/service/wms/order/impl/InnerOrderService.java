@@ -523,6 +523,7 @@ public class InnerOrderService implements InnerOrderInterface {
         order.setOuterordernum(waibudingdanhao);
         order.setOrdertime(ordertime);
         order.setSender(jijianren);
+        order.setCustomernum(customernum);
         order.setSenderphone(jijianrenTel);
         order.setSendercountry(jijianrenCountry);
         order.setSenderprovince(jijianrensheng);
@@ -553,22 +554,6 @@ public class InnerOrderService implements InnerOrderInterface {
         return "";
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        /*Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-        System.out.println(serialnumber);
-        PropUtil.writeProperties("serialnumber",serialnumber+1+"");
-        Integer serialnumber1 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-        System.out.println(serialnumber1);
-        PropUtil.writeProperties("serialnumber",serialnumber1+1+"");
-        Integer serialnumber2 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-        System.out.println(serialnumber2);
-        PropUtil.writeProperties("serialnumber",serialnumber2+1+"");
-        Integer serialnumber3 = Integer.parseInt(PropUtil.getKeyValue("serialnumber"));
-        System.out.println(serialnumber3);*/
-        String[] aa = {"aa"};
-        System.out.println(aa[0]);
-        aa[0] = "bb";
-        System.out.println(aa[0]);
-    }
+
 
 }
