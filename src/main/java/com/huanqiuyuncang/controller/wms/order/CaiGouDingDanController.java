@@ -277,7 +277,6 @@ public class CaiGouDingDanController  extends BaseController {
         PageData pd = this.getPageData();
         String caigoudingdanid = pd.getString("caigoudingdanid");
         CaiGouDingDanEntity caiGouDingDan = caiGouDingDanService.selectByPrimaryKey(caigoudingdanid);//根据ID读取
-       /* SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");*/
         String formateCreateTime = DateUtil.format(caiGouDingDan.getCreatetime(),"yyyy-MM-dd");
         String formateUpdateTime = DateUtil.format(caiGouDingDan.getUpdatetime(),"yyyy-MM-dd");
         caiGouDingDan.setFormatCreateTime(formateCreateTime);
@@ -296,23 +295,9 @@ public class CaiGouDingDanController  extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String caigoudingdanid = pd.getString("caigoudingdanid");
-        CaiGouDingDanEntity caiGouDingDan = caiGouDingDanService.selectByPrimaryKey(caigoudingdanid);
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
-        caiGouDingDan.setUpdatetime(date);
-        caiGouDingDan.setUpdateuser(username);
-        caiGouDingDan.setCaigoudingdanstatus("caigouStatus_yiruku");
-        caiGouDingDanService.updateByPrimaryKeySelective(caiGouDingDan);
-        PageData aa = new PageData();
-        aa.put("neibuhuohao",caiGouDingDan.getShangpinhuohao());
-        aa.put("kehubianhao",caiGouDingDan.getKehubianhao());
-        ProductWarehouseEntity productWarehouse = productWarehouseService.selectByPd(aa);
-        String shuliang = productWarehouse.getShuliang();
-        Integer sum =Integer.parseInt(shuliang);
-        sum = sum + Integer.parseInt(caiGouDingDan.getShuliang());
-        productWarehouse.setShuliang(Integer.toString(sum));
-        productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
-        mv.addObject("msg","success");
+        PageData ruku = caiGouDingDanService.ruku(caigoudingdanid);
+        mv.addObject("msg",ruku.getString("msg"));
+        mv.addObject("resturt",ruku.getString("resturt"));
         mv.setViewName("save_result");
         return mv;
     }

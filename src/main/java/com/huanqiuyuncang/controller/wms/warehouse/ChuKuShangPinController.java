@@ -141,21 +141,28 @@ public class ChuKuShangPinController extends BaseController {
         if(saomiaotiaoma.equals(chuKuShangPinEntity.getShangpintiaoma())){
             chuKuShangPinEntity.setRukuzhuangtai("yichuku");
             ProductWarehouseEntity productWarehouse = productWarehouseService.selectByChuKuShangPin(chuKuShangPinEntity);
-            Integer sum = Integer.parseInt(productWarehouse.getShuliang());
-            int count = Integer.parseInt(chuKuShangPinEntity.getShuliang());
-            if("0".equals(statusArr[7])){
-                if(sum < count){
-                    mv.addObject("msg","error");
-                    mv.addObject("resturt","库存不足！");
+            if("1".equals(productWarehouse.getSuokustatus())){
+                mv.addObject("msg","error");
+                mv.addObject("resturt","仓库处于盘点状态，不能进行进出库操作。");
+            }else{
+                Integer sum = Integer.parseInt(productWarehouse.getShuliang());
+                int count = Integer.parseInt(chuKuShangPinEntity.getShuliang());
+                if("0".equals(statusArr[7])){
+                    if(sum < count){
+                        mv.addObject("msg","error");
+                        mv.addObject("resturt","库存不足！");
+                    }
                 }
+                sum = sum-count;
+                productWarehouse.setShuliang(Integer.toString(sum));
+                productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
+                chuKuShangPinService.updateByPrimaryKey(chuKuShangPinEntity);
+                mv.addObject("msg","success");
             }
-            sum = sum-count;
-            productWarehouse.setShuliang(Integer.toString(sum));
-            productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
-            chuKuShangPinService.updateByPrimaryKey(chuKuShangPinEntity);
-            mv.addObject("msg","success");
+
         }else{
             mv.addObject("msg","error");
+            mv.addObject("resturt","扫描条码与商品条码不符。");
         }
 
         mv.setViewName("save_result");

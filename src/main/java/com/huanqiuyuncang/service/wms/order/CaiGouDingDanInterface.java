@@ -2,6 +2,7 @@ package com.huanqiuyuncang.service.wms.order;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface CaiGouDingDanInterface {
     void shenheAll(String[] arrayDATA_ids);
 
     void zuofeiAll(String[] arrayDATA_ids);
+
+    PageData ruku(String caigoudingdanid);
 }

@@ -103,11 +103,12 @@
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
-                                                            <c:if test="${QX.edit == 1 }">
-                                                                <a class="btn btn-xs btn-success" title="移库" onclick="yiku('${var.productwarehouseid}');">
-                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="移库"></i>
-                                                                </a>
-                                                            </c:if>
+                                                            <a class="btn btn-xs btn-success" title="移库" onclick="yiku('${var.productwarehouseid}');">
+                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120" title="移库"></i>
+                                                            </a>
+                                                            <a class="btn btn-xs btn-success" title="盘点" onclick="pandian('是否盘点该仓库?','${var.productwarehouseid}');">
+                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120" title="盘点"></i>
+                                                            </a>
                                                         </div>
 
                                                     </td>
@@ -206,6 +207,28 @@
             diag.close();
         };
         diag.show();
+    }
+    function pandian(msg,Id){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+            }else{
+                top.jzts();
+                $.ajax({
+                    type: "POST",
+                    url: '<%=basePath%>productwarehouse/pandian.do',
+                    data: {productwarehouseid:Id},
+                    dataType:'json',
+                    cache: false,
+                    success: function(data){
+                        $.each(data.list, function(i, list){
+                            nextPage(${page.currentPage});
+                        });
+                    }
+                });
+
+                }
+            }
+        });
     }
 
 </script>

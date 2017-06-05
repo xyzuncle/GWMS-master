@@ -94,6 +94,18 @@ public class ProductWarehouseController extends BaseController {
         mv.addObject("pd", pd);
         return mv;
     }
+    @RequestMapping(value="/pandian")
+    public ModelAndView pandian()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String productwarehouseid = pd.getString("productwarehouseid");
+        ProductWarehouseEntity productWarehouse = productWarehouseService.selectByPrimaryKey(productwarehouseid);//根据ID读取
+        productWarehouse.setSuokustatus("1");
+        productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
 
     @RequestMapping(value="/yiku")
     public ModelAndView yiku(ProductWarehouseEntity productWarehouseEntity) throws Exception{

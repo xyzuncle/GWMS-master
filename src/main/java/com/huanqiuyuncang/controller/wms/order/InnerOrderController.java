@@ -384,7 +384,6 @@ public class InnerOrderController extends BaseController {
             for(int i = 0;i<ArrayDATA_IDS.length;i++){
                 innerOrderService.createpackage(ArrayDATA_IDS[i]);
             }
-
             pd.put("msg", "ok");
         }else{
             pd.put("msg", "no");
