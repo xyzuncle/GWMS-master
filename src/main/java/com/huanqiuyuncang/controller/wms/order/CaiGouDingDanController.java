@@ -74,8 +74,14 @@ public class CaiGouDingDanController  extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
         PageData pd = this.getPageData();
         String caigoudingdanid = pd.getString("caigoudingdanid");
-        caiGouDingDanService.deleteByPrimaryKey(caigoudingdanid);
-        out.write("success");
+        Integer sum = checkTable("wms_caigoudingdan","caigoudingdanid", caigoudingdanid);
+        String msg = "success";
+        if(sum >0){
+            msg = "error";
+        }else{
+            caiGouDingDanService.deleteByPrimaryKey(caigoudingdanid);
+        }
+        out.write(msg);
         out.close();
     }
 
@@ -173,13 +179,16 @@ public class CaiGouDingDanController  extends BaseController {
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
             String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            Integer sum = checkTable("wms_caigoudingdan","caigoudingdanid", ArrayDATA_IDS);
+            if(sum > 0){
+                map.put("msg","error");
+                return AppUtil.returnObject(pd, map);
+            }
             caiGouDingDanService.deleteAll(ArrayDATA_IDS);
-            pd.put("msg", "ok");
+            map.put("msg", "success");
         }else{
-            pd.put("msg", "no");
+            map.put("msg","error");
         }
-        pdList.add(pd);
-        map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
 

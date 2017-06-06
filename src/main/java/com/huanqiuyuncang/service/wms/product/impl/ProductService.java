@@ -337,8 +337,7 @@ public class ProductService implements ProductInterface {
                     product.setCreateuser(userName);
                     product.setUpdatetime(new Date());
                     product.setUpdateuser(userName);
-                    product.setAuditStatus(0);
-                    product.setBlockStatus(0);
+                    product.setAuditStatus("product_daishenhe");
                     productDAO.insertSelective(product);
                 }else{
                     resturt.append("\n");

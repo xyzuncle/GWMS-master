@@ -42,7 +42,11 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">采购订单号:</td>
-                                        <td><input type="text" name="caigoudingdanhao" id="caigoudingdanhao" value="${caigoudingdan.caigoudingdanhao}" maxlength="30" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="caigoudingdanhao" id="caigoudingdanhao" value="${caigoudingdan.caigoudingdanhao}" maxlength="30" style="width:98%;"/></td>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">供应商编号:</td>
                                         <td><input type="text" name="gongyingshangbianhao" id="gongyingshangbianhao" value="${caigoudingdan.gongyingshangbianhao}" maxlength="30" style="width:98%;"/></td>
                                     </tr>

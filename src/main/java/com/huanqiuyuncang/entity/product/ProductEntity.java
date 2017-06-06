@@ -71,9 +71,7 @@ public class ProductEntity {
 
     private String remark3;
 
-    private Integer auditStatus;
-
-    private Integer blockStatus;
+    private String auditStatus;
 
     private String createuser;
 
@@ -83,27 +81,7 @@ public class ProductEntity {
 
     private Date updatetime;
 
-    private String formatCreateTime;
-
-    private String formateUpdateTime;
-
-    public String getFormatCreateTime() {
-        return formatCreateTime;
-    }
-
-    public void setFormatCreateTime(String formatCreateTime) {
-        this.formatCreateTime = formatCreateTime;
-    }
-
-    public String getFormateUpdateTime() {
-        return formateUpdateTime;
-    }
-
-    public void setFormateUpdateTime(String formateUpdateTime) {
-        this.formateUpdateTime = formateUpdateTime;
-    }
-
-    public ProductEntity(String productId, String image, String productnum, String productname, String productename, String barcodeMain, String barcodeAuxiliary1, String barcodeAuxiliary2, String barcodeAuxiliary3, String barcodeAuxiliary4, String brandname, String unit, String standard, String producingArea, String expirationDate, Double declarePrice, Double retailPrice, Double grossWeight, Double netWeight, Double productLength, Double productWidth, Double productHigh, Double productVolume, Double crossborderCourierfee, String customscode, String luggagemail, String cartontypea, Integer cartontypeanum, String cartontypeb, Integer cartontypebnum, String defaultpackage, String remark1, String remark2, String remark3, Integer auditStatus, Integer blockStatus, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public ProductEntity(String productId, String image, String productnum, String productname, String productename, String barcodeMain, String barcodeAuxiliary1, String barcodeAuxiliary2, String barcodeAuxiliary3, String barcodeAuxiliary4, String brandname, String unit, String standard, String producingArea, String expirationDate, Double declarePrice, Double retailPrice, Double grossWeight, Double netWeight, Double productLength, Double productWidth, Double productHigh, Double productVolume, Double crossborderCourierfee, String customscode, String luggagemail, String cartontypea, Integer cartontypeanum, String cartontypeb, Integer cartontypebnum, String defaultpackage, String remark1, String remark2, String remark3, String auditStatus, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.productId = productId;
         this.image = image;
         this.productnum = productnum;
@@ -139,7 +117,6 @@ public class ProductEntity {
         this.remark2 = remark2;
         this.remark3 = remark3;
         this.auditStatus = auditStatus;
-        this.blockStatus = blockStatus;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -422,20 +399,12 @@ public class ProductEntity {
         this.remark3 = remark3 == null ? null : remark3.trim();
     }
 
-    public Integer getAuditStatus() {
+    public String getAuditStatus() {
         return auditStatus;
     }
 
-    public void setAuditStatus(Integer auditStatus) {
-        this.auditStatus = auditStatus;
-    }
-
-    public Integer getBlockStatus() {
-        return blockStatus;
-    }
-
-    public void setBlockStatus(Integer blockStatus) {
-        this.blockStatus = blockStatus;
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus == null ? null : auditStatus.trim();
     }
 
     public String getCreateuser() {
@@ -469,4 +438,24 @@ public class ProductEntity {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
-}
+
+    private String formatCreateTime;
+
+    private String formateUpdateTime;
+
+    public String getFormatCreateTime() {
+        return formatCreateTime;
+    }
+
+    public void setFormatCreateTime(String formatCreateTime) {
+        this.formatCreateTime = formatCreateTime;
+    }
+
+    public String getFormateUpdateTime() {
+        return formateUpdateTime;
+    }
+
+    public void setFormateUpdateTime(String formateUpdateTime) {
+        this.formateUpdateTime = formateUpdateTime;
+    }
+   }

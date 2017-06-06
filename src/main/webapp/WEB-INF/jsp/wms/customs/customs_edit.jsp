@@ -36,7 +36,11 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">海关编码:</td>
-                                        <td><input type="text" name="customscode" id="customscode" onblur="checkCustomsCode()" value="${customs.customscode}" maxlength="30" placeholder="这里输入海关编码" title="海关编码" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="customscode" id="customscode" onblur="checkCustomsCode()" value="${customs.customscode}" maxlength="30" placeholder="这里输入海关编码" title="海关编码" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">海关编码名称:</td>

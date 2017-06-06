@@ -36,7 +36,11 @@
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户编号:</td>
                                         <td>
-                                            <input type="text" name="gongyingshangcode" id="gongyingshangcode" onblur="checkCode()" value="${gongyingshang.gongyingshangcode}" maxlength="30" placeholder="这里输入客户编号" title="客户编号" style="width:98%;"/>
+                                            <input type="text"
+                                                    <c:if test="${msg == 'edit' }">
+                                                        disabled
+                                                    </c:if>
+                                                   name="gongyingshangcode" id="gongyingshangcode" onblur="checkCode()" value="${gongyingshang.gongyingshangcode}" maxlength="30" placeholder="这里输入客户编号" title="客户编号" style="width:98%;"/>
                                             <input type="hidden" id="yuanshicode" value="${gongyingshang.gongyingshangcode}">
                                         </td>
                                     </tr>

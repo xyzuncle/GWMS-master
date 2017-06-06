@@ -133,11 +133,18 @@
     $(top.hangge());
     //保存
     function save(){
-     
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
     }
+
+    $(function(){
+        var customerStatus = '${customerStatus}';
+        var arr = customerStatus.split("_");
+        for(var i = 0 ; i<arr.length;i++){
+            $("#"+i).val(arr[i]);
+        }
+    });
 
 </script>
 </body>

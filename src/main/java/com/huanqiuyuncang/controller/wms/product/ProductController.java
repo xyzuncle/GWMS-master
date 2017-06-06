@@ -70,8 +70,7 @@ public class ProductController extends BaseController {
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         productEntity.setProductId(this.get32UUID());
-        productEntity.setAuditStatus(0);
-        productEntity.setBlockStatus(0);
+        productEntity.setAuditStatus("product_daishenhe");
         productEntity.setCreateuser(username);
         productEntity.setCreatetime(date);
         productEntity.setUpdateuser(username);
@@ -93,8 +92,16 @@ public class ProductController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"删除Product");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
         PageData pd = this.getPageData();
-        productService.deleteByPrimaryKey(pd);
-        out.write("success");
+        String id = (String) pd.get("productId");
+        Integer sum = checkTable("wms_product","product_id", id);
+        String msg = "success";
+        if(sum >0){
+            msg = "error";
+        }else{
+            productService.deleteByPrimaryKey(pd);
+
+        }
+        out.write(msg);
         out.close();
     }
 
@@ -126,28 +133,17 @@ public class ProductController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表Product");
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
-        Map<String, String> hc = Jurisdiction.getHC();
-        //与审核权限挂钩，没有权限就只显示自己创建的商品
-        if(!hc.keySet().contains("productAuditor")){
-            pd.put("createuser",Jurisdiction.getUsername());
-        }
-        if(!hc.keySet().contains("productBlock")){
-            pd.put("createuser",Jurisdiction.getUsername());
-        }
-        String blockStatus = pd.getString("blockStatus");
-        if("1".equals(blockStatus)){
-            pd.put("auditStatus","");
-        }
         page.setPd(pd);
+        String auditStatus = pd.getString("auditStatus");
+        if("product_daishenhe".equals(auditStatus)){
+            pd.put("createuser",Jurisdiction.getUsername());
+        }
         List<ProductEntity> varList = productService.datalistPage(page);
         setSelectList(mv);
         mv.setViewName("wms/product/product_list");
         mv.addObject("varList", varList);
         mv.addObject("pd", pd);
         mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        if("1".equals(blockStatus)){
-            pd.put("auditStatus","0");
-        }
         return mv;
     }
 
@@ -348,7 +344,7 @@ public class ProductController extends BaseController {
         PageData pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
-        product.setAuditStatus(1);
+        product.setAuditStatus("product_yishenhe");
         productService.updateByPrimaryKeySelective(product);
         out.write("success");
         out.close();
@@ -363,11 +359,12 @@ public class ProductController extends BaseController {
         PageData pd = this.getPageData();
         String productId = pd.getString("productId");
         ProductEntity product = productService.selectByPrimaryKey(productId);//根据ID读取
-        if(product.getBlockStatus() == 0){
-            product.setBlockStatus(1);
+        if("product_yitingyong".equals(product.getAuditStatus())){
+            product.setAuditStatus("product_daishenhe");
         }else{
-            product.setBlockStatus(0);
+            product.setAuditStatus("product_yitingyong");
         }
+
         productService.updateByPrimaryKeySelective(product);
         out.write("success");
         out.close();
@@ -388,13 +385,16 @@ public class ProductController extends BaseController {
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
             String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            Integer sum = checkTable("wms_product","product_id", ArrayDATA_IDS);
+            if(sum > 0){
+                map.put("msg","error");
+                return AppUtil.returnObject(pd, map);
+            }
             productService.deleteAll(ArrayDATA_IDS);
-            pd.put("msg", "ok");
+            map.put("msg", "success");
         }else{
-            pd.put("msg", "no");
+            map.put("msg","error");
         }
-        pdList.add(pd);
-        map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
 
@@ -484,6 +484,20 @@ public class ProductController extends BaseController {
     public Object findProductByProductNum(String productnum) throws Exception{
         logBefore(logger, Jurisdiction.getUsername()+"findProductByProductNum");
         ProductEntity product = productService.findProductByProductNum(productnum);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "success";
+        if (product != null){
+            errInfo = "error";
+        }
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
+    }
+
+    @RequestMapping(value="/findProductByBarcode")
+    @ResponseBody
+    public Object findProductByBarcode(String barcode) throws Exception{
+        logBefore(logger, Jurisdiction.getUsername()+"findProductByBarcode");
+        ProductEntity product = productService.findProductByBarCode(barcode);
         Map<String,String> map = new HashMap<String,String>();
         String errInfo = "success";
         if (product != null){

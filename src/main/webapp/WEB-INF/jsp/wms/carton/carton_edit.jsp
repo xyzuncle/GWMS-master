@@ -36,7 +36,11 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">纸箱型号:</td>
-                                        <td><input type="text" name="cartontype" id="cartontype" onblur="checkCartonType()" value="${carton.cartontype}" maxlength="30" placeholder="这里输入纸箱型号" title="纸箱型号" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="cartontype" id="cartontype" onblur="checkCartonType()" value="${carton.cartontype}" maxlength="30" placeholder="这里输入纸箱型号" title="纸箱型号" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">纸箱名称:</td>

@@ -36,7 +36,11 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">编号:</td>
-                                        <td><input type="text" name="brandcode" onblur="checkBrandCode()" id="brandcode" value="${brand.brandcode}" maxlength="30" placeholder="这里输入编号" title="编号" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="brandcode" onblur="checkBrandCode()" id="brandcode" value="${brand.brandcode}" maxlength="30" placeholder="这里输入编号" title="编号" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">品牌:</td>

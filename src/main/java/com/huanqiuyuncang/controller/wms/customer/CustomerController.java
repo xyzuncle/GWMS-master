@@ -41,17 +41,10 @@ public class CustomerController extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
+        BeanMapUtil.setCreateUserInfo(pd);
+        BeanMapUtil.setUpdateUserInfo(pd);
         CustomerEntity customerEntity = (CustomerEntity) BeanMapUtil.mapToObject(pd, CustomerEntity.class);
-       /* String customercode = customerEntity.getCustomercode();
-        customercode = username+"_"+customercode;
-        customerEntity.setCustomercode(customercode);*/
         customerEntity.setCustomerid(this.get32UUID());
-        customerEntity.setCreateuser(username);
-        customerEntity.setCreatetime(date);
-        customerEntity.setUpdateuser(username);
-        customerEntity.setUpdatetime(date);
         customerEntity.setCustomerstatus(CUSTOMERSTATUS);
         customerService.insertSelective(customerEntity);
         mv.addObject("msg","success");
@@ -70,8 +63,14 @@ public class CustomerController extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
         PageData pd = this.getPageData();
         String customerid = pd.getString("customerid");
-        customerService.deleteByPrimaryKey(customerid);
-        out.write("success");
+        Integer sum = checkTable("wms_customer","customerid", customerid);
+        String msg = "success";
+        if(sum >0){
+            msg = "error";
+        }else{
+            customerService.deleteByPrimaryKey(customerid);
+        }
+        out.write(msg);
         out.close();
     }
 
@@ -85,11 +84,8 @@ public class CustomerController extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        BeanMapUtil.setUpdateUserInfo(pd);
         CustomerEntity customerEntity = (CustomerEntity) BeanMapUtil.mapToObject(pd,CustomerEntity.class);
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
-        customerEntity.setUpdatetime(date);
-        customerEntity.setUpdateuser(username);
         customerService.updateByPrimaryKeySelective(customerEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -144,15 +140,11 @@ public class CustomerController extends BaseController {
         PageData pd = this.getPageData();
         String customerid = pd.getString("customerid");
         CustomerEntity customerEntity = customerService.selectByPrimaryKey(customerid);//根据ID读取
-       /* SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");*/
-        String formateCreateTime = DateUtil.format(customerEntity.getCreatetime(),"yyyy-MM-dd");
-        String formateUpdateTime = DateUtil.format(customerEntity.getUpdatetime(),"yyyy-MM-dd");
-        customerEntity.setFormatCreateTime(formateCreateTime);
-        customerEntity.setFormateUpdateTime(formateUpdateTime);
         mv.setViewName("wms/customer/customer_edit");
         mv.addObject("msg", "edit");
         mv.addObject("customer", customerEntity);
         mv.addObject("pd", pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
         return mv;
     }
 
@@ -161,10 +153,12 @@ public class CustomerController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String customerid = pd.getString("customerid");
+        CustomerEntity customerEntity = customerService.selectByPrimaryKey(customerid);
         mv.setViewName("wms/customer/customer_statusview");
         mv.addObject("msg", "changestatus");
         mv.addObject("pd", pd);
         mv.addObject("customerid", customerid);
+        mv.addObject("customerStatus", customerEntity.getCustomerstatus());
         return mv;
     }
 
@@ -202,13 +196,16 @@ public class CustomerController extends BaseController {
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
             String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            Integer sum = checkTable("wms_customer","customerid", ArrayDATA_IDS);
+            if(sum > 0){
+                map.put("msg","error");
+                return AppUtil.returnObject(pd, map);
+            }
             customerService.deleteAll(ArrayDATA_IDS);
-            pd.put("msg", "ok");
+            map.put("msg", "success");
         }else{
-            pd.put("msg", "no");
+            map.put("msg","error");
         }
-        pdList.add(pd);
-        map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
 

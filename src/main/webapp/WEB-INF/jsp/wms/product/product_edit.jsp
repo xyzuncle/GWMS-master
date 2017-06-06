@@ -48,7 +48,11 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">货号:</td>
-                                        <td><input type="text" name="productnum" id="productnum" onblur="checkProductNum()" value="${product.productnum}" maxlength="30" placeholder="这里输入货号" title="货号" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                   <c:if test="${msg == 'edit' }">
+                                                       disabled
+                                                   </c:if>
+                                                   name="productnum" id="productnum" onblur="checkProductNum()" value="${product.productnum}" maxlength="30" placeholder="这里输入货号" title="货号" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">商品名称:</td>
                                         <td><input type="text" name="productname" id="productname" value="${product.productname}" maxlength="30" placeholder="这里输入商品名称" title="商品名称" style="width:98%;"/></td>
                                     </tr>
@@ -77,19 +81,39 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">主条码:</td>
-                                        <td><input type="text" name="barcodeMain" id="barcodeMain" onblur="checkBarcode(this)" value="${product.barcodeMain}" maxlength="255" placeholder="这里输入主条码" title="主条码" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="barcodeMain" id="barcodeMain" onblur="checkBarcode(this)" value="${product.barcodeMain}" maxlength="255" placeholder="这里输入主条码" title="主条码" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码1:</td>
-                                        <td><input type="text" name="barcodeAuxiliary1" id="barcodeAuxiliary1" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary1}" maxlength="255" placeholder="这里输入辅助条码1" title="辅助条码1" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="barcodeAuxiliary1" id="barcodeAuxiliary1" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary1}" maxlength="255" placeholder="这里输入辅助条码1" title="辅助条码1" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码2:</td>
-                                        <td><input type="text" name="barcodeAuxiliary2" id="barcodeAuxiliary2" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary2}" maxlength="255" placeholder="这里输入辅助条码2" title="辅助条码2" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="barcodeAuxiliary2" id="barcodeAuxiliary2" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary2}" maxlength="255" placeholder="这里输入辅助条码2" title="辅助条码2" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码3:</td>
-                                        <td><input type="text" name="barcodeAuxiliary3" id="barcodeAuxiliary3" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary3}" maxlength="255" placeholder="这里输入辅助条码3" title="辅助条码3" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="barcodeAuxiliary3" id="barcodeAuxiliary3" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary3}" maxlength="255" placeholder="这里输入辅助条码3" title="辅助条码3" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码4:</td>
-                                        <td><input type="text" name="barcodeAuxiliary4" id="barcodeAuxiliary4" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary4}" maxlength="255" placeholder="这里输入辅助条码4" title="辅助条码4" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="barcodeAuxiliary4" id="barcodeAuxiliary4" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary4}" maxlength="255" placeholder="这里输入辅助条码4" title="辅助条码4" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">单位:</td>
                                         <td><input type="text" name="unit" id="unit" value="${product.unit}" maxlength="255" placeholder="这里输入单位" title="单位" style="width:98%;"/></td>
                                     </tr>
@@ -603,7 +627,7 @@ s                                                        </c:forEach>
             if(barcode != ""){
                 $.ajax({
                     type: "POST",
-                    url: '<%=basePath%>product/findProductByProductNum.do',
+                    url: '<%=basePath%>product/findProductByBarcode.do',
                     data: {barcode:barcode},
                     dataType:'json',
                     cache: false,

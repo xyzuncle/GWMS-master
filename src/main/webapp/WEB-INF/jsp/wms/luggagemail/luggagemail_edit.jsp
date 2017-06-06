@@ -36,7 +36,11 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">行邮税号:</td>
-                                        <td><input type="text" name="luggagemailcode" id="luggagemailcode" onblur="checkLuggageMailCode()" value="${luggagemail.luggagemailcode}" maxlength="30" placeholder="这里输入行邮税号" title="行邮税号" style="width:98%;"/></td>
+                                        <td><input type="text"
+                                                <c:if test="${msg == 'edit' }">
+                                                    disabled
+                                                </c:if>
+                                                   name="luggagemailcode" id="luggagemailcode" onblur="checkLuggageMailCode()" value="${luggagemail.luggagemailcode}" maxlength="30" placeholder="这里输入行邮税号" title="行邮税号" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">行邮分类名称:</td>

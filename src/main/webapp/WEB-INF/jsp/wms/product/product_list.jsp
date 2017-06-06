@@ -20,7 +20,7 @@
 <head>
     <base href="<%=basePath%>">
     <!-- 下拉框 -->
-    <link rel="stylesheet" href="static/ace/css/chosen.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/ace/css/chosen.css" />
     <!-- jsp文件头和头部 -->
     <%@ include file="../../system/index/top.jsp"%>
 </head>
@@ -42,7 +42,6 @@
                                     <td>
                                         <div class="nav-search">
                                             <input type="hidden" id="nav-search-auditStatus" name="auditStatus" value="${pd.auditStatus }"  >
-                                            <input type="hidden" id="nav-search-blockStatus" name="blockStatus" value="${pd.blockStatus }"  >
                                             <span class="input-icon">
 											    商品名称：
 										    </span>
@@ -132,9 +131,9 @@
                                     </td>
                                     <c:if test="${QX.cha == 1 }">
                                         <td style="vertical-align:top;padding-left:2px">
-                                            <a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a>
-                                        <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if>
-                                        <c:if test="${QX.FromExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="fromExcel();" title="从EXCEL导入"><i id="nav-search-icon" class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td></c:if>
+                                            <a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i  class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a>
+                                        <c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i  class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i></a></td></c:if>
+                                        <c:if test="${QX.FromExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="fromExcel();" title="从EXCEL导入"><i  class="ace-icon fa fa-cloud-upload bigger-110 nav-search-icon blue"></i></a></td></c:if>
                                         </td>
                                     </c:if>
                                 </tr>
@@ -147,14 +146,14 @@
                                             <ul class="nav nav-tabs" id="myTab2">
 
                                                 <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('1')">基础商品库</a>
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('product_yishenhe')">公共商品库</a>
                                                 </li>
                                                 <li  id="definedTab">
-                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('0')">自定义商品库</a>
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('product_daishenhe')">自定义商品库</a>
                                                 </li>
                                                 <c:if test="${QX.productDisable == 1 }">
                                                 <li id="disableTab">
-                                                    <a data-toggle="tab" href="#disable" onclick="changeTable('2')">停用商品库</a>
+                                                    <a data-toggle="tab" href="#disable" onclick="changeTable('product_yitingyong')">停用商品库</a>
                                                 </li>
                                                 </c:if>
                                             </ul>
@@ -229,19 +228,19 @@
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
                                                                 </a>
                                                             </c:if>
-                                                            <c:if test="${var.auditStatus == 0 && QX.productAuditor == 1 }">
+                                                            <c:if test="${var.auditStatus == 'product_daishenhe' && QX.productAuditor == 1 }">
 
                                                                 <a class="btn btn-xs btn-primary" title="审核" onclick="auditor('${var.productId}');">
                                                                     <i class="ace-icon fa fa-check bigger-120" title="审核"></i>
                                                                 </a>
                                                             </c:if>
-                                                            <c:if test="${var.blockStatus == 0 && QX.productBlock == 1 }">
+                                                            <c:if test="${var.auditStatus != 'product_yitingyong' && QX.productBlock == 1 }">
 
                                                                 <a class="btn btn-xs btn-warning" title="停用" onclick="blockStatus('${var.productId}');">
                                                                     <i class="ace-icon fa  fa-key bigger-120" title="停用"></i>
                                                                 </a>
                                                             </c:if>
-                                                            <c:if test="${var.blockStatus == 1 && QX.productBlock == 1 }">
+                                                            <c:if test="${var.auditStatus == 'product_yitingyong' && QX.productBlock == 1 }">
 
                                                                 <a class="btn btn-xs btn-warning" title="启用" onclick="blockStatus('${var.productId}');">
                                                                     <i class="ace-icon fa  fa-key bigger-120" title="启用"></i>
@@ -253,24 +252,22 @@
                                                                 <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                                                                     <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                                                 </button>
-
                                                                 <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-
                                                                     <c:if test="${QX.edit == 1 }">
                                                                         <li>
                                                                             <a style="cursor:pointer;" onclick="edit('${var.productId}');" class="tooltip-success" data-rel="tooltip" title="修改">
-																	<span class="green">
-																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																	</span>
+                                                                                <span class="green">
+                                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                                                </span>
                                                                             </a>
                                                                         </li>
                                                                     </c:if>
                                                                     <c:if test="${QX.del == 1 }">
                                                                         <li>
                                                                             <a style="cursor:pointer;" onclick="del('${var.productId}');" class="tooltip-error" data-rel="tooltip" title="删除">
-																	<span class="red">
-																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																	</span>
+                                                                                <span class="red">
+                                                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                                                </span>
                                                                             </a>
                                                                         </li>
                                                                     </c:if>
@@ -337,16 +334,15 @@
 <!-- basic scripts -->
 <!-- 页面底部js¨ -->
 <%@ include file="../../system/index/foot.jsp"%>
-
 <!-- 删除时确认窗口 -->
-<script src="static/ace/js/bootbox.js"></script>
+<script src="${pageContext.request.contextPath}/static/ace/js/bootbox.js"></script>
 <!-- ace scripts -->
-<script src="static/ace/js/ace/ace.js"></script>
+<script src="${pageContext.request.contextPath}/static/ace/js/ace/ace.js"></script>
 <!-- 下拉框 -->
-<script src="static/ace/js/chosen.jquery.js"></script>
+<script src="${pageContext.request.contextPath}/static/ace/js/chosen.jquery.js"></script>
 
 <!--提示框-->
-<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/jquery.tips.js"></script>
 
 <script type="text/javascript">
     $(top.hangge());//关闭加载状态
@@ -357,17 +353,16 @@
     }
 
     $(function() {
-        var auditStatus = ${pd.auditStatus} ;
-        var blockStatus = ${pd.blockStatus};
-        if(auditStatus == 0 && blockStatus == 0){
+        var auditStatus = '${pd.auditStatus}';
+        if(auditStatus == 'product_daishenhe' ){
             $("#baseTab").removeClass("active");
             $("#disableTab").removeClass("active");
             $("#definedTab").addClass("active");
-        }else if (auditStatus == 1 && blockStatus == 0){
+        }else if (auditStatus == 'product_yishenhe'){
             $("#disableTab").removeClass("active");
             $("#definedTab").removeClass("active");
             $("#baseTab").addClass("active");
-        }else if (blockStatus == 1){
+        }else if (auditStatus == 'product_yitingyong'){
             $("#baseTab").removeClass("active");
             $("#definedTab").removeClass("active");
             $("#disableTab").addClass("active");
@@ -440,7 +435,12 @@
                 top.jzts();
                 var url = "<%=basePath%>product/delete.do?productId="+Id+"&tm="+new Date().getTime();
                 $.get(url,function(data){
-                    nextPage(${page.currentPage});
+                    if("success"  == data.msg){
+                        nextPage(${page.currentPage});
+                    }else{
+                        alert("该数据已被使用，无法删除！");
+                        nextPage(${page.currentPage});
+                    }
                 });
             }
         });
@@ -530,9 +530,12 @@
                             //beforeSend: validateData,
                             cache: false,
                             success: function(data){
-                                $.each(data.list, function(i, list){
+                                if("success"  == data.msg){
                                     nextPage(${page.currentPage});
-                                });
+                                }else{
+                                    alert("该数据已被使用，无法删除！");
+                                    nextPage(${page.currentPage});
+                                }
                             }
                         });
                     }
@@ -543,16 +546,7 @@
 
     //改变商品库
     function changeTable(auditStatus){
-        if(auditStatus == 1){
-            $("#nav-search-auditStatus").val(1);
-            $("#nav-search-blockStatus").val(0);
-        }else if(auditStatus == 0){
-            $("#nav-search-auditStatus").val(0);
-            $("#nav-search-blockStatus").val(0);
-        }else if(auditStatus == 2){
-            $("#nav-search-auditStatus").val(0);
-            $("#nav-search-blockStatus").val(1);
-        }
+        $("#nav-search-auditStatus").val(auditStatus);
         top.jzts();
         $("#Form").submit();
     }
@@ -623,10 +617,6 @@
         };
         diag.show();
     }
-
-
-
-
 </script>
 
 

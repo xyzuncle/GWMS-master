@@ -3,6 +3,10 @@ package com.huanqiuyuncang.controller.base;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.huanqiuyuncang.dao.checktable.CheckTableDAO;
+import com.huanqiuyuncang.service.system.checktable.CheckTableInterface;
+import com.huanqiuyuncang.service.system.checktable.impl.CheckTableService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +25,9 @@ public class BaseController {
 	protected Logger logger = Logger.getLogger(this.getClass());
 
 	private static final long serialVersionUID = 6357869213649815390L;
+
+    @Autowired
+    protected  CheckTableInterface checkTableService;
 	
 	/** new PageData对象
 	 * @return
@@ -68,5 +75,25 @@ public class BaseController {
 		logger.info("end");
 		logger.info("");
 	}
-	
+
+    protected Integer checkTable(String tableName,String idField,String value) {
+        PageData pd = new PageData();
+        pd.put("idfield",idField);
+        pd.put("id",value);
+        return checkTableService.sumCheckTable(tableName,pd);
+    }
+
+    protected Integer checkTable(String tableName,String idField,String[] values) {
+        PageData pd = new PageData();
+        pd.put("idfield",idField);
+        Integer sum = 0;
+        for (String value:values) {
+            pd.put("id",value);
+            Integer count = checkTableService.sumCheckTable(tableName, pd);
+            sum += count;
+        }
+        return sum;
+
+    }
+
 }

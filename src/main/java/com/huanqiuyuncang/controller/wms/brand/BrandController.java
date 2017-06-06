@@ -5,6 +5,7 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.brand.BrandEntity;
 import com.huanqiuyuncang.service.wms.brand.BrandInterface;
 import com.huanqiuyuncang.util.AppUtil;
+import com.huanqiuyuncang.util.BeanMapUtil;
 import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,9 @@ public class BrandController  extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
         PageData pd  = this.getPageData();
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
         pd.put("brandid", this.get32UUID());	//主键
-        pd.put("createuser", username);	//创建者
-        pd.put("updateuser", username);	//第一次保存，创建者就是修改者
-        pd.put("createtime", date);	//创建时间
-        pd.put("updatetime", date);	//第一次保存，创建时间就是修改时间
+        BeanMapUtil.setCreateUserInfo(pd);
+        BeanMapUtil.setUpdateUserInfo(pd);
         brandService.insertSelective(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -61,10 +58,19 @@ public class BrandController  extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
         PageData pd = this.getPageData();
         String brandid = pd.getString("brandid");
-        brandService.deleteByPrimaryKey(brandid);
-        out.write("success");
+        Integer sum = checkTable("wms_brand","brandId", brandid);
+        String msg = "success";
+        if(sum >0){
+            msg = "error";
+        }else{
+            brandService.deleteByPrimaryKey(brandid);
+        }
+        out.write(msg);
         out.close();
+
     }
+
+
 
     /**修改
      * @param
@@ -76,6 +82,7 @@ public class BrandController  extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        BeanMapUtil.setUpdateUserInfo(pd);
         brandService.updateByPrimaryKeySelective(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -142,17 +149,21 @@ public class BrandController  extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
         Map<String,Object> map = new HashMap<String,Object>();
         PageData pd = this.getPageData();
-        List<PageData> pdList = new ArrayList<PageData>();
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
             String ArrayDATA_IDS[] = DATA_IDS.split(",");
+
+            Integer sum = checkTable("wms_brand","brandId", ArrayDATA_IDS);
+            if(sum > 0){
+                map.put("msg","error");
+                return AppUtil.returnObject(pd, map);
+            }
+
             brandService.deleteAll(ArrayDATA_IDS);
-            pd.put("msg", "ok");
+            map.put("msg", "success");
         }else{
-            pd.put("msg", "no");
+            map.put("msg","error");
         }
-        pdList.add(pd);
-        map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
 

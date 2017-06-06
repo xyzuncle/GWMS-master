@@ -148,26 +148,28 @@ public class InnerOrderService implements InnerOrderInterface {
             Integer count = Integer.parseInt(orderProductEntity.getCount());
             sum += count;
             String cartontypea = product.getCartontypea();
-            Integer cartontypeanum = product.getCartontypeanum();
             String cartontypeb = product.getCartontypeb();
+            Integer cartontypeanum = product.getCartontypeanum();
             Integer cartontypebnum = product.getCartontypebnum();
             String defaultpackage = product.getDefaultpackage();
-            Integer cartonA = StringUtil.getNum(cartontypea);
-            Integer cartonB = StringUtil.getNum(cartontypeb);
             Integer pnum = StringUtil.getNum(defaultpackage);
-            if(i == 0){
-                defaultCartonprefix =cartontypea.substring(0,1);
-            }
-            if(!(cartontypea.startsWith(defaultCartonprefix)&&cartontypeb.startsWith(defaultCartonprefix))){
-                defaultCarton = "";
-            }else if(sum < cartontypeanum){
-                defaultCarton =  StringUtils.isBlank(defaultCarton)?cartontypea:defaultCarton;
-                defaultCarton = StringUtil.getNum(defaultCarton)>cartonA?cartontypea:defaultCarton;
-            }else if(sum < cartontypebnum){
-                defaultCarton =  StringUtils.isBlank(defaultCarton)?cartontypeb:defaultCarton;
-                defaultCarton = StringUtil.getNum(defaultCarton)>cartonB?cartontypeb:defaultCarton;
-            }else{
-                defaultCarton = "";
+            if(StringUtils.isNotBlank(cartontypea)&&StringUtils.isNotBlank(cartontypeb)){
+                Integer cartonA = StringUtil.getNum(cartontypea);
+                Integer cartonB = StringUtil.getNum(cartontypeb);
+                if(i == 0){
+                    defaultCartonprefix =cartontypea.substring(0,1);
+                }
+                if(!(cartontypea.startsWith(defaultCartonprefix)&&cartontypeb.startsWith(defaultCartonprefix))){
+                    defaultCarton = "";
+                }else if(sum < cartontypeanum){
+                    defaultCarton =  StringUtils.isBlank(defaultCarton)?cartontypea:defaultCarton;
+                    defaultCarton = StringUtil.getNum(defaultCarton)>cartonA?cartontypea:defaultCarton;
+                }else if(sum < cartontypebnum){
+                    defaultCarton =  StringUtils.isBlank(defaultCarton)?cartontypeb:defaultCarton;
+                    defaultCarton = StringUtil.getNum(defaultCarton)>cartonB?cartontypeb:defaultCarton;
+                }else{
+                    defaultCarton = "";
+                }
             }
             if(StringUtils.isBlank(packageType)){
                 packageType = defaultpackage;

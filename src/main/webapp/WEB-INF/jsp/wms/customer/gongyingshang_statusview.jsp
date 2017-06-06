@@ -139,6 +139,14 @@
         $("#zhongxin2").show();
     }
 
+    $(function(){
+        var gongyingshangStatus = '${gongyingshangStatus}';
+        var arr = gongyingshangStatus.split("_");
+        for(var i = 0 ; i<arr.length;i++){
+            $("#"+i).val(arr[i]);
+        }
+    });
+
 </script>
 </body>
 </html>

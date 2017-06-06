@@ -60,9 +60,16 @@ public class GongYingShangController extends BaseController {
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
         PageData pd = this.getPageData();
         String gongyingshangid = pd.getString("gongyingshangid");
-        gongYingShangService.deleteByPrimaryKey(gongyingshangid);
-        out.write("success");
+        Integer sum = checkTable("wms_gongyingshang","gongyingshangid", gongyingshangid);
+        String msg = "success";
+        if(sum >0){
+            msg = "error";
+        }else{
+            gongYingShangService.deleteByPrimaryKey(gongyingshangid);
+        }
+        out.write(msg);
         out.close();
+
     }
 
     /**修改
@@ -151,10 +158,12 @@ public class GongYingShangController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String gongyingshangid = pd.getString("gongyingshangid");
+        GongYingShangEntity gongYingShangEntity = gongYingShangService.selectByPrimaryKey(gongyingshangid);
         mv.setViewName("wms/customer/gongyingshang_statusview");
         mv.addObject("msg", "changestatus");
         mv.addObject("pd", pd);
         mv.addObject("gongyingshangid", gongyingshangid);
+        mv.addObject("gongyingshangStatus", gongYingShangEntity.getGongyingshangstatus());
         return mv;
     }
 
@@ -192,13 +201,16 @@ public class GongYingShangController extends BaseController {
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
             String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            Integer sum = checkTable("wms_gongyingshang","gongyingshangid", ArrayDATA_IDS);
+            if(sum > 0){
+                map.put("msg","error");
+                return AppUtil.returnObject(pd, map);
+            }
             gongYingShangService.deleteAll(ArrayDATA_IDS);
-            pd.put("msg", "ok");
+            map.put("msg", "success");
         }else{
-            pd.put("msg", "no");
+            map.put("msg","error");
         }
-        pdList.add(pd);
-        map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
 

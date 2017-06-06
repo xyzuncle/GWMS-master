@@ -1,5 +1,9 @@
 package com.huanqiuyuncang.entity.customer;
 
+import com.huanqiuyuncang.util.DateUtil;
+import com.huanqiuyuncang.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Date;
 
 public class CustomerEntity {
@@ -28,18 +32,22 @@ public class CustomerEntity {
     private String formateUpdateTime;
 
     public String getFormatCreateTime() {
+        formatCreateTime =  StringUtils.isBlank(formatCreateTime) ? DateUtil.format(getCreatetime(), "yyyy-MM-dd") :formatCreateTime;
         return formatCreateTime;
     }
 
     public void setFormatCreateTime(String formatCreateTime) {
+
         this.formatCreateTime = formatCreateTime;
     }
 
     public String getFormateUpdateTime() {
+        formateUpdateTime =  StringUtils.isBlank(formateUpdateTime) ? DateUtil.format(getUpdatetime(), "yyyy-MM-dd") :formateUpdateTime;
         return formateUpdateTime;
     }
 
     public void setFormateUpdateTime(String formateUpdateTime) {
+
         this.formateUpdateTime = formateUpdateTime;
     }
 

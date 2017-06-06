@@ -253,7 +253,12 @@
                 top.jzts();
                 var url = "<%=basePath%>packagetype/delete.do?packageid="+Id+"&tm="+new Date().getTime();
                 $.get(url,function(data){
-                    nextPage(${page.currentPage});
+                    if("success"  == data){
+                        nextPage(${page.currentPage});
+                    }else{
+                        alert("该数据已被使用，无法删除！");
+                        nextPage(${page.currentPage});
+                    }
                 });
             }
         });
@@ -312,9 +317,12 @@
                             //beforeSend: validateData,
                             cache: false,
                             success: function(data){
-                                $.each(data.list, function(i, list){
+                                if("success"  == data.msg){
                                     nextPage(${page.currentPage});
-                                });
+                                }else{
+                                    alert("该数据已被使用，无法删除！");
+                                    nextPage(${page.currentPage});
+                                }
                             }
                         });
                     }
