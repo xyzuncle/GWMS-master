@@ -36,6 +36,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div id="zhongxin" style="padding-top: 13px;">
+                            <input type="hidden" name="token" id="token" value="${token}"/>
                             <table id="table_report" class="table table-striped table-bordered table-hover">
                                 <tr>
                                     <td style="width:82px;text-align: right;padding-top: 13px;">客户编号:</td>

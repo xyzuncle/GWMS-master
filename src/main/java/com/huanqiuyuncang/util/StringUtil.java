@@ -66,9 +66,9 @@ public class StringUtil {
 	   }
 
     public static Integer getNum(String str) {
-        str=str.trim();
         String str2="";
         if(str != null && !"".equals(str)){
+            str=str.trim();
             for(int i=0;i<str.length();i++){
                 if(str.charAt(i)>=48 && str.charAt(i)<=57){
                     str2+=str.charAt(i);
