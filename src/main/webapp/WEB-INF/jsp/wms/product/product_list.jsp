@@ -223,11 +223,24 @@
                                                             <a class="btn btn-xs btn-primary" onclick="viewProduct('${var.productId}');">
                                                                 <i class="ace-icon fa   fa-eye bigger-120" title="详情"></i>
                                                             </a>
-                                                            <c:if test="${QX.edit == 1 }">
-                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.productId}');">
-                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
-                                                                </a>
-                                                            </c:if>
+                                                            <c:choose>
+                                                                <c:when test="${var.auditStatus == 'product_yishenhe'}">
+                                                                    <c:if test="${QX.edit == 1 && QX.productComEdit == 1 }">
+                                                                        <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.productId}');">
+                                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+                                                                        </a>
+                                                                    </c:if>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <c:if test="${QX.edit == 1 }">
+                                                                        <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.productId}');">
+                                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
+                                                                        </a>
+                                                                    </c:if>
+                                                                </c:otherwise>
+                                                            </c:choose>
+
+
                                                             <c:if test="${var.auditStatus == 'product_daishenhe' && QX.productAuditor == 1 }">
 
                                                                 <a class="btn btn-xs btn-primary" title="审核" onclick="auditor('${var.productId}');">
@@ -602,17 +615,9 @@
         diag.Drag=true;
         diag.Title ="原图";
         diag.URL = '<%=basePath%>product/goImage.do?src='+src;
-        diag.Width = 600;
+        diag.Width = 800;
         diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                if('${page.currentPage}' == '0'){
-                    top.jzts();
-                    setTimeout("self.location=self.location",100);
-                }else{
-                    nextPage(${page.currentPage});
-                }
-            }
             diag.close();
         };
         diag.show();

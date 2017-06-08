@@ -61,7 +61,7 @@ public class AttachmentController {
         //String path = request.getRealPath("/")+"img";
         String uploadPath = ImageUtil.getImagePath(request);
         String newFileName = FileUpload.fileUp(cfile,uploadPath , tfileName);
-        String image = ImageUtil.thumbnailImage(uploadPath+"/"+newFileName, 100, 150, true);
+        String image = ImageUtil.thumbnailImage(uploadPath+"/"+newFileName, 350, 350, true);
         Map<String,String> pd = new HashMap<>();
         pd.put("realPath","product_"+tfileName+suffix);
         String jsonStr = JSONObject.fromObject(pd).toString();

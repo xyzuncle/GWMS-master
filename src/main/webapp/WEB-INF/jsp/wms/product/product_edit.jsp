@@ -409,26 +409,7 @@ s                                                        </c:forEach>
             $("#producingArea").focus();
             return false;
         }
-        if($("#declarePrice").val() != '' && isNaN($("#declarePrice").val()) ){
-            $("#declarePrice").tips({
-                side:3,
-                msg:'请输入数字',
-                bg:'#AE81FF',
-                time:2
-            });
-            $("#declarePrice").focus();
-            return false;
-        }
-        if($("#retailPrice").val() != '' && isNaN($("#retailPrice").val()) ){
-            $("#retailPrice").tips({
-                side:3,
-                msg:'请输入数字',
-                bg:'#AE81FF',
-                time:2
-            });
-            $("#retailPrice").focus();
-            return false;
-        }
+
         if($("#grossWeight").val() != '' && isNaN($("#grossWeight").val()) ){
             $("#grossWeight").tips({
                 side:3,
@@ -489,36 +470,60 @@ s                                                        </c:forEach>
             $("#productVolume").focus();
             return false;
         }
-        if($("#crossborderCourierfee").val() != '' && isNaN($("#crossborderCourierfee").val()) ){
-            $("#crossborderCourierfee").tips({
-                side:3,
-                msg:'请输入数字',
-                bg:'#AE81FF',
-                time:2
-            });
-            $("#crossborderCourierfee").focus();
-            return false;
+        if(${QX.privateFrom == 1 }){
+            if($("#declarePrice").val() != '' && isNaN($("#declarePrice").val()) ){
+                $("#declarePrice").tips({
+                    side:3,
+                    msg:'请输入数字',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#declarePrice").focus();
+                return false;
+            }
+            if($("#retailPrice").val() != '' && isNaN($("#retailPrice").val()) ){
+                $("#retailPrice").tips({
+                    side:3,
+                    msg:'请输入数字',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#retailPrice").focus();
+                return false;
+            }
+            if($("#crossborderCourierfee").val() != '' && isNaN($("#crossborderCourierfee").val()) ){
+                $("#crossborderCourierfee").tips({
+                    side:3,
+                    msg:'请输入数字',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#crossborderCourierfee").focus();
+                return false;
+            }
+            if($("#cartontypeanum").val() != '' && isNaN($("#cartontypeanum").val()) ){
+                $("#cartontypeanum").tips({
+                    side:3,
+                    msg:'请输入数字',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#cartontypeanum").focus();
+                return false;
+            }
+            if($("#cartontypebnum").val() != '' && isNaN($("#cartontypebnum").val()) ){
+                $("#cartontypebnum").tips({
+                    side:3,
+                    msg:'请输入数字',
+                    bg:'#AE81FF',
+                    time:2
+                });
+                $("#cartontypebnum").focus();
+                return false;
+            }
+
         }
-        if($("#cartontypeanum").val() != '' && isNaN($("#cartontypeanum").val()) ){
-            $("#cartontypeanum").tips({
-                side:3,
-                msg:'请输入数字',
-                bg:'#AE81FF',
-                time:2
-            });
-            $("#cartontypeanum").focus();
-            return false;
-        }
-        if($("#cartontypebnum").val() != '' && isNaN($("#cartontypebnum").val()) ){
-            $("#cartontypebnum").tips({
-                side:3,
-                msg:'请输入数字',
-                bg:'#AE81FF',
-                time:2
-            });
-            $("#cartontypebnum").focus();
-            return false;
-        }
+
         if($("#barcodeAuxiliary1").val()!=''){
            var barcodeMain =  $("#barcodeMain").val();
            var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
@@ -591,6 +596,7 @@ s                                                        </c:forEach>
                 return false;
             }
         }
+
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
