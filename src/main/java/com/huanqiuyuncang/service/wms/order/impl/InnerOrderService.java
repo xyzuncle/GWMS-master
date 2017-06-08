@@ -217,13 +217,22 @@ public class InnerOrderService implements InnerOrderInterface {
                 pdStr.append(start + pdListStr);
             }
         };
-
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
         if("订单页".equals(orderStr.toString())&&"订单商品页".equals(pdStr.toString())){
             pdList.forEach(pd->{
+                pd.setCreatetime(date);
+                pd.setCreateuser(username);
+                pd.setUpdatetime(date);
+                pd.setUpdateuser(username);
                 pd.setorderproducrtid(UuidUtil.get32UUID());
                 orderProductDAO.insert(pd);
             });
             orderList.forEach(pd->{
+                pd.setCreatetime(date);
+                pd.setCreateuser(username);
+                pd.setUpdatetime(date);
+                pd.setUpdateuser(username);
                 pd.setInnerorderid(UuidUtil.get32UUID());
                 String customernum = pd.getCustomernum();
                 String packagenum = OrderUtil.getPackageNum(customernum);
@@ -320,7 +329,8 @@ public class InnerOrderService implements InnerOrderInterface {
         List<OrderProductEntity> pdList = new ArrayList<>();
         Map<String,String> outerOrderNum = new HashMap<>();
         final StringBuffer orderStr = new StringBuffer("订单页");
-
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
         for(int i = 0 ;i<orderListPd.size();i++) {
             PageData pageData = orderListPd.get(i);
             String start = "第"+(i+1)+"行有错误";
@@ -342,9 +352,17 @@ public class InnerOrderService implements InnerOrderInterface {
         if("订单页".equals(orderStr.toString())&&"订单商品页".equals(pdStr.toString())){
             orderList.forEach(pd->{
                 pd.setInnerorderid(UuidUtil.get32UUID());
+                pd.setCreatetime(date);
+                pd.setCreateuser(username);
+                pd.setUpdatetime(date);
+                pd.setUpdateuser(username);
                 innerOrderDAO.insert(pd);
             });
             pdList.forEach(pd->{
+                pd.setCreatetime(date);
+                pd.setCreateuser(username);
+                pd.setUpdatetime(date);
+                pd.setUpdateuser(username);
                 pd.setorderproducrtid(UuidUtil.get32UUID());
                orderProductDAO.insert(pd);
             });

@@ -207,19 +207,19 @@
         <include refid="Base_Column_List" />
         FROM wms_caigoudingdan
         WHERE 1=1
-        <if test="pd.caigoudingdanhao != null" >
+        <if test="pd.caigoudingdanhao != null and pd.caigoudingdanhao != ''" >
            AND caigoudingdanhao = #{pd.caigoudingdanhao,jdbcType=VARCHAR}
         </if>
-        <if test="pd.gongyingshangbianhao != null" >
+        <if test="pd.gongyingshangbianhao != null and pd.gongyingshangbianhao != ''" >
             AND  gongyingshangbianhao = #{pd.gongyingshangbianhao,jdbcType=VARCHAR}
         </if>
-        <if test="pd.shangpinhuohao != null" >
+        <if test="pd.shangpinhuohao != null and pd.shangpinhuohao != ''" >
             AND  shangpinhuohao = #{pd.shangpinhuohao,jdbcType=VARCHAR}
         </if>
-        <if test="pd.kehubianhao != null" >
+        <if test="pd.kehubianhao != null and pd.kehubianhao != ''" >
             AND  kehubianhao = #{pd.kehubianhao,jdbcType=VARCHAR}
         </if>
-        <if test="pd.caigoudingdanstatus != null" >
+        <if test="pd.caigoudingdanstatus != null and pd.caigoudingdanstatus != ''" >
             AND caigoudingdanstatus = #{pd.caigoudingdanstatus,jdbcType=VARCHAR}
         </if>
     </select>

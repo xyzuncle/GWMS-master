@@ -87,10 +87,10 @@
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
                                                 <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daiqueren')">待确认</a>
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('caigouStatus_daiqueren')">待确认</a>
                                                 </li>
                                                 <li  id="definedTab">
-                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yiqueren')">已确认</a>
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('caigouStatus_yiqueren')">已确认</a>
                                                 </li>
                                             </ul>
                                         </div>
