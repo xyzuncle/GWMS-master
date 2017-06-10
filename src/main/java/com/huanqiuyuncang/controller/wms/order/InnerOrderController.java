@@ -1,10 +1,8 @@
 package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
-import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
-import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.order.PingZhengEnetity;
@@ -435,6 +433,7 @@ public class InnerOrderController extends BaseController {
         orderProductEntities.forEach(orderProduct ->{
             try {
                 ProductOrderBase base = new ProductOrderBase();
+
                 ProductEntity product = productService.findProductByBarCode(orderProduct.getBarcode());
                 base.setProductnum(product.getProductnum());
                 base.setProductname(product.getProductname());

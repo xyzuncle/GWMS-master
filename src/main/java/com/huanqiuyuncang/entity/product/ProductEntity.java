@@ -73,6 +73,22 @@ public class ProductEntity {
 
     private String auditStatus;
 
+    private String qinngguanchengben1;
+
+    private String qinngguanchengben2;
+
+    private String qinngguanchengben3;
+
+    private String qinngguanchengben4;
+
+    private String kuajingjiage1;
+
+    private String kuajingjiage2;
+
+    private String kuajingjiage3;
+
+    private String kuajingjiage4;
+
     private String createuser;
 
     private Date createtime;
@@ -81,7 +97,7 @@ public class ProductEntity {
 
     private Date updatetime;
 
-    public ProductEntity(String productId, String image, String productnum, String productname, String productename, String barcodeMain, String barcodeAuxiliary1, String barcodeAuxiliary2, String barcodeAuxiliary3, String barcodeAuxiliary4, String brandname, String unit, String standard, String producingArea, String expirationDate, Double declarePrice, Double retailPrice, Double grossWeight, Double netWeight, Double productLength, Double productWidth, Double productHigh, Double productVolume, Double crossborderCourierfee, String customscode, String luggagemail, String cartontypea, Integer cartontypeanum, String cartontypeb, Integer cartontypebnum, String defaultpackage, String remark1, String remark2, String remark3, String auditStatus, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public ProductEntity(String productId, String image, String productnum, String productname, String productename, String barcodeMain, String barcodeAuxiliary1, String barcodeAuxiliary2, String barcodeAuxiliary3, String barcodeAuxiliary4, String brandname, String unit, String standard, String producingArea, String expirationDate, Double declarePrice, Double retailPrice, Double grossWeight, Double netWeight, Double productLength, Double productWidth, Double productHigh, Double productVolume, Double crossborderCourierfee, String customscode, String luggagemail, String cartontypea, Integer cartontypeanum, String cartontypeb, Integer cartontypebnum, String defaultpackage, String remark1, String remark2, String remark3, String auditStatus, String qinngguanchengben1, String qinngguanchengben2, String qinngguanchengben3, String qinngguanchengben4, String kuajingjiage1, String kuajingjiage2, String kuajingjiage3, String kuajingjiage4, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.productId = productId;
         this.image = image;
         this.productnum = productnum;
@@ -117,6 +133,14 @@ public class ProductEntity {
         this.remark2 = remark2;
         this.remark3 = remark3;
         this.auditStatus = auditStatus;
+        this.qinngguanchengben1 = qinngguanchengben1;
+        this.qinngguanchengben2 = qinngguanchengben2;
+        this.qinngguanchengben3 = qinngguanchengben3;
+        this.qinngguanchengben4 = qinngguanchengben4;
+        this.kuajingjiage1 = kuajingjiage1;
+        this.kuajingjiage2 = kuajingjiage2;
+        this.kuajingjiage3 = kuajingjiage3;
+        this.kuajingjiage4 = kuajingjiage4;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -407,6 +431,70 @@ public class ProductEntity {
         this.auditStatus = auditStatus == null ? null : auditStatus.trim();
     }
 
+    public String getQinngguanchengben1() {
+        return qinngguanchengben1;
+    }
+
+    public void setQinngguanchengben1(String qinngguanchengben1) {
+        this.qinngguanchengben1 = qinngguanchengben1 == null ? null : qinngguanchengben1.trim();
+    }
+
+    public String getQinngguanchengben2() {
+        return qinngguanchengben2;
+    }
+
+    public void setQinngguanchengben2(String qinngguanchengben2) {
+        this.qinngguanchengben2 = qinngguanchengben2 == null ? null : qinngguanchengben2.trim();
+    }
+
+    public String getQinngguanchengben3() {
+        return qinngguanchengben3;
+    }
+
+    public void setQinngguanchengben3(String qinngguanchengben3) {
+        this.qinngguanchengben3 = qinngguanchengben3 == null ? null : qinngguanchengben3.trim();
+    }
+
+    public String getQinngguanchengben4() {
+        return qinngguanchengben4;
+    }
+
+    public void setQinngguanchengben4(String qinngguanchengben4) {
+        this.qinngguanchengben4 = qinngguanchengben4 == null ? null : qinngguanchengben4.trim();
+    }
+
+    public String getKuajingjiage1() {
+        return kuajingjiage1;
+    }
+
+    public void setKuajingjiage1(String kuajingjiage1) {
+        this.kuajingjiage1 = kuajingjiage1 == null ? null : kuajingjiage1.trim();
+    }
+
+    public String getKuajingjiage2() {
+        return kuajingjiage2;
+    }
+
+    public void setKuajingjiage2(String kuajingjiage2) {
+        this.kuajingjiage2 = kuajingjiage2 == null ? null : kuajingjiage2.trim();
+    }
+
+    public String getKuajingjiage3() {
+        return kuajingjiage3;
+    }
+
+    public void setKuajingjiage3(String kuajingjiage3) {
+        this.kuajingjiage3 = kuajingjiage3 == null ? null : kuajingjiage3.trim();
+    }
+
+    public String getKuajingjiage4() {
+        return kuajingjiage4;
+    }
+
+    public void setKuajingjiage4(String kuajingjiage4) {
+        this.kuajingjiage4 = kuajingjiage4 == null ? null : kuajingjiage4.trim();
+    }
+
     public String getCreateuser() {
         return createuser;
     }
@@ -458,4 +546,4 @@ public class ProductEntity {
     public void setFormateUpdateTime(String formateUpdateTime) {
         this.formateUpdateTime = formateUpdateTime;
     }
-   }
+}

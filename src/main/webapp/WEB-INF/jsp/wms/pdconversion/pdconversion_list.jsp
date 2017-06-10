@@ -181,6 +181,7 @@
                                         <td style="vertical-align:top;">
                                             <c:if test="${QX.add == 1 }">
                                                 <a class="btn btn-sm btn-success" onclick="add();">新增</a>
+                                                <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
                                             </c:if>
                                             <c:if test="${QX.del == 1 }">
                                                 <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
@@ -340,6 +341,30 @@
             }
         });
     };
+
+    //打开上传excel页面
+    function fromExcel(){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="EXCEL 导入到数据库";
+        diag.URL = '<%=basePath%>pdconversion/goUploadExcel.do';
+        diag.Width = 400;
+        diag.Height = 150;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                if('${page.currentPage}' == '0'){
+                    top.jzts();
+                    setTimeout("self.location.reload()",100);
+                }else{
+                    nextPage(${page.currentPage});
+                }
+            }
+            diag.close();
+        };
+        diag.show();
+    }
+
 
 </script>
 

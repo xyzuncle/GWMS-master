@@ -1,6 +1,5 @@
 package com.huanqiuyuncang.service.wms.order.impl;
 
-import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.dao.customer.CustomerDAO;
 import com.huanqiuyuncang.dao.order.InnerOrderDAO;
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
@@ -10,7 +9,6 @@ import com.huanqiuyuncang.dao.warehouse.ChuKuShangPinDAO;
 import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
-import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
@@ -22,7 +20,6 @@ import com.huanqiuyuncang.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.dc.pr.PRError;
 
 import java.math.BigDecimal;
 import java.text.ParseException;

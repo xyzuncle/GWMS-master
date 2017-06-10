@@ -2,20 +2,25 @@ package com.huanqiuyuncang.controller.wms.pdconversion;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.pdconversion.ProductConversionInterface;
-import com.huanqiuyuncang.service.wms.product.ProductInterface;
-import com.huanqiuyuncang.util.AppUtil;
-import com.huanqiuyuncang.util.BeanMapUtil;
-import com.huanqiuyuncang.util.Jurisdiction;
-import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.service.system.fhlog.FHlogManager;
+import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
+import com.huanqiuyuncang.service.wms.customer.impl.CustomerService;
+import com.huanqiuyuncang.util.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -28,6 +33,11 @@ public class ProductConversionController extends BaseController {
     String menuUrl = "pdconversion/list.do"; //菜单地址(权限用)
     @Autowired
     private ProductConversionInterface productConversionService;
+    @Autowired
+    private CustomerInterface customerService;
+
+    @Resource(name="fhlogService")
+    private FHlogManager FHLOG;
     /**保存
      * @param
      * @throws Exception
@@ -98,6 +108,7 @@ public class ProductConversionController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表pdconversion");
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        pd.put("createuser",Jurisdiction.getUsername());
         page.setPd(pd);
         List<ProductConversionEntity> varList =  productConversionService.datalistPage(page);
         mv.setViewName("wms/pdconversion/pdconversion_list");
@@ -115,9 +126,16 @@ public class ProductConversionController extends BaseController {
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        String username = Jurisdiction.getUsername();
+        List<CustomerEntity> customerEntities = customerService.selectByLoginName(username);
+        ProductConversionEntity pdconversion = new ProductConversionEntity();
+        if(customerEntities != null && customerEntities.size()>0){
+            pdconversion.setCustomercode(customerEntities.get(0).getCustomercode());
+        }
         mv.setViewName("wms/pdconversion/pdconversion_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
+        mv.addObject("pdconversion", pdconversion);
         return mv;
     }
 
@@ -162,5 +180,73 @@ public class ProductConversionController extends BaseController {
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
+
+    @RequestMapping(value="/checkNum")
+    @ResponseBody
+    public Object checkNum(String outerproductnum) throws Exception{
+        ProductConversionEntity pd = productConversionService.selectByOuterPdNum(outerproductnum);
+        Map<String,String> map = new HashMap<String,String>();
+        String errInfo = "error";
+        if (pd != null){
+            errInfo = "success";
+        }
+        map.put("result", errInfo);				//返回结果
+        return AppUtil.returnObject(new PageData(), map);
+    }
+
+
+    /**打开上传EXCEL页面
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/goUploadExcel")
+    public ModelAndView goUploadExcel()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        mv.setViewName("wms/pdconversion/uploadexcel");
+        return mv;
+    }
+
+    /**下载模版
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value="/downExcel")
+    public void downExcel(HttpServletResponse response)throws Exception{
+        FileDownload.fileDownload(response, PathUtil.getClasspath() + Const.FILEPATHFILE + "pdconversion.xls", "pdconversion.xls");
+    }
+
+    /**从EXCEL导入到数据库
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/readExcel" , produces = "text/html;charset=UTF-8")
+    public  ModelAndView readExcel(@RequestParam(value="excel",required=false) MultipartFile file) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        FHLOG.save(Jurisdiction.getUsername(), "从EXCEL导入到数据库");
+        PageData pd = new PageData();
+        if (null != file && !file.isEmpty()) {
+            String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+            String fileName =  FileUpload.fileUp(file, filePath, "pdconversionexcel");							//执行上传
+            List<PageData> listPd = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+            String resturt = productConversionService.saveFromExcel(listPd);
+            //*存入数据库操作======================================*//*
+            if(StringUtils.isNotBlank(resturt)){
+                StringBuffer start = new StringBuffer("请将一下错误数据摘出修改后重新导入：\n");
+                start.append(resturt);
+                mv.addObject("msg","pdconversion_error");
+                mv.addObject("resturt",start.toString());
+            }else{
+                mv.addObject("msg","success");
+            }
+
+        }
+        mv.addObject("pd",pd);
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+
+
 
 }

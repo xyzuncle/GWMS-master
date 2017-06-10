@@ -2,7 +2,6 @@ package com.huanqiuyuncang.dao.customs;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
-import com.huanqiuyuncang.entity.product.ProductEntity;
 
 import java.util.List;
 

@@ -2,6 +2,7 @@ package com.huanqiuyuncang.service.pdconversion;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface ProductConversionInterface {
     void deleteAll(String[] arrayDATA_ids);
 
 
+    ProductConversionEntity selectByOuterPdNum(String outerproductnum);
+
+    String saveFromExcel(List<PageData> listPd);
 }

@@ -36,7 +36,7 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">外部货号:</td>
-                                        <td><input type="text" name="outerproductnum" id="outerproductnum" value="${pdconversion.outerproductnum}" maxlength="30" placeholder="这里输入外部货号" title="外部货号" style="width:98%;"/></td>
+                                        <td><input type="text" name="outerproductnum" onblur="checkNum()" id="outerproductnum" value="${pdconversion.outerproductnum}" maxlength="30" placeholder="这里输入外部货号" title="外部货号" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">客户编号:</td>
@@ -201,6 +201,31 @@
                         $(obj).tips({
                             side:3,
                             msg:'货号'+productnum+' 不存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $(obj).val('');
+                    }
+                }
+            });
+        }
+    }
+
+    function checkNum(){
+        var pdconversionid = $("#productconversionid").val();
+        if(pdconversionid == ""){
+            var outerproductnum = $("#outerproductnum").val();
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>pdconversion/checkNum.do',
+                data: {outerproductnum:outerproductnum},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" == data.result){
+                        $(obj).tips({
+                            side:3,
+                            msg:'外部货号'+productnum+' 已存在',
                             bg:'#AE81FF',
                             time:3
                         });

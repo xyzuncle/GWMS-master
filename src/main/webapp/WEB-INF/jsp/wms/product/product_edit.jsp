@@ -167,6 +167,32 @@
                                         </td>
                                     </tr>
                                     </c:if>
+                                    <c:if test="${QX.privateFrom2 == 1 }">
+                                        <tr>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">清关成本1:</td>
+                                            <td><input type="number" name="qinngguanchengben1" id="qinngguanchengben1" value="${product.qinngguanchengben1}" maxlength="255" style="width:98%;"/></td>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">清关成本2:</td>
+                                            <td><input type="number" name="qinngguanchengben2" id="qinngguanchengben2" value="${product.qinngguanchengben2}" maxlength="255"  style="width:98%;"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">清关成本3:</td>
+                                            <td><input type="number" name="qinngguanchengben3" id="qinngguanchengben3" value="${product.qinngguanchengben3}" maxlength="255"  style="width:98%;"/></td>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">清关成本4:</td>
+                                            <td><input type="number" name="qinngguanchengben4" id="qinngguanchengben4" value="${product.qinngguanchengben4}" maxlength="255"  style="width:98%;"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">跨境价格1:</td>
+                                            <td><input type="number" name="kuajingjiage1" id="kuajingjiage1" value="${product.kuajingjiage1}" maxlength="255" style="width:98%;"/></td>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">跨境价格2:</td>
+                                            <td><input type="number" name="kuajingjiage2" id="kuajingjiage2" value="${product.kuajingjiage2}" maxlength="255"  style="width:98%;"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">跨境价格3:</td>
+                                            <td><input type="number" name="kuajingjiage3" id="kuajingjiage3" value="${product.kuajingjiage3}" maxlength="255" style="width:98%;"/></td>
+                                            <td style="width:82px;text-align: right;padding-top: 13px;">跨境价格4:</td>
+                                            <td><input type="number" name="kuajingjiage4" id="kuajingjiage4" value="${product.kuajingjiage4}" maxlength="255" style="width:98%;"/></td>
+                                        </tr>
+                                    </c:if>
                                     <c:if test="${QX.privateFrom == 1 }">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">跨境速递费:</td>

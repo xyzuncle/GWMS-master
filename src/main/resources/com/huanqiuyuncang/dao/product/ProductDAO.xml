@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.huanqiuyuncang.dao.product.ProductDAO" >
-    <resultMap id="BaseResultMap" type="Product" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.product.ProductEntity" >
         <constructor >
             <idArg column="product_id" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="image" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -38,6 +38,14 @@
             <arg column="remark_2" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="remark_3" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="audit_status" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="qinngguanchengben1" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="qinngguanchengben2" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="qinngguanchengben3" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="qinngguanchengben4" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kuajingjiage1" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kuajingjiage2" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kuajingjiage3" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kuajingjiage4" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createUser" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
             <arg column="updateUser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -50,8 +58,9 @@
         producing_area, expiration_date, Declare_price, retail_price, Gross_weight, net_weight,
         product_length, product_width, product_high, product_volume, CrossBorder_CourierFee,
         customsCode, luggageMail, CartonTypeA, CartonTypeANum, CartonTypeB, CartonTypeBNum,
-        defaultPackage, remark_1, remark_2, remark_3, audit_status, createUser, createTime,
-        updateUser, updateTime
+        defaultPackage, remark_1, remark_2, remark_3, audit_status, qinngguanchengben1, qinngguanchengben2,
+        qinngguanchengben3, qinngguanchengben4, kuajingjiage1, kuajingjiage2, kuajingjiage3,
+        kuajingjiage4, createUser, createTime, updateUser, updateTime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
@@ -63,7 +72,7 @@
         delete from wms_product
         where product_id = #{productId,jdbcType=VARCHAR}
     </delete>
-    <insert id="insert" parameterType="Product" >
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.product.ProductEntity" >
         insert into wms_product (product_id, image, productNum,
         productName, productEName, barCode_main,
         barCode_auxiliary1, barCode_auxiliary2, barCode_auxiliary3,
@@ -75,7 +84,10 @@
         customsCode, luggageMail, CartonTypeA,
         CartonTypeANum, CartonTypeB, CartonTypeBNum,
         defaultPackage, remark_1, remark_2,
-        remark_3, audit_status, createUser,
+        remark_3, audit_status, qinngguanchengben1,
+        qinngguanchengben2, qinngguanchengben3,
+        qinngguanchengben4, kuajingjiage1, kuajingjiage2,
+        kuajingjiage3, kuajingjiage4, createUser,
         createTime, updateUser, updateTime
         )
         values (#{productId,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{productnum,jdbcType=VARCHAR},
@@ -89,11 +101,14 @@
         #{customscode,jdbcType=VARCHAR}, #{luggagemail,jdbcType=VARCHAR}, #{cartontypea,jdbcType=VARCHAR},
         #{cartontypeanum,jdbcType=INTEGER}, #{cartontypeb,jdbcType=VARCHAR}, #{cartontypebnum,jdbcType=INTEGER},
         #{defaultpackage,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},
-        #{remark3,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
+        #{remark3,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{qinngguanchengben1,jdbcType=VARCHAR},
+        #{qinngguanchengben2,jdbcType=VARCHAR}, #{qinngguanchengben3,jdbcType=VARCHAR},
+        #{qinngguanchengben4,jdbcType=VARCHAR}, #{kuajingjiage1,jdbcType=VARCHAR}, #{kuajingjiage2,jdbcType=VARCHAR},
+        #{kuajingjiage3,jdbcType=VARCHAR}, #{kuajingjiage4,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
         #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
         )
     </insert>
-    <insert id="insertSelective" parameterType="Product" >
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.product.ProductEntity" >
         insert into wms_product
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="productId != null" >
@@ -200,6 +215,30 @@
             </if>
             <if test="auditStatus != null" >
                 audit_status,
+            </if>
+            <if test="qinngguanchengben1 != null" >
+                qinngguanchengben1,
+            </if>
+            <if test="qinngguanchengben2 != null" >
+                qinngguanchengben2,
+            </if>
+            <if test="qinngguanchengben3 != null" >
+                qinngguanchengben3,
+            </if>
+            <if test="qinngguanchengben4 != null" >
+                qinngguanchengben4,
+            </if>
+            <if test="kuajingjiage1 != null" >
+                kuajingjiage1,
+            </if>
+            <if test="kuajingjiage2 != null" >
+                kuajingjiage2,
+            </if>
+            <if test="kuajingjiage3 != null" >
+                kuajingjiage3,
+            </if>
+            <if test="kuajingjiage4 != null" >
+                kuajingjiage4,
             </if>
             <if test="createuser != null" >
                 createUser,
@@ -320,6 +359,30 @@
             <if test="auditStatus != null" >
                 #{auditStatus,jdbcType=VARCHAR},
             </if>
+            <if test="qinngguanchengben1 != null" >
+                #{qinngguanchengben1,jdbcType=VARCHAR},
+            </if>
+            <if test="qinngguanchengben2 != null" >
+                #{qinngguanchengben2,jdbcType=VARCHAR},
+            </if>
+            <if test="qinngguanchengben3 != null" >
+                #{qinngguanchengben3,jdbcType=VARCHAR},
+            </if>
+            <if test="qinngguanchengben4 != null" >
+                #{qinngguanchengben4,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage1 != null" >
+                #{kuajingjiage1,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage2 != null" >
+                #{kuajingjiage2,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage3 != null" >
+                #{kuajingjiage3,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage4 != null" >
+                #{kuajingjiage4,jdbcType=VARCHAR},
+            </if>
             <if test="createuser != null" >
                 #{createuser,jdbcType=VARCHAR},
             </if>
@@ -334,7 +397,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="Product" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.product.ProductEntity" >
         update wms_product
         <set >
             <if test="image != null" >
@@ -439,6 +502,30 @@
             <if test="auditStatus != null" >
                 audit_status = #{auditStatus,jdbcType=VARCHAR},
             </if>
+            <if test="qinngguanchengben1 != null" >
+                qinngguanchengben1 = #{qinngguanchengben1,jdbcType=VARCHAR},
+            </if>
+            <if test="qinngguanchengben2 != null" >
+                qinngguanchengben2 = #{qinngguanchengben2,jdbcType=VARCHAR},
+            </if>
+            <if test="qinngguanchengben3 != null" >
+                qinngguanchengben3 = #{qinngguanchengben3,jdbcType=VARCHAR},
+            </if>
+            <if test="qinngguanchengben4 != null" >
+                qinngguanchengben4 = #{qinngguanchengben4,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage1 != null" >
+                kuajingjiage1 = #{kuajingjiage1,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage2 != null" >
+                kuajingjiage2 = #{kuajingjiage2,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage3 != null" >
+                kuajingjiage3 = #{kuajingjiage3,jdbcType=VARCHAR},
+            </if>
+            <if test="kuajingjiage4 != null" >
+                kuajingjiage4 = #{kuajingjiage4,jdbcType=VARCHAR},
+            </if>
             <if test="createuser != null" >
                 createUser = #{createuser,jdbcType=VARCHAR},
             </if>
@@ -454,7 +541,7 @@
         </set>
         where product_id = #{productId,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="Product" >
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.product.ProductEntity" >
         update wms_product
         set image = #{image,jdbcType=VARCHAR},
         productNum = #{productnum,jdbcType=VARCHAR},
@@ -490,12 +577,21 @@
         remark_2 = #{remark2,jdbcType=VARCHAR},
         remark_3 = #{remark3,jdbcType=VARCHAR},
         audit_status = #{auditStatus,jdbcType=VARCHAR},
+        qinngguanchengben1 = #{qinngguanchengben1,jdbcType=VARCHAR},
+        qinngguanchengben2 = #{qinngguanchengben2,jdbcType=VARCHAR},
+        qinngguanchengben3 = #{qinngguanchengben3,jdbcType=VARCHAR},
+        qinngguanchengben4 = #{qinngguanchengben4,jdbcType=VARCHAR},
+        kuajingjiage1 = #{kuajingjiage1,jdbcType=VARCHAR},
+        kuajingjiage2 = #{kuajingjiage2,jdbcType=VARCHAR},
+        kuajingjiage3 = #{kuajingjiage3,jdbcType=VARCHAR},
+        kuajingjiage4 = #{kuajingjiage4,jdbcType=VARCHAR},
         createUser = #{createuser,jdbcType=VARCHAR},
         createTime = #{createtime,jdbcType=TIMESTAMP},
         updateUser = #{updateuser,jdbcType=VARCHAR},
         updateTime = #{updatetime,jdbcType=TIMESTAMP}
         where product_id = #{productId,jdbcType=VARCHAR}
     </update>
+
     <!-- 列表(全部) -->
     <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
         SELECT
