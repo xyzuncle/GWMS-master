@@ -152,7 +152,7 @@ public class InnerPackageController extends BaseController {
             customerList = customerService.selectAll();
         }else{
             String createUser = Jurisdiction.getUsername();
-            customerList = customerService.selectByCreateUser(createUser);
+            customerList = customerService.selectByLoginName(createUser);
         }
         return customerList;
     }

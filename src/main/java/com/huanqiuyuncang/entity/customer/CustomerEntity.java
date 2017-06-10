@@ -19,6 +19,8 @@ public class CustomerEntity {
 
     private String remark;
 
+    private String loginname;
+
     private String createuser;
 
     private Date createtime;
@@ -52,13 +54,14 @@ public class CustomerEntity {
     }
 
 
-    public CustomerEntity(String customerid, String customercode, String customername, String defaultwarehouse, String customerstatus, String remark, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public CustomerEntity(String customerid, String customercode, String customername, String defaultwarehouse, String customerstatus, String remark, String loginname, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.customerid = customerid;
         this.customercode = customercode;
         this.customername = customername;
         this.defaultwarehouse = defaultwarehouse;
         this.customerstatus = customerstatus;
         this.remark = remark;
+        this.loginname = loginname;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -117,6 +120,15 @@ public class CustomerEntity {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public String getLoginname() {
+        return loginname;
+    }
+
+    public void setLoginname(String loginname) {
+        this.loginname = loginname == null ? null : loginname.trim();
+    }
+
+
     public String getCreateuser() {
         return createuser;
     }
@@ -148,4 +160,6 @@ public class CustomerEntity {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
+
+
 }

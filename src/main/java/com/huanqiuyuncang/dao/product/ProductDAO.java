@@ -30,4 +30,6 @@ public interface ProductDAO {
     String selectCountryNameByID(String producingArea);
 
     String selectCountryIDByName(String producingArea);
+
+    ProductEntity findProductByBarCodeOrNum(String biaoshi);
 }

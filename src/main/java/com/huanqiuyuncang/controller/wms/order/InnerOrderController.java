@@ -120,6 +120,10 @@ public class InnerOrderController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表innerorder");
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(!hc.containsKey("findAllOrder")||"0".equals(hc.get("findAllOrder"))){
+            pd.put("createuser",Jurisdiction.getUsername());
+        }
         page.setPd(pd);
         List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -138,7 +142,7 @@ public class InnerOrderController extends BaseController {
         mv.addObject("varList", varList);
         mv.addObject("customerList", customerList);
         mv.addObject("pd", pd);
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        mv.addObject("QX",hc);	//按钮权限
         return mv;
     }
 
@@ -247,7 +251,7 @@ public class InnerOrderController extends BaseController {
             customerList = customerService.selectAll();
         }else{
             String createUser = Jurisdiction.getUsername();
-            customerList = customerService.selectByCreateUser(createUser);
+            customerList = customerService.selectByLoginName(createUser);
         }
         return customerList;
     }
@@ -506,6 +510,41 @@ public class InnerOrderController extends BaseController {
         return mv;
     }
 
-
+    @RequestMapping(value="/zuofeiAll")
+    @ResponseBody
+    public Object zuofeiAll() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        List<PageData> pdList = new ArrayList<PageData>();
+        String DATA_IDS = pd.getString("DATA_IDS");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            innerOrderService.zuofeiAll(ArrayDATA_IDS);
+            pd.put("msg", "ok");
+        }else{
+            pd.put("msg", "no");
+        }
+        pdList.add(pd);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+    @RequestMapping(value="/yichang")
+    @ResponseBody
+    public Object yichang() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        List<PageData> pdList = new ArrayList<PageData>();
+        String DATA_IDS = pd.getString("DATA_IDS");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            innerOrderService.yichang(ArrayDATA_IDS);
+            pd.put("msg", "ok");
+        }else{
+            pd.put("msg", "no");
+        }
+        pdList.add(pd);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
 
 }

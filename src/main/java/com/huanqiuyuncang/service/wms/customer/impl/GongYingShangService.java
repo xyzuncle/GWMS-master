@@ -59,8 +59,8 @@ public class GongYingShangService implements GongYingShangInterface {
     }
 
     @Override
-    public List<GongYingShangEntity> selectByCreateUser(String createUser) {
-        return gongYingShangDAO.selectByCreateUser(createUser);
+    public List<GongYingShangEntity> selectByLoginName(String loginname) {
+        return gongYingShangDAO.selectByLoginName(loginname);
     }
 
     @Override
@@ -69,8 +69,9 @@ public class GongYingShangService implements GongYingShangInterface {
     }
 
     @Override
-    public String selectCodeByCreateUser(String code) {
-        return gongYingShangDAO.selectCodeByCreateUser(code);
+    public String selectCodeByLoginName(String loginname) {
+
+        return gongYingShangDAO.selectCodeByLoginName(loginname);
     }
 
     @Override

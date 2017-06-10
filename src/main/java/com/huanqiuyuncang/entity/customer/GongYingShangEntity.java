@@ -15,6 +15,8 @@ public class GongYingShangEntity {
 
     private String remark;
 
+    private String loginname;
+
     private String createuser;
 
     private Date createtime;
@@ -23,13 +25,14 @@ public class GongYingShangEntity {
 
     private Date updatetime;
 
-    public GongYingShangEntity(String gongyingshangid, String gongyingshangcode, String gongyingshangname, String defaultwarehouse, String gongyingshangstatus, String remark, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public GongYingShangEntity(String gongyingshangid, String gongyingshangcode, String gongyingshangname, String defaultwarehouse, String gongyingshangstatus, String remark, String loginname, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.gongyingshangid = gongyingshangid;
         this.gongyingshangcode = gongyingshangcode;
         this.gongyingshangname = gongyingshangname;
         this.defaultwarehouse = defaultwarehouse;
         this.gongyingshangstatus = gongyingshangstatus;
         this.remark = remark;
+        this.loginname = loginname;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -87,6 +90,15 @@ public class GongYingShangEntity {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+    public String getLoginname() {
+        return loginname;
+    }
+
+    public void setLoginname(String loginname) {
+        this.loginname = loginname == null ? null : loginname.trim();
+    }
+
 
     public String getCreateuser() {
         return createuser;

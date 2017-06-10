@@ -56,12 +56,10 @@
                                         <td style="width:82px;text-align: right;padding-top: 13px;">默认发货仓库:</td>
                                         <td><input type="text" name="defaultwarehouse" id="defaultwarehouse" value="${gongyingshang.defaultwarehouse}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
                                     </tr>
-                                    <c:if test="${QX.adminOrder == 1 }">
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">客户状态:</td>
-                                        <td><input  type="text" name="gongyingshangstatus" id="gongyingshangstatus" value="${gongyingshang.gongyingshangstatus}" maxlength="50"  style="width:98%;"/></td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">登录用户:</td>
+                                        <td><input type="text" name="loginname" id="loginname" value="${gongyingshang.loginname}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
                                     </tr>
-                                    </c:if>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>
                                         <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${gongyingshang.remark}</textarea></td>

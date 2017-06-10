@@ -1,158 +1,170 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.huanqiuyuncang.dao.customer.GongYingShangDAO" >
-  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
-    <constructor >
-      <idArg column="gongyingshangid" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="gongyingshangcode" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="gongyingshangname" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="defaultwarehouse" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="gongyingshangstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
-    gongyingshangid, gongyingshangcode, gongyingshangname, defaultwarehouse, gongyingshangstatus, 
-    remark, createuser, createtime, updateuser, updatetime
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from wms_gongyingshang
-    where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from wms_gongyingshang
-    where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
-    insert into wms_gongyingshang (gongyingshangid, gongyingshangcode, 
-      gongyingshangname, defaultwarehouse, gongyingshangstatus, 
-      remark, createuser, createtime, 
-      updateuser, updatetime)
-    values (#{gongyingshangid,jdbcType=VARCHAR}, #{gongyingshangcode,jdbcType=VARCHAR}, 
-      #{gongyingshangname,jdbcType=VARCHAR}, #{defaultwarehouse,jdbcType=VARCHAR}, #{gongyingshangstatus,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
-    insert into wms_gongyingshang
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="gongyingshangid != null" >
-        gongyingshangid,
-      </if>
-      <if test="gongyingshangcode != null" >
-        gongyingshangcode,
-      </if>
-      <if test="gongyingshangname != null" >
-        gongyingshangname,
-      </if>
-      <if test="defaultwarehouse != null" >
-        defaultwarehouse,
-      </if>
-      <if test="gongyingshangstatus != null" >
-        gongyingshangstatus,
-      </if>
-      <if test="remark != null" >
-        remark,
-      </if>
-      <if test="createuser != null" >
-        createuser,
-      </if>
-      <if test="createtime != null" >
-        createtime,
-      </if>
-      <if test="updateuser != null" >
-        updateuser,
-      </if>
-      <if test="updatetime != null" >
-        updatetime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="gongyingshangid != null" >
-        #{gongyingshangid,jdbcType=VARCHAR},
-      </if>
-      <if test="gongyingshangcode != null" >
-        #{gongyingshangcode,jdbcType=VARCHAR},
-      </if>
-      <if test="gongyingshangname != null" >
-        #{gongyingshangname,jdbcType=VARCHAR},
-      </if>
-      <if test="defaultwarehouse != null" >
-        #{defaultwarehouse,jdbcType=VARCHAR},
-      </if>
-      <if test="gongyingshangstatus != null" >
-        #{gongyingshangstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createuser != null" >
-        #{createuser,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateuser != null" >
-        #{updateuser,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
-    update wms_gongyingshang
-    <set >
-      <if test="gongyingshangcode != null" >
-        gongyingshangcode = #{gongyingshangcode,jdbcType=VARCHAR},
-      </if>
-      <if test="gongyingshangname != null" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
+        <constructor >
+            <idArg column="gongyingshangid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="gongyingshangcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="gongyingshangname" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="defaultwarehouse" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="gongyingshangstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="loginname" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        gongyingshangid, gongyingshangcode, gongyingshangname, defaultwarehouse, gongyingshangstatus,
+        remark, loginname, createuser, createtime, updateuser, updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_gongyingshang
+        where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_gongyingshang
+        where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
+        insert into wms_gongyingshang (gongyingshangid, gongyingshangcode,
+        gongyingshangname, defaultwarehouse, gongyingshangstatus,
+        remark, loginname, createuser,
+        createtime, updateuser, updatetime
+        )
+        values (#{gongyingshangid,jdbcType=VARCHAR}, #{gongyingshangcode,jdbcType=VARCHAR},
+        #{gongyingshangname,jdbcType=VARCHAR}, #{defaultwarehouse,jdbcType=VARCHAR}, #{gongyingshangstatus,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
+        insert into wms_gongyingshang
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="gongyingshangid != null" >
+                gongyingshangid,
+            </if>
+            <if test="gongyingshangcode != null" >
+                gongyingshangcode,
+            </if>
+            <if test="gongyingshangname != null" >
+                gongyingshangname,
+            </if>
+            <if test="defaultwarehouse != null" >
+                defaultwarehouse,
+            </if>
+            <if test="gongyingshangstatus != null" >
+                gongyingshangstatus,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="loginname != null" >
+                loginname,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="gongyingshangid != null" >
+                #{gongyingshangid,jdbcType=VARCHAR},
+            </if>
+            <if test="gongyingshangcode != null" >
+                #{gongyingshangcode,jdbcType=VARCHAR},
+            </if>
+            <if test="gongyingshangname != null" >
+                #{gongyingshangname,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultwarehouse != null" >
+                #{defaultwarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="gongyingshangstatus != null" >
+                #{gongyingshangstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loginname != null" >
+                #{loginname,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
+        update wms_gongyingshang
+        <set >
+            <if test="gongyingshangcode != null" >
+                gongyingshangcode = #{gongyingshangcode,jdbcType=VARCHAR},
+            </if>
+            <if test="gongyingshangname != null" >
+                gongyingshangname = #{gongyingshangname,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultwarehouse != null" >
+                defaultwarehouse = #{defaultwarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="gongyingshangstatus != null" >
+                gongyingshangstatus = #{gongyingshangstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loginname != null" >
+                loginname = #{loginname,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
+        update wms_gongyingshang
+        set gongyingshangcode = #{gongyingshangcode,jdbcType=VARCHAR},
         gongyingshangname = #{gongyingshangname,jdbcType=VARCHAR},
-      </if>
-      <if test="defaultwarehouse != null" >
         defaultwarehouse = #{defaultwarehouse,jdbcType=VARCHAR},
-      </if>
-      <if test="gongyingshangstatus != null" >
         gongyingshangstatus = #{gongyingshangstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createuser != null" >
+        loginname = #{loginname,jdbcType=VARCHAR},
         createuser = #{createuser,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
         createtime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateuser != null" >
         updateuser = #{updateuser,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.customer.GongYingShangEntity" >
-    update wms_gongyingshang
-    set gongyingshangcode = #{gongyingshangcode,jdbcType=VARCHAR},
-      gongyingshangname = #{gongyingshangname,jdbcType=VARCHAR},
-      defaultwarehouse = #{defaultwarehouse,jdbcType=VARCHAR},
-      gongyingshangstatus = #{gongyingshangstatus,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      createuser = #{createuser,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      updateuser = #{updateuser,jdbcType=VARCHAR},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP}
-    where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
-  </update>
-
+        updatetime = #{updatetime,jdbcType=TIMESTAMP}
+        where gongyingshangid = #{gongyingshangid,jdbcType=VARCHAR}
+    </update>
     <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
@@ -179,10 +191,10 @@
 
     </select>
 
-    <select id="selectCodeByCreateUser" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="selectCodeByLoginName" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT  gongyingshangcode
         FROM wms_gongyingshang
-        WHERE createuser =  #{code,jdbcType=VARCHAR}
+        WHERE loginname =  #{loginname,jdbcType=VARCHAR}
 
     </select>
     <select id="selectCustomerByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -204,11 +216,11 @@
         <include refid="Base_Column_List" />
         FROM wms_gongyingshang
     </select>
-    <select id="selectByCreateUser" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    <select id="selectByLoginName" parameterType="java.lang.String"  resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM wms_gongyingshang
-        WHERE createuser = #{createuser,jdbcType=VARCHAR}
+        WHERE loginname = #{loginname,jdbcType=VARCHAR}
     </select>
 
 </mapper>

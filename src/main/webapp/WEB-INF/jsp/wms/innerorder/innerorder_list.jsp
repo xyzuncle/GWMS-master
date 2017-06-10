@@ -117,11 +117,32 @@
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
 
-                                                <li id="baseTab">
+                                                <li status="daiqueren" name="orderStatus">
                                                     <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daiqueren')">未审核</a>
                                                 </li>
-                                                <li  id="definedTab">
+                                                <li  status="yiqueren" name="orderStatus">
                                                     <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yiqueren')">已审核</a>
+                                                </li>
+                                                <li  status="daidabao" name="orderStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_daidabao')">待打包</a>
+                                                </li>
+                                                <li  status="yidabao" name="orderStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yidabao')">已打包</a>
+                                                </li>
+                                                <li  status="yilanshou" name="orderStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yilanshou')">已揽收</a>
+                                                </li>
+                                                <li  status="yiqingguan" name="orderStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yiqingguan')">已请关</a>
+                                                </li>
+                                                <li  status="yiqianshou" name="orderStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yiqianshou')">已签收</a>
+                                                </li>
+                                                <li  status="yichangjian" name="orderStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yichangjian')">异常件</a>
+                                                </li>
+                                                <li  status="zuofei" name="orderStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_zuofei')">作废</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -270,11 +291,20 @@
                                             </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
-
                                             </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
                                                 <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('确定要将选中的数据生成包裹吗?');">
-                                                    <i class='ace-icon  fa-briefcase bigger-120'></i>
+                                                    <i class='ace-icon fa  fa-briefcase bigger-120'></i>
+                                                </a>
+                                            </c:if>
+                                            <c:if test="${pd.orderstatus == 'orderStatus_yiqingguan' || pd.orderstatus == 'orderStatus_yiqianshou' }">
+                                                <a class="btn btn-xs btn-success" title="异常" onclick="yichang('确定要将选中的订单生成异常件?');">
+                                                    <i class='ace-icon  fa fa-gavel bigger-120'></i>
+                                                </a>
+                                            </c:if>
+                                            <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' || pd.orderstatus == 'orderStatus_yiqueren' }">
+                                                <a class="btn btn-xs btn-success" title="作废" onclick="makeAllZuofei('确定要将选中的数据作废?');">
+                                                    <i class='ace-icon  fa fa-gavel bigger-120'></i>
                                                 </a>
                                             </c:if>
 
@@ -330,14 +360,16 @@
     $(function() {
 
         var orderstatus = "${pd.orderstatus}";
-        if(orderstatus == "orderStatus_daiqueren" ){
-            $("#definedTab").removeClass("active");
-            $("#baseTab").addClass("active");
-        }else if (orderstatus == "orderStatus_yiqueren"){
-            $("#baseTab").removeClass("active");
-            $("#definedTab").addClass("active");
-        }
 
+        var arr = orderstatus.split("_");
+        $("li[name='orderStatus']").each(function(){
+            var status = $(this).attr("status");
+            if(status == arr[1] ){
+                $(this).addClass("active");
+            }else{
+                $(this).removeClass("active");
+            }
+        });
         //日期框
         $('.date-picker').datepicker({autoclose: true,todayHighlight: true});
         //下拉框
@@ -619,6 +651,92 @@
         });
     };
 
+
+    function makeAllZuofei(msg){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                        top.jzts();
+                        $.ajax({
+                            type: "POST",
+                            url: '<%=basePath%>innerorder/zuofeiAll.do?tm='+new Date().getTime(),
+                            data: {DATA_IDS:str},
+                            dataType:'json',
+                            //beforeSend: validateData,
+                            cache: false,
+                            success: function(data){
+                                $.each(data.list, function(i, list){
+                                    nextPage(${page.currentPage});
+                                });
+                            }
+                        });
+                }
+            }
+        });
+    };
+
+    function yichang(msg){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                    top.jzts();
+                    $.ajax({
+                        type: "POST",
+                        url: '<%=basePath%>innerorder/yichang.do?tm='+new Date().getTime(),
+                        data: {DATA_IDS:str},
+                        dataType:'json',
+                        //beforeSend: validateData,
+                        cache: false,
+                        success: function(data){
+                            $.each(data.list, function(i, list){
+                                nextPage(${page.currentPage});
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    };
 
 </script>
 

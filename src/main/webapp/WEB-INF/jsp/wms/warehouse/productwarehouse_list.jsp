@@ -107,7 +107,7 @@
                                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120" title="移库"></i>
                                                             </a>
                                                             <a class="btn btn-xs btn-success" title="盘点" onclick="pandian('是否盘点该仓库?','${var.productwarehouseid}');">
-                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120" title="盘点"></i>
+                                                                <i class="ace-icon fa  fa-ban bigger-120" title="盘点"></i>
                                                             </a>
                                                         </div>
 
@@ -198,8 +198,8 @@
         diag.Drag=true;
         diag.Title ="移库";
         diag.URL = '<%=basePath%>productwarehouse/goyiku.do?productwarehouseid='+Id;
-        diag.Width = 700;
-        diag.Height = 800;
+        diag.Width = 400;
+        diag.Height = 300;
         diag.CancelEvent = function(){ //关闭事件
             if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
                 nextPage(${page.currentPage});
@@ -211,8 +211,6 @@
     function pandian(msg,Id){
         bootbox.confirm(msg, function(result) {
             if(result) {
-            }else{
-                top.jzts();
                 $.ajax({
                     type: "POST",
                     url: '<%=basePath%>productwarehouse/pandian.do',
@@ -225,8 +223,6 @@
                         });
                     }
                 });
-
-                }
             }
         });
     }

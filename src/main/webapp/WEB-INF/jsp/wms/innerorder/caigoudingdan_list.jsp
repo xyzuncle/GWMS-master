@@ -496,7 +496,7 @@
                     });
                     return;
                 }else{
-                    if(msg == '确定要删除选中的数据吗?'){
+                    if(msg == '确定要操作选中的数据吗?'){
                         top.jzts();
                         $.ajax({
                             type: "POST",

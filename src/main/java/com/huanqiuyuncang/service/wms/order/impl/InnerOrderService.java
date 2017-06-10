@@ -143,8 +143,8 @@ public class InnerOrderService implements InnerOrderInterface {
             OrderProductEntity orderProductEntity = orderProductEntities.get(i);
             orderProductEntity.setinnerpackagenum(packagenum);
             orderProductDAO.updateByPrimaryKeySelective(orderProductEntity);
-            String barcode = orderProductEntity.getBarcode();
-            ProductEntity product = productDAO.findProductByBarCode(barcode);
+            String barcode = orderProductEntity.getOuterproductnum();
+            ProductEntity product = productDAO.findProductByBarCodeOrNum(barcode);
             Integer count = Integer.parseInt(orderProductEntity.getCount());
             sum += count;
             String cartontypea = product.getCartontypea();
@@ -249,6 +249,24 @@ public class InnerOrderService implements InnerOrderInterface {
     }
 
     @Override
+    public void zuofeiAll(String[] arrayDATA_ids) {
+        for (String id : arrayDATA_ids) {
+            InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
+            innerOrderEntity.setOrderstatus("orderStatus_zuofei");
+            innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
+        }
+    }
+    @Override
+    public void yichang(String[] arrayDATA_ids) {
+        for (String id : arrayDATA_ids) {
+            InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
+            innerOrderEntity.setOrderstatus("orderStatus_yichangjian");
+            innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
+        }
+    }
+
+
+    @Override
     public List<PageData> selectProvince() {
         return innerOrderDAO.selectProvince();
     }
@@ -311,6 +329,7 @@ public class InnerOrderService implements InnerOrderInterface {
                 ruKuBaoGuoEntity.setRukubaoguoid(UuidUtil.get32UUID());
                 ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_daidabao");
                 ruKuBaoGuoEntity.setKehubianhao(innerOrderEntity.getCustomernum());
+                ruKuBaoGuoEntity.setBaoguodanhao(innerOrderEntity.getInnerpackagenum());
                 ruKuBaoGuoEntity.setCangwei("P0000");
                 ruKuBaoGuoEntity.setCreateuser(username);
                 ruKuBaoGuoEntity.setCreatetime(date);
@@ -377,17 +396,16 @@ public class InnerOrderService implements InnerOrderInterface {
     private String makeOrderPdList(List<OrderProductEntity> pdList, PageData pageData, Map<String, String> outerOrderNum) {
         String waibudingdanhao = pageData.getString("var0");
         String waibuhuohao = pageData.getString("var1");
-        String barcode = pageData.getString("var2");
-        String count = pageData.getString("var3");
-        String shenbaojia = pageData.getString("var4");
-        String lingshoujia = pageData.getString("var5");
-        String beizhu = pageData.getString("var6");
+        String count = pageData.getString("var2");
+        String shenbaojia = pageData.getString("var3");
+        String lingshoujia = pageData.getString("var4");
+        String beizhu = pageData.getString("var5");
         String customerOrderNum = "";
         if(StringUtils.isBlank(waibudingdanhao)){
             return "外部订单号未填写；";
         }else{
             if(!outerOrderNum.keySet().contains(waibudingdanhao)){
-                return "订单页没有改订单号；";
+                return "订单页没有该订单号；";
             }else{
                 customerOrderNum = outerOrderNum.get(waibudingdanhao);
             }
@@ -398,52 +416,60 @@ public class InnerOrderService implements InnerOrderInterface {
         if(StringUtils.isBlank(lingshoujia)){
             return "零售价未填写；";
         }
-        if (StringUtils.isNotBlank(waibuhuohao)){
-            ProductConversionEntity pdConversion = productConversionDAO.selectByOuterPdNum(waibuhuohao);
-            if(pdConversion == null){
-                return "外部货号未找到；";
-            }else{
-                Map<String, String[]> pdNumMap = this.getPdNumMap(pdConversion);
-                for(String pdNum : pdNumMap.keySet()){
-                    ProductEntity productByBarCode = productDAO.findProductByProductNum(pdNum);
-                    if(productByBarCode != null){
-                        String[] arry = pdNumMap.get(pdNum);
-                        BigDecimal lingshoujiaReal = new BigDecimal(shenbaojia).multiply(new BigDecimal(arry[1]));
-                        BigDecimal jiesuanjiaReal = new BigDecimal(lingshoujia).multiply(new BigDecimal(arry[1]));
-                        OrderProductEntity pd = new OrderProductEntity();
-                        pd.setCustomerordernum(customerOrderNum);
-                        pd.setOuterordernum(waibudingdanhao);
-                        pd.setCount(arry[0]);
-                        pd.setRemark(beizhu);
-                        pd.setDeclareprice(jiesuanjiaReal.toString());
-                        pd.setRetailprice(lingshoujiaReal.toString());
-                        pd.setBarcode(barcode);
-                        pd.setOuterproductnum(waibuhuohao);
-                        pdList.add(pd);
-                    }
-                };
-            }
-        }else{
-            if (StringUtils.isNotBlank(barcode)){
-                ProductEntity productByBarCode = productDAO.findProductByBarCode(barcode);
-                if(productByBarCode == null){
-                    return "商品条码未找到；";
-                }else{
-                    OrderProductEntity pd = new OrderProductEntity();
-                    pd.setOuterordernum(waibudingdanhao);
-                    pd.setCustomerordernum(customerOrderNum);
-                    pd.setCount(count);
-                    pd.setRemark(beizhu);
-                    pd.setDeclareprice(shenbaojia);
-                    pd.setRetailprice(lingshoujia);
-                    pd.setBarcode(barcode);
-                    pd.setOuterproductnum(waibuhuohao);
-                    pdList.add(pd);
-                }
-            }else{
-                return "外部货号/商品条码未填写；";
-            }
-        }
+        String username = Jurisdiction.getUsername();
+        List<CustomerEntity> customerEntities = customerDAO.selectByLoginName(username);
+       if(customerEntities == null && customerEntities.size()>1){
+           return "改登陆用户未找到客户编号或找到多个；";
+       }else{
+           if(StringUtils.isNotBlank(waibuhuohao)){
+               // 0.计算跨境速递费	1.是否外部商品转换	2.发货仓库
+               // 3.按商品内部货值计算申报货值	4.收款状态	5.计算预计纸箱和包装及费用	6.计算运费 7.负仓出库
+               CustomerEntity customerEntity = customerEntities.get(0);
+               String[] customerstatus = customerEntity.getCustomerstatus().split("_");
+               if("1".equals(customerstatus[1])){
+                   ProductConversionEntity pdConversion = productConversionDAO.selectByOuterPdNum(waibuhuohao);
+                   if(pdConversion == null){
+                       return "外部货号未找到；";
+                   }else{
+                       Map<String, String[]> pdNumMap = this.getPdNumMap(pdConversion);
+                       for(String pdNum : pdNumMap.keySet()){
+                           ProductEntity productByBarCode = productDAO.findProductByProductNum(pdNum);
+                           if(productByBarCode != null){
+                               String[] arry = pdNumMap.get(pdNum);
+                               BigDecimal lingshoujiaReal = new BigDecimal(shenbaojia).multiply(new BigDecimal(arry[1]));
+                               BigDecimal jiesuanjiaReal = new BigDecimal(lingshoujia).multiply(new BigDecimal(arry[1]));
+                               OrderProductEntity pd = new OrderProductEntity();
+                               pd.setCustomerordernum(customerOrderNum);
+                               pd.setOuterordernum(waibudingdanhao);
+                               pd.setCount(arry[0]);
+                               pd.setRemark(beizhu);
+                               pd.setDeclareprice(jiesuanjiaReal.toString());
+                               pd.setRetailprice(lingshoujiaReal.toString());
+                               pd.setOuterproductnum(productByBarCode.getBarcodeMain());
+                               pdList.add(pd);
+                           }
+                       };
+                   }
+               }else{
+                   ProductEntity productByBarCode = productDAO.findProductByBarCodeOrNum(waibuhuohao);
+                   if(productByBarCode == null){
+                       return "商品未找到,请查看商品货号/编号；";
+                   }else{
+                       OrderProductEntity pd = new OrderProductEntity();
+                       pd.setOuterordernum(waibudingdanhao);
+                       pd.setCustomerordernum(customerOrderNum);
+                       pd.setCount(count);
+                       pd.setRemark(beizhu);
+                       pd.setDeclareprice(shenbaojia);
+                       pd.setRetailprice(lingshoujia);
+                       pd.setOuterproductnum(waibuhuohao);
+                       pdList.add(pd);
+                   }
+               }
+           }else{
+               return "外部货号/商品货号/条码未填写；";
+           }
+       }
         return "";
     }
 
@@ -495,7 +521,17 @@ public class InnerOrderService implements InnerOrderInterface {
         } else {
             return "下单时间未填写";
         }
+        String username = Jurisdiction.getUsername();
+        String customernum = "";
+        try{
+            customernum = customerDAO.selectCodeByLoginName(username);
+        }catch (Exception e){
+            return "该登陆用户的找到多个客户编号！";
+        }
 
+        if (StringUtils.isBlank(customernum)) {
+            return "该登陆用户的客户编号未找到！";
+        }
         String jijianren = pageData.getString("var2");
         String jijianrenTel = pageData.getString("var3");
         String jijianrenCountry = pageData.getString("var4");
@@ -530,8 +566,8 @@ public class InnerOrderService implements InnerOrderInterface {
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("YYMMdd");
         String formatDate = format.format(date);
-        String username = Jurisdiction.getUsername();
-        String customernum = customerDAO.selectCodeByCreateUser(username);
+
+
         Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("orderserialnumber"));
         PropUtil.writeProperties("orderserialnumber",serialnumber+1+"");
         String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);

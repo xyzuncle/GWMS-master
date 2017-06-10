@@ -23,11 +23,11 @@ public interface CustomerDAO {
 
     List<CustomerEntity> selectAll();
 
-    List<CustomerEntity> selectByCreateUser(String createUser);
+    List<CustomerEntity> selectByLoginName(String loginname);
 
     String selectNameByCode(String code);
 
-    String selectCodeByCreateUser(String code);
+    String selectCodeByLoginName(String loginname);
 
     CustomerEntity selectCustomerByCode(String code);
 

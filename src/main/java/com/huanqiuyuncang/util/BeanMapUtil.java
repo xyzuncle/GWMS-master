@@ -17,13 +17,21 @@ public class BeanMapUtil {
      * @throws Exception
      */
     public static Object mapToObject(Map<String, Object> map, Class<?> beanClass) throws Exception {
-        if (map == null)
+        if (map == null){
             return null;
-
+        }
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        if(!map.containsKey("createuser")){
+            map.put("createuser", username);
+            map.put("createtime", date);
+        }
+        if(!map.containsKey("updateuser")){
+            map.put("updateuser", username);
+            map.put("updatetime", date);
+        }
         Object obj = beanClass.newInstance();
-
         BeanUtils.populate(obj, map);
-
         return obj;
     }
 

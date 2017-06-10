@@ -57,6 +57,10 @@
                                         <td><input type="text" name="defaultwarehouse" id="defaultwarehouse" value="${customer.defaultwarehouse}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">登录用户:</td>
+                                        <td><input type="text" name="loginname" id="loginname" value="${customer.loginname}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>
                                         <td><textarea rows="5" cols="10" id="remark" name="remark" style="width:98%;"  title="备注">${customer.remark}</textarea></td>
                                     </tr>

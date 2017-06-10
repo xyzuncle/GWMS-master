@@ -1,151 +1,162 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.huanqiuyuncang.dao.customer.CustomerDAO" >
-  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.customer.CustomerEntity" >
-    <constructor >
-      <idArg column="customerid" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="customercode" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="customername" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="defaultwarehouse" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="customerstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
-    customerid, customercode, customername, defaultwarehouse, customerstatus, remark, 
-    createuser, createtime, updateuser, updatetime
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from wms_customer
-    where customerid = #{customerid,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from wms_customer
-    where customerid = #{customerid,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
-    insert into wms_customer (customerid, customercode, customername, 
-      defaultwarehouse, customerstatus, remark, 
-      createuser, createtime, updateuser, 
-      updatetime)
-    values (#{customerid,jdbcType=VARCHAR}, #{customercode,jdbcType=VARCHAR}, #{customername,jdbcType=VARCHAR}, 
-      #{defaultwarehouse,jdbcType=VARCHAR}, #{customerstatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, 
-      #{updatetime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
-    insert into wms_customer
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="customerid != null" >
-        customerid,
-      </if>
-      <if test="customercode != null" >
-        customercode,
-      </if>
-      <if test="customername != null" >
-        customername,
-      </if>
-      <if test="defaultwarehouse != null" >
-        defaultwarehouse,
-      </if>
-      <if test="customerstatus != null" >
-        customerstatus,
-      </if>
-      <if test="remark != null" >
-        remark,
-      </if>
-      <if test="createuser != null" >
-        createuser,
-      </if>
-      <if test="createtime != null" >
-        createtime,
-      </if>
-      <if test="updateuser != null" >
-        updateuser,
-      </if>
-      <if test="updatetime != null" >
-        updatetime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="customerid != null" >
-        #{customerid,jdbcType=VARCHAR},
-      </if>
-      <if test="customercode != null" >
-        #{customercode,jdbcType=VARCHAR},
-      </if>
-      <if test="customername != null" >
-        #{customername,jdbcType=VARCHAR},
-      </if>
-      <if test="defaultwarehouse != null" >
-        #{defaultwarehouse,jdbcType=VARCHAR},
-      </if>
-      <if test="customerstatus != null" >
-        #{customerstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createuser != null" >
-        #{createuser,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateuser != null" >
-        #{updateuser,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
-    update wms_customer
-    <set >
-      <if test="customercode != null" >
-        customercode = #{customercode,jdbcType=VARCHAR},
-      </if>
-      <if test="customername != null" >
-        customername = #{customername,jdbcType=VARCHAR},
-      </if>
-      <if test="defaultwarehouse != null" >
-        defaultwarehouse = #{defaultwarehouse,jdbcType=VARCHAR},
-      </if>
-      <if test="customerstatus != null" >
-        customerstatus = #{customerstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createuser != null" >
-        createuser = #{createuser,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        createtime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateuser != null" >
-        updateuser = #{updateuser,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where customerid = #{customerid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.customer.CustomerEntity" >
+        <constructor >
+            <idArg column="customerid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="customercode" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="customername" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="defaultwarehouse" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="customerstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="loginname" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        customerid, customercode, customername, defaultwarehouse, customerstatus, remark,
+        loginname, createuser, createtime, updateuser, updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_customer
+        where customerid = #{customerid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_customer
+        where customerid = #{customerid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
+        insert into wms_customer (customerid, customercode, customername,
+        defaultwarehouse, customerstatus, remark,
+        loginname, createuser, createtime,
+        updateuser, updatetime)
+        values (#{customerid,jdbcType=VARCHAR}, #{customercode,jdbcType=VARCHAR}, #{customername,jdbcType=VARCHAR},
+        #{defaultwarehouse,jdbcType=VARCHAR}, #{customerstatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+        #{loginname,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+        #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
+        insert into wms_customer
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="customerid != null" >
+                customerid,
+            </if>
+            <if test="customercode != null" >
+                customercode,
+            </if>
+            <if test="customername != null" >
+                customername,
+            </if>
+            <if test="defaultwarehouse != null" >
+                defaultwarehouse,
+            </if>
+            <if test="customerstatus != null" >
+                customerstatus,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="loginname != null" >
+                loginname,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="customerid != null" >
+                #{customerid,jdbcType=VARCHAR},
+            </if>
+            <if test="customercode != null" >
+                #{customercode,jdbcType=VARCHAR},
+            </if>
+            <if test="customername != null" >
+                #{customername,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultwarehouse != null" >
+                #{defaultwarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="customerstatus != null" >
+                #{customerstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loginname != null" >
+                #{loginname,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
+        update wms_customer
+        <set >
+            <if test="customercode != null" >
+                customercode = #{customercode,jdbcType=VARCHAR},
+            </if>
+            <if test="customername != null" >
+                customername = #{customername,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultwarehouse != null" >
+                defaultwarehouse = #{defaultwarehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="customerstatus != null" >
+                customerstatus = #{customerstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loginname != null" >
+                loginname = #{loginname,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where customerid = #{customerid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.customer.CustomerEntity" >
     update wms_customer
     set customercode = #{customercode,jdbcType=VARCHAR},
       customername = #{customername,jdbcType=VARCHAR},
       defaultwarehouse = #{defaultwarehouse,jdbcType=VARCHAR},
       customerstatus = #{customerstatus,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
+      loginname = #{loginname,jdbcType=VARCHAR},
       createuser = #{createuser,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       updateuser = #{updateuser,jdbcType=VARCHAR},
@@ -158,11 +169,11 @@
         FROM wms_customer
         WHERE 1=1
     </select>
-    <select id="selectByCreateUser" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    <select id="selectByLoginName" parameterType="java.lang.String"  resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM wms_customer
-        WHERE createuser = #{createuser,jdbcType=VARCHAR}
+        WHERE loginname = #{loginname,jdbcType=VARCHAR}
     </select>
     <!-- 列表(分页查询) -->
     <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
@@ -191,10 +202,10 @@
 
     </select>
 
-    <select id="selectCodeByCreateUser" parameterType="java.lang.String" resultType="java.lang.String">
+    <select id="selectCodeByLoginName" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT  customercode
         FROM wms_customer
-        WHERE createuser =  #{code,jdbcType=VARCHAR}
+        WHERE loginname =  #{loginname,jdbcType=VARCHAR}
 
     </select>
     <select id="selectCustomerByCode" parameterType="java.lang.String" resultMap="BaseResultMap">

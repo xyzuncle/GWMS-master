@@ -22,11 +22,11 @@ public interface GongYingShangInterface {
 
     List<GongYingShangEntity> selectAll();
 
-    List<GongYingShangEntity> selectByCreateUser(String createUser);
+    List<GongYingShangEntity> selectByLoginName(String loginname);
 
     String selectNameByCode(String code);
 
-    String selectCodeByCreateUser(String code);
+    String selectCodeByLoginName(String loginname);
 
     GongYingShangEntity selectgongyingshangByCode(String code);
 

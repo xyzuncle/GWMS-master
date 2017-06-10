@@ -46,4 +46,8 @@ public interface InnerOrderInterface {
     void createpackage(String id);
 
     String savePackageFromExcel(List<PageData> orderList, List<PageData> orderPdList);
+
+    void zuofeiAll(String[] arrayDATA_ids);
+
+    void yichang(String[] arrayDATA_ids);
 }

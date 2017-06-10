@@ -596,7 +596,7 @@
             )
         </if>
         <if test="pd.createuser!=null and pd.createuser!=''">
-            and createuser LIKE "%"#{pd.createuser}"%"
+            and createuser = #{pd.createuser}
         </if>
         <if test="pd.orderstatus!=null and pd.orderstatus!=''">
             and orderstatus = #{pd.orderstatus}

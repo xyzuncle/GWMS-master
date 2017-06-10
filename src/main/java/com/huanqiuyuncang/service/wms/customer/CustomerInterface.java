@@ -25,7 +25,7 @@ public interface CustomerInterface {
 
     List<CustomerEntity> selectAll();
 
-    List<CustomerEntity> selectByCreateUser(String createUser);
+    List<CustomerEntity> selectByLoginName(String createUser);
 
     String selectNameByCode(String customernum);
 
