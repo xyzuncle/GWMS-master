@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.kuwei.BaoGuoKuWeiDAO" >
+  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="customernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="kuwei" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, customernum, cangku, kuwei, beizhu, createuser, createtime, updateuser, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_baoguokuwei
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_baoguokuwei
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity" >
+    insert into wms_baoguokuwei (id, customernum, cangku, 
+      kuwei, beizhu, createuser, 
+      createtime, updateuser, updatetime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{customernum,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR}, 
+      #{kuwei,jdbcType=VARCHAR}, #{beizhu,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity" >
+    insert into wms_baoguokuwei
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customernum != null" >
+        customernum,
+      </if>
+      <if test="cangku != null" >
+        cangku,
+      </if>
+      <if test="kuwei != null" >
+        kuwei,
+      </if>
+      <if test="beizhu != null" >
+        beizhu,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="customernum != null" >
+        #{customernum,jdbcType=VARCHAR},
+      </if>
+      <if test="cangku != null" >
+        #{cangku,jdbcType=VARCHAR},
+      </if>
+      <if test="kuwei != null" >
+        #{kuwei,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null" >
+        #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity" >
+    update wms_baoguokuwei
+    <set >
+      <if test="customernum != null" >
+        customernum = #{customernum,jdbcType=VARCHAR},
+      </if>
+      <if test="cangku != null" >
+        cangku = #{cangku,jdbcType=VARCHAR},
+      </if>
+      <if test="kuwei != null" >
+        kuwei = #{kuwei,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null" >
+        beizhu = #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity" >
+    update wms_baoguokuwei
+    set customernum = #{customernum,jdbcType=VARCHAR},
+      cangku = #{cangku,jdbcType=VARCHAR},
+      kuwei = #{kuwei,jdbcType=VARCHAR},
+      beizhu = #{beizhu,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_baoguokuwei where  1=1
+        <if test="pd.customernum!= null and pd.customernum != ''">
+            and customernum LIKE  "%"#{pd.customernum,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.cangku!= null and pd.cangku != ''">
+            and cangku LIKE  "%"#{pd.cangku,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.kuwei!= null and pd.kuwei != ''">
+            and kuwei LIKE  "%"#{pd.kuwei,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+</mapper>

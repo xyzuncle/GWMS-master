@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.kuwei.CangKuDAO" >
+  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.kuwei.CangKuEntity" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cangkubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cangkuname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cangkushuxing" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cangkubianhao, cangkuname, cangkushuxing, beizhu, createuser, createtime, updateuser, 
+    updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_cangku
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_cangku
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.huanqiuyuncang.entity.kuwei.CangKuEntity" >
+    insert into wms_cangku (id, cangkubianhao, cangkuname, 
+      cangkushuxing, beizhu, createuser, 
+      createtime, updateuser, updatetime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{cangkubianhao,jdbcType=VARCHAR}, #{cangkuname,jdbcType=VARCHAR}, 
+      #{cangkushuxing,jdbcType=VARCHAR}, #{beizhu,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.kuwei.CangKuEntity" >
+    insert into wms_cangku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cangkubianhao != null" >
+        cangkubianhao,
+      </if>
+      <if test="cangkuname != null" >
+        cangkuname,
+      </if>
+      <if test="cangkushuxing != null" >
+        cangkushuxing,
+      </if>
+      <if test="beizhu != null" >
+        beizhu,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="cangkubianhao != null" >
+        #{cangkubianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="cangkuname != null" >
+        #{cangkuname,jdbcType=VARCHAR},
+      </if>
+      <if test="cangkushuxing != null" >
+        #{cangkushuxing,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null" >
+        #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.kuwei.CangKuEntity" >
+    update wms_cangku
+    <set >
+      <if test="cangkubianhao != null" >
+        cangkubianhao = #{cangkubianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="cangkuname != null" >
+        cangkuname = #{cangkuname,jdbcType=VARCHAR},
+      </if>
+      <if test="cangkushuxing != null" >
+        cangkushuxing = #{cangkushuxing,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null" >
+        beizhu = #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.kuwei.CangKuEntity" >
+    update wms_cangku
+    set cangkubianhao = #{cangkubianhao,jdbcType=VARCHAR},
+      cangkuname = #{cangkuname,jdbcType=VARCHAR},
+      cangkushuxing = #{cangkushuxing,jdbcType=VARCHAR},
+      beizhu = #{beizhu,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_cangku where  1=1
+        <if test="pd.cangkubianhao!= null and pd.cangkubianhao != ''">
+            and cangkubianhao LIKE  "%"#{pd.cangkubianhao,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.cangkuname!= null and pd.cangkuname != ''">
+            and cangkuname LIKE  "%"#{pd.cangkuname,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.cangkushuxing!= null and pd.cangkushuxing != ''">
+            and cangkushuxing LIKE  "%"#{pd.cangkushuxing,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+</mapper>
