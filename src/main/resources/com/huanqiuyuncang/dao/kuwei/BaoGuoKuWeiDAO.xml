@@ -120,7 +120,7 @@
         createtime = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateuser != null" >
-        updateuser = #{updateuser,jdbcType=VARCHAR},
+        updateuser = #{updateuser,jdbcType=VARCHAR
       </if>
       <if test="updatetime != null" >
         updatetime = #{updatetime,jdbcType=TIMESTAMP},
@@ -154,6 +154,16 @@
         </if>
         <if test="pd.kuwei!= null and pd.kuwei != ''">
             and kuwei LIKE  "%"#{pd.kuwei,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+
+    <select id="selectbyCustomerNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_baoguokuwei where  1=1
+        <if test="customernum!= null and customernum != ''">
+            and customernum = #{customernum,jdbcType=VARCHAR}
         </if>
     </select>
 </mapper>

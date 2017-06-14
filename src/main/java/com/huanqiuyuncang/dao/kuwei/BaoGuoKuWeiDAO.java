@@ -19,4 +19,6 @@ public interface BaoGuoKuWeiDAO {
     int updateByPrimaryKey(BaoGuoKuWeiEntity record);
 
     List<BaoGuoKuWeiEntity> datalistPage(Page page);
+
+    List<BaoGuoKuWeiEntity> selectbyCustomerNum(String customernum);
 }

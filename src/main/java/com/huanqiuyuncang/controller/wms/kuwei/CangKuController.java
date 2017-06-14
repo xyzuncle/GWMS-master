@@ -3,6 +3,8 @@ package com.huanqiuyuncang.controller.wms.kuwei;
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.system.Dictionaries;
+import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.util.AppUtil;
 import com.huanqiuyuncang.util.BeanMapUtil;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +32,9 @@ public class CangKuController extends BaseController {
     String menuUrl = "cangku/list.do"; //菜单地址(权限用)
     @Autowired
     private CangKuInterface cangKuService;
+
+    @Resource(name="dictionariesService")
+    private DictionariesManager dictionariesService;
 
     /**保存
      * @param
@@ -113,10 +119,16 @@ public class CangKuController extends BaseController {
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        setCangKuShuXing(mv);
         mv.setViewName("wms/cangku/cangku_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
         return mv;
+    }
+
+    private void setCangKuShuXing(ModelAndView mv) throws Exception {
+        List<Dictionaries> dictionaries = dictionariesService.listSubDictByParentId("89bb990471364bbc8f17d7bb8755c522");
+        mv.addObject("dictionaries",dictionaries);
     }
 
     /**去修改页面
@@ -129,6 +141,7 @@ public class CangKuController extends BaseController {
         PageData pd = this.getPageData();
         String id = pd.getString("id");
         CangKuEntity cangKuEntity = cangKuService.selectByPrimaryKey(id);//根据ID读取
+        setCangKuShuXing(mv);
         mv.setViewName("wms/cangku/cangku_edit");
         mv.addObject("msg", "edit");
         mv.addObject("cangku", cangKuEntity);

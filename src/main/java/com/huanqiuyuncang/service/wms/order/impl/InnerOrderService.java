@@ -1,6 +1,7 @@
 package com.huanqiuyuncang.service.wms.order.impl;
 
 import com.huanqiuyuncang.dao.customer.CustomerDAO;
+import com.huanqiuyuncang.dao.kuwei.BaoGuoKuWeiDAO;
 import com.huanqiuyuncang.dao.order.InnerOrderDAO;
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
 import com.huanqiuyuncang.dao.pdconversion.ProductConversionDAO;
@@ -9,6 +10,7 @@ import com.huanqiuyuncang.dao.warehouse.ChuKuShangPinDAO;
 import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
+import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
@@ -51,6 +53,9 @@ public class InnerOrderService implements InnerOrderInterface {
 
     @Autowired
     private ProductDAO productDAO;
+
+    @Autowired
+    private BaoGuoKuWeiDAO baoGuoKuWeiDAO;
 
     @Override
     public int insert(InnerOrderEntity record) {
@@ -327,7 +332,12 @@ public class InnerOrderService implements InnerOrderInterface {
                 ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_daidabao");
                 ruKuBaoGuoEntity.setKehubianhao(innerOrderEntity.getCustomernum());
                 ruKuBaoGuoEntity.setBaoguodanhao(innerOrderEntity.getInnerpackagenum());
-                ruKuBaoGuoEntity.setCangwei("P0000");
+                List<BaoGuoKuWeiEntity> list = baoGuoKuWeiDAO.selectbyCustomerNum(innerOrderEntity.getCustomernum());
+                if(list != null && list.size()>0){
+                    ruKuBaoGuoEntity.setCangwei(list.get(0).getKuwei());
+                }else{
+                    ruKuBaoGuoEntity.setCangwei("P0000");
+                }
                 ruKuBaoGuoEntity.setCreateuser(username);
                 ruKuBaoGuoEntity.setCreatetime(date);
                 ruKuBaoGuoEntity.setUpdatetime(date);

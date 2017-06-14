@@ -52,7 +52,22 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">仓库属性:</td>
-                                        <td><input type="text" name="cangkushuxing" id="cangkushuxing" value="${cangku.cangkushuxing}" maxlength="255"  style="width:98%;"/></td>
+                                        <td>
+                                            <select class="chosen-select form-control" name="cangkushuxing" id="cangkushuxing" data-placeholder="请选择" style="vertical-align:top;width:98%;">
+                                                <option value="">请选择</option>
+                                                <c:choose>
+                                                    <c:when test="${not empty dictionaries}">
+                                                        <c:forEach items="${dictionaries}" var="dic" varStatus="baoguanStatus">
+                                                            <option value="${dic.BIANMA}" id="${dic.BIANMA}"
+                                                                    <c:if test="${dic.BIANMA == cangku.cangkushuxing}">
+                                                                        selected="selected"
+                                                                    </c:if>
+                                                            >${dic.NAME}</option>
+                                                        </c:forEach>
+                                                    </c:when>
+                                                </c:choose>
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>
