@@ -157,7 +157,7 @@ public class CangKuController extends BaseController {
     @RequestMapping(value="/deleteAll")
     @ResponseBody
     public Object deleteAll() throws Exception{
-        if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;} //校验权限
+        if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return null;}
         Map<String,Object> map = new HashMap<String,Object>();
         PageData pd = this.getPageData();
         List<PageData> pdList = new ArrayList<PageData>();

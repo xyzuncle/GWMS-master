@@ -64,9 +64,16 @@ public class CountryController extends BaseController {
 		logBefore(logger, Jurisdiction.getUsername()+"删除Country");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
         PageData pd = this.getPageData();
-		countryService.delete(pd);
-		out.write("success");
-		out.close();
+        String COUNTRY_ID = pd.getString("COUNTRY_ID");
+        Integer sum = checkTable("wms_country","COUNTRY_ID", COUNTRY_ID);
+        String msg = "success";
+        if(sum >0){
+            msg = "error";
+        }else{
+            countryService.delete(pd);
+        }
+        out.write(msg);
+        out.close();
 	}
 	
 	/**修改
@@ -148,14 +155,17 @@ public class CountryController extends BaseController {
 		String DATA_IDS = pd.getString("DATA_IDS");
 		if(null != DATA_IDS && !"".equals(DATA_IDS)){
 			String ArrayDATA_IDS[] = DATA_IDS.split(",");
-			countryService.deleteAll(ArrayDATA_IDS);
-			pd.put("msg", "ok");
-		}else{
-			pd.put("msg", "no");
-		}
-		pdList.add(pd);
-		map.put("list", pdList);
-		return AppUtil.returnObject(pd, map);
+            Integer sum =  checkTable("wms_country","COUNTRY_ID", ArrayDATA_IDS);
+            if(sum > 0){
+                map.put("msg","error");
+                return AppUtil.returnObject(pd, map);
+            }
+            countryService.deleteAll(ArrayDATA_IDS);
+            map.put("msg", "success");
+        }else{
+            map.put("msg","error");
+        }
+        return AppUtil.returnObject(pd, map);
 	}
 	
 	 /**导出到excel
