@@ -83,14 +83,17 @@ public class BarCodeController {
             innerOrderEntity.setRecipientcity(recipientcity);
             List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProductBypackagenum(innerOrderEntity.getInnerpackagenum());
             StringBuffer goods = new StringBuffer("");
-            orderProductEntities.forEach(orderProduct -> {
-                try {
-                    ProductEntity product = productService.findProductByBarCode(orderProduct.getBarcode());
-                    goods.append(product.getProductename()+",");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            if(orderProductEntities != null && orderProductEntities.size()>0){
+                orderProductEntities.forEach(orderProduct -> {
+                    try {
+                        ProductEntity product = productService.findProductByBarCode(orderProduct.getOuterproductnum());
+                        goods.append(product.getProductename()+",");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+
 
             //包裹单号，用于生产面单号使用
             String innerpackagenum = innerOrderEntity.getInnerpackagenum();
