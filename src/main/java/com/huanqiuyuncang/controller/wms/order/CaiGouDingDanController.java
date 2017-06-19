@@ -115,7 +115,13 @@ public class CaiGouDingDanController  extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表gongYingShang");
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        pd.put("createuser",Jurisdiction.getUsername());
         page.setPd(pd);
+        //判断是否据有查看所有权限
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("createuser");
+        }
         List<CaiGouDingDanEntity> varList = caiGouDingDanService.datalistPage(page);
         varList.forEach(caiGouDingDanEntity -> {
             String name = gongYingShangService.selectNameByCode(caiGouDingDanEntity.getGongyingshangbianhao());
@@ -304,7 +310,7 @@ public class CaiGouDingDanController  extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String caigoudingdanid = pd.getString("caigoudingdanid");
-        PageData ruku = caiGouDingDanService.ruku(caigoudingdanid);
+        PageData ruku = caiGouDingDanService.saveruku(caigoudingdanid);
         mv.addObject("msg",ruku.getString("msg"));
         mv.addObject("resturt",ruku.getString("resturt"));
         mv.setViewName("save_result");

@@ -222,6 +222,9 @@
         <if test="pd.caigoudingdanstatus != null and pd.caigoudingdanstatus != ''" >
             AND caigoudingdanstatus = #{pd.caigoudingdanstatus,jdbcType=VARCHAR}
         </if>
+        <if test="pd.createuser != null and pd.createuser != ''" >
+            and  createuser = #{pd.createuser,jdbcType=VARCHAR}
+        </if>
     </select>
 
 </mapper>

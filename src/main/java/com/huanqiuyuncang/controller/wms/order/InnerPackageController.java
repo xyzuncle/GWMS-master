@@ -53,7 +53,13 @@ public class InnerPackageController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表innerPackage");
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        pd.put("createuser",Jurisdiction.getUsername());
         page.setPd(pd);
+        //判断是否据有查看所有权限
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("createuser");
+        }
         List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
         varList.forEach(innerOrderEntity -> {
             String formateOrderTime = DateUtil.format(innerOrderEntity.getOrdertime(),"yyyy-MM-dd HH:mm:ss");

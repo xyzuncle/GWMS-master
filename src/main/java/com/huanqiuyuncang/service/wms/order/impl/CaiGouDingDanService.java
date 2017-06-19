@@ -94,7 +94,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     }
 
     @Override
-    public PageData ruku(String caigoudingdanid) {
+    public PageData saveruku(String caigoudingdanid) {
         PageData pd = new PageData();
         CaiGouDingDanEntity caiGouDingDan = caiGouDingDanDAO.selectByPrimaryKey(caigoudingdanid);
         String username = Jurisdiction.getUsername();

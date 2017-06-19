@@ -287,6 +287,9 @@
           productnum4 = #{pd.productnum1,jdbcType=VARCHAR}
           )
       </if>
+      <if test="pd.createuser != null and pd.createuser != ''" >
+          and  createuser = #{pd.createuser,jdbcType=VARCHAR}
+      </if>
     </select>
 
     <select id="selectByOuterPdNum" resultMap="BaseResultMap" parameterType="java.lang.String" >

@@ -136,6 +136,13 @@ public class ProductController extends BaseController {
         if("product_daishenhe".equals(auditStatus)){
             pd.put("createuser",Jurisdiction.getUsername());
         }
+
+        //判断是否据有查看所有权限
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("createuser");
+        }
+
         List<ProductEntity> varList = productService.datalistPage(page);
         setSelectList(mv);
         mv.setViewName("wms/product/product_list");

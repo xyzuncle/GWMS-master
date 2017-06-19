@@ -27,5 +27,5 @@ public interface CaiGouDingDanInterface {
 
     void zuofeiAll(String[] arrayDATA_ids);
 
-    PageData ruku(String caigoudingdanid);
+    PageData saveruku(String caigoudingdanid);
 }

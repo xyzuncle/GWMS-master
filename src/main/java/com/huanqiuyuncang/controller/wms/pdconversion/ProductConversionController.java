@@ -110,6 +110,11 @@ public class ProductConversionController extends BaseController {
         PageData pd = this.getPageData();
         pd.put("createuser",Jurisdiction.getUsername());
         page.setPd(pd);
+        //判断是否据有查看所有权限
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("createuser");
+        }
         List<ProductConversionEntity> varList =  productConversionService.datalistPage(page);
         mv.setViewName("wms/pdconversion/pdconversion_list");
         mv.addObject("varList", varList);

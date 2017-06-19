@@ -87,10 +87,10 @@
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
                                                 <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daiqueren')">待入库</a>
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('caigouStatus_yiqueren')">待入库</a>
                                                 </li>
                                                 <li  id="definedTab">
-                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yiqueren')">已入库</a>
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('caigouStatus_yiruku')">已入库</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -151,7 +151,8 @@
                                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
                                                             </a>
                                                             <c:if test="${pd.caigoudingdanstatus == 'caigouStatus_yiqueren' }">
-                                                                <a class="btn btn-sm btn-primary" onclick="ruku('${var.caigoudingdanid}');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                                                <a class="btn btn-xs btn-primary" onclick="ruku('${var.caigoudingdanid}');" title="扫描入库" >
+                                                                    <i class='ace-icon fa fa-eye bigger-120'></i></a>
                                                             </c:if>
                                                         </div>
                                                     </td>
