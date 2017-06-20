@@ -63,7 +63,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     @Override
     public int insertSelective(CaiGouDingDanEntity record, String token) {
         String gongyingshangbianhao = record.getGongyingshangbianhao();
-        String caigoudingdanhao = OrderUtil.getOrderNum(gongyingshangbianhao);
+        String caigoudingdanhao = OrderUtil.getCaiGouNum(gongyingshangbianhao);
         record.setCaigoudingdanhao(caigoudingdanhao);
         List<CaiGouShangPinEntity> list = caiGouShangPinDAO.selectByCaiGouDingDanId(token);
         if(list != null && list.size()>0){
@@ -179,15 +179,9 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         String caigoudingdanID = UuidUtil.get32UUID();
         String gongyingshangbianhao = "";
         String kehubianhao = "";
+        String caigoudingdanhao = "";
         List<CaiGouShangPinEntity> caigoushangpinList = new ArrayList<>();
-        CaiGouDingDanEntity dingdan = new CaiGouDingDanEntity();
-        dingdan.setGongyingshangbianhao(gongyingshangbianhao);
-        dingdan.setKehubianhao(kehubianhao);
-        dingdan.setCaigoudingdanid(caigoudingdanID);
-        dingdan.setCreateuser(username);
-        dingdan.setCreatetime(date);
-        dingdan.setUpdateuser(username);
-        dingdan.setUpdatetime(date);
+
         Boolean falg = true;
         for (int i = 0 ; i<caigouList.size(); i++) {
             PageData pd = caigouList.get(0);
@@ -197,6 +191,8 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                 GongYingShangEntity gongYingShangEntity = gongYingShangDAO.selectGongyingshangByCode(gongyingshangbianhao);
                 if(gongYingShangEntity == null){
                     resturt.append("第"+(i+1)+"行供应商编号未找到，");
+                }else{
+                    caigoudingdanhao = OrderUtil.getCaiGouNum(gongyingshangbianhao);
                 }
                 kehubianhao = caigouList.get(0).getString("var2");
                 CustomerEntity customerEntity = customerDAO.selectCustomerByCode(kehubianhao);
@@ -227,6 +223,16 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
             caigoushangpinList.add(shangpin);
         }
         if(StringUtils.isBlank(resturt.toString())){
+            CaiGouDingDanEntity dingdan = new CaiGouDingDanEntity();
+            dingdan.setCaigoudingdanhao(caigoudingdanhao);
+            dingdan.setCaigoudingdanstatus("caigouStatus_daiqueren");
+            dingdan.setGongyingshangbianhao(gongyingshangbianhao);
+            dingdan.setKehubianhao(kehubianhao);
+            dingdan.setCaigoudingdanid(caigoudingdanID);
+            dingdan.setCreateuser(username);
+            dingdan.setCreatetime(date);
+            dingdan.setUpdateuser(username);
+            dingdan.setUpdatetime(date);
             caiGouDingDanDAO.insertSelective(dingdan);
             for (CaiGouShangPinEntity c:caigoushangpinList) {
                 caiGouShangPinDAO.insertSelective(c);
