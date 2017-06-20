@@ -59,13 +59,6 @@
                                                    name="gongyingshangbianhao" style="width:90px;" value="${pd.gongyingshangbianhao }" />
                                         </span>
                                         <span class="input-icon">
-                                            商品编号：
-                                        </span>
-                                        <span class="input-icon">
-                                            <input type="text" class="nav-search-input" id="nav-search-shangpinhuohao" autocomplete="off"
-                                                   name="shangpinhuohao" value="${pd.shangpinhuohao }" />
-                                        </span>
-                                        <span class="input-icon">
                                             客户编号：
                                         </span>
                                         <span class="input-icon">
@@ -119,9 +112,6 @@
                                     <th class="center" style="width:50px;">序号</th>
                                     <th class="center">采购订单号</th>
                                     <th class="center">供应商编号</th>
-                                    <th class="center">商品货号</th>
-                                    <th class="center">数量</th>
-                                    <th class="center">采购价格</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
@@ -139,9 +129,6 @@
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
                                                     <td class='center'>${var.caigoudingdanhao}</td>
                                                     <td class='center'>${var.gongyingshangbianhao}</td>
-                                                    <td class='center'>${var.shangpinhuohao}</td>
-                                                    <td class='center'>${var.shuliang}</td>
-                                                    <td class='center'>${var.caigoujiage}</td>
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -217,6 +204,7 @@
                                             <c:if test="${pd.caigoudingdanstatus == 'caigouStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
+                                            <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
@@ -516,6 +504,29 @@
             }
         });
     };
+
+    //打开上传excel页面
+    function fromExcel(){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="EXCEL 导入到数据库";
+        diag.URL = '<%=basePath%>caigoudingdan/goUploadExcel.do';
+        diag.Width = 400;
+        diag.Height = 150;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                if('${page.currentPage}' == '0'){
+                    top.jzts();
+                    setTimeout("self.location.reload()",100);
+                }else{
+                    nextPage(${page.currentPage});
+                }
+            }
+            diag.close();
+        };
+        diag.show();
+    }
 
 </script>
 

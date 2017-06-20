@@ -5,19 +5,28 @@ import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
+import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
+import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.customer.GongYingShangInterface;
 import com.huanqiuyuncang.service.wms.order.CaiGouDingDanInterface;
+import com.huanqiuyuncang.service.wms.order.CaiGouShangPinInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
 import com.huanqiuyuncang.util.*;
+import net.sf.json.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -37,6 +46,8 @@ public class CaiGouDingDanController  extends BaseController {
     @Autowired
     private CustomerInterface customerService;
 
+    @Autowired
+    private CaiGouShangPinInterface caiGouShangPinService;
     @Autowired
     private ProductWarehouseInterface productWarehouseService;
     /**保存
@@ -58,7 +69,9 @@ public class CaiGouDingDanController  extends BaseController {
         caiGouDingDan.setUpdateuser(username);
         caiGouDingDan.setUpdatetime(date);
         caiGouDingDan.setCaigoudingdanstatus("caigouStatus_daiqueren");
-        caiGouDingDanService.insertSelective(caiGouDingDan);
+        String token = (String)this.getRequest().getSession().getAttribute("token");
+        caiGouDingDanService.insertSelective(caiGouDingDan,token);
+        this.getRequest().getSession().removeAttribute("token");
         mv.addObject("msg","success");
         mv.setViewName("save_result");
         return mv;
@@ -144,6 +157,9 @@ public class CaiGouDingDanController  extends BaseController {
         PageData pd = this.getPageData();
         mv.setViewName("wms/innerorder/caigoudingdan_edit");
         mv.addObject("msg", "save");
+        String token = this.get32UUID();
+        this.getRequest().getSession().setAttribute("token",token);
+        mv.addObject("token", token);
         mv.addObject("pd", pd);
         return mv;
     }
@@ -163,9 +179,11 @@ public class CaiGouDingDanController  extends BaseController {
         String formateUpdateTime = DateUtil.format(caiGouDingDan.getUpdatetime(),"yyyy-MM-dd");
         caiGouDingDan.setFormatCreateTime(formateCreateTime);
         caiGouDingDan.setFormateUpdateTime(formateUpdateTime);
+        this.getRequest().getSession().setAttribute("token", caiGouDingDan.getCaigoudingdanid());
         mv.setViewName("wms/innerorder/caigoudingdan_edit");
         mv.addObject("msg", "edit");
         mv.addObject("caigoudingdan", caiGouDingDan);
+        mv.addObject("token", caiGouDingDan.getCaigoudingdanid());
         mv.addObject("pd", pd);
         return mv;
     }
@@ -313,6 +331,122 @@ public class CaiGouDingDanController  extends BaseController {
         PageData ruku = caiGouDingDanService.saveruku(caigoudingdanid);
         mv.addObject("msg",ruku.getString("msg"));
         mv.addObject("resturt",ruku.getString("resturt"));
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+    @RequestMapping(value="/pdlist")
+    public void pdlist(PrintWriter printWriter,String caigoudingdanid) throws Exception{
+       List<CaiGouShangPinEntity> list = caiGouShangPinService.selectByCaiGouDingDanId(caigoudingdanid);
+        String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
+        String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
+        printWriter.write(resultJson);
+    }
+
+
+    @RequestMapping(value="/goAddProduct")
+    public ModelAndView goAddProduct()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        mv.setViewName("wms/innerorder/caigou_pd");
+        mv.addObject("msg", "saveCaigouProduct");
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/goEditProduct")
+    public ModelAndView goEditProduct()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String id  = pd.getString("id");
+        CaiGouShangPinEntity caigoupd = caiGouShangPinService.selectByPrimaryKey(id);
+        mv.setViewName("wms/innerorder/caigou_pd");
+        mv.addObject("msg", "editCaigouProduct");
+        mv.addObject("caigoupd",caigoupd);
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/delcaigouPd")
+    @ResponseBody
+    public Object delcaigouPd(String id)throws Exception{
+        caiGouShangPinService.deleteByPrimaryKey(id);
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("result", "success");
+        return AppUtil.returnObject(new PageData(), map);
+    }
+
+    @RequestMapping(value="/saveCaigouProduct")
+    public ModelAndView saveCaigouProduct(CaiGouShangPinEntity caiGouShangPinEntity)throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String token = (String)this.getRequest().getSession().getAttribute("token");
+        caiGouShangPinEntity.setCaigoudingdanid(token);
+        caiGouShangPinEntity.setId(this.get32UUID());
+        caiGouShangPinService.insert(caiGouShangPinEntity);
+        mv.setViewName("save_result");
+        mv.addObject("msg","success");
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/editCaigouProduct")
+    public ModelAndView editCaigouProduct(CaiGouShangPinEntity caiGouShangPinEntity)throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        caiGouShangPinService.updateByPrimaryKeySelective(caiGouShangPinEntity);
+        mv.setViewName("save_result");
+        mv.addObject("msg","success");
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    /**打开上传EXCEL页面
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/goUploadExcel")
+    public ModelAndView goUploadExcel()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        mv.setViewName("wms/innerorder/uploadcaigouexcel");
+        return mv;
+    }
+
+    /**下载模版
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value="/downExcel")
+    public void downExcel(HttpServletResponse response)throws Exception{
+        FileDownload.fileDownload(response, PathUtil.getClasspath() + Const.FILEPATHFILE + "caigou.xls", "caigou.xls");
+    }
+
+    /**从EXCEL导入到数据库
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/readExcel" , produces = "text/html;charset=UTF-8")
+    public  ModelAndView readExcel(@RequestParam(value="excel",required=false) MultipartFile file) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = new PageData();
+        if (null != file && !file.isEmpty()) {
+            String filePath = PathUtil.getClasspath() + Const.FILEPATHFILE;								//文件上传路径
+            String fileName =  FileUpload.fileUp(file, filePath, "caigouexcel");							//执行上传
+            List<PageData> caigouList = (List)ObjectExcelRead.readExcel(filePath, fileName, 2, 0, 0);		//执行读EXCEL操作,读出的数据导入List 2:从第3行开始；0:从第A列开始；0:第0个sheet
+            String resturt =caiGouDingDanService.saveDingDanFromExcel(caigouList); //innerOrderService.saveOrderFromExcel(orderList,orderPdList);
+            //*存入数据库操作======================================*//*
+            if(StringUtils.isNotBlank(resturt)){
+                StringBuffer start = new StringBuffer("请将一下错误数据摘出修改后重新导入：\n");
+                start.append(resturt);
+                mv.addObject("msg","product_error");
+                mv.addObject("resturt",start.toString());
+            }else{
+                mv.addObject("msg","success");
+            }
+
+        }
+        mv.addObject("pd",pd);
         mv.setViewName("save_result");
         return mv;
     }

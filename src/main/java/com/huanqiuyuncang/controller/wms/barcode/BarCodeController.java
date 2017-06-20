@@ -87,7 +87,8 @@ public class BarCodeController {
                 orderProductEntities.forEach(orderProduct -> {
                     try {
                         ProductEntity product = productService.findProductByBarCode(orderProduct.getOuterproductnum());
-                        goods.append(product.getProductename()+",");
+                        goods.append(product.getProductname());
+                        goods.append(",");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

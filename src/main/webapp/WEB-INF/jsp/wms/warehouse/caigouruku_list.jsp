@@ -119,9 +119,6 @@
                                     <th class="center" style="width:50px;">序号</th>
                                     <th class="center">采购订单号</th>
                                     <th class="center">供应商编号</th>
-                                    <th class="center">商品货号</th>
-                                    <th class="center">数量</th>
-                                    <th class="center">采购价格</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
@@ -139,9 +136,6 @@
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
                                                     <td class='center'>${var.caigoudingdanhao}</td>
                                                     <td class='center'>${var.gongyingshangbianhao}</td>
-                                                    <td class='center'>${var.shangpinhuohao}</td>
-                                                    <td class='center'>${var.shuliang}</td>
-                                                    <td class='center'>${var.caigoujiage}</td>
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -282,7 +276,7 @@
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
-        diag.Title ="编辑";
+        diag.Title ="";
         diag.URL = '<%=basePath%>caigoudingdan/goruku.do?caigoudingdanid='+Id;
         diag.Width = 700;
         diag.Height = 800;

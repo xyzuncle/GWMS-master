@@ -41,7 +41,6 @@ public class RuKuBaoGuoController extends BaseController {
      */
     @RequestMapping(value="/list")
     public ModelAndView list(Page page) throws Exception{
-        logBefore(logger, Jurisdiction.getUsername()+"列表Product");
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
         page.setPd(pd);
@@ -216,5 +215,7 @@ public class RuKuBaoGuoController extends BaseController {
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
+
+
 
 }

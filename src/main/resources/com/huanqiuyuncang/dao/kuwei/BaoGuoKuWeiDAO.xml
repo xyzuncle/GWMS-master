@@ -161,9 +161,8 @@
         select
         <include refid="Base_Column_List" />
         from
-        wms_baoguokuwei where  1=1
-        <if test="customernum!= null and customernum != ''">
-            and customernum = #{customernum,jdbcType=VARCHAR}
-        </if>
+        wms_baoguokuwei where
+        customernum = #{code,jdbcType=VARCHAR}
+
     </select>
 </mapper>

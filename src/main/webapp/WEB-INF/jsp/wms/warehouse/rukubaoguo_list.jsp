@@ -36,6 +36,7 @@
                     <div class="col-xs-12">
                         <!-- 检索  -->
                         <form action="rukubaoguo/list.do" method="post" name="Form" id="Form">
+                            <input type="hidden" id="nav-search-rukuzhuangtai" name="rukuzhuangtai" value="${pd.rukuzhuangtai }" >
                             <table style="margin-top:5px;">
                                 <tr>
                                     <td>
@@ -69,6 +70,40 @@
                                 </tr>
                             </table>
                             <!-- 检索  -->
+
+                            <div class="col-sm-12 widget-container-col">
+                                <div class="widget-box transparent">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title lighter">包裹入库</h4>
+                                        <div class="widget-toolbar no-border">
+                                            <ul class="nav nav-tabs" id="myTab2">
+                                                <li id="baseTab">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daidabao')">待入库</a>
+                                                </li>
+                                                <li  id="definedTab">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('orderStatus_yidabao')">已入库</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main padding-12 no-padding-left no-padding-right">
+                                            <div class="tab-content padding-4">
+                                                <div id="base" class="tab-pane in active">
+                                                </div>
+                                                <div id="defined" class="tab-pane">
+                                                </div>
+                                                <div id="disable" class="tab-pane">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
                                 <tr>
@@ -106,10 +141,9 @@
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
                                                                 </a>
                                                             </c:if>
-                                                            <c:if test="${QX.del == 1 }">
-                                                                <a class="btn btn-xs btn-danger" onclick="del('${var.rukubaoguoid}');">
-                                                                    <i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
-                                                                </a>
+                                                            <c:if test="${pd.rukuzhuangtai == 'orderStatus_daidabao' }">
+                                                                <a class="btn btn-xs btn-primary" onclick="ruku('${var.rukubaoguoid}');" title="扫描入库" >
+                                                                    <i class='ace-icon fa fa-eye bigger-120'></i></a>
                                                             </c:if>
                                                         </div>
                                                     </td>
@@ -195,6 +229,16 @@
                 else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
             });
         });
+
+        var rukuzhuangtai = "${pd.rukuzhuangtai}";
+        if(rukuzhuangtai == "orderStatus_daidabao" ){
+            $("#definedTab").removeClass("active");
+            $("#baseTab").addClass("active");
+        }else if (rukuzhuangtai == "orderStatus_yidabao"){
+            $("#baseTab").removeClass("active");
+            $("#definedTab").addClass("active");
+        }
+
     });
 
     //新增
@@ -296,6 +340,29 @@
             }
         });
     };
+
+    function changeTable(auditStatus){
+        $("#nav-search-rukuzhuangtai").val(auditStatus);
+        top.jzts();
+        $("#Form").submit();
+    }
+
+    function ruku(Id){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="";
+        diag.URL = '<%=basePath%>rukubaoguo/goSaoma.do?rukubaoguoid='+Id;
+        diag.Width = 700;
+        diag.Height = 800;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
+            }
+            diag.close();
+        };
+        diag.show();
+    }
 
     //导出excel
     function toExcel(){

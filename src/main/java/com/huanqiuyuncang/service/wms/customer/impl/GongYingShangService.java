@@ -76,12 +76,12 @@ public class GongYingShangService implements GongYingShangInterface {
 
     @Override
     public GongYingShangEntity selectgongyingshangByCode(String code) {
-        return gongYingShangDAO.selectCustomerByCode(code);
+        return gongYingShangDAO.selectGongyingshangByCode(code);
     }
 
     @Override
     public GongYingShangEntity selectgongyingshangByName(String name) {
-        return gongYingShangDAO.selectCustomerByName(name);
+        return gongYingShangDAO.selectGongyingshangByName(name);
     }
 
     @Override

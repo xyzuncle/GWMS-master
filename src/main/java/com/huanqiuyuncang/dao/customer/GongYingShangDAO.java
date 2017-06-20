@@ -29,7 +29,7 @@ public interface GongYingShangDAO {
 
     String selectCodeByLoginName(String loginname);
 
-    GongYingShangEntity selectCustomerByCode(String code);
+    GongYingShangEntity selectGongyingshangByCode(String code);
 
-    GongYingShangEntity selectCustomerByName(String name);
+    GongYingShangEntity selectGongyingshangByName(String name);
 }

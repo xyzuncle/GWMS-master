@@ -31,17 +31,28 @@
                     <div class="col-xs-12">
 
                         <form action="caigoudingdan/${msg }.do" name="Form" id="Form" method="post">
-                            <input type="hidden" name="caigoudingdanid" id="caigoudingdanid" value="${caigoudingdan.caigoudingdanid}"/>
+                            <input type="hidden" name="id" id="id" value="${caigoupd.id}" />
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">采购订单号:</td>
-                                        <td><input type="text" name="caigoudingdanhao" id="caigoudingdanhao" value="${caigoudingdan.caigoudingdanhao}" maxlength="30"  style="width:98%;"/></td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>
+                                        <td><input type="text" name="shangpinhuohao" id="shangpinhuohao" value="${caigoupd.shangpinhuohao}" maxlength="30" style="width:98%;"/></td>
                                     </tr>
-
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">扫描:</td>
-                                        <td><input  type="text" name="saomiao" id="saomiao" maxlength="50"  style="width:98%;"/></td>
+                                        <td style="width:92px;text-align: right;padding-top: 13px;">数量:</td>
+                                        <td><input  type="text" name="shuliang" id="shuliang" value="${caigoupd.shuliang}" maxlength="50" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:92px;text-align: right;padding-top: 13px;">采购价格:</td>
+                                        <td><input type="text" name="caigoujiage" id="caigoujiage"value="${caigoupd.caigoujiage}" maxlength="255" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:92px;text-align: right;padding-top: 13px;">小计:</td>
+                                        <td><input type="text" name="xiaoji" id="xiaoji"value="${caigoupd.xiaoji}" maxlength="255" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:92px;text-align: right;padding-top: 13px;">备注:</td>
+                                        <td><textarea rows="5" cols="10" id="beizhu" name="beizhu" style="width:98%;"  title="备注">${caigoupd.beizhu}</textarea></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
@@ -51,7 +62,6 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
                         </form>
 
                         <div id="zhongxin2" class="center" style="display:none"><img src="static/images/jzx.gif" style="width: 50px;" /><br/><h4 class="lighter block green"></h4></div>
@@ -80,6 +90,7 @@
         $("#zhongxin").hide();
         $("#zhongxin2").show();
     }
+
 </script>
 </body>
 </html>

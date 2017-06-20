@@ -11,7 +11,7 @@ public interface CaiGouDingDanInterface {
 
     int insert(CaiGouDingDanEntity record);
 
-    int insertSelective(CaiGouDingDanEntity record);
+    int insertSelective(CaiGouDingDanEntity record, String token);
 
     CaiGouDingDanEntity selectByPrimaryKey(String caigoudingdanid);
 
@@ -28,4 +28,7 @@ public interface CaiGouDingDanInterface {
     void zuofeiAll(String[] arrayDATA_ids);
 
     PageData saveruku(String caigoudingdanid);
+
+    String saveDingDanFromExcel(List<PageData> caigouList);
+
 }

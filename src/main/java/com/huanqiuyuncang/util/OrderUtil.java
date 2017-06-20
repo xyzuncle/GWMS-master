@@ -28,4 +28,14 @@ public class OrderUtil {
         String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);
         return "P"+ customernum +formatDate+serialnumberStr;
     }
+
+    public static  String getCaiGouNum(String gongyingshangnum) {
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("YYMMdd");
+        String formatDate = format.format(date);
+        Integer serialnumber = Integer.parseInt(PropUtil.getKeyValue("caigouserialnumber"));
+        PropUtil.writeProperties("caigouserialnumber",serialnumber+1+"");
+        String serialnumberStr = String.format("%0" + 5 + "d", serialnumber);
+        return "B"+ gongyingshangnum +formatDate+serialnumberStr;
+    }
 }

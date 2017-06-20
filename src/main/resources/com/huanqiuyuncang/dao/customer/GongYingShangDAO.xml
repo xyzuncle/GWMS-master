@@ -197,14 +197,14 @@
         WHERE loginname =  #{loginname,jdbcType=VARCHAR}
 
     </select>
-    <select id="selectCustomerByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectGongyingshangByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM wms_gongyingshang
         WHERE gongyingshangcode =  #{code,jdbcType=VARCHAR}
 
     </select>
-    <select id="selectCustomerByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectGongyingshangByName" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
         FROM wms_gongyingshang

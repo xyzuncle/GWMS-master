@@ -138,7 +138,6 @@
                     <tr>
                         <td width="60">收件人：</td>
                         <td>
-                            周梦怡 湖北 襄阳市 樊城区 城区人民路20号彩虹城
                             ${order.recipient} ${order.recipientphone} ${order.recipientcity} ${order.recipientarea} ${order.recipientaddress}
                             <br/>
                             ${order.recipientphone}

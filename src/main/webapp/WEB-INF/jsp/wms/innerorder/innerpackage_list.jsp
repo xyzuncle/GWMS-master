@@ -302,7 +302,7 @@
     }
 
     function miandan(Id){
-        top.jzts();
+       /* top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
@@ -316,6 +316,9 @@
             diag.close();
         };
         diag.show();
+*/
+        var url = '<%=basePath%>barcode/getBillInfo.do?innerorderid='+Id;
+        window.open(url,'newwindow');
     }
 
     function changeTable(auditStatus){
