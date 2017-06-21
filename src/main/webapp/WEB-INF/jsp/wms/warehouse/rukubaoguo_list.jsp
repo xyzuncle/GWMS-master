@@ -141,10 +141,7 @@
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
                                                                 </a>
                                                             </c:if>
-                                                            <c:if test="${pd.rukuzhuangtai == 'orderStatus_daidabao' }">
-                                                                <a class="btn btn-xs btn-primary" onclick="ruku('${var.rukubaoguoid}');" title="扫描入库" >
-                                                                    <i class='ace-icon fa fa-eye bigger-120'></i></a>
-                                                            </c:if>
+
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -174,6 +171,10 @@
                                             </c:if>
                                             <c:if test="${QX.del == 1 }">
                                                 <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
+                                            </c:if>
+                                            <c:if test="${pd.rukuzhuangtai == 'orderStatus_daidabao' }">
+                                                <a class="btn btn-xs btn-primary" onclick="ruku();" title="扫描入库" >
+                                                    <i class='ace-icon fa fa-eye bigger-120'></i></a>
                                             </c:if>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>

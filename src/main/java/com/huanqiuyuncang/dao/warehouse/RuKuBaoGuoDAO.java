@@ -20,4 +20,6 @@ public interface RuKuBaoGuoDAO {
     int updateByPrimaryKey(RuKuBaoGuoEntity record);
 
     List<RuKuBaoGuoEntity> datalistPage(Page page);
+
+    RuKuBaoGuoEntity selectByDanHao(String danhao);
 }

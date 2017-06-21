@@ -329,11 +329,21 @@ public class CaiGouDingDanController  extends BaseController {
         PageData pd = this.getPageData();
         String caigoudingdanid = pd.getString("caigoudingdanid");
         String[] arr = this.getRequest().getParameterValues("shangpinhuohao");
-        PageData ruku = caiGouDingDanService.saveruku(caigoudingdanid,arr);
+        String[] shuliangarr = this.getRequest().getParameterValues("shuliang");
+        Map<String,String> huohaoshuliang = makehuohaoshuliang(arr,shuliangarr);
+        PageData ruku = caiGouDingDanService.saveruku(caigoudingdanid,huohaoshuliang);
         mv.addObject("msg",ruku.getString("msg"));
         mv.addObject("resturt",ruku.getString("resturt"));
         mv.setViewName("save_result");
         return mv;
+    }
+
+    private Map<String,String> makehuohaoshuliang(String[] arr, String[] shuliangarr) {
+        Map<String,String> map = new HashMap<>();
+        for (int i = 0 ;i <arr.length ;i++){
+            map.put(arr[i],shuliangarr[i]);
+        }
+        return  map;
     }
 
     @RequestMapping(value="/pdlist")

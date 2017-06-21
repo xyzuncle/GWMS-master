@@ -104,15 +104,12 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>-->
-        <table tableName="wms_gongyingshang" domainObjectName="GongYingShangEntity"
+
+        <table tableName="wms_caigoushangpin" domainObjectName="CaiGouShangPinEntity"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
-        <table tableName="wms_caigoudingdan" domainObjectName="CaiGouDingDanEntity"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+
     </context>
 </generatorConfiguration>

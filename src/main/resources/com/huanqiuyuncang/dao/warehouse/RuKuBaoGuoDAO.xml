@@ -159,4 +159,12 @@
             and rukuzhuangtai LIKE  "%"#{pd.rukuzhuangtai,jdbcType=VARCHAR}"%"
         </if>
     </select>
+
+    <select id="selectByDanHao" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_rukubaoguo
+        where baoguodanhao = #{danhao,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

@@ -77,49 +77,24 @@ public class RuKuBaoGuoController extends BaseController {
         String rukubaoguoid = pd.getString("rukubaoguoid");
         RuKuBaoGuoEntity ruKuBaoGuoEntity = ruKuBaoGuoService.selectByPrimaryKey(rukubaoguoid);//根据ID读取
         mv.setViewName("wms/warehouse/baoguo_saoma");
-        mv.addObject("msg", "updatecangku");
+        mv.addObject("msg", "ruku");
         mv.addObject("rukubaoguo", ruKuBaoGuoEntity);
         mv.addObject("pd", pd);
         return mv;
     }
 
 
-    @RequestMapping(value="/updatecangku")
-    public ModelAndView updatecangku() throws Exception{
+    @RequestMapping(value="/ruku")
+    public ModelAndView ruku() throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
-        String saomiaobaoguo = pd.getString("saomiaobaoguo");
-        String saomiaocangwei = pd.getString("saomiaocangwei");
-        String rukubaoguoid = pd.getString("rukubaoguoid");
-        RuKuBaoGuoEntity ruKuBaoGuoEntity = ruKuBaoGuoService.selectByPrimaryKey(rukubaoguoid);//根据ID读取
-        if(saomiaobaoguo.equals(ruKuBaoGuoEntity.getBaoguodanhao())){
-            ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_yidabao");
-            String cangwei = ruKuBaoGuoEntity.getCangwei();
-            cangwei =  StringUtils.isBlank(cangwei)?saomiaocangwei:cangwei;
-            PackageWarehouseEntity packageWarehouse = packageWarehouseService.selectByRuKuBaoGuo(ruKuBaoGuoEntity);
-            if(packageWarehouse == null){
-                PackageWarehouseEntity packageW = new PackageWarehouseEntity();
-                packageW.setPackagewarehouseid(this.get32UUID());
-                packageW.setCangwei(cangwei);
-                packageW.setUpdatetime(date);
-                packageW.setUpdateuser(username);
-                packageW.setCreatetime(date);
-                packageW.setCreateuser(username);
-                packageW.setShuliang("1");
-                packageWarehouseService.insert(packageW);
-            }else {
-                Integer sum = Integer.parseInt(packageWarehouse.getShuliang());
-                sum = sum+1;
-                packageWarehouse.setShuliang(Integer.toString(sum));
-                packageWarehouseService.updateByPrimaryKeySelective(packageWarehouse);
-            }
-            mv.addObject("msg","success");
-        }else{
-            mv.addObject("msg","error");
-        }
-
+        String[] arr = this.getRequest().getParameterValues("baoguodanhao");
+        List<String> danhaoList = Arrays.asList(arr);
+        Set set = new HashSet<>(danhaoList);
+        danhaoList = new ArrayList<>(set);
+        PageData result  = ruKuBaoGuoService.ruku(danhaoList);
         mv.setViewName("save_result");
         return mv;
     }

@@ -3,6 +3,7 @@ package com.huanqiuyuncang.service.wms.warehouse;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface RuKuBaoGuoInterface {
     List<RuKuBaoGuoEntity> datalistPage(Page page);
 
     void deleteAll(String[] arrayDATA_ids);
+
+    PageData ruku(List<String> danhaoList);
 }

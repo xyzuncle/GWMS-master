@@ -1,8 +1,11 @@
 package com.huanqiuyuncang.test.demo;
 
 
+import com.huanqiuyuncang.dao.checktable.CheckTableDAO;
 import com.huanqiuyuncang.entity.demo.TestUser;
 import com.huanqiuyuncang.service.demo.TestUserManager;
+import com.huanqiuyuncang.service.system.checktable.impl.CheckTableService;
+import com.huanqiuyuncang.util.PageData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,10 @@ import java.util.stream.Collectors;
 public class TestUserClass {
     @Autowired
     private TestUserManager testUserService;
+
+    @Autowired
+    private CheckTableDAO checkTableDAO;
+
     @Test
     public void testSave()throws Exception{
         TestUser testUser = new TestUser();
@@ -112,5 +119,17 @@ public class TestUserClass {
         list.forEach(user -> System.out.println(user.toString()+"================"));
 
     }
+
+
+    @Test
+    public void testCheckTable(){
+        PageData pd = new PageData();
+        pd.put("chcektablename","wms_product");
+        pd.put("checkfield","productNum");
+        pd.put("fieldvalue","11");
+        Integer count = checkTableDAO.selectByTableNameAndField(pd);
+        System.out.println("******************   "+count+"  ************************************");
+    }
+
 
 }

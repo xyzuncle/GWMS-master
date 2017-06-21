@@ -135,7 +135,7 @@
         where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectProductNumByDingDanId" resultMap="java.lang.String" parameterType="java.lang.String" >
+    <select id="selectProductNumByDingDanId" resultType="java.lang.String" parameterType="java.lang.String" >
         select
         shangpinhuohao
         from wms_caigoushangpin

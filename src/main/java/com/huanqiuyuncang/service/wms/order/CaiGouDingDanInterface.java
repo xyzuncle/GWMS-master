@@ -5,6 +5,7 @@ import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
 import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CaiGouDingDanInterface {
     int deleteByPrimaryKey(String caigoudingdanid);
@@ -27,7 +28,7 @@ public interface CaiGouDingDanInterface {
 
     void zuofeiAll(String[] arrayDATA_ids);
 
-    PageData saveruku(String caigoudingdanid, String[] huohaoArr);
+    PageData saveruku(String caigoudingdanid,  Map<String,String> huohaoArr);
 
     String saveDingDanFromExcel(List<PageData> caigouList);
 

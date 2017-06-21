@@ -1,13 +1,18 @@
 package com.huanqiuyuncang.service.wms.warehouse.impl;
 
+import com.huanqiuyuncang.dao.warehouse.PackageWarehouseDAO;
 import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
-import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
+import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity;
 import com.huanqiuyuncang.service.wms.warehouse.RuKuBaoGuoInterface;
+import com.huanqiuyuncang.util.Jurisdiction;
+import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +22,9 @@ import java.util.List;
 public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
     @Autowired
     private RuKuBaoGuoDAO ruKuBaoGuoDAO;
+
+    @Autowired
+    private PackageWarehouseDAO packageWarehouseDAO;
     @Override
     public int deleteByPrimaryKey(String rukubaoguoid) {
         return ruKuBaoGuoDAO.deleteByPrimaryKey(rukubaoguoid);
@@ -57,5 +65,45 @@ public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
         for(int i = 0;i<arrayDATA_ids.length;i++){
             ruKuBaoGuoDAO.deleteByPrimaryKey(arrayDATA_ids[i]);
         }
+    }
+
+    @Override
+    public PageData ruku(List<String> danhaoList) {
+        for (String  danhao: danhaoList) {
+            RuKuBaoGuoEntity ruKuBaoGuoEntity = ruKuBaoGuoDAO.selectByDanHao(danhao);
+            if(ruKuBaoGuoEntity != null){
+                String username = Jurisdiction.getUsername();
+                Date date = new Date();
+                ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_yidabao");
+                String cangwei = ruKuBaoGuoEntity.getCangwei();
+                PackageWarehouseEntity packageWarehouse = packageWarehouseDAO.selectByRuKuBaoGuo(ruKuBaoGuoEntity);
+                if(packageWarehouse == null){
+                    createPackageWarehouse(username, date, cangwei);
+                }else {
+                    updatePackageWarehouse(packageWarehouse);
+                }
+                ruKuBaoGuoDAO.updateByPrimaryKeySelective(ruKuBaoGuoEntity);
+            }
+        }
+        return null;
+    }
+
+    private void updatePackageWarehouse(PackageWarehouseEntity packageWarehouse) {
+        Integer sum = Integer.parseInt(packageWarehouse.getShuliang());
+        sum = sum+1;
+        packageWarehouse.setShuliang(Integer.toString(sum));
+        packageWarehouseDAO.updateByPrimaryKeySelective(packageWarehouse);
+    }
+
+    private void createPackageWarehouse(String username, Date date, String cangwei) {
+        PackageWarehouseEntity packageW = new PackageWarehouseEntity();
+        packageW.setPackagewarehouseid(UuidUtil.get32UUID());
+        packageW.setCangwei(cangwei);
+        packageW.setUpdatetime(date);
+        packageW.setUpdateuser(username);
+        packageW.setCreatetime(date);
+        packageW.setCreateuser(username);
+        packageW.setShuliang("1");
+        packageWarehouseDAO.insert(packageW);
     }
 }
