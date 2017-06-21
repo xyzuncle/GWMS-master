@@ -1,5 +1,6 @@
 package com.huanqiuyuncang.entity.order;
 
+
 public class CaiGouShangPinEntity {
     private String id;
 
@@ -15,7 +16,9 @@ public class CaiGouShangPinEntity {
 
     private String beizhu;
 
-    public CaiGouShangPinEntity(String id, String caigoudingdanid, String shangpinhuohao, String shuliang, String caigoujiage, String xiaoji, String beizhu) {
+    private String saomastatus;
+
+    public CaiGouShangPinEntity(String id, String caigoudingdanid, String shangpinhuohao, String shuliang, String caigoujiage, String xiaoji, String beizhu, String saomastatus) {
         this.id = id;
         this.caigoudingdanid = caigoudingdanid;
         this.shangpinhuohao = shangpinhuohao;
@@ -23,6 +26,7 @@ public class CaiGouShangPinEntity {
         this.caigoujiage = caigoujiage;
         this.xiaoji = xiaoji;
         this.beizhu = beizhu;
+        this.saomastatus = saomastatus;
     }
 
     public CaiGouShangPinEntity() {
@@ -83,5 +87,13 @@ public class CaiGouShangPinEntity {
 
     public void setBeizhu(String beizhu) {
         this.beizhu = beizhu == null ? null : beizhu.trim();
+    }
+
+    public String getSaomastatus() {
+        return saomastatus;
+    }
+
+    public void setSaomastatus(String saomastatus) {
+        this.saomastatus = saomastatus == null ? null : saomastatus.trim();
     }
 }

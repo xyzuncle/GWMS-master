@@ -35,13 +35,22 @@
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">采购订单号:</td>
-                                        <td><input type="text" name="caigoudingdanhao" id="caigoudingdanhao" value="${caigoudingdan.caigoudingdanhao}" maxlength="30"  style="width:98%;"/></td>
+                                        <td style="width:88px;text-align: right;padding-top: 13px;">采购订单号:</td>
+                                        <td><input readonly type="text" name="caigoudingdanhao" id="caigoudingdanhao" value="${caigoudingdan.caigoudingdanhao}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
-
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">扫描:</td>
-                                        <td><input  type="text" name="saomiao" id="saomiao" maxlength="50"  style="width:98%;"/></td>
+                                        <td colspan="2" style="text-align: center;">扫描商品</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <table id="saomiao" class="table ">
+                                                <tr>
+                                                    <td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>
+                                                    <td><input type="text" name="shangpinhuohao"   maxlength="30"  style="width:98%;"/></td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
@@ -75,6 +84,15 @@
 <script type="text/javascript">
     $(top.hangge());
     //保存
+
+    $("input:last").focus();
+    $(document).keydown(function (event) {
+        if(13 == event.keyCode){
+            $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td> <td><input type="text" name="shangpinhuohao"  maxlength="30"  style="width:98%;"/></td> </tr>');
+            $("input:last").focus();
+        }
+    });
+
     function save(){
         $("#Form").submit();
         $("#zhongxin").hide();

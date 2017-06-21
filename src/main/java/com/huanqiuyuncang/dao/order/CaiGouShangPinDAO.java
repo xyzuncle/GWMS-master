@@ -18,4 +18,6 @@ public interface CaiGouShangPinDAO {
     int updateByPrimaryKey(CaiGouShangPinEntity record);
 
     List<CaiGouShangPinEntity> selectByCaiGouDingDanId(String caigoudingdanid);
+
+    List<String> selectProductNumByDingDanId(String caigoudingdanid);
 }

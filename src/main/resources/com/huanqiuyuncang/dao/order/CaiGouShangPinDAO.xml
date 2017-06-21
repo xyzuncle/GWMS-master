@@ -1,119 +1,130 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.huanqiuyuncang.dao.order.CaiGouShangPinDAO" >
-  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
-    <constructor >
-      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="caigoudingdanid" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="shangpinhuohao" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="shuliang" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="caigoujiage" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="xiaoji" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, caigoudingdanid, shangpinhuohao, shuliang, caigoujiage, xiaoji, beizhu
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from wms_caigoushangpin
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from wms_caigoushangpin
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
-    insert into wms_caigoushangpin (id, caigoudingdanid, shangpinhuohao, 
-      shuliang, caigoujiage, xiaoji, 
-      beizhu)
-    values (#{id,jdbcType=VARCHAR}, #{caigoudingdanid,jdbcType=VARCHAR}, #{shangpinhuohao,jdbcType=VARCHAR}, 
-      #{shuliang,jdbcType=VARCHAR}, #{caigoujiage,jdbcType=VARCHAR}, #{xiaoji,jdbcType=VARCHAR}, 
-      #{beizhu,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
-    insert into wms_caigoushangpin
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="caigoudingdanid != null" >
-        caigoudingdanid,
-      </if>
-      <if test="shangpinhuohao != null" >
-        shangpinhuohao,
-      </if>
-      <if test="shuliang != null" >
-        shuliang,
-      </if>
-      <if test="caigoujiage != null" >
-        caigoujiage,
-      </if>
-      <if test="xiaoji != null" >
-        xiaoji,
-      </if>
-      <if test="beizhu != null" >
-        beizhu,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoudingdanid != null" >
-        #{caigoudingdanid,jdbcType=VARCHAR},
-      </if>
-      <if test="shangpinhuohao != null" >
-        #{shangpinhuohao,jdbcType=VARCHAR},
-      </if>
-      <if test="shuliang != null" >
-        #{shuliang,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoujiage != null" >
-        #{caigoujiage,jdbcType=VARCHAR},
-      </if>
-      <if test="xiaoji != null" >
-        #{xiaoji,jdbcType=VARCHAR},
-      </if>
-      <if test="beizhu != null" >
-        #{beizhu,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
-    update wms_caigoushangpin
-    <set >
-      <if test="caigoudingdanid != null" >
-        caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR},
-      </if>
-      <if test="shangpinhuohao != null" >
-        shangpinhuohao = #{shangpinhuohao,jdbcType=VARCHAR},
-      </if>
-      <if test="shuliang != null" >
-        shuliang = #{shuliang,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoujiage != null" >
-        caigoujiage = #{caigoujiage,jdbcType=VARCHAR},
-      </if>
-      <if test="xiaoji != null" >
-        xiaoji = #{xiaoji,jdbcType=VARCHAR},
-      </if>
-      <if test="beizhu != null" >
-        beizhu = #{beizhu,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
+        <constructor >
+            <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="caigoudingdanid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="shangpinhuohao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="shuliang" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="caigoujiage" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="xiaoji" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="saomastatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, caigoudingdanid, shangpinhuohao, shuliang, caigoujiage, xiaoji, beizhu, saomastatus
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_caigoushangpin
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_caigoushangpin
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
+        insert into wms_caigoushangpin (id, caigoudingdanid, shangpinhuohao,
+        shuliang, caigoujiage, xiaoji,
+        beizhu, saomastatus)
+        values (#{id,jdbcType=VARCHAR}, #{caigoudingdanid,jdbcType=VARCHAR}, #{shangpinhuohao,jdbcType=VARCHAR},
+        #{shuliang,jdbcType=VARCHAR}, #{caigoujiage,jdbcType=VARCHAR}, #{xiaoji,jdbcType=VARCHAR},
+        #{beizhu,jdbcType=VARCHAR}, #{saomastatus,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
+        insert into wms_caigoushangpin
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="caigoudingdanid != null" >
+                caigoudingdanid,
+            </if>
+            <if test="shangpinhuohao != null" >
+                shangpinhuohao,
+            </if>
+            <if test="shuliang != null" >
+                shuliang,
+            </if>
+            <if test="caigoujiage != null" >
+                caigoujiage,
+            </if>
+            <if test="xiaoji != null" >
+                xiaoji,
+            </if>
+            <if test="beizhu != null" >
+                beizhu,
+            </if>
+            <if test="saomastatus != null" >
+                saomastatus,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoudingdanid != null" >
+                #{caigoudingdanid,jdbcType=VARCHAR},
+            </if>
+            <if test="shangpinhuohao != null" >
+                #{shangpinhuohao,jdbcType=VARCHAR},
+            </if>
+            <if test="shuliang != null" >
+                #{shuliang,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoujiage != null" >
+                #{caigoujiage,jdbcType=VARCHAR},
+            </if>
+            <if test="xiaoji != null" >
+                #{xiaoji,jdbcType=VARCHAR},
+            </if>
+            <if test="beizhu != null" >
+                #{beizhu,jdbcType=VARCHAR},
+            </if>
+            <if test="saomastatus != null" >
+                #{saomastatus,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
+        update wms_caigoushangpin
+        <set >
+            <if test="caigoudingdanid != null" >
+                caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR},
+            </if>
+            <if test="shangpinhuohao != null" >
+                shangpinhuohao = #{shangpinhuohao,jdbcType=VARCHAR},
+            </if>
+            <if test="shuliang != null" >
+                shuliang = #{shuliang,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoujiage != null" >
+                caigoujiage = #{caigoujiage,jdbcType=VARCHAR},
+            </if>
+            <if test="xiaoji != null" >
+                xiaoji = #{xiaoji,jdbcType=VARCHAR},
+            </if>
+            <if test="beizhu != null" >
+                beizhu = #{beizhu,jdbcType=VARCHAR},
+            </if>
+            <if test="saomastatus != null" >
+                saomastatus = #{saomastatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.CaiGouShangPinEntity" >
     update wms_caigoushangpin
     set caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR},
       shangpinhuohao = #{shangpinhuohao,jdbcType=VARCHAR},
       shuliang = #{shuliang,jdbcType=VARCHAR},
       caigoujiage = #{caigoujiage,jdbcType=VARCHAR},
       xiaoji = #{xiaoji,jdbcType=VARCHAR},
-      beizhu = #{beizhu,jdbcType=VARCHAR}
+      beizhu = #{beizhu,jdbcType=VARCHAR},
+      saomastatus = #{saomastatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
@@ -124,6 +135,11 @@
         where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
     </select>
 
-
+    <select id="selectProductNumByDingDanId" resultMap="java.lang.String" parameterType="java.lang.String" >
+        select
+        shangpinhuohao
+        from wms_caigoushangpin
+        where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

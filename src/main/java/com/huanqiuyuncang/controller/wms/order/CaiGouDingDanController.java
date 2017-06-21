@@ -328,7 +328,8 @@ public class CaiGouDingDanController  extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String caigoudingdanid = pd.getString("caigoudingdanid");
-        PageData ruku = caiGouDingDanService.saveruku(caigoudingdanid);
+        String[] arr = this.getRequest().getParameterValues("shangpinhuohao");
+        PageData ruku = caiGouDingDanService.saveruku(caigoudingdanid,arr);
         mv.addObject("msg",ruku.getString("msg"));
         mv.addObject("resturt",ruku.getString("resturt"));
         mv.setViewName("save_result");
@@ -383,6 +384,7 @@ public class CaiGouDingDanController  extends BaseController {
         String token = (String)this.getRequest().getSession().getAttribute("token");
         caiGouShangPinEntity.setCaigoudingdanid(token);
         caiGouShangPinEntity.setId(this.get32UUID());
+        caiGouShangPinEntity.setSaomastatus("0");
         caiGouShangPinService.insert(caiGouShangPinEntity);
         mv.setViewName("save_result");
         mv.addObject("msg","success");

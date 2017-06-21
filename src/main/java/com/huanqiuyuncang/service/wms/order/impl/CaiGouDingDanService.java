@@ -22,9 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lzf on 2017/5/30.
@@ -121,54 +119,85 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     }
 
     @Override
-    public PageData saveruku(String caigoudingdanid) {
+    public PageData saveruku(String caigoudingdanid, String[] huohaoArr) {
         PageData pd = new PageData();
         CaiGouDingDanEntity caiGouDingDan = caiGouDingDanDAO.selectByPrimaryKey(caigoudingdanid);
+        Boolean falg = true;
+        PageData args = new PageData();
+        if(huohaoArr != null && huohaoArr .length>0){
+            List<String> huohaoList = Arrays.asList(huohaoArr);
+            Set set = new  HashSet(huohaoList);
+            huohaoList = new ArrayList<>(set);
+            List<CaiGouShangPinEntity> shangpinList = caiGouShangPinDAO.selectByCaiGouDingDanId(caigoudingdanid);
+            for (CaiGouShangPinEntity shangpin: shangpinList) {
+                String saomiaostatus = shangpin.getShangpinhuohao();
+                if(huohaoList.contains(saomiaostatus) &&"0".equals(saomiaostatus)){
+                    args.put("neibuhuohao",shangpin.getShangpinhuohao());
+                    args.put("kehubianhao",caiGouDingDan.getKehubianhao());
+                    ProductWarehouseEntity productWarehouse = productWarehouseDAO.selectByPd(args);
+                    if(productWarehouse == null){
+                        createProductWarehouse(caiGouDingDan);
+                        saomiaostatus = "1";
+                    }else{
+                        if("1".equals(productWarehouse.getSuokustatus())){
+                            falg = false;
+                            saomiaostatus = "0";
+                        }else{
+                            updateProductWarehouse(caiGouDingDan, productWarehouse);
+                            saomiaostatus = "1";
+                        }
+                    }
+                }
+                shangpin.setSaomastatus(saomiaostatus);
+                caiGouShangPinDAO.updateByPrimaryKeySelective(shangpin);
+            }
+            if(falg && shangpinList.size() == huohaoList.size()){
+                updateCaiGouDingDanStatus(caiGouDingDan);
+                pd.put("msg","success");
+                pd.put("msg","ok");
+            }else{
+                pd.put("msg","error");
+                pd.put("msg","有未扫描的商品或该商品库存处于盘点状态");
+            }
+        }
+        return pd;
+    }
+
+    private void updateCaiGouDingDanStatus(CaiGouDingDanEntity caiGouDingDan) {
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         caiGouDingDan.setUpdatetime(date);
         caiGouDingDan.setUpdateuser(username);
         caiGouDingDan.setCaigoudingdanstatus("caigouStatus_yiruku");
         caiGouDingDanDAO.updateByPrimaryKeySelective(caiGouDingDan);
-        PageData args = new PageData();
-        args.put("neibuhuohao",caiGouDingDan.getShangpinhuohao());
-        args.put("kehubianhao",caiGouDingDan.getKehubianhao());
-        ProductWarehouseEntity productWarehouse = productWarehouseDAO.selectByPd(args);
-        if(productWarehouse == null){
-            productWarehouse = new ProductWarehouseEntity();
-            productWarehouse.setProductwarehouseid(UuidUtil.get32UUID());
-            productWarehouse.setShuliang(caiGouDingDan.getShuliang());
-            ProductEntity productByProductNum = productDAO.findProductByProductNum(caiGouDingDan.getShangpinhuohao());
-            CustomerEntity customerEntity = customerDAO.selectCustomerByCode(caiGouDingDan.getKehubianhao());
-            productWarehouse.setCangwei(customerEntity.getDefaultwarehouse());
-            productWarehouse.setShangpintiaoma(productByProductNum.getBarcodeMain());
-            productWarehouse.setCreatetime(date);
-            productWarehouse.setCreateuser(username);
-            productWarehouse.setUpdatetime(date);
-            productWarehouse.setUpdateuser(username);
-            productWarehouse.setKehubianhao(caiGouDingDan.getKehubianhao());
-            productWarehouse.setNeibuhuohao(caiGouDingDan.getShangpinhuohao());
-            productWarehouseDAO.insertSelective(productWarehouse);
-            pd.put("msg","success");
-            pd.put("resturt","OK");
-        }else{
-            if("1".equals(productWarehouse.getSuokustatus())){
-                pd.put("msg","error");
-                pd.put("resturt","仓库处于盘点状态，不能进行进出库操作。");
-            }else{
-                String shuliang = productWarehouse.getShuliang();
-                Integer sum =Integer.parseInt(shuliang);
-                sum = sum + Integer.parseInt(caiGouDingDan.getShuliang());
-                productWarehouse.setShuliang(Integer.toString(sum));
-                productWarehouseDAO.updateByPrimaryKeySelective(productWarehouse);
-                pd.put("msg","success");
-                pd.put("resturt","OK");
-            }
+    }
 
-        }
+    private void updateProductWarehouse(CaiGouDingDanEntity caiGouDingDan, ProductWarehouseEntity productWarehouse) {
+        String shuliang = productWarehouse.getShuliang();
+        Integer sum =Integer.parseInt(shuliang);
+        sum = sum + Integer.parseInt(caiGouDingDan.getShuliang());
+        productWarehouse.setShuliang(Integer.toString(sum));
+        productWarehouseDAO.updateByPrimaryKeySelective(productWarehouse);
+    }
 
-
-        return pd;
+    private void createProductWarehouse(CaiGouDingDanEntity caiGouDingDan) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        ProductWarehouseEntity productWarehouse;
+        productWarehouse = new ProductWarehouseEntity();
+        productWarehouse.setProductwarehouseid(UuidUtil.get32UUID());
+        productWarehouse.setShuliang(caiGouDingDan.getShuliang());
+        ProductEntity productByProductNum = productDAO.findProductByProductNum(caiGouDingDan.getShangpinhuohao());
+        CustomerEntity customerEntity = customerDAO.selectCustomerByCode(caiGouDingDan.getKehubianhao());
+        productWarehouse.setCangwei(customerEntity.getDefaultwarehouse());
+        productWarehouse.setShangpintiaoma(productByProductNum.getBarcodeMain());
+        productWarehouse.setCreatetime(date);
+        productWarehouse.setCreateuser(username);
+        productWarehouse.setUpdatetime(date);
+        productWarehouse.setUpdateuser(username);
+        productWarehouse.setKehubianhao(caiGouDingDan.getKehubianhao());
+        productWarehouse.setNeibuhuohao(caiGouDingDan.getShangpinhuohao());
+        productWarehouseDAO.insertSelective(productWarehouse);
     }
 
     @Override
@@ -235,6 +264,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
             dingdan.setUpdatetime(date);
             caiGouDingDanDAO.insertSelective(dingdan);
             for (CaiGouShangPinEntity c:caigoushangpinList) {
+                c.setSaomastatus("0");
                 caiGouShangPinDAO.insertSelective(c);
             }
             return "";

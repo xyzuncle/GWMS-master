@@ -27,7 +27,7 @@ public interface CaiGouDingDanInterface {
 
     void zuofeiAll(String[] arrayDATA_ids);
 
-    PageData saveruku(String caigoudingdanid);
+    PageData saveruku(String caigoudingdanid, String[] huohaoArr);
 
     String saveDingDanFromExcel(List<PageData> caigouList);
 
