@@ -12,7 +12,7 @@
             <arg column="shangpintiaoma" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="shuliang" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
-            <arg column="rukuzhuangtai" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="chukuzhuangtai" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
             <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -21,7 +21,7 @@
     </resultMap>
     <sql id="Base_Column_List" >
         chukushangpinid, baoguodanhao, kehudingdanhao, waibudingdanhao, kehubianhao, neibuhuohao,
-        shangpintiaoma, shuliang, cangwei, rukuzhuangtai, createuser, createtime, updateuser,
+        shangpintiaoma, shuliang, cangwei, chukuzhuangtai, createuser, createtime, updateuser,
         updatetime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -38,12 +38,12 @@
         insert into wms_chukushangpin (chukushangpinid, baoguodanhao, kehudingdanhao,
         waibudingdanhao, kehubianhao, neibuhuohao,
         shangpintiaoma, shuliang, cangwei,
-        rukuzhuangtai, createuser, createtime,
+        chukuzhuangtai, createuser, createtime,
         updateuser, updatetime)
         values (#{chukushangpinid,jdbcType=VARCHAR}, #{baoguodanhao,jdbcType=VARCHAR}, #{kehudingdanhao,jdbcType=VARCHAR},
         #{waibudingdanhao,jdbcType=VARCHAR}, #{kehubianhao,jdbcType=VARCHAR}, #{neibuhuohao,jdbcType=VARCHAR},
         #{shangpintiaoma,jdbcType=VARCHAR}, #{shuliang,jdbcType=VARCHAR}, #{cangwei,jdbcType=VARCHAR},
-        #{rukuzhuangtai,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+        #{chukuzhuangtai,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
         #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
@@ -76,8 +76,8 @@
             <if test="cangwei != null" >
                 cangwei,
             </if>
-            <if test="rukuzhuangtai != null" >
-                rukuzhuangtai,
+            <if test="chukuzhuangtai != null" >
+                chukuzhuangtai,
             </if>
             <if test="createuser != null" >
                 createuser,
@@ -120,8 +120,8 @@
             <if test="cangwei != null" >
                 #{cangwei,jdbcType=VARCHAR},
             </if>
-            <if test="rukuzhuangtai != null" >
-                #{rukuzhuangtai,jdbcType=VARCHAR},
+            <if test="chukuzhuangtai != null" >
+                #{chukuzhuangtai,jdbcType=VARCHAR},
             </if>
             <if test="createuser != null" >
                 #{createuser,jdbcType=VARCHAR},
@@ -164,8 +164,8 @@
             <if test="cangwei != null" >
                 cangwei = #{cangwei,jdbcType=VARCHAR},
             </if>
-            <if test="rukuzhuangtai != null" >
-                rukuzhuangtai = #{rukuzhuangtai,jdbcType=VARCHAR},
+            <if test="chukuzhuangtai != null" >
+                chukuzhuangtai = #{chukuzhuangtai,jdbcType=VARCHAR},
             </if>
             <if test="createuser != null" >
                 createuser = #{createuser,jdbcType=VARCHAR},
@@ -192,7 +192,7 @@
       shangpintiaoma = #{shangpintiaoma,jdbcType=VARCHAR},
       shuliang = #{shuliang,jdbcType=VARCHAR},
       cangwei = #{cangwei,jdbcType=VARCHAR},
-      rukuzhuangtai = #{rukuzhuangtai,jdbcType=VARCHAR},
+      chukuzhuangtai = #{chukuzhuangtai,jdbcType=VARCHAR},
       createuser = #{createuser,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       updateuser = #{updateuser,jdbcType=VARCHAR},
@@ -222,5 +222,18 @@
       <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
           and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
       </if>
+      <if test="pd.chukuzhuangtai!= null and pd.chukuzhuangtai != ''"><!-- 商品名称 -->
+          and chukuzhuangtai LIKE  "%"#{pd.chukuzhuangtai,jdbcType=VARCHAR}"%"
+      </if>
   </select>
+
+    <select id="selectByDingDanHaoAndHuoHao" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_chukushangpin
+        where 1=1
+        and kehudingdanhao LIKE  "%"#{dingdanhao,jdbcType=VARCHAR}"%"
+        and neibuhuohao LIKE  "%"#{huohao,jdbcType=VARCHAR}"%"
+    </select>
+
 </mapper>

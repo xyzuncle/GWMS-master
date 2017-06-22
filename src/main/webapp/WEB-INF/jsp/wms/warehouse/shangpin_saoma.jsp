@@ -31,24 +31,23 @@
                     <div class="col-xs-12">
 
                         <form action="chukushangpin/${msg }.do" name="Form" id="Form" method="post">
-                            <input type="hidden" name="chukushangpinid" id="chukushangpinid" value="${chukushangpin.chukushangpinid}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">仓位:</td>
-                                        <td><input type="text" name="cangwei" id="cangwei" value="${chukushangpin.cangwei}" maxlength="30" style="width:98%;"/></td>
+                                        <td colspan="2" style="text-align: center;">扫描货号:</td>
                                     </tr>
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>
-                                        <td><input type="text" name="shangpintiaoma" id="shangpintiaoma" value="${chukushangpin.shangpintiaoma}" maxlength="30"  style="width:98%;"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">扫码商品条码:</td>
-                                        <td><input  type="text" name="saomiaotiaoma" id="saomiaotiaoma"  maxlength="50" style="width:98%;"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">扫码仓位:</td>
-                                        <td><input type="text" name="saomiaocangwei" id="saomiaocangwei" maxlength="255"  style="width:98%;"/></td>
+                                        <td colspan="2">
+                                            <table id="saomiao" class="table ">
+                                                <tr>
+                                                    <td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>
+                                                    <td><input type="text" class="huohao" name="shangpinhuohao"   maxlength="30"  style="width:98%;"/></td>
+                                                    <td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>
+                                                    <td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
@@ -79,6 +78,16 @@
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
     $(top.hangge());
+    $("input.huohao:last").focus();
+    $(document).keydown(function (event) {
+        if(13 == event.keyCode){
+            $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>' +
+                    ' <td><input type="text" class="huohao"  name="shangpinhuohao"  maxlength="30"  style="width:98%;"/>' +
+                    '</td><td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>' +
+                    '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> </tr>');
+            $("input.huohao:last").focus();
+        }
+    });
     //保存
     function save(){
         $("#Form").submit();

@@ -85,7 +85,10 @@ public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
                 ruKuBaoGuoDAO.updateByPrimaryKeySelective(ruKuBaoGuoEntity);
             }
         }
-        return null;
+        PageData pd = new PageData();
+        pd.put("msg","success");
+        pd.put("resturt","ok");
+        return pd;
     }
 
     private void updatePackageWarehouse(PackageWarehouseEntity packageWarehouse) {

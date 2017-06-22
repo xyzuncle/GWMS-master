@@ -19,4 +19,6 @@ public interface ChuKuShangPinDAO {
     int updateByPrimaryKey(ChuKuShangPinEntity record);
 
     List<ChuKuShangPinEntity> datalistPage(Page page);
+
+    ChuKuShangPinEntity selectByDingDanHaoAndHuoHao(String dingdanhao, String huohao);
 }

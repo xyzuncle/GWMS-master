@@ -36,17 +36,11 @@
                     <div class="col-xs-12">
                         <!-- 检索  -->
                         <form action="chukushangpin/list.do" method="post" name="Form" id="Form">
+                            <input type="hidden" id="nav-search-chukuzhuangtai" name="chukuzhuangtai" value="${pd.chukuzhuangtai }" >
                             <table style="margin-top:5px;">
                                 <tr>
                                     <td>
                                         <div class="nav-search">
-                                            <span class="input-icon">
-											    包裹单号：
-										    </span>
-										    <span class="input-icon">
-											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
-                                                       id="nav-search-baoguodanhao" autocomplete="off" name="baoguodanhao" value="${pd.baoguodanhao }" placeholder="这里输入关键词"/>
-										    </span>
                                              <span class="input-icon">
 											    客户订单号：
 										    </span>
@@ -61,15 +55,9 @@
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
                                                        id="nav-search-waibudingdanhao" autocomplete="off" name="waibudingdanhao" value="${pd.waibudingdanhao }" placeholder="这里输入关键词"/>
 										    </span>
+
                                             <span class="input-icon">
-											    内部货号：
-										    </span>
-										    <span class="input-icon">
-											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
-                                                       id="nav-search-neibuhuohao" autocomplete="off" name="neibuhuohao" value="${pd.neibuhuohao }" placeholder="这里输入关键词"/>
-										    </span>
-                                            <span class="input-icon">
-											    商品条码：
+											    货号/条码：
 										    </span>
 										    <span class="input-icon">
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
@@ -89,6 +77,39 @@
                                     </c:if>
                                 </tr>
                             </table>
+
+                            <div class="col-sm-12 widget-container-col">
+                                <div class="widget-box transparent">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title lighter">出库商品</h4>
+                                        <div class="widget-toolbar no-border">
+                                            <ul class="nav nav-tabs" id="myTab2">
+
+                                                <li id="baseTab">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('daichuku')">待打包/入库</a>
+                                                </li>
+                                                <li  id="definedTab">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('yichuku')">已打包/存库</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main padding-12 no-padding-left no-padding-right">
+                                            <div class="tab-content padding-4">
+                                                <div id="base" class="tab-pane in active">
+                                                </div>
+                                                <div id="defined" class="tab-pane">
+                                                </div>
+                                                <div id="disable" class="tab-pane">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <!-- 检索  -->
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
@@ -97,10 +118,8 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">包裹单号</th>
                                     <th class="center">客户订单号</th>
                                     <th class="center">外部订单号</th>
-                                    <th class="center">内部货号</th>
                                     <th class="center">商品条码</th>
                                     <th class="center">数量</th>
                                     <th class="center">仓位</th>
@@ -118,10 +137,8 @@
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.chukushangpinid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
-                                                    <td class='center'>${var.baoguodanhao}</td>
                                                     <td class='center'>${var.kehudingdanhao}</td>
                                                     <td class='center'>${var.waibudingdanhao}</td>
-                                                    <td class='center'>${var.neibuhuohao}</td>
                                                     <td class='center'>${var.shangpintiaoma}</td>
                                                     <td class='center'>${var.shuliang}</td>
                                                     <td class='center'>${var.cangwei}</td>
@@ -130,25 +147,12 @@
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
-                                                            <c:if test="${QX.edit == 1 }">
-                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.chukushangpinid}');">
-                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
-                                                                </a>
-                                                            </c:if>
-                                                            <c:if test="${QX.del == 1 }">
-                                                                <a class="btn btn-xs btn-danger" onclick="del('${var.chukushangpinid}');">
-                                                                    <i class="ace-icon fa fa-trash-o bigger-120" title="删除"></i>
-                                                                </a>
-                                                            </c:if>
-                                                            <c:if test="${QX.saoma == 1 }">
-                                                                <a class="btn btn-xs btn-info" onclick="saoma('${var.chukushangpinid}');">
-                                                                    <i class="ace-icon fa 	fa-barcode  bigger-120" title="扫码确认"></i>
-                                                                </a>
-                                                            </c:if>
+                                                            <a class="btn btn-xs btn-info" onclick="saoma('${var.chukushangpinid}');">
+                                                                <i class="ace-icon fa 	fa-barcode  bigger-120" title="扫码确认"></i>
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
-
                                             </c:forEach>
                                         </c:if>
                                         <c:if test="${QX.cha == 0 }">
@@ -168,14 +172,6 @@
                             <div class="page-header position-relative">
                                 <table style="width:100%;">
                                     <tr>
-                                        <td style="vertical-align:top;">
-                                            <c:if test="${QX.add == 1 }">
-                                                <a class="btn btn-sm btn-success" onclick="add();">新增</a>
-                                            </c:if>
-                                            <c:if test="${QX.del == 1 }">
-                                                <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
-                                            </c:if>
-                                        </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
                                 </table>
@@ -219,6 +215,16 @@
         $("#Form").submit();
     }
     $(function() {
+
+        var chukuzhuangtai = "${pd.chukuzhuangtai}";
+        if(chukuzhuangtai == "daichuku" ){
+            $("#definedTab").removeClass("active");
+            $("#baseTab").addClass("active");
+        }else if (chukuzhuangtai == "yichuku"){
+            $("#baseTab").removeClass("active");
+            $("#definedTab").addClass("active");
+        }
+
         //复选框全选控制
         var active_class = 'active';
         $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
@@ -230,6 +236,13 @@
             });
         });
     });
+
+    function changeTable(auditStatus){
+        $("#nav-search-chukuzhuangtai").val(auditStatus);
+        top.jzts();
+        $("#Form").submit();
+    }
+
 
     //新增
     function add(){

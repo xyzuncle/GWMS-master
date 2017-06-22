@@ -21,7 +21,7 @@ public class ChuKuShangPinEntity {
 
     private String cangwei;
 
-    private String rukuzhuangtai;
+    private String chukuzhuangtai;
 
     private String createuser;
 
@@ -31,7 +31,7 @@ public class ChuKuShangPinEntity {
 
     private Date updatetime;
 
-    public ChuKuShangPinEntity(String chukushangpinid, String baoguodanhao, String kehudingdanhao, String waibudingdanhao, String kehubianhao, String neibuhuohao, String shangpintiaoma, String shuliang, String cangwei, String rukuzhuangtai, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public ChuKuShangPinEntity(String chukushangpinid, String baoguodanhao, String kehudingdanhao, String waibudingdanhao, String kehubianhao, String neibuhuohao, String shangpintiaoma, String shuliang, String cangwei, String chukuzhuangtai, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.chukushangpinid = chukushangpinid;
         this.baoguodanhao = baoguodanhao;
         this.kehudingdanhao = kehudingdanhao;
@@ -41,7 +41,7 @@ public class ChuKuShangPinEntity {
         this.shangpintiaoma = shangpintiaoma;
         this.shuliang = shuliang;
         this.cangwei = cangwei;
-        this.rukuzhuangtai = rukuzhuangtai;
+        this.chukuzhuangtai = chukuzhuangtai;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -124,12 +124,12 @@ public class ChuKuShangPinEntity {
         this.cangwei = cangwei == null ? null : cangwei.trim();
     }
 
-    public String getRukuzhuangtai() {
-        return rukuzhuangtai;
+    public String getChukuzhuangtai() {
+        return chukuzhuangtai;
     }
 
-    public void setRukuzhuangtai(String rukuzhuangtai) {
-        this.rukuzhuangtai = rukuzhuangtai == null ? null : rukuzhuangtai.trim();
+    public void setChukuzhuangtai(String chukuzhuangtai) {
+        this.chukuzhuangtai = chukuzhuangtai;
     }
 
     public String getCreateuser() {

@@ -2,6 +2,7 @@ package com.huanqiuyuncang.service.wms.warehouse;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -22,4 +23,7 @@ public interface ChuKuShangPinInterface {
     List<ChuKuShangPinEntity> datalistPage(Page page);
 
     void deleteAll(String[] arrayDATA_ids);
+
+
+    PageData updateSaomiaoShangPin(String[] huohaoarr, String[] dingdanhaoarr);
 }

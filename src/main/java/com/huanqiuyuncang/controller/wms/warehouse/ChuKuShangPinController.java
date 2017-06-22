@@ -117,7 +117,7 @@ public class ChuKuShangPinController extends BaseController {
         chuKuShangPinEntity.setUpdateuser(username);
         chuKuShangPinEntity.setCreatetime(date);
         chuKuShangPinEntity.setUpdatetime(date);
-        chuKuShangPinEntity.setRukuzhuangtai("orderStatus_daidabao");
+        chuKuShangPinEntity.setChukuzhuangtai("daichuku");
         chuKuShangPinService.insertSelective(chuKuShangPinEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -131,40 +131,11 @@ public class ChuKuShangPinController extends BaseController {
         PageData pd = this.getPageData();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
-        String chukushangpinid = pd.getString("chukushangpinid");
-        String saomiaocangwei = pd.getString("saomiaocangwei");
-        String saomiaotiaoma = pd.getString("saomiaotiaoma");
-        ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinService.selectByPrimaryKey(chukushangpinid);
-        CustomerEntity customerEntity = customerService.selectCustomerByCode(chuKuShangPinEntity.getKehubianhao());
-        String customerstatus = customerEntity.getCustomerstatus();
-        String[] statusArr = customerstatus.split("_");
-        if(saomiaotiaoma.equals(chuKuShangPinEntity.getShangpintiaoma())){
-            chuKuShangPinEntity.setRukuzhuangtai("yichuku");
-            ProductWarehouseEntity productWarehouse = productWarehouseService.selectByChuKuShangPin(chuKuShangPinEntity);
-            if("1".equals(productWarehouse.getSuokustatus())){
-                mv.addObject("msg","error");
-                mv.addObject("resturt","仓库处于盘点状态，不能进行进出库操作。");
-            }else{
-                Integer sum = Integer.parseInt(productWarehouse.getShuliang());
-                int count = Integer.parseInt(chuKuShangPinEntity.getShuliang());
-                if("0".equals(statusArr[7])){
-                    if(sum < count){
-                        mv.addObject("msg","error");
-                        mv.addObject("resturt","库存不足！");
-                    }
-                }
-                sum = sum-count;
-                productWarehouse.setShuliang(Integer.toString(sum));
-                productWarehouseService.updateByPrimaryKeySelective(productWarehouse);
-                chuKuShangPinService.updateByPrimaryKey(chuKuShangPinEntity);
-                mv.addObject("msg","success");
-            }
-
-        }else{
-            mv.addObject("msg","error");
-            mv.addObject("resturt","扫描条码与商品条码不符。");
-        }
-
+        String[] huohaoarr = this.getRequest().getParameterValues("huohao");
+        String[] dingdanhaoarr = this.getRequest().getParameterValues("dingdanhao");
+        PageData result = chuKuShangPinService.updateSaomiaoShangPin(huohaoarr,dingdanhaoarr);
+        mv.addObject("msg",result.getString("msg"));
+        mv.addObject("resturt",result.getString("resturt"));
         mv.setViewName("save_result");
         return mv;
     }
