@@ -86,10 +86,10 @@
                                             <ul class="nav nav-tabs" id="myTab2">
 
                                                 <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('daichuku')">待打包/入库</a>
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('daichuku')">待出库</a>
                                                 </li>
                                                 <li  id="definedTab">
-                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('yichuku')">已打包/存库</a>
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('yichuku')">已出库</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -123,7 +123,6 @@
                                     <th class="center">商品条码</th>
                                     <th class="center">数量</th>
                                     <th class="center">仓位</th>
-                                    <th class="center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -142,16 +141,6 @@
                                                     <td class='center'>${var.shangpintiaoma}</td>
                                                     <td class='center'>${var.shuliang}</td>
                                                     <td class='center'>${var.cangwei}</td>
-                                                    <td class="center">
-                                                        <c:if test="${QX.edit != 1 && QX.del != 1 }">
-                                                            <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
-                                                        </c:if>
-                                                        <div class="hidden-sm hidden-xs btn-group">
-                                                            <a class="btn btn-xs btn-info" onclick="saoma('${var.chukushangpinid}');">
-                                                                <i class="ace-icon fa 	fa-barcode  bigger-120" title="扫码确认"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </c:if>
@@ -171,6 +160,10 @@
                             </table>
                             <div class="page-header position-relative">
                                 <table style="width:100%;">
+                                    <c:if test="${pd.chukuzhuangtai == 'daichuku' }">
+                                        <a class="btn btn-xs btn-primary" onclick="saoma();" title="扫描入库" >
+                                            <i class='ace-icon fa fa-eye bigger-120'></i></a>
+                                    </c:if>
                                     <tr>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
