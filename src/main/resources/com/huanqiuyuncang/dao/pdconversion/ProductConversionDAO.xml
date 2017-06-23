@@ -279,6 +279,9 @@
         <if test="pd.outerproductnum != null  and pd.outerproductnum != ''" >
          AND outerproductnum = #{pd.outerproductnum,jdbcType=VARCHAR}
        </if>
+      <if test="pd.createuser != null and pd.createuser != ''" >
+          and  createuser = #{pd.createuser,jdbcType=VARCHAR}
+      </if>
       <if test="pd.productnum1 != null  and pd.productnum1 != ''" >
           AND (
           productnum1 = #{pd.productnum1,jdbcType=VARCHAR} OR
@@ -287,9 +290,7 @@
           productnum4 = #{pd.productnum1,jdbcType=VARCHAR}
           )
       </if>
-      <if test="pd.createuser != null and pd.createuser != ''" >
-          and  createuser = #{pd.createuser,jdbcType=VARCHAR}
-      </if>
+
     </select>
 
     <select id="selectByOuterPdNum" resultMap="BaseResultMap" parameterType="java.lang.String" >

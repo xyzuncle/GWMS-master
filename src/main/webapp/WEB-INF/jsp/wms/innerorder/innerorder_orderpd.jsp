@@ -39,12 +39,8 @@
                                         <td><input type="text" name="outerordernum" id="outerordernum" value="${orderProduct.outerordernum}" maxlength="30" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
-                                        <td style="width:92px;text-align: right;padding-top: 13px;">外部货号:</td>
+                                        <td style="width:92px;text-align: right;padding-top: 13px;">外部货号/商品货号/条码:</td>
                                         <td><input  type="text" name="outerproductnum" id="outerproductnum" value="${orderProduct.outerproductnum}" maxlength="50" style="width:98%;"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:92px;text-align: right;padding-top: 13px;">商品条码:</td>
-                                        <td><input type="text" name="barcode" id="barcode"value="${orderProduct.barcode}" maxlength="255" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:92px;text-align: right;padding-top: 13px;">数量:</td>

@@ -22,4 +22,6 @@ public interface OrderProductInterface {
     List<OrderProductEntity> selectOrderProductBypackagenum(String innerpackagenum);
 
     Integer orderproductSum(String innerpackagenum);
+
+    void insertOrderProduct(OrderProductEntity orderProductEntity);
 }

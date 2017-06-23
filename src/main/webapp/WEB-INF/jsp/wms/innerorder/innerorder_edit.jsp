@@ -403,12 +403,7 @@
                 {
                     field : 'outerproductnum',
                     align : "center",
-                    title : '外部货号'
-                },
-                {
-                    field : 'barcode',
-                    align : "center",
-                    title : '商品条码'
+                    title : '外部货号/商品货号/条码'
                 },
                 {
                     field : 'count',

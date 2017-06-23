@@ -314,7 +314,7 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
                     chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
                     chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
-                    ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(orderProduct.getOuterordernum());
+                    ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(orderProduct.getOuterproductnum());
                     chuKuShangPinEntity.setNeibuhuohao(productEntity.getProductnum());
                     chuKuShangPinEntity.setShangpintiaoma(productEntity.getBarcodeMain());
                     chuKuShangPinEntity.setShuliang(orderProduct.getCount());

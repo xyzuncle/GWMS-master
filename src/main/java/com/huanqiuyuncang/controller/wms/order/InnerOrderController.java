@@ -294,12 +294,11 @@ public class InnerOrderController extends BaseController {
         String username = Jurisdiction.getUsername();
         String token = (String)this.getRequest().getSession().getAttribute("token");
         orderProductEntity.setCustomerordernum(token);
-        orderProductEntity.setorderproducrtid(this.get32UUID());
         orderProductEntity.setCreateuser(username);
         orderProductEntity.setCreatetime(date);
         orderProductEntity.setUpdateuser(username);
         orderProductEntity.setUpdatetime(date);
-        orderProductService.insert(orderProductEntity);
+        orderProductService.insertOrderProduct(orderProductEntity);
         mv.setViewName("save_result");
         mv.addObject("msg","success");
         mv.addObject("pd", pd);

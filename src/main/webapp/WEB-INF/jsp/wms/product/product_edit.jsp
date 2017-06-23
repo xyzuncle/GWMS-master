@@ -82,13 +82,13 @@
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">主条码:</td>
                                         <td><input type="text"
-                                                <c:if test="${msg == 'edit' }">
+                                                <c:if test="${msg == 'edit' && product.barcodeMain != '' }">
                                                     disabled
                                                 </c:if>
                                                    name="barcodeMain" id="barcodeMain" onblur="checkBarcode(this)" value="${product.barcodeMain}" maxlength="255" placeholder="这里输入主条码" title="主条码" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码1:</td>
                                         <td><input type="text"
-                                                <c:if test="${msg == 'edit' }">
+                                                <c:if test="${msg == 'edit' && product.barcodeAuxiliary1 != '' }">
                                                     disabled
                                                 </c:if>
                                                    name="barcodeAuxiliary1" id="barcodeAuxiliary1" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary1}" maxlength="255" placeholder="这里输入辅助条码1" title="辅助条码1" style="width:98%;"/></td>
@@ -96,13 +96,13 @@
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码2:</td>
                                         <td><input type="text"
-                                                <c:if test="${msg == 'edit' }">
+                                                <c:if test="${msg == 'edit' && product.barcodeAuxiliary2 != '' }">
                                                     disabled
                                                 </c:if>
                                                    name="barcodeAuxiliary2" id="barcodeAuxiliary2" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary2}" maxlength="255" placeholder="这里输入辅助条码2" title="辅助条码2" style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码3:</td>
                                         <td><input type="text"
-                                                <c:if test="${msg == 'edit' }">
+                                                <c:if test="${msg == 'edit'&& product.barcodeAuxiliary3 != '' }">
                                                     disabled
                                                 </c:if>
                                                    name="barcodeAuxiliary3" id="barcodeAuxiliary3" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary3}" maxlength="255" placeholder="这里输入辅助条码3" title="辅助条码3" style="width:98%;"/></td>
@@ -110,7 +110,7 @@
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">辅助条码4:</td>
                                         <td><input type="text"
-                                                <c:if test="${msg == 'edit' }">
+                                                <c:if test="${msg == 'edit' && product.barcodeAuxiliary4 != '' }">
                                                     disabled
                                                 </c:if>
                                                    name="barcodeAuxiliary4" id="barcodeAuxiliary4" onblur="checkBarcode(this)" value="${product.barcodeAuxiliary4}" maxlength="255" placeholder="这里输入辅助条码4" title="辅助条码4" style="width:98%;"/></td>
