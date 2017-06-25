@@ -9,6 +9,7 @@ import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
+import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.UuidUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,11 +86,12 @@ public class OrderProductService implements OrderProductInterface {
 
     @Override
     public void insertOrderProduct(OrderProductEntity orderProductEntity) {
+        String username = Jurisdiction.getUsername();
         List<CustomerEntity> customerEntities = customerDAO.selectByLoginName(orderProductEntity.getCreateuser());
         CustomerEntity customerEntity = customerEntities.get(0);
         String[] customerstatus = customerEntity.getCustomerstatus().split("_");
         if("1".equals(customerstatus[1])){
-            ProductConversionEntity pdConversion = productConversionDAO.selectByOuterPdNum(orderProductEntity.getOuterproductnum());
+            ProductConversionEntity pdConversion = productConversionDAO.selectByOuterPdNum(orderProductEntity.getOuterproductnum(), username);
             Map<String, String[]> pdNumMap = this.getPdNumMap(pdConversion);
             for(String pdNum : pdNumMap.keySet()){
                 ProductEntity productByBarCode = productDAO.findProductByProductNum(pdNum);
@@ -104,7 +106,7 @@ public class OrderProductService implements OrderProductInterface {
                     pd.setRemark(orderProductEntity.getRemark());
                     pd.setDeclareprice(jiesuanjiaReal.toString());
                     pd.setRetailprice(lingshoujiaReal.toString());
-                    pd.setOuterproductnum(productByBarCode.getBarcodeMain());
+                    pd.setOuterproductnum(productByBarCode.getProductnum());
                     pd.setorderproducrtid(UuidUtil.get32UUID());
                     pd.setCreateuser(orderProductEntity.getCreateuser());
                     pd.setCreatetime(orderProductEntity.getCreatetime());
@@ -114,11 +116,20 @@ public class OrderProductService implements OrderProductInterface {
                 }
             };
         }else{
-            orderProductEntity.setorderproducrtid(UuidUtil.get32UUID());
-            orderProductDAO.insertSelective(orderProductEntity);
-
+            ProductEntity productEntity = productDAO.findProductByProductNum(orderProductEntity.getOuterproductnum());
+            if(productEntity != null){
+                orderProductEntity.setorderproducrtid(UuidUtil.get32UUID());
+                orderProductEntity.setOuterproductnum(productEntity.getProductnum());
+                orderProductDAO.insertSelective(orderProductEntity);
+            }
         }
     }
+
+    @Override
+    public String selectProductsumByOrderNum(String customerordernum) {
+        return orderProductDAO.selectProductsumByOrderNum(customerordernum);
+    }
+
     private Map<String,String[]> getPdNumMap(ProductConversionEntity pdConversion ){
         Map<String,String[]> pdMap = new HashMap<>();
         String productnum1 = pdConversion.getProductnum1();

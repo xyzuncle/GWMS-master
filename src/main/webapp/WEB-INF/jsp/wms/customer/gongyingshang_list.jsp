@@ -78,8 +78,8 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">客户编号</th>
-                                    <th class="center">客户名称</th>
+                                    <th class="center">供应商编号</th>
+                                    <th class="center">供应商名称</th>
                                     <th class="center">默认发货仓库</th>
                                     <th class="center">备注</th>
                                     <th class="center">操作</th>

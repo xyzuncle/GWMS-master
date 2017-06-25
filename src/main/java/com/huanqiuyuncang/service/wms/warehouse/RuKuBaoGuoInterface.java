@@ -24,5 +24,5 @@ public interface RuKuBaoGuoInterface {
 
     void deleteAll(String[] arrayDATA_ids);
 
-    PageData ruku(List<String> danhaoList);
+    PageData saveruku(List<String> danhaoList);
 }

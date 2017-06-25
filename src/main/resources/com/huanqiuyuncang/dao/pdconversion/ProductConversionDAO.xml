@@ -298,5 +298,6 @@
         <include refid="Base_Column_List" />
         from wms_productconversion
         where outerproductnum = #{outerproductnum,jdbcType=VARCHAR}
+        AND createuser = #{username,jdbcType=VARCHAR}
     </select>
 </mapper>

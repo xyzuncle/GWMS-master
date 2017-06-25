@@ -37,7 +37,7 @@ public interface InnerOrderDAO {
 
     String selectCityCodeByName(String code);
 
-    String selectAreaCodeByName(String baoguanmoshi);
+    String[] selectAreaCodeByName(String baoguanmoshi);
 
     List<InnerOrderEntity> selectByCustomerInfo(InnerOrderEntity innerOrder);
 

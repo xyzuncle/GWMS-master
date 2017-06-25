@@ -68,7 +68,7 @@ public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
     }
 
     @Override
-    public PageData ruku(List<String> danhaoList) {
+    public PageData saveruku(List<String> danhaoList) {
         for (String  danhao: danhaoList) {
             RuKuBaoGuoEntity ruKuBaoGuoEntity = ruKuBaoGuoDAO.selectByDanHao(danhao);
             if(ruKuBaoGuoEntity != null){
@@ -92,9 +92,13 @@ public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
     }
 
     private void updatePackageWarehouse(PackageWarehouseEntity packageWarehouse) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
         Integer sum = Integer.parseInt(packageWarehouse.getShuliang());
         sum = sum+1;
         packageWarehouse.setShuliang(Integer.toString(sum));
+        packageWarehouse.setUpdatetime(date);
+        packageWarehouse.setUpdateuser(username);
         packageWarehouseDAO.updateByPrimaryKeySelective(packageWarehouse);
     }
 

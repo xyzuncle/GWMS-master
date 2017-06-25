@@ -169,18 +169,13 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">外部订单号</th>
-                                    <th class="center">下单时间</th>
+                                    <th class="center">订单号</th>
                                     <th class="center">寄件人姓名</th>
-                                    <th class="center">寄件人电话</th>
-                                    <th class="center">寄件人国别</th>
                                     <th class="center">收件人姓名</th>
-                                    <th class="center">收件人身份证</th>
-                                    <th class="center">收件人电话</th>
                                     <th class="center">收件人省</th>
                                     <th class="center">收件人城市</th>
-                                    <th class="center">顾客备注</th>
-                                    <th class="center">备注</th>
+                                    <th class="center">商品数量</th>
+                                    <th class="center">订单金额</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
@@ -196,26 +191,21 @@
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${vs.index+1}</td>
-                                                    <td class='center'>${var.outerordernum}</td>
-                                                    <td class='center'>${var.formateOrderTime}</td>
+                                                    <td class='center'>${var.customerordernum}</td>
                                                     <td class='center'>${var.sender}</td>
-                                                    <td class='center'>${var.senderphone}</td>
-                                                    <td class='center'>${var.sendercountry}</td>
                                                     <td class='center'>${var.recipient}</td>
-                                                    <td class='center'>${var.recipientidcard}</td>
-                                                    <td class='center'>${var.recipientphone}</td>
                                                     <td class='center'>${var.recipientprovince}</td>
                                                     <td class='center'>${var.recipientcity}</td>
-                                                    <td class='center'>${var.customerremarks}</td>
-                                                    <td class='center'>${var.remark}</td>
+                                                    <td class='center'>${var.productsum}</td>
+                                                    <td class='center'>${var.ordervalue}</td>
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
-                                                           <%-- <a class="btn btn-xs btn-primary" onclick="viewinnerorder('${var.innerorderid}');">
+                                                            <a class="btn btn-xs btn-primary" onclick="viewinnerorder('${var.innerorderid}');">
                                                                 <i class="ace-icon fa   fa-eye bigger-120" title="详情"></i>
-                                                            </a>--%>
+                                                            </a>
                                                             <c:if test="${QX.edit == 1 }">
                                                                 <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.innerorderid}');">
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
@@ -455,6 +445,23 @@
         diag.Drag=true;
         diag.Title ="编辑";
         diag.URL = '<%=basePath%>innerorder/goEdit.do?innerorderid='+Id;
+        diag.Width = 700;
+        diag.Height = 800;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
+            }
+            diag.close();
+        };
+        diag.show();
+    }
+
+    function viewinnerorder(Id){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="编辑";
+        diag.URL = '<%=basePath%>innerorder/goview.do?innerorderid='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件

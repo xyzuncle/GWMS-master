@@ -415,16 +415,6 @@ s                                                        </c:forEach>
             $("#productname").focus();
             return false;
         }
-        if($("#barcodeMain").val()==''){
-            $("#barcodeMain").tips({
-                side:3,
-                msg:'请输入主条码',
-                bg:'#AE81FF',
-                time:2
-            });
-            $("#barcodeMain").focus();
-            return false;
-        }
         if($("#producingArea").val()==''){
             $("#producingArea").tips({
                 side:3,
@@ -550,78 +540,7 @@ s                                                        </c:forEach>
 
         }
 
-        if($("#barcodeAuxiliary1").val()!=''){
-           var barcodeMain =  $("#barcodeMain").val();
-           var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
-           var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
-           var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
-           var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
-            if(barcodeAuxiliary1==barcodeAuxiliary2 || barcodeAuxiliary1 == barcodeMain
-                    || barcodeAuxiliary1==barcodeAuxiliary3 || barcodeAuxiliary1 ==barcodeAuxiliary4){
-                $("#barcodeAuxiliary1").tips({
-                    side:3,
-                    msg:'条码不能重复',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#barcodeAuxiliary1").focus();
-                return false;
-            }
-        }
-        if($("#barcodeAuxiliary2").val()!=''){
-            var barcodeMain =  $("#barcodeMain").val();
-            var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
-            var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
-            var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
-            var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
-            if(barcodeAuxiliary2==barcodeAuxiliary1 || barcodeAuxiliary2 == barcodeMain
-                    || barcodeAuxiliary2==barcodeAuxiliary3 || barcodeAuxiliary2 ==barcodeAuxiliary4){
-                $("#barcodeAuxiliary2").tips({
-                    side:3,
-                    msg:'条码不能重复',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#barcodeAuxiliary2").focus();
-                return false;
-            }
-        }
-        if($("#barcodeAuxiliary3").val()!=''){
-            var barcodeMain =  $("#barcodeMain").val();
-            var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
-            var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
-            var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
-            var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
-            if(barcodeAuxiliary3==barcodeAuxiliary1 || barcodeAuxiliary3 == barcodeMain
-                    || barcodeAuxiliary3==barcodeAuxiliary2 || barcodeAuxiliary3 ==barcodeAuxiliary4){
-                $("#barcodeAuxiliary3").tips({
-                    side:3,
-                    msg:'条码不能重复',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#barcodeAuxiliary3").focus();
-                return false;
-            }
-        }
-        if($("#barcodeAuxiliary4").val()!=''){
-            var barcodeMain =  $("#barcodeMain").val();
-            var barcodeAuxiliary1 =  $("#barcodeAuxiliary1").val();
-            var barcodeAuxiliary2 =  $("#barcodeAuxiliary2").val();
-            var barcodeAuxiliary3 =  $("#barcodeAuxiliary3").val();
-            var barcodeAuxiliary4 =  $("#barcodeAuxiliary4").val();
-            if(barcodeAuxiliary4==barcodeAuxiliary1 || barcodeAuxiliary4 == barcodeMain
-                    || barcodeAuxiliary4==barcodeAuxiliary2 || barcodeAuxiliary4 ==barcodeAuxiliary3){
-                $("#barcodeAuxiliary4").tips({
-                    side:3,
-                    msg:'条码不能重复',
-                    bg:'#AE81FF',
-                    time:2
-                });
-                $("#barcodeAuxiliary4").focus();
-                return false;
-            }
-        }
+
 
         $("#Form").submit();
         $("#zhongxin").hide();

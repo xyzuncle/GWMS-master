@@ -94,7 +94,7 @@ public class RuKuBaoGuoController extends BaseController {
         List<String> danhaoList = Arrays.asList(arr);
         Set set = new HashSet<>(danhaoList);
         danhaoList = new ArrayList<>(set);
-        PageData result  = ruKuBaoGuoService.ruku(danhaoList);
+        PageData result  = ruKuBaoGuoService.saveruku(danhaoList);
         mv.setViewName("save_result");
         return mv;
     }

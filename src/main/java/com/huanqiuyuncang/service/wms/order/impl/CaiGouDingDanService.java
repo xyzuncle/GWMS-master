@@ -171,6 +171,10 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     }
 
     private void updateProductWarehouse(CaiGouShangPinEntity shangpin, ProductWarehouseEntity productWarehouse, String shuliang) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        productWarehouse.setUpdatetime(date);
+        productWarehouse.setUpdateuser(username);
         if(StringUtils.isBlank(shuliang) || "0".equals(shuliang)){
             shuliang = shangpin.getShuliang();
         }
@@ -227,9 +231,8 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                 }else{
                     caigoudingdanhao = OrderUtil.getCaiGouNum(gongyingshangbianhao);
                 }
-                kehubianhao = caigouList.get(0).getString("var2");
-                CustomerEntity customerEntity = customerDAO.selectCustomerByCode(kehubianhao);
-                if(customerEntity == null){
+                List<CustomerEntity> list = customerDAO.selectByLoginName(username);
+                if(list == null || list.size() == 0 ){
                     resturt.append("第"+(i+1)+"行客户编号未找到，");
                 }
             }else{
@@ -241,10 +244,14 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                 }
             }
             String shangpinhuohao = pd.getString("var1");
-            String shuliang = pd.getString("var3");
-            String caigoujiage= pd.getString("var4");
-            String xiaoji= pd.getString("var5");
-            String beizhu = pd.getString("var6");
+            ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(shangpinhuohao, username);
+            if(productEntity == null){
+                resturt.append("第"+(i+1)+"商品货号未找到");
+            }
+            String shuliang = pd.getString("var2");
+            String caigoujiage= pd.getString("var3");
+            String xiaoji= pd.getString("var4");
+            String beizhu = pd.getString("var5");
             CaiGouShangPinEntity  shangpin = new CaiGouShangPinEntity();
             shangpin.setId(UuidUtil.get32UUID());
             shangpin.setCaigoudingdanid(caigoudingdanID);

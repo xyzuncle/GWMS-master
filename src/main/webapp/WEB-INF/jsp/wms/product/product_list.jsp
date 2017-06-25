@@ -494,10 +494,14 @@
     }
     //审核
     function auditor(Id){
-        top.jzts();
-        var url = "<%=basePath%>product/updateAuditor.do?productId="+Id+"&tm="+new Date().getTime();
-        $.get(url,function(data){
-            nextPage(${page.currentPage});
+
+        bootbox.confirm("是否审核该商品！", function(result) {
+            if(result) {
+                var url = "<%=basePath%>product/updateAuditor.do?productId="+Id+"&tm="+new Date().getTime();
+                $.get(url,function(data){
+                    nextPage(${page.currentPage});
+                });
+            }
         });
     }
     //停用

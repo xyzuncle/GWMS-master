@@ -3,6 +3,7 @@ package com.huanqiuyuncang.controller.wms.order;
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.controller.wms.customer.CustomerController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
 import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
@@ -462,5 +463,21 @@ public class CaiGouDingDanController  extends BaseController {
         mv.setViewName("save_result");
         return mv;
     }
+
+    @RequestMapping(value="/getCustomerCode")
+    @ResponseBody
+    public Object getCustomerCode() throws Exception{
+        String username = Jurisdiction.getUsername();
+        List<CustomerEntity> customerEntities = customerService.selectByLoginName(username);
+        String msg ="";
+        if(customerEntities != null && customerEntities.size()>0){
+            msg = customerEntities.get(0).getCustomercode();
+        }
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("result", msg);
+        return AppUtil.returnObject(this.getPageData(), map);
+    }
+
+
 
 }

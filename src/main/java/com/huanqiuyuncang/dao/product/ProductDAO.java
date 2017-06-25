@@ -3,6 +3,7 @@ package com.huanqiuyuncang.dao.product;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.util.PageData;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,5 +32,5 @@ public interface ProductDAO {
 
     String selectCountryIDByName(String producingArea);
 
-    ProductEntity findProductByBarCodeOrNum(String biaoshi);
+    ProductEntity findProductByBarCodeOrNum(@Param("biaoshi")String biaoshi, @Param("createuser")String createuser);
 }

@@ -110,6 +110,16 @@ public class InnerOrderEntity {
 
     private String formateUpdateTime;
 
+    private String  productsum;
+
+    public String getProductsum() {
+        return productsum;
+    }
+
+    public void setProductsum(String productsum) {
+        this.productsum = productsum;
+    }
+
     public String getFormatCreateTime() {
         return formatCreateTime;
     }

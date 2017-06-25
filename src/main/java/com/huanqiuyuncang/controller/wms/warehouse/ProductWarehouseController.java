@@ -37,6 +37,12 @@ public class ProductWarehouseController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表Product");
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
+        pd.put("createuser",Jurisdiction.getUsername());
+        //判断是否据有查看所有权限
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("createuser");
+        }
         page.setPd(pd);
         List<ProductWarehouseEntity> varList = productWarehouseService.datalistPage(page);
         mv.setViewName("wms/warehouse/productwarehouse_list");

@@ -70,7 +70,8 @@ public class ProductConversionService implements ProductConversionInterface {
 
     @Override
     public ProductConversionEntity selectByOuterPdNum(String outerproductnum) {
-        return productConversionDAO.selectByOuterPdNum(outerproductnum);
+        String username = Jurisdiction.getUsername();
+        return productConversionDAO.selectByOuterPdNum(outerproductnum, username);
     }
 
     @Override

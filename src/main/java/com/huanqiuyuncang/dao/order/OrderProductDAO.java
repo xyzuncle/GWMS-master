@@ -24,4 +24,6 @@ public interface OrderProductDAO {
     Integer orderproductSum(String innerpackagenum);
 
     List<OrderProductEntity> selectOrderProductBypackagenum(String innerpackagenum);
+
+    String selectProductsumByOrderNum(String customerordernum);
 }

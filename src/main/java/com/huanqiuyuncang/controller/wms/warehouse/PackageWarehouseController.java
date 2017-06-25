@@ -35,6 +35,12 @@ public class PackageWarehouseController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
+        pd.put("createuser",Jurisdiction.getUsername());
+        //判断是否据有查看所有权限
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("createuser");
+        }
         page.setPd(pd);
         List<PackageWarehouseEntity> varList = packageWarehouseService.datalistPage(page);
         mv.setViewName("wms/warehouse/packagewarehouse_list");

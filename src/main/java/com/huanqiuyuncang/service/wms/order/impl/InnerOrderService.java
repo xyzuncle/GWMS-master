@@ -141,12 +141,13 @@ public class InnerOrderService implements InnerOrderInterface {
         String defaultCartonprefix = "";
         String packageType = "";
         Integer sum = 0;
+        String username = Jurisdiction.getUsername();
         for(int i = 0 ;i<orderProductEntities.size();i++){
             OrderProductEntity orderProductEntity = orderProductEntities.get(i);
             orderProductEntity.setinnerpackagenum(packagenum);
             orderProductDAO.updateByPrimaryKeySelective(orderProductEntity);
             String barcode = orderProductEntity.getOuterproductnum();
-            ProductEntity product = productDAO.findProductByBarCodeOrNum(barcode);
+            ProductEntity product = productDAO.findProductByBarCodeOrNum(barcode, username);
             Integer count = Integer.parseInt(orderProductEntity.getCount());
             sum += count;
             String cartontypea = product.getCartontypea();
@@ -314,7 +315,7 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
                     chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
                     chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
-                    ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(orderProduct.getOuterproductnum());
+                    ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(orderProduct.getOuterproductnum(), username);
                     chuKuShangPinEntity.setNeibuhuohao(productEntity.getProductnum());
                     chuKuShangPinEntity.setShangpintiaoma(productEntity.getBarcodeMain());
                     chuKuShangPinEntity.setShuliang(orderProduct.getCount());
@@ -435,7 +436,7 @@ public class InnerOrderService implements InnerOrderInterface {
                CustomerEntity customerEntity = customerEntities.get(0);
                String[] customerstatus = customerEntity.getCustomerstatus().split("_");
                if("1".equals(customerstatus[1])){
-                   ProductConversionEntity pdConversion = productConversionDAO.selectByOuterPdNum(waibuhuohao);
+                   ProductConversionEntity pdConversion = productConversionDAO.selectByOuterPdNum(waibuhuohao,username);
                    if(pdConversion == null){
                        return "外部货号未找到；";
                    }else{
@@ -453,13 +454,13 @@ public class InnerOrderService implements InnerOrderInterface {
                                pd.setRemark(beizhu);
                                pd.setDeclareprice(jiesuanjiaReal.toString());
                                pd.setRetailprice(lingshoujiaReal.toString());
-                               pd.setOuterproductnum(productByBarCode.getBarcodeMain());
+                               pd.setOuterproductnum(productByBarCode.getProductnum());
                                pdList.add(pd);
                            }
                        };
                    }
                }else{
-                   ProductEntity productByBarCode = productDAO.findProductByBarCodeOrNum(waibuhuohao);
+                   ProductEntity productByBarCode = productDAO.findProductByBarCodeOrNum(waibuhuohao,username);
                    if(productByBarCode == null){
                        return "商品未找到,请查看商品货号/编号；";
                    }else{
@@ -470,7 +471,7 @@ public class InnerOrderService implements InnerOrderInterface {
                        pd.setRemark(beizhu);
                        pd.setDeclareprice(shenbaojia);
                        pd.setRetailprice(lingshoujia);
-                       pd.setOuterproductnum(waibuhuohao);
+                       pd.setOuterproductnum(productByBarCode.getProductnum());
                        pdList.add(pd);
                    }
                }
@@ -562,7 +563,8 @@ public class InnerOrderService implements InnerOrderInterface {
         }
         String shoujianrenqu = pageData.getString("var16");
         if(StringUtils.isNotBlank(shoujianrenqu)){
-            shoujianrenqu = innerOrderDAO.selectAreaCodeByName(shoujianrenqu);
+            String[] arr = innerOrderDAO.selectAreaCodeByName(shoujianrenqu);
+            shoujianrenqu =  arr.length>1||arr.length ==0?"":arr[0];
         }
         String shoujianrendizhi = pageData.getString("var17");
         String shoujianrenyoubian = pageData.getString("var18");

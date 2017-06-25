@@ -225,4 +225,10 @@
         from wms_orderproduct
         WHERE innerpackagenum = #{innerpackagenum,jdbcType=VARCHAR}
     </select>
+    <select id="selectProductsumByOrderNum" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+        sum(count)
+        from wms_orderproduct
+        WHERE customerordernum = #{customerordernum,jdbcType=VARCHAR}
+    </select>
 </mapper>

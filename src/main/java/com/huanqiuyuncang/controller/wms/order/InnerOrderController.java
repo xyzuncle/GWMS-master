@@ -134,6 +134,8 @@ public class InnerOrderController extends BaseController {
             recipientcity = innerOrderService.selectCityNameByCode(recipientcity);
             innerOrderEntity.setRecipientprovince(recipientprovince);
             innerOrderEntity.setRecipientcity(recipientcity);
+            String sum = orderProductService.selectProductsumByOrderNum(innerOrderEntity.getCustomerordernum());
+            innerOrderEntity.setProductsum(sum);
         });
         List<CustomerEntity> customerList = getCustomerList();
         mv.setViewName("wms/innerorder/innerorder_list");
@@ -195,6 +197,38 @@ public class InnerOrderController extends BaseController {
         this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
         mv.setViewName("wms/innerorder/innerorder_edit");
         mv.addObject("msg", "edit");
+        mv.addObject("innerorder", innerorderEntity);
+        mv.addObject("pd", pd);
+        mv.addObject("customerList", customerList);
+        mv.addObject("baoguanList", baoguanList);
+        mv.addObject("orderStatusList", orderStatusList);
+        mv.addObject("token", innerorderEntity.getCustomerordernum());
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+
+
+    @RequestMapping(value="/goview")
+    public ModelAndView goview()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String innerorderid = pd.getString("innerorderid");
+        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
+        List<CustomerEntity> customerList = getCustomerList();
+        String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
+        String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
+        List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
+        List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formateCreateTime = formatter.format(innerorderEntity.getCreatetime());
+        String formateUpdateTime = formatter.format(innerorderEntity.getUpdatetime());
+        String formateOrderTime = formatter.format(innerorderEntity.getOrdertime());
+        innerorderEntity.setFormatCreateTime(formateCreateTime);
+        innerorderEntity.setFormateUpdateTime(formateUpdateTime);
+        innerorderEntity.setFormateOrderTime(formateOrderTime);
+        this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
+        mv.setViewName("wms/innerorder/innerorder_view");
+        mv.addObject("msg", "view");
         mv.addObject("innerorder", innerorderEntity);
         mv.addObject("pd", pd);
         mv.addObject("customerList", customerList);

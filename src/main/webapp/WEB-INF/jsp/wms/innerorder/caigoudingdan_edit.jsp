@@ -49,7 +49,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">客户编号:</td>
-                                        <td><input type="text" name="kehubianhao" id="kehubianhao" value="${caigoudingdan.kehubianhao}" maxlength="255" style="width:98%;"/></td>
+                                        <td><input type="text" readonly name="kehubianhao" id="kehubianhao" value="${caigoudingdan.kehubianhao}" maxlength="255" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:78px;height:130px;text-align: right;padding-top: 13px;">备注:</td>
@@ -103,6 +103,17 @@
 <script type="text/javascript">
     $(top.hangge());
     $(function(){
+        $.ajax({
+            type: "POST",
+            url: '<%=basePath%>caigoudingdan/getCustomerCode.do',
+            dataType:'json',
+            cache: false,
+            success: function(data){
+               $("#kehubianhao").val(data.result)
+            }
+        });
+
+
         var option = {
             url: '${pageContext.request.contextPath}/caigoudingdan/pdlist.do', //请求地址
             columns: [
