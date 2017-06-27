@@ -3,6 +3,7 @@ package com.huanqiuyuncang.dao.kuwei;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
 import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,5 +24,5 @@ public interface ShangPinKuWeiDAO {
 
     List<ShangPinKuWeiEntity> selectByKuWei(String cangkuid);
 
-    List<ShangPinKuWeiEntity> selectByKuweiAndProductnum(String cangku, String productnum);
+    List<ShangPinKuWeiEntity> selectByKuweiAndProductnum(@Param("cangku") String cangku, @Param("productnum") String productnum);
 }

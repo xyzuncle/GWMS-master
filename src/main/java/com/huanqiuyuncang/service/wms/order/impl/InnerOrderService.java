@@ -667,7 +667,7 @@ public class InnerOrderService implements InnerOrderInterface {
         Date date = new Date();
         for (String id :ids){
             InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
-
+            String customerName = innerOrderEntity.getCustomernum();
               List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
                 orderProductEntities.forEach(orderProduct ->{
                     CustomerEntity customer = customerDAO.selectCustomerByCode(innerOrderEntity.getCustomernum());
@@ -676,7 +676,7 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
                     chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
                     chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
-                    ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(orderProduct.getOuterproductnum(), username);
+                    ProductEntity productEntity = productDAO.findProductByProductNum(orderProduct.getOuterproductnum());
                     chuKuShangPinEntity.setNeibuhuohao(productEntity.getProductnum());
                     chuKuShangPinEntity.setShangpintiaoma(productEntity.getBarcodeMain());
                     chuKuShangPinEntity.setShuliang(orderProduct.getCount());

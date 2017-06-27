@@ -2,6 +2,7 @@ package com.huanqiuyuncang.dao.pdconversion;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,6 +21,6 @@ public interface ProductConversionDAO {
 
     List<ProductConversionEntity> datalistPage(Page page);
 
-    ProductConversionEntity selectByOuterPdNum(String outerproductnum, String username);
+    ProductConversionEntity selectByOuterPdNum(@Param("outerproductnum") String outerproductnum, @Param("username") String username);
 
 }

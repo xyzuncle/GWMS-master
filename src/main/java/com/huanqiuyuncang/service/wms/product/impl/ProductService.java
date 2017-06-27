@@ -196,9 +196,7 @@ public class ProductService implements ProductInterface {
                 if(StringUtils.isBlank(productname)){
                     resturt.append("表格第"+step+"行商品名称不能为空。" );
                 }
-                if(StringUtils.isBlank(barcodeMain)){
-                    resturt.append("表格第"+step+"行主条码不能为空。" );
-                }else{
+                if(StringUtils.isNotBlank(barcodeMain)){
                     ProductEntity productByBarCode = productDAO.findProductByBarCode(barcodeMain);
                     if(productByBarCode != null){
                         resturt.append("表格第"+step+"行主条码已在（货号："+productByBarCode.getProductnum()+"中使用），请重新填写。" );

@@ -168,7 +168,7 @@
         <include refid="Base_Column_List" />
         from
         wms_shangpinkuwei where  1=1
-        and cangku =  #{cangkuid,jdbcType=VARCHAR}
+        and cangku =  #{cangku,jdbcType=VARCHAR}
         and productNum =  #{productnum,jdbcType=VARCHAR}
     </select>
 </mapper>
