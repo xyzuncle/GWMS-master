@@ -91,7 +91,7 @@
                                                     <td class='center'>
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.luggagemailid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
-                                                    <td class='center' style="width: 30px;">${vs.index+1}</td>
+                                                    <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.luggagemailcode}</td>
                                                     <td class='center'>${var.luggagemailname}</td>
                                                     <td class='center'>${var.unit}</td>

@@ -89,7 +89,7 @@
                                                     <td class='center'>
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.packageid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
-                                                    <td class='center' style="width: 30px;">${vs.index+1}</td>
+                                                    <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.packagetype}</td>
                                                     <td class='center'>${var.packagename}</td>
                                                     <td class='center'>${var.price}</td>

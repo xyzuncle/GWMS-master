@@ -8,7 +8,9 @@ import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
 import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
+import com.huanqiuyuncang.entity.system.Dictionaries;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
+import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.customer.GongYingShangInterface;
 import com.huanqiuyuncang.service.wms.order.CaiGouDingDanInterface;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -51,6 +54,9 @@ public class CaiGouDingDanController  extends BaseController {
     private CaiGouShangPinInterface caiGouShangPinService;
     @Autowired
     private ProductWarehouseInterface productWarehouseService;
+
+    @Resource(name="dictionariesService")
+    private DictionariesManager dictionariesService;
     /**保存
      * @param
      * @throws Exception
@@ -478,6 +484,34 @@ public class CaiGouDingDanController  extends BaseController {
         return AppUtil.returnObject(this.getPageData(), map);
     }
 
+    @RequestMapping(value="/goTuisongRuku")
+    public ModelAndView goTuisongRuku()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        setCangKuShuXing(mv);
+        mv.setViewName("wms/innerorder/caigoudingdan_ruku");
+        mv.addObject("msg", "saveShangpinRuku");
+        mv.addObject("pd", pd);
+        return mv;
+    }
 
+
+    @RequestMapping(value="/saveShangpinRuku")
+    public ModelAndView saveShangpinRuku(String caigoudingdanid,String cangkushuxing,String cangku) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        if(null != caigoudingdanid && !"".equals(caigoudingdanid)){
+            String ids[] = caigoudingdanid.split(",");
+            caiGouDingDanService.saveShangpinRuku(ids,cangkushuxing,cangku);
+        }
+
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+    private void setCangKuShuXing(ModelAndView mv) throws Exception {
+        List<Dictionaries> dictionaries = dictionariesService.listSubDictByParentId("89bb990471364bbc8f17d7bb8755c522");
+        mv.addObject("dictionaries",dictionaries);
+    }
 
 }

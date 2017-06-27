@@ -1,207 +1,193 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.huanqiuyuncang.dao.order.CaiGouDingDanDAO" >
-  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
-    <constructor >
-      <idArg column="caigoudingdanid" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="caigoudingdanhao" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="gongyingshangbianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="shangpinhuohao" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="kehubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="shuliang" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="caigoujiage" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="xiaoji" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="caigoudingdanstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List" >
-    caigoudingdanid, caigoudingdanhao, gongyingshangbianhao, shangpinhuohao, kehubianhao, 
-    shuliang, caigoujiage, xiaoji, caigoudingdanstatus, beizhu, createuser, createtime, 
-    updateuser, updatetime
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from wms_caigoudingdan
-    where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from wms_caigoudingdan
-    where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
-    insert into wms_caigoudingdan (caigoudingdanid, caigoudingdanhao, 
-      gongyingshangbianhao, shangpinhuohao, kehubianhao, 
-      shuliang, caigoujiage, xiaoji, 
-      caigoudingdanstatus, beizhu, createuser, 
-      createtime, updateuser, updatetime
-      )
-    values (#{caigoudingdanid,jdbcType=VARCHAR}, #{caigoudingdanhao,jdbcType=VARCHAR}, 
-      #{gongyingshangbianhao,jdbcType=VARCHAR}, #{shangpinhuohao,jdbcType=VARCHAR}, #{kehubianhao,jdbcType=VARCHAR}, 
-      #{shuliang,jdbcType=VARCHAR}, #{caigoujiage,jdbcType=VARCHAR}, #{xiaoji,jdbcType=VARCHAR}, 
-      #{caigoudingdanstatus,jdbcType=VARCHAR}, #{beizhu,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
-    insert into wms_caigoudingdan
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="caigoudingdanid != null" >
-        caigoudingdanid,
-      </if>
-      <if test="caigoudingdanhao != null" >
-        caigoudingdanhao,
-      </if>
-      <if test="gongyingshangbianhao != null" >
-        gongyingshangbianhao,
-      </if>
-      <if test="shangpinhuohao != null" >
-        shangpinhuohao,
-      </if>
-      <if test="kehubianhao != null" >
-        kehubianhao,
-      </if>
-      <if test="shuliang != null" >
-        shuliang,
-      </if>
-      <if test="caigoujiage != null" >
-        caigoujiage,
-      </if>
-      <if test="xiaoji != null" >
-        xiaoji,
-      </if>
-      <if test="caigoudingdanstatus != null" >
-        caigoudingdanstatus,
-      </if>
-      <if test="beizhu != null" >
-        beizhu,
-      </if>
-      <if test="createuser != null" >
-        createuser,
-      </if>
-      <if test="createtime != null" >
-        createtime,
-      </if>
-      <if test="updateuser != null" >
-        updateuser,
-      </if>
-      <if test="updatetime != null" >
-        updatetime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="caigoudingdanid != null" >
-        #{caigoudingdanid,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoudingdanhao != null" >
-        #{caigoudingdanhao,jdbcType=VARCHAR},
-      </if>
-      <if test="gongyingshangbianhao != null" >
-        #{gongyingshangbianhao,jdbcType=VARCHAR},
-      </if>
-      <if test="shangpinhuohao != null" >
-        #{shangpinhuohao,jdbcType=VARCHAR},
-      </if>
-      <if test="kehubianhao != null" >
-        #{kehubianhao,jdbcType=VARCHAR},
-      </if>
-      <if test="shuliang != null" >
-        #{shuliang,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoujiage != null" >
-        #{caigoujiage,jdbcType=VARCHAR},
-      </if>
-      <if test="xiaoji != null" >
-        #{xiaoji,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoudingdanstatus != null" >
-        #{caigoudingdanstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="beizhu != null" >
-        #{beizhu,jdbcType=VARCHAR},
-      </if>
-      <if test="createuser != null" >
-        #{createuser,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateuser != null" >
-        #{updateuser,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
-    update wms_caigoudingdan
-    <set >
-      <if test="caigoudingdanhao != null" >
-        caigoudingdanhao = #{caigoudingdanhao,jdbcType=VARCHAR},
-      </if>
-      <if test="gongyingshangbianhao != null" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
+        <constructor >
+            <idArg column="caigoudingdanid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="caigoudingdanhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="gongyingshangbianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="kehubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="caigoujiage" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="caigoudingdanstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="cangkuuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        caigoudingdanid, caigoudingdanhao, gongyingshangbianhao, kehubianhao, caigoujiage,
+        caigoudingdanstatus, cangku, cangkuuser, beizhu, createuser, createtime, updateuser,
+        updatetime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_caigoudingdan
+        where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_caigoudingdan
+        where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
+        insert into wms_caigoudingdan (caigoudingdanid, caigoudingdanhao,
+        gongyingshangbianhao, kehubianhao, caigoujiage,
+        caigoudingdanstatus, cangku, cangkuuser,
+        beizhu, createuser, createtime,
+        updateuser, updatetime)
+        values (#{caigoudingdanid,jdbcType=VARCHAR}, #{caigoudingdanhao,jdbcType=VARCHAR},
+        #{gongyingshangbianhao,jdbcType=VARCHAR}, #{kehubianhao,jdbcType=VARCHAR}, #{caigoujiage,jdbcType=VARCHAR},
+        #{caigoudingdanstatus,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR}, #{cangkuuser,jdbcType=VARCHAR},
+        #{beizhu,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+        #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
+        insert into wms_caigoudingdan
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="caigoudingdanid != null" >
+                caigoudingdanid,
+            </if>
+            <if test="caigoudingdanhao != null" >
+                caigoudingdanhao,
+            </if>
+            <if test="gongyingshangbianhao != null" >
+                gongyingshangbianhao,
+            </if>
+            <if test="kehubianhao != null" >
+                kehubianhao,
+            </if>
+            <if test="caigoujiage != null" >
+                caigoujiage,
+            </if>
+            <if test="caigoudingdanstatus != null" >
+                caigoudingdanstatus,
+            </if>
+            <if test="cangku != null" >
+                cangku,
+            </if>
+            <if test="cangkuuser != null" >
+                cangkuuser,
+            </if>
+            <if test="beizhu != null" >
+                beizhu,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="caigoudingdanid != null" >
+                #{caigoudingdanid,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoudingdanhao != null" >
+                #{caigoudingdanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="gongyingshangbianhao != null" >
+                #{gongyingshangbianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehubianhao != null" >
+                #{kehubianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoujiage != null" >
+                #{caigoujiage,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoudingdanstatus != null" >
+                #{caigoudingdanstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="cangku != null" >
+                #{cangku,jdbcType=VARCHAR},
+            </if>
+            <if test="cangkuuser != null" >
+                #{cangkuuser,jdbcType=VARCHAR},
+            </if>
+            <if test="beizhu != null" >
+                #{beizhu,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
+        update wms_caigoudingdan
+        <set >
+            <if test="caigoudingdanhao != null" >
+                caigoudingdanhao = #{caigoudingdanhao,jdbcType=VARCHAR},
+            </if>
+            <if test="gongyingshangbianhao != null" >
+                gongyingshangbianhao = #{gongyingshangbianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="kehubianhao != null" >
+                kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoujiage != null" >
+                caigoujiage = #{caigoujiage,jdbcType=VARCHAR},
+            </if>
+            <if test="caigoudingdanstatus != null" >
+                caigoudingdanstatus = #{caigoudingdanstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="cangku != null" >
+                cangku = #{cangku,jdbcType=VARCHAR},
+            </if>
+            <if test="cangkuuser != null" >
+                cangkuuser = #{cangkuuser,jdbcType=VARCHAR},
+            </if>
+            <if test="beizhu != null" >
+                beizhu = #{beizhu,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
+        update wms_caigoudingdan
+        set caigoudingdanhao = #{caigoudingdanhao,jdbcType=VARCHAR},
         gongyingshangbianhao = #{gongyingshangbianhao,jdbcType=VARCHAR},
-      </if>
-      <if test="shangpinhuohao != null" >
-        shangpinhuohao = #{shangpinhuohao,jdbcType=VARCHAR},
-      </if>
-      <if test="kehubianhao != null" >
         kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
-      </if>
-      <if test="shuliang != null" >
-        shuliang = #{shuliang,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoujiage != null" >
         caigoujiage = #{caigoujiage,jdbcType=VARCHAR},
-      </if>
-      <if test="xiaoji != null" >
-        xiaoji = #{xiaoji,jdbcType=VARCHAR},
-      </if>
-      <if test="caigoudingdanstatus != null" >
         caigoudingdanstatus = #{caigoudingdanstatus,jdbcType=VARCHAR},
-      </if>
-      <if test="beizhu != null" >
+        cangku = #{cangku,jdbcType=VARCHAR},
+        cangkuuser = #{cangkuuser,jdbcType=VARCHAR},
         beizhu = #{beizhu,jdbcType=VARCHAR},
-      </if>
-      <if test="createuser != null" >
         createuser = #{createuser,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
         createtime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateuser != null" >
         updateuser = #{updateuser,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
-    update wms_caigoudingdan
-    set caigoudingdanhao = #{caigoudingdanhao,jdbcType=VARCHAR},
-      gongyingshangbianhao = #{gongyingshangbianhao,jdbcType=VARCHAR},
-      shangpinhuohao = #{shangpinhuohao,jdbcType=VARCHAR},
-      kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
-      shuliang = #{shuliang,jdbcType=VARCHAR},
-      caigoujiage = #{caigoujiage,jdbcType=VARCHAR},
-      xiaoji = #{xiaoji,jdbcType=VARCHAR},
-      caigoudingdanstatus = #{caigoudingdanstatus,jdbcType=VARCHAR},
-      beizhu = #{beizhu,jdbcType=VARCHAR},
-      createuser = #{createuser,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      updateuser = #{updateuser,jdbcType=VARCHAR},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP}
-    where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
-  </update>
-
+        updatetime = #{updatetime,jdbcType=TIMESTAMP}
+        where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
+    </update>
     <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
@@ -212,9 +198,6 @@
         </if>
         <if test="pd.gongyingshangbianhao != null and pd.gongyingshangbianhao != ''" >
             AND  gongyingshangbianhao = #{pd.gongyingshangbianhao,jdbcType=VARCHAR}
-        </if>
-        <if test="pd.shangpinhuohao != null and pd.shangpinhuohao != ''" >
-            AND  shangpinhuohao = #{pd.shangpinhuohao,jdbcType=VARCHAR}
         </if>
         <if test="pd.kehubianhao != null and pd.kehubianhao != ''" >
             AND  kehubianhao = #{pd.kehubianhao,jdbcType=VARCHAR}

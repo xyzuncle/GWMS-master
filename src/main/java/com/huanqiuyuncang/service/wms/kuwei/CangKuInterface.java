@@ -21,4 +21,6 @@ public interface CangKuInterface {
     List<CangKuEntity> datalistPage(Page page);
 
     void deleteAll(String[] arrayDATA_ids);
+
+
 }

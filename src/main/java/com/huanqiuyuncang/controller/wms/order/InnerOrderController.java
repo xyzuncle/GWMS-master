@@ -1,13 +1,19 @@
 package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
+import com.huanqiuyuncang.dao.kuwei.BaoGuoKuWeiDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
+import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.order.PingZhengEnetity;
 import com.huanqiuyuncang.entity.order.ProductOrderBase;
 import com.huanqiuyuncang.entity.product.ProductEntity;
+import com.huanqiuyuncang.entity.system.Dictionaries;
+import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
+import com.huanqiuyuncang.service.wms.kuwei.BaoGuoKuWeiInterface;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
@@ -23,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -43,6 +50,11 @@ public class InnerOrderController extends BaseController {
     private ProductInterface productService;
     @Autowired
     private OrderProductInterface orderProductService;
+    @Resource(name="dictionariesService")
+    private DictionariesManager dictionariesService;
+    @Autowired
+    private BaoGuoKuWeiInterface baoGuoKuWeiService;
+
     /**保存
      * @param
      * @throws Exception
@@ -288,8 +300,6 @@ public class InnerOrderController extends BaseController {
         return customerList;
     }
 
-
-
     @RequestMapping(value="/goAddProduct")
     public ModelAndView goAddProduct()throws Exception{
         ModelAndView mv = this.getModelAndView();
@@ -299,6 +309,8 @@ public class InnerOrderController extends BaseController {
         mv.addObject("pd", pd);
         return mv;
     }
+
+
 
     @RequestMapping(value="/goEditProduct")
     public ModelAndView goEditProduct()throws Exception{
@@ -466,7 +478,6 @@ public class InnerOrderController extends BaseController {
         orderProductEntities.forEach(orderProduct ->{
             try {
                 ProductOrderBase base = new ProductOrderBase();
-
                 ProductEntity product = productService.findProductByBarCode(orderProduct.getBarcode());
                 base.setProductnum(product.getProductnum());
                 base.setProductname(product.getProductname());
@@ -575,6 +586,84 @@ public class InnerOrderController extends BaseController {
             pd.put("msg", "no");
         }
         pdList.add(pd);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+
+
+    @RequestMapping(value="/goChuku")
+    public ModelAndView goChuku()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        setCangKuShuXing(mv);
+        mv.setViewName("wms/innerorder/innerorder_chuku");
+        mv.addObject("msg", "saveShangpinChuku");
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    private void setCangKuShuXing(ModelAndView mv) throws Exception {
+        List<Dictionaries> dictionaries = dictionariesService.listSubDictByParentId("89bb990471364bbc8f17d7bb8755c522");
+        mv.addObject("dictionaries",dictionaries);
+    }
+
+
+    @RequestMapping(value="/getCangku")
+    @ResponseBody
+    public Object getCangku() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        String code = pd.getString("code");
+        List<CangKuEntity> pdList = innerOrderService.getCangku(code);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+
+    @RequestMapping(value="/saveShangpinChuku")
+    public ModelAndView saveShangpinChuku(String innerorderid,String cangkushuxing,String cangku) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        if(null != innerorderid && !"".equals(innerorderid)){
+            String ids[] = innerorderid.split(",");
+            innerOrderService.saveShangpinChuku(ids,cangkushuxing,cangku);
+        }
+
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+
+    @RequestMapping(value="/gobaoguokuwei")
+    public ModelAndView gobaoguokuwei()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        List<CustomerEntity> customerList = getCustomerList();
+        mv.setViewName("wms/innerorder/innerpackage_ruku");
+        mv.addObject("msg", "saveBaoguoRuku");
+        mv.addObject("customerList", customerList);
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/saveBaoguoRuku")
+    public ModelAndView saveBaoguoRuku(String innerorderid,String baoguokuwei) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        if(null != innerorderid && !"".equals(innerorderid)){
+            String ids[] = innerorderid.split(",");
+            innerOrderService.saveBaoguoRuku(ids,baoguokuwei);
+        }
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+    @RequestMapping(value="/getbaoguocangku")
+    @ResponseBody
+    public Object getbaoguocangku() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        String code = pd.getString("code");
+        List<BaoGuoKuWeiEntity> pdList = baoGuoKuWeiService.selectByCustomernum(code);
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }

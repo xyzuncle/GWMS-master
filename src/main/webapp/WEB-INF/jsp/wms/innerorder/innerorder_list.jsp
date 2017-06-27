@@ -190,7 +190,7 @@
                                                     <td class='center'>
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
-                                                    <td class='center' style="width: 30px;">${vs.index+1}</td>
+                                                    <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.customerordernum}</td>
                                                     <td class='center'>${var.sender}</td>
                                                     <td class='center'>${var.recipient}</td>
@@ -274,6 +274,8 @@
                                         <td style="vertical-align:top;">
                                             <c:if test="${QX.add == 1 }">
                                                 <a class="btn btn-sm btn-success" onclick="add();">新增</a>
+                                            </c:if>
+                                            <c:if test="${QX.FromExcel == 1 }">
                                                 <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
                                             </c:if>
                                             <c:if test="${QX.del == 1 && pd.orderstatus == 'orderStatus_daiqueren' }">
@@ -281,6 +283,11 @@
                                             </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                            </c:if>
+                                            <c:if test="${QX.tuisongcangku == 1 && pd.orderstatus == 'orderStatus_yiqueren' }">
+                                                <a class="btn btn-xs btn-success" title="生成出库单" onclick="makeChuku();">
+                                                    <i class='ace-icon fa fa-bookmark bigger-120'></i>
+                                                </a>
                                             </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
                                                 <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('确定要将选中的数据生成包裹吗?');">
@@ -297,7 +304,11 @@
                                                     <i class='ace-icon  fa fa-gavel bigger-120'></i>
                                                 </a>
                                             </c:if>
-
+                                      <%--      <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
+                                                <a class="btn btn-xs btn-success" title="生成出库单" onclick="makeShangpinChuku('确定要将选中订单生成出库单吗?');">
+                                                    <i class='ace-icon fa  fa-briefcase bigger-120'></i>
+                                                </a>
+                                            </c:if>--%>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
@@ -456,7 +467,49 @@
         diag.show();
     }
 
+    function makeChuku(){
+        var str = '';
+        for(var i=0;i < document.getElementsByName('ids').length;i++){
+            if(document.getElementsByName('ids')[i].checked){
+                if(str=='') str += document.getElementsByName('ids')[i].value;
+                else str += ',' + document.getElementsByName('ids')[i].value;
+            }
+        }
+        if(str==''){
+            bootbox.dialog({
+                message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                buttons:
+                { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+            });
+            $("#zcheckbox").tips({
+                side:1,
+                msg:'点这里全选',
+                bg:'#AE81FF',
+                time:8
+            });
+            return;
+        }else{
+            top.jzts();
+            var diag = new top.Dialog();
+            diag.Drag=true;
+            diag.Title ="订单商品出库";
+            diag.URL = '<%=basePath%>innerorder/goChuku.do?innerorderid='+str;
+            diag.Width = 400;
+            diag.Height = 200;
+            diag.CancelEvent = function(){ //关闭事件
+                if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                    nextPage(${page.currentPage});
+                }
+                diag.close();
+            };
+            diag.show();
+        }
+
+    }
+
+
     function viewinnerorder(Id){
+
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;

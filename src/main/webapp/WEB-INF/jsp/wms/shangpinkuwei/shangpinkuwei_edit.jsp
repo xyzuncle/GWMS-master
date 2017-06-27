@@ -40,50 +40,17 @@
                                                     <c:if test="${msg == 'edit' }">
                                                         disabled
                                                     </c:if>
-                                                   name="customernum" id="customernum" value="${shangpinkuwei.productnum}" maxlength="30"style="width:98%;"/>
+                                                   name="productnum" id="productnum" value="${shangpinkuwei.productnum}" maxlength="30"style="width:98%;"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">默认仓库:</td>
-                                        <td>
-                                            <input  type="text" name="cangku" id="cangku" value="${shangpinkuwei.cangku}"
-                                                    maxlength="50" style="width:98%;"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">默认库位:</td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">库位:</td>
                                         <td><input type="text" name="kuwei" id="kuwei" value="${shangpinkuwei.kuwei}" maxlength="255"  style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>
                                         <td><textarea rows="5" cols="10" id="beizhu" name="beizhu" style="width:98%;"  title="备注">${shangpinkuwei.beizhu}</textarea></td>
                                     </tr>
-                                    <c:if test="${QX.adminOrder == 1 }">
-                                        <tr>
-                                            <td style="width:78px;text-align: right;padding-top: 13px;">创建者:</td>
-                                            <td >
-                                                <input type="text" disabled name="createuser" id="createuser" value="${shangpinkuwei.createuser}" maxlength="255" title="申报价" style="width:98%;"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:78px;text-align: right;padding-top: 13px;">创建时间:</td>
-                                            <td >
-                                                <input type="text" disabled name="createtime" id="createtime" value="${shangpinkuwei.formatCreateTime}" maxlength="255" title="申报价" style="width:98%;"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:78px;text-align: right;padding-top: 13px;">修改者:</td>
-                                            <td >
-                                                <input type="text" disabled name="updateuser" id="updateuser" value="${shangpinkuwei.updateuser}" maxlength="255" title="申报价" style="width:98%;"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:78px;text-align: right;padding-top: 13px;">修改时间:</td>
-                                            <td >
-                                                <input type="text" disabled name="updatetime" id="updatetime" value="${shangpinkuwei.formateUpdateTime}" maxlength="255" title="申报价" style="width:98%;"/>
-                                            </td>
-                                        </tr>
-                                    </c:if>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
                                             <a class="btn btn-mini btn-primary" onclick="save();">保存</a>

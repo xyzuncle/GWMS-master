@@ -54,9 +54,8 @@
                                         <td style="width:130px;text-align: right;padding-top: 13px;">发货仓库:</td>
                                         <td>
                                             <select style="width:80px;" name="2" id="2">
-                                                <option value="1">默认仓</option>
-                                                <option value="0">公共仓</option>
-                                                <option value="2">自有商品</option>
+                                                <option value="1">默认库位</option>
+                                                <option value="0">自定义库位</option>
                                             </select>
                                         </td>
                                         <td style="width:130px;text-align: right;padding-top: 13px;">按商品内部货值计算申报货值:</td>

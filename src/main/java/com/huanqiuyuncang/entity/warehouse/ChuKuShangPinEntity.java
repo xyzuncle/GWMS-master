@@ -19,6 +19,8 @@ public class ChuKuShangPinEntity {
 
     private String shuliang;
 
+    private String cangku;
+
     private String cangwei;
 
     private String chukuzhuangtai;
@@ -31,7 +33,7 @@ public class ChuKuShangPinEntity {
 
     private Date updatetime;
 
-    public ChuKuShangPinEntity(String chukushangpinid, String baoguodanhao, String kehudingdanhao, String waibudingdanhao, String kehubianhao, String neibuhuohao, String shangpintiaoma, String shuliang, String cangwei, String chukuzhuangtai, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public ChuKuShangPinEntity(String chukushangpinid, String baoguodanhao, String kehudingdanhao, String waibudingdanhao, String kehubianhao, String neibuhuohao, String shangpintiaoma, String shuliang, String cangku, String cangwei, String chukuzhuangtai, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.chukushangpinid = chukushangpinid;
         this.baoguodanhao = baoguodanhao;
         this.kehudingdanhao = kehudingdanhao;
@@ -40,6 +42,7 @@ public class ChuKuShangPinEntity {
         this.neibuhuohao = neibuhuohao;
         this.shangpintiaoma = shangpintiaoma;
         this.shuliang = shuliang;
+        this.cangku = cangku;
         this.cangwei = cangwei;
         this.chukuzhuangtai = chukuzhuangtai;
         this.createuser = createuser;
@@ -116,6 +119,14 @@ public class ChuKuShangPinEntity {
         this.shuliang = shuliang == null ? null : shuliang.trim();
     }
 
+    public String getCangku() {
+        return cangku;
+    }
+
+    public void setCangku(String cangku) {
+        this.cangku = cangku == null ? null : cangku.trim();
+    }
+
     public String getCangwei() {
         return cangwei;
     }
@@ -129,7 +140,7 @@ public class ChuKuShangPinEntity {
     }
 
     public void setChukuzhuangtai(String chukuzhuangtai) {
-        this.chukuzhuangtai = chukuzhuangtai;
+        this.chukuzhuangtai = chukuzhuangtai == null ? null : chukuzhuangtai.trim();
     }
 
     public String getCreateuser() {

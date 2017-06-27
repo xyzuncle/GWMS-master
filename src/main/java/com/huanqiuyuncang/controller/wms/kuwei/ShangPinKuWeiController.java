@@ -6,10 +6,8 @@ import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
 import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
 import com.huanqiuyuncang.service.wms.kuwei.BaoGuoKuWeiInterface;
 import com.huanqiuyuncang.service.wms.kuwei.ShangPinKuWeiInterface;
-import com.huanqiuyuncang.util.AppUtil;
-import com.huanqiuyuncang.util.BeanMapUtil;
-import com.huanqiuyuncang.util.Jurisdiction;
-import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.*;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +43,12 @@ public class ShangPinKuWeiController extends BaseController {
         BeanMapUtil.setUpdateUserInfo(pd);
         ShangPinKuWeiEntity shangPinKuWeiEntity = (ShangPinKuWeiEntity) BeanMapUtil.mapToObject(pd, ShangPinKuWeiEntity.class);
         shangPinKuWeiEntity.setId(this.get32UUID());
+        String token = (String)this.getRequest().getSession().getAttribute("token");
+        shangPinKuWeiEntity.setCangku(token);
         shangPinKuWeiService.insertSelective(shangPinKuWeiEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
+        mv.addObject("pd", pd);
         return mv;
     }
 
@@ -57,19 +58,12 @@ public class ShangPinKuWeiController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value="/delete")
-    public void delete(PrintWriter out) throws Exception{
-        if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
-        PageData pd = this.getPageData();
-        String id = pd.getString("id");
-        Integer sum = checkTable("wms_shangpinkuwei","id", id);
-        String msg = "success";
-        if(sum >0){
-            msg = "error";
-        }else{
-            shangPinKuWeiService.deleteByPrimaryKey(id);
-        }
-        out.write(msg);
-        out.close();
+    @ResponseBody
+    public Object delete(String id) throws Exception{
+        shangPinKuWeiService.deleteByPrimaryKey(id);
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("result", "success");
+        return AppUtil.returnObject(new PageData(), map);
     }
 
     /**修改
@@ -86,6 +80,7 @@ public class ShangPinKuWeiController extends BaseController {
         shangPinKuWeiService.updateByPrimaryKeySelective(shangPinKuWeiEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
+        mv.addObject("pd", pd);
         return mv;
     }
 
@@ -94,16 +89,12 @@ public class ShangPinKuWeiController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value="/list")
-    public ModelAndView list(Page page) throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = this.getPageData();
-        page.setPd(pd);
-        List<ShangPinKuWeiEntity> varList =  shangPinKuWeiService.datalistPage(page);
-        mv.setViewName("wms/shangpinkuwei/shangpinkuwei_list");
-        mv.addObject("varList", varList);
-        mv.addObject("pd", pd);
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        return mv;
+    public void list(PrintWriter printWriter,String cangkuid) throws Exception{
+
+        List<ShangPinKuWeiEntity> list =  shangPinKuWeiService.selectByCangKu(cangkuid);
+        String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
+        String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
+        printWriter.write(resultJson);
     }
 
 

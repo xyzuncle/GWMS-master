@@ -126,7 +126,7 @@
                                                     <td class='center'>
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.caigoudingdanid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
-                                                    <td class='center' style="width: 30px;">${vs.index+1}</td>
+                                                    <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.caigoudingdanhao}</td>
                                                     <td class='center'>${var.gongyingshangbianhao}</td>
                                                     <td class="center">
@@ -206,6 +206,9 @@
                                             </c:if>
                                             <c:if test="${pd.caigoudingdanstatus == 'caigouStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                            </c:if>
+                                            <c:if test="${QX.tuisongcangku == 1 && pd.caigoudingdanstatus == 'caigouStatus_yiqueren' }">
+                                                <a class="btn btn-sm btn-primary" onclick="makeruku();" title="推送入库" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
                                             <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
                                         </td>
@@ -547,6 +550,47 @@
             diag.close();
         };
         diag.show();
+    }
+
+
+    function makeruku(){
+        var str = '';
+        for(var i=0;i < document.getElementsByName('ids').length;i++){
+            if(document.getElementsByName('ids')[i].checked){
+                if(str=='') str += document.getElementsByName('ids')[i].value;
+                else str += ',' + document.getElementsByName('ids')[i].value;
+            }
+        }
+        if(str==''){
+            bootbox.dialog({
+                message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                buttons:
+                { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+            });
+            $("#zcheckbox").tips({
+                side:1,
+                msg:'点这里全选',
+                bg:'#AE81FF',
+                time:8
+            });
+            return;
+        }else{
+            top.jzts();
+            var diag = new top.Dialog();
+            diag.Drag=true;
+            diag.Title ="订单商品出库";
+            diag.URL = '<%=basePath%>caigoudingdan/goTuisongRuku.do?caigoudingdanid='+str;
+            diag.Width = 400;
+            diag.Height = 200;
+            diag.CancelEvent = function(){ //关闭事件
+                if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                    nextPage(${page.currentPage});
+                }
+                diag.close();
+            };
+            diag.show();
+        }
+
     }
 
 </script>

@@ -21,4 +21,7 @@ public interface BaoGuoKuWeiInterface {
     List<BaoGuoKuWeiEntity> datalistPage(Page page);
 
     void deleteAll(String[] arrayDATA_ids);
+
+    List<BaoGuoKuWeiEntity> selectByCustomernum(String code);
+
 }

@@ -57,4 +57,9 @@ public class BaoGuoKuWeiService implements BaoGuoKuWeiInterface {
             baoGuoKuWeiDAO.deleteByPrimaryKey(id);
         }
     }
+
+    @Override
+    public List<BaoGuoKuWeiEntity> selectByCustomernum(String customernum) {
+        return baoGuoKuWeiDAO.selectbyCustomerNum(customernum);
+    }
 }

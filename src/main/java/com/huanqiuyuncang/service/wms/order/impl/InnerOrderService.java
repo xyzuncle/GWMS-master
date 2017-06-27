@@ -2,6 +2,8 @@ package com.huanqiuyuncang.service.wms.order.impl;
 
 import com.huanqiuyuncang.dao.customer.CustomerDAO;
 import com.huanqiuyuncang.dao.kuwei.BaoGuoKuWeiDAO;
+import com.huanqiuyuncang.dao.kuwei.CangKuDAO;
+import com.huanqiuyuncang.dao.kuwei.ShangPinKuWeiDAO;
 import com.huanqiuyuncang.dao.order.InnerOrderDAO;
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
 import com.huanqiuyuncang.dao.pdconversion.ProductConversionDAO;
@@ -11,6 +13,8 @@ import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
@@ -56,6 +60,12 @@ public class InnerOrderService implements InnerOrderInterface {
 
     @Autowired
     private BaoGuoKuWeiDAO baoGuoKuWeiDAO;
+
+    @Autowired
+    private CangKuDAO cangKuDAO;
+
+    @Autowired
+    private ShangPinKuWeiDAO shangPinKuWeiDAO;
 
     @Override
     public int insert(InnerOrderEntity record) {
@@ -192,7 +202,7 @@ public class InnerOrderService implements InnerOrderInterface {
             }
         }
         innerOrder.setInnerpackagenum(packagenum);
-        innerOrder.setOrderstatus("orderStatus_daidabao");
+        innerOrder.setOrderstatus("packageStatus_daishenhe");
         innerOrder.setCartonid(defaultCarton);
         innerOrder.setPackageid(packageType);
     }
@@ -268,6 +278,33 @@ public class InnerOrderService implements InnerOrderInterface {
         }
     }
 
+    @Override
+    public void makequeren(String[] arrayDATA_ids) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        for (String id :arrayDATA_ids){
+            InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
+            innerOrderEntity.setOrderstatus("packageStatus_yishenhe");
+            innerOrderEntity.setUpdateuser(username);
+            innerOrderEntity.setUpdatetime(date);
+            innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
+        }
+    }
+
+    @Override
+    public void makeshenhe(String[] arrayDATA_ids) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        for (String id :arrayDATA_ids){
+            InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
+            innerOrderEntity.setOrderstatus("orderStatus_daidabao");
+            innerOrderEntity.setUpdateuser(username);
+            innerOrderEntity.setUpdatetime(date);
+            innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
+        }
+    }
+
+
 
     @Override
     public List<PageData> selectProvince() {
@@ -307,7 +344,7 @@ public class InnerOrderService implements InnerOrderInterface {
             InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
             if("orderStatus_daiqueren".equals(innerOrderEntity.getOrderstatus())){
                 innerOrderEntity.setOrderstatus("orderStatus_yiqueren");
-                List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
+              /*  List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
                 orderProductEntities.forEach(orderProduct ->{
                     CustomerEntity customer = customerDAO.selectCustomerByCode(innerOrderEntity.getCustomernum());
                     ChuKuShangPinEntity chuKuShangPinEntity = new ChuKuShangPinEntity();
@@ -326,10 +363,10 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setUpdatetime(date);
                     chuKuShangPinEntity.setUpdateuser(username);
                     chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
-                });
+                });*/
             }else if("orderStatus_daidabao".equals(innerOrderEntity.getOrderstatus())){
                 innerOrderEntity.setOrderstatus("orderStatus_yidabao");
-                RuKuBaoGuoEntity ruKuBaoGuoEntity = new RuKuBaoGuoEntity();
+            /*    RuKuBaoGuoEntity ruKuBaoGuoEntity = new RuKuBaoGuoEntity();
                 ruKuBaoGuoEntity.setRukubaoguoid(UuidUtil.get32UUID());
                 ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_daidabao");
                 ruKuBaoGuoEntity.setKehubianhao(innerOrderEntity.getCustomernum());
@@ -344,9 +381,8 @@ public class InnerOrderService implements InnerOrderInterface {
                 ruKuBaoGuoEntity.setCreatetime(date);
                 ruKuBaoGuoEntity.setUpdatetime(date);
                 ruKuBaoGuoEntity.setUpdateuser(username);
-                ruKuBaoGuoDAO.insertSelective(ruKuBaoGuoEntity);
+                ruKuBaoGuoDAO.insertSelective(ruKuBaoGuoEntity);*/
             }
-
             innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
         }
     }
@@ -620,6 +656,70 @@ public class InnerOrderService implements InnerOrderInterface {
         return "";
     }
 
+    @Override
+    public List<CangKuEntity> getCangku(String cangkushuxing) {
+        return cangKuDAO.getCangku(cangkushuxing);
+    }
 
+    @Override
+    public void saveShangpinChuku(String[] ids, String cangkushuxing, String cangku) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        for (String id :ids){
+            InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
+
+              List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
+                orderProductEntities.forEach(orderProduct ->{
+                    CustomerEntity customer = customerDAO.selectCustomerByCode(innerOrderEntity.getCustomernum());
+                    ChuKuShangPinEntity chuKuShangPinEntity = new ChuKuShangPinEntity();
+                    chuKuShangPinEntity.setChukushangpinid(UuidUtil.get32UUID());
+                    chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
+                    chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
+                    chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
+                    ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(orderProduct.getOuterproductnum(), username);
+                    chuKuShangPinEntity.setNeibuhuohao(productEntity.getProductnum());
+                    chuKuShangPinEntity.setShangpintiaoma(productEntity.getBarcodeMain());
+                    chuKuShangPinEntity.setShuliang(orderProduct.getCount());
+                    chuKuShangPinEntity.setChukuzhuangtai("daichuku");
+                    chuKuShangPinEntity.setCangku(cangku);
+                    CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangku);
+                    String createuser = cangKuEntity.getCreateuser();
+                    List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByKuweiAndProductnum(cangku,productEntity.getProductnum());
+                    String kuwei = (list!=null && list.size()>0)?list.get(0).getKuwei():"";
+                    chuKuShangPinEntity.setCangwei(kuwei);
+                    chuKuShangPinEntity.setCreateuser(createuser);
+                    chuKuShangPinEntity.setCreatetime(date);
+                    chuKuShangPinEntity.setUpdatetime(date);
+                    chuKuShangPinEntity.setUpdateuser(createuser);
+                    chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
+                });
+        }
+    }
+
+    public void saveBaoguoRuku(String[] ids, String baoguokuwei) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        for (String id :ids) {
+            InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
+            RuKuBaoGuoEntity ruKuBaoGuoEntity = new RuKuBaoGuoEntity();
+            ruKuBaoGuoEntity.setRukubaoguoid(UuidUtil.get32UUID());
+            ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_daidabao");
+            ruKuBaoGuoEntity.setKehubianhao(innerOrderEntity.getCustomernum());
+            ruKuBaoGuoEntity.setBaoguodanhao(innerOrderEntity.getInnerpackagenum());
+            BaoGuoKuWeiEntity baoGuoKuWeiEntity = baoGuoKuWeiDAO.selectByPrimaryKey(baoguokuwei);
+            if(baoGuoKuWeiEntity != null){
+                ruKuBaoGuoEntity.setCangku(baoGuoKuWeiEntity.getCangku());
+                ruKuBaoGuoEntity.setCangwei(baoGuoKuWeiEntity.getKuwei());
+            }else{
+                ruKuBaoGuoEntity.setCangwei("P0000");
+            }
+            ruKuBaoGuoEntity.setCreateuser(username);
+            ruKuBaoGuoEntity.setCreatetime(date);
+            ruKuBaoGuoEntity.setUpdatetime(date);
+            ruKuBaoGuoEntity.setUpdateuser(username);
+            ruKuBaoGuoDAO.insertSelective(ruKuBaoGuoEntity);
+        }
+
+    }
 
 }

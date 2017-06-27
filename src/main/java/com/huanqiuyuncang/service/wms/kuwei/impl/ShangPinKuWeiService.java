@@ -58,4 +58,9 @@ public class ShangPinKuWeiService implements ShangPinKuWeiInterface {
             shangPinKuWeiDAO.deleteByPrimaryKey(id);
         }
     }
+
+    @Override
+    public List<ShangPinKuWeiEntity> selectByCangKu(String cangkuid) {
+        return shangPinKuWeiDAO.selectByKuWei(cangkuid);
+    }
 }

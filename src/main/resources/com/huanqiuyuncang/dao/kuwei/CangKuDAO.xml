@@ -157,4 +157,13 @@
             and cangkushuxing LIKE  "%"#{pd.cangkushuxing,jdbcType=VARCHAR}"%"
         </if>
     </select>
+
+    <select id="getCangku" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_cangku where  1=1
+        and cangkushuxing = #{cangkushuxing,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

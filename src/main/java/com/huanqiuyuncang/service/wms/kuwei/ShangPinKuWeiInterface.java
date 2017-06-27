@@ -22,4 +22,6 @@ public interface ShangPinKuWeiInterface {
     List<ShangPinKuWeiEntity> datalistPage(Page page);
 
     void deleteAll(String[] arrayDATA_ids);
+
+    List<ShangPinKuWeiEntity> selectByCangKu(String cangkuid);
 }

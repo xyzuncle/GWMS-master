@@ -97,7 +97,7 @@
                                                     <td class='center'>
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.productconversionid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
-                                                    <td class='center' style="width: 30px;">${vs.index+1}</td>
+                                                    <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.outerproductnum}</td>
                                                     <td class='center'>${var.customercode}</td>
                                                     <td class='center'>${var.productnum1}</td>

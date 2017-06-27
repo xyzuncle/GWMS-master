@@ -1,8 +1,11 @@
 package com.huanqiuyuncang.service.wms.kuwei.impl;
 
 import com.huanqiuyuncang.dao.kuwei.CangKuDAO;
+import com.huanqiuyuncang.dao.kuwei.ShangPinKuWeiDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
+import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,15 @@ public class CangKuService implements CangKuInterface {
     @Autowired
     private CangKuDAO cangKuDAO;
 
+    @Autowired
+    private ShangPinKuWeiDAO shangPinKuWeiDAO;
+
     @Override
     public int deleteByPrimaryKey(String id) {
+        List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuWei(id);
+        for (ShangPinKuWeiEntity shangpinkuwei: shangPinKuWeiEntities) {
+            shangPinKuWeiDAO.deleteByPrimaryKey(shangpinkuwei.getId());
+        }
         return cangKuDAO.deleteByPrimaryKey(id);
     }
 
@@ -58,4 +68,5 @@ public class CangKuService implements CangKuInterface {
             cangKuDAO.deleteByPrimaryKey(id);
         }
     }
+
 }

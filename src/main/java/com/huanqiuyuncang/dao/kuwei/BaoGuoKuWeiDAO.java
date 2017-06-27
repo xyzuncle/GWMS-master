@@ -21,4 +21,6 @@ public interface BaoGuoKuWeiDAO {
     List<BaoGuoKuWeiEntity> datalistPage(Page page);
 
     List<BaoGuoKuWeiEntity> selectbyCustomerNum(String code);
+
+
 }

@@ -186,6 +186,44 @@ public class InnerPackageController extends BaseController {
         return AppUtil.returnObject(pd, map);
     }
 
+    @RequestMapping(value="/makequeren")
+    @ResponseBody
+    public Object makequeren() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        List<PageData> pdList = new ArrayList<PageData>();
+        String DATA_IDS = pd.getString("DATA_IDS");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            innerOrderService.makequeren(ArrayDATA_IDS);
+            pd.put("msg", "ok");
+        }else{
+            pd.put("msg", "no");
+        }
+        pdList.add(pd);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+
+    @RequestMapping(value="/makeshenhe")
+    @ResponseBody
+    public Object makeshenhe() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        List<PageData> pdList = new ArrayList<PageData>();
+        String DATA_IDS = pd.getString("DATA_IDS");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            innerOrderService.makeshenhe(ArrayDATA_IDS);
+            pd.put("msg", "ok");
+        }else{
+            pd.put("msg", "no");
+        }
+        pdList.add(pd);
+        map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+
 
     /**打开上传EXCEL页面
      * @return

@@ -6,6 +6,7 @@
       <idArg column="rukubaoguoid" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="baoguodanhao" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="kehubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="rukuzhuangtai" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -15,7 +16,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    rukubaoguoid, baoguodanhao, kehubianhao, cangwei, rukuzhuangtai, createuser, createtime, 
+    rukubaoguoid, baoguodanhao, kehubianhao,cangku, cangwei, rukuzhuangtai, createuser, createtime,
     updateuser, updatetime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -29,12 +30,12 @@
     where rukubaoguoid = #{rukubaoguoid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity" >
-    insert into wms_rukubaoguo (rukubaoguoid, baoguodanhao, kehubianhao, 
+    insert into wms_rukubaoguo (rukubaoguoid, baoguodanhao, kehubianhao, cangku,
       cangwei, rukuzhuangtai, createuser, 
       createtime, updateuser, updatetime
       )
     values (#{rukubaoguoid,jdbcType=VARCHAR}, #{baoguodanhao,jdbcType=VARCHAR}, #{kehubianhao,jdbcType=VARCHAR}, 
-      #{cangwei,jdbcType=VARCHAR}, #{rukuzhuangtai,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{cangku,jdbcType=VARCHAR},#{cangwei,jdbcType=VARCHAR}, #{rukuzhuangtai,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
       #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -50,7 +51,10 @@
       <if test="kehubianhao != null" >
         kehubianhao,
       </if>
-      <if test="cangwei != null" >
+      <if test="cangku != null" >
+          cangku,
+      </if>
+        <if test="cangwei != null" >
         cangwei,
       </if>
       <if test="rukuzhuangtai != null" >
@@ -78,6 +82,9 @@
       </if>
       <if test="kehubianhao != null" >
         #{kehubianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="cangku != null" >
+        #{cangku,jdbcType=VARCHAR},
       </if>
       <if test="cangwei != null" >
         #{cangwei,jdbcType=VARCHAR},
@@ -108,6 +115,9 @@
       <if test="kehubianhao != null" >
         kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
       </if>
+      <if test="cangku != null" >
+          cangku = #{cangku,jdbcType=VARCHAR},
+      </if>
       <if test="cangwei != null" >
         cangwei = #{cangwei,jdbcType=VARCHAR},
       </if>
@@ -133,6 +143,7 @@
     update wms_rukubaoguo
     set baoguodanhao = #{baoguodanhao,jdbcType=VARCHAR},
       kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
+      cangku = #{cangku,jdbcType=VARCHAR},
       cangwei = #{cangwei,jdbcType=VARCHAR},
       rukuzhuangtai = #{rukuzhuangtai,jdbcType=VARCHAR},
       createuser = #{createuser,jdbcType=VARCHAR},

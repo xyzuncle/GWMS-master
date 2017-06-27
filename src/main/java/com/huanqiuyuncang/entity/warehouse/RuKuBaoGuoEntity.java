@@ -13,6 +13,8 @@ public class RuKuBaoGuoEntity {
 
     private String rukuzhuangtai;
 
+    private String cangku;
+
     private String createuser;
 
     private Date createtime;
@@ -21,8 +23,9 @@ public class RuKuBaoGuoEntity {
 
     private Date updatetime;
 
-    public RuKuBaoGuoEntity(String rukubaoguoid, String baoguodanhao, String kehubianhao, String cangwei, String rukuzhuangtai, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public RuKuBaoGuoEntity(String rukubaoguoid,String cangku, String baoguodanhao, String kehubianhao, String cangwei, String rukuzhuangtai, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.rukubaoguoid = rukubaoguoid;
+        this.cangku = cangku;
         this.baoguodanhao = baoguodanhao;
         this.kehubianhao = kehubianhao;
         this.cangwei = cangwei;
@@ -59,6 +62,14 @@ public class RuKuBaoGuoEntity {
 
     public void setKehubianhao(String kehubianhao) {
         this.kehubianhao = kehubianhao == null ? null : kehubianhao.trim();
+    }
+
+    public String getCangku() {
+        return cangku;
+    }
+
+    public void setCangku(String cangku) {
+        this.cangku = cangku;
     }
 
     public String getCangwei() {

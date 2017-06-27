@@ -19,4 +19,6 @@ public interface CangKuDAO {
     int updateByPrimaryKey(CangKuEntity record);
 
     List<CangKuEntity> datalistPage(Page page);
+
+    List<CangKuEntity> getCangku(String cangkushuxing);
 }

@@ -11,6 +11,7 @@
             <arg column="neibuhuohao" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="shangpintiaoma" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="shuliang" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="chukuzhuangtai" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -21,8 +22,8 @@
     </resultMap>
     <sql id="Base_Column_List" >
         chukushangpinid, baoguodanhao, kehudingdanhao, waibudingdanhao, kehubianhao, neibuhuohao,
-        shangpintiaoma, shuliang, cangwei, chukuzhuangtai, createuser, createtime, updateuser,
-        updatetime
+        shangpintiaoma, shuliang, cangku, cangwei, chukuzhuangtai, createuser, createtime,
+        updateuser, updatetime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
@@ -37,14 +38,16 @@
     <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
         insert into wms_chukushangpin (chukushangpinid, baoguodanhao, kehudingdanhao,
         waibudingdanhao, kehubianhao, neibuhuohao,
-        shangpintiaoma, shuliang, cangwei,
-        chukuzhuangtai, createuser, createtime,
-        updateuser, updatetime)
+        shangpintiaoma, shuliang, cangku,
+        cangwei, chukuzhuangtai, createuser,
+        createtime, updateuser, updatetime
+        )
         values (#{chukushangpinid,jdbcType=VARCHAR}, #{baoguodanhao,jdbcType=VARCHAR}, #{kehudingdanhao,jdbcType=VARCHAR},
         #{waibudingdanhao,jdbcType=VARCHAR}, #{kehubianhao,jdbcType=VARCHAR}, #{neibuhuohao,jdbcType=VARCHAR},
-        #{shangpintiaoma,jdbcType=VARCHAR}, #{shuliang,jdbcType=VARCHAR}, #{cangwei,jdbcType=VARCHAR},
-        #{chukuzhuangtai,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
-        #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+        #{shangpintiaoma,jdbcType=VARCHAR}, #{shuliang,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR},
+        #{cangwei,jdbcType=VARCHAR}, #{chukuzhuangtai,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity" >
         insert into wms_chukushangpin
@@ -72,6 +75,9 @@
             </if>
             <if test="shuliang != null" >
                 shuliang,
+            </if>
+            <if test="cangku != null" >
+                cangku,
             </if>
             <if test="cangwei != null" >
                 cangwei,
@@ -117,6 +123,9 @@
             <if test="shuliang != null" >
                 #{shuliang,jdbcType=VARCHAR},
             </if>
+            <if test="cangku != null" >
+                #{cangku,jdbcType=VARCHAR},
+            </if>
             <if test="cangwei != null" >
                 #{cangwei,jdbcType=VARCHAR},
             </if>
@@ -161,6 +170,9 @@
             <if test="shuliang != null" >
                 shuliang = #{shuliang,jdbcType=VARCHAR},
             </if>
+            <if test="cangku != null" >
+                cangku = #{cangku,jdbcType=VARCHAR},
+            </if>
             <if test="cangwei != null" >
                 cangwei = #{cangwei,jdbcType=VARCHAR},
             </if>
@@ -191,6 +203,7 @@
       neibuhuohao = #{neibuhuohao,jdbcType=VARCHAR},
       shangpintiaoma = #{shangpintiaoma,jdbcType=VARCHAR},
       shuliang = #{shuliang,jdbcType=VARCHAR},
+      cangku = #{cangku,jdbcType=VARCHAR},
       cangwei = #{cangwei,jdbcType=VARCHAR},
       chukuzhuangtai = #{chukuzhuangtai,jdbcType=VARCHAR},
       createuser = #{createuser,jdbcType=VARCHAR},
@@ -199,7 +212,7 @@
       updatetime = #{updatetime,jdbcType=TIMESTAMP}
     where chukushangpinid = #{chukushangpinid,jdbcType=VARCHAR}
   </update>
-  <select id="datalistPage" parameterType="page" resultMap="BaseResultMap" >
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap" >
         select
         <include refid="Base_Column_List" />
         from wms_chukushangpin

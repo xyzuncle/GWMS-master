@@ -6,10 +6,8 @@ import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.system.Dictionaries;
 import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
-import com.huanqiuyuncang.util.AppUtil;
-import com.huanqiuyuncang.util.BeanMapUtil;
-import com.huanqiuyuncang.util.Jurisdiction;
-import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.*;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +46,8 @@ public class CangKuController extends BaseController {
         BeanMapUtil.setCreateUserInfo(pd);
         BeanMapUtil.setUpdateUserInfo(pd);
         CangKuEntity cangKuEntity = (CangKuEntity) BeanMapUtil.mapToObject(pd, CangKuEntity.class);
-        cangKuEntity.setId(this.get32UUID());
+        String token = (String)this.getRequest().getSession().getAttribute("token");
+        cangKuEntity.setId(token);
         cangKuService.insertSelective(cangKuEntity);
         mv.addObject("msg","success");
         mv.setViewName("save_result");
@@ -103,6 +102,12 @@ public class CangKuController extends BaseController {
         PageData pd = this.getPageData();
         page.setPd(pd);
         List<CangKuEntity> varList =  cangKuService.datalistPage(page);
+        for (CangKuEntity cangku:varList) {
+            String cangkushuxing = cangku.getCangkushuxing();
+            pd.put("BIANMA",cangkushuxing);
+            PageData dic = dictionariesService.findByBianma(pd);
+            cangku.setCangkushuxing(dic.getString("NAME"));
+        }
         mv.setViewName("wms/cangku/cangku_list");
         mv.addObject("varList", varList);
         mv.addObject("pd", pd);
@@ -120,8 +125,11 @@ public class CangKuController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         setCangKuShuXing(mv);
+        String token = this.get32UUID();
+        this.getRequest().getSession().setAttribute("token",token);
         mv.setViewName("wms/cangku/cangku_edit");
         mv.addObject("msg", "save");
+        mv.addObject("token",token);
         mv.addObject("pd", pd);
         return mv;
     }
@@ -142,6 +150,7 @@ public class CangKuController extends BaseController {
         String id = pd.getString("id");
         CangKuEntity cangKuEntity = cangKuService.selectByPrimaryKey(id);//根据ID读取
         setCangKuShuXing(mv);
+        this.getRequest().getSession().setAttribute("token", cangKuEntity.getId());
         mv.setViewName("wms/cangku/cangku_edit");
         mv.addObject("msg", "edit");
         mv.addObject("cangku", cangKuEntity);

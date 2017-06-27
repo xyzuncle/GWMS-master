@@ -32,4 +32,5 @@ public interface CaiGouDingDanInterface {
 
     String saveDingDanFromExcel(List<PageData> caigouList);
 
+    void saveShangpinRuku(String[] ids, String cangkushuxing, String cangku);
 }

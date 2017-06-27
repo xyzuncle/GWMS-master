@@ -87,7 +87,7 @@
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
                                                 <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('caigouStatus_yiqueren')">待入库</a>
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('caigouStatus_dairuku')">待入库</a>
                                                 </li>
                                                 <li  id="definedTab">
                                                     <a data-toggle="tab" href="#defined" onclick="changeTable('caigouStatus_yiruku')">已入库</a>
@@ -133,7 +133,7 @@
                                                     <td class='center'>
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.caigoudingdanid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
-                                                    <td class='center' style="width: 30px;">${vs.index+1}</td>
+                                                    <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.caigoudingdanhao}</td>
                                                     <td class='center'>${var.gongyingshangbianhao}</td>
                                                     <td class="center">

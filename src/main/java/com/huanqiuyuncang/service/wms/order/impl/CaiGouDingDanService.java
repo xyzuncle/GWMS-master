@@ -2,6 +2,8 @@ package com.huanqiuyuncang.service.wms.order.impl;
 
 import com.huanqiuyuncang.dao.customer.CustomerDAO;
 import com.huanqiuyuncang.dao.customer.GongYingShangDAO;
+import com.huanqiuyuncang.dao.kuwei.CangKuDAO;
+import com.huanqiuyuncang.dao.kuwei.ShangPinKuWeiDAO;
 import com.huanqiuyuncang.dao.order.CaiGouDingDanDAO;
 import com.huanqiuyuncang.dao.order.CaiGouShangPinDAO;
 import com.huanqiuyuncang.dao.product.ProductDAO;
@@ -9,6 +11,8 @@ import com.huanqiuyuncang.dao.warehouse.ProductWarehouseDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
 import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
 import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
@@ -43,6 +47,12 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
 
     @Autowired
     private CaiGouShangPinDAO caiGouShangPinDAO;
+
+    @Autowired
+    private CangKuDAO cangKuDAO;
+
+    @Autowired
+    private ShangPinKuWeiDAO shangPinKuWeiDAO;
 
     @Override
     public int deleteByPrimaryKey(String caigoudingdanid) {
@@ -122,19 +132,27 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     public PageData saveruku(String caigoudingdanid,  Map<String,String> huohaoArr) {
         PageData pd = new PageData();
         CaiGouDingDanEntity caiGouDingDan = caiGouDingDanDAO.selectByPrimaryKey(caigoudingdanid);
+        CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(caiGouDingDan.getCangku());
+        String cangkuuser = caiGouDingDan.getCangkuuser();
         Boolean falg = true;
         PageData args = new PageData();
         if(huohaoArr != null){
             List<String> huohaoList  = new ArrayList<>(huohaoArr.keySet());
             List<CaiGouShangPinEntity> shangpinList = caiGouShangPinDAO.selectByCaiGouDingDanId(caigoudingdanid);
             for (CaiGouShangPinEntity shangpin: shangpinList) {
+                List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuweiAndProductnum(cangKuEntity.getId(), shangpin.getShangpinhuohao());
+                String cangwei = "";
+                if(shangPinKuWeiEntities != null && shangPinKuWeiEntities.size()>0){
+                    cangwei = shangPinKuWeiEntities.get(0).getKuwei();
+                }
                 String saomiaostatus = shangpin.getShangpinhuohao();
                 if(huohaoList.contains(saomiaostatus) &&"0".equals(saomiaostatus)){
                     args.put("neibuhuohao",shangpin.getShangpinhuohao());
                     args.put("kehubianhao",caiGouDingDan.getKehubianhao());
+                    args.put("cangwei",cangwei);
                     ProductWarehouseEntity productWarehouse = productWarehouseDAO.selectByPd(args);
                     if(productWarehouse == null){
-                        createProductWarehouse(shangpin,caiGouDingDan.getKehubianhao(),huohaoArr.get(saomiaostatus));
+                        createProductWarehouse(shangpin,caiGouDingDan.getKehubianhao(),huohaoArr.get(saomiaostatus),cangwei);
                         saomiaostatus = "1";
                     }else{
                         if("1".equals(productWarehouse.getSuokustatus())){
@@ -184,7 +202,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         productWarehouseDAO.updateByPrimaryKeySelective(productWarehouse);
     }
 
-    private void createProductWarehouse(CaiGouShangPinEntity shangpin,String kehubianhao ,String shuliang) {
+    private void createProductWarehouse(CaiGouShangPinEntity shangpin,String kehubianhao ,String shuliang,String cangwei) {
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         ProductWarehouseEntity productWarehouse;
@@ -197,7 +215,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         }
         ProductEntity productByProductNum = productDAO.findProductByProductNum(shangpin.getShangpinhuohao());
         CustomerEntity customerEntity = customerDAO.selectCustomerByCode(kehubianhao);
-        productWarehouse.setCangwei(customerEntity.getDefaultwarehouse());
+        productWarehouse.setCangwei(cangwei);
         productWarehouse.setShangpintiaoma(productByProductNum.getBarcodeMain());
         productWarehouse.setCreatetime(date);
         productWarehouse.setCreateuser(username);
@@ -283,5 +301,18 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
             return resturt.toString();
         }
 
+    }
+
+    @Override
+    public void saveShangpinRuku(String[] ids, String cangkushuxing, String cangku) {
+        for(String id : ids){
+            CaiGouDingDanEntity caiGouDingDanEntity = caiGouDingDanDAO.selectByPrimaryKey(id);
+            caiGouDingDanEntity.setCaigoudingdanstatus("caigouStatus_dairuku");
+            CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangku);
+            String createuser = cangKuEntity.getCreateuser();
+            caiGouDingDanEntity.setCangkuuser(createuser);
+            caiGouDingDanEntity.setCangku(cangku);
+            caiGouDingDanDAO.updateByPrimaryKeySelective(caiGouDingDanEntity);
+        }
     }
 }

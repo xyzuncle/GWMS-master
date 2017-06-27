@@ -91,6 +91,12 @@
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
 
+                                                <li id="daishenhe">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('packageStatus_daishenhe')">待审核</a>
+                                                </li>
+                                                <li id="yishenhe">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('packageStatus_yishenhe')">已审核</a>
+                                                </li>
                                                 <li id="baseTab">
                                                     <a data-toggle="tab" href="#base" onclick="changeTable('orderStatus_daidabao')">待打包/入库</a>
                                                 </li>
@@ -141,7 +147,7 @@
                                                     <td class='center'>
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
-                                                    <td class='center' style="width: 30px;">${vs.index+1}</td>
+                                                    <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.customerordernum}</td>
                                                     <td class='center'>${var.outerordernum}</td>
                                                     <td class='center'>${var.formateOrderTime}</td>
@@ -179,9 +185,22 @@
                                 <table style="width:100%;">
                                     <tr>
                                         <td style="vertical-align:top;">
-                                            <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
+                                            <c:if test="${QX.FromExcel == 1 }">
+                                                <a class="btn btn-sm btn-success" onclick="fromExcel();" title="从EXCEL导入"><i class='ace-icon fa fa-cloud-upload bigger-120'></i></a>
+                                            </c:if>
                                             <c:if test="${pd.orderstatus == 'orderStatus_daidabao' }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                            </c:if>
+                                            <c:if test="${QX.tuisongcangku == 1 && pd.orderstatus == 'orderStatus_daidabao' }">
+                                                <a class="btn btn-xs btn-success" title="生成出库单" onclick="makebaoguoruku();">
+                                                    <i class='ace-icon fa fa-bookmark bigger-120'></i>
+                                                </a>
+                                            </c:if>
+                                            <c:if test="${pd.orderstatus == 'packageStatus_daishenhe' }">
+                                                <a class="btn btn-sm btn-primary" onclick="makequeren('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
+                                            </c:if>
+                                            <c:if test="${pd.orderstatus == 'packageStatus_yishenhe' }">
+                                                <a class="btn btn-sm btn-primary" onclick="makeshenhe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -236,11 +255,25 @@
 
        var orderstatus = "${pd.orderstatus}";
         if(orderstatus == "orderStatus_daidabao" ){
+            $("#daishenhe").removeClass("active");
+            $("#yishenhe").removeClass("active");
             $("#definedTab").removeClass("active");
             $("#baseTab").addClass("active");
         }else if (orderstatus == "orderStatus_yidabao"){
+            $("#daishenhe").removeClass("active");
+            $("#yishenhe").removeClass("active");
             $("#baseTab").removeClass("active");
             $("#definedTab").addClass("active");
+        }else if (orderstatus == "packageStatus_daishenhe"){
+            $("#baseTab").removeClass("active");
+            $("#daishenhe").addClass("active");
+            $("#definedTab").removeClass("active");
+            $("#yishenhe").removeClass("active");
+        }else if (orderstatus == "packageStatus_yishenhe"){
+            $("#baseTab").removeClass("active");
+            $("#yishenhe").addClass("active");
+            $("#definedTab").removeClass("active");
+            $("#daishenhe").removeClass("active");
         }
 
         //日期框
@@ -373,6 +406,92 @@
     }
 
 
+    function makequeren(msg){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                        top.jzts();
+                        $.ajax({
+                            type: "POST",
+                            url: '<%=basePath%>innerpackage/makequeren.do?tm='+new Date().getTime(),
+                            data: {DATA_IDS:str},
+                            dataType:'json',
+                            //beforeSend: validateData,
+                            cache: false,
+                            success: function(data){
+                                $.each(data.list, function(i, list){
+                                    nextPage(${page.currentPage});
+                                });
+                            }
+                        });
+                }
+            }
+        });
+    }
+
+    function makeshenhe(msg){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                        top.jzts();
+                        $.ajax({
+                            type: "POST",
+                            url: '<%=basePath%>innerpackage/makeshenhe.do?tm='+new Date().getTime(),
+                            data: {DATA_IDS:str},
+                            dataType:'json',
+                            //beforeSend: validateData,
+                            cache: false,
+                            success: function(data){
+                                $.each(data.list, function(i, list){
+                                    nextPage(${page.currentPage});
+                                });
+                            }
+                        });
+                }
+            }
+        });
+    }
+
 
     //打开上传excel页面
     function fromExcel(){
@@ -395,6 +514,46 @@
             diag.close();
         };
         diag.show();
+    }
+
+    function makebaoguoruku(){
+        var str = '';
+        for(var i=0;i < document.getElementsByName('ids').length;i++){
+            if(document.getElementsByName('ids')[i].checked){
+                if(str=='') str += document.getElementsByName('ids')[i].value;
+                else str += ',' + document.getElementsByName('ids')[i].value;
+            }
+        }
+        if(str==''){
+            bootbox.dialog({
+                message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                buttons:
+                { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+            });
+            $("#zcheckbox").tips({
+                side:1,
+                msg:'点这里全选',
+                bg:'#AE81FF',
+                time:8
+            });
+            return;
+        }else{
+            top.jzts();
+            var diag = new top.Dialog();
+            diag.Drag=true;
+            diag.Title ="订单商品出库";
+            diag.URL = '<%=basePath%>innerorder/gobaoguokuwei.do?innerorderid='+str;
+            diag.Width = 400;
+            diag.Height = 200;
+            diag.CancelEvent = function(){ //关闭事件
+                if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                    nextPage(${page.currentPage});
+                }
+                diag.close();
+            };
+            diag.show();
+        }
+
     }
 
 </script>

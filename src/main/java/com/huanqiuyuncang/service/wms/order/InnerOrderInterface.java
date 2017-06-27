@@ -1,6 +1,7 @@
 package com.huanqiuyuncang.service.wms.order;
 
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.util.PageData;
 
@@ -50,4 +51,15 @@ public interface InnerOrderInterface {
     void zuofeiAll(String[] arrayDATA_ids);
 
     void yichang(String[] arrayDATA_ids);
+
+    void makequeren(String[] arrayDATA_ids);
+
+    void makeshenhe(String[] arrayDATA_ids);
+
+
+    List<CangKuEntity> getCangku(String code);
+
+    void saveShangpinChuku(String[] ids, String cangkushuxing, String cangku);
+
+    void saveBaoguoRuku(String[] ids, String baoguokuwei);
 }

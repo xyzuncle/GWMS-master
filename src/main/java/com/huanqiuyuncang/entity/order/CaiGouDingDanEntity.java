@@ -9,17 +9,15 @@ public class CaiGouDingDanEntity {
 
     private String gongyingshangbianhao;
 
-    private String shangpinhuohao;
-
     private String kehubianhao;
-
-    private String shuliang;
 
     private String caigoujiage;
 
-    private String xiaoji;
-
     private String caigoudingdanstatus;
+
+    private String cangku;
+
+    private String cangkuuser;
 
     private String beizhu;
 
@@ -31,16 +29,15 @@ public class CaiGouDingDanEntity {
 
     private Date updatetime;
 
-    public CaiGouDingDanEntity(String caigoudingdanid, String caigoudingdanhao, String gongyingshangbianhao, String shangpinhuohao, String kehubianhao, String shuliang, String caigoujiage, String xiaoji, String caigoudingdanstatus, String beizhu, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public CaiGouDingDanEntity(String caigoudingdanid, String caigoudingdanhao, String gongyingshangbianhao, String kehubianhao, String caigoujiage, String caigoudingdanstatus, String cangku, String cangkuuser, String beizhu, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.caigoudingdanid = caigoudingdanid;
         this.caigoudingdanhao = caigoudingdanhao;
         this.gongyingshangbianhao = gongyingshangbianhao;
-        this.shangpinhuohao = shangpinhuohao;
         this.kehubianhao = kehubianhao;
-        this.shuliang = shuliang;
         this.caigoujiage = caigoujiage;
-        this.xiaoji = xiaoji;
         this.caigoudingdanstatus = caigoudingdanstatus;
+        this.cangku = cangku;
+        this.cangkuuser = cangkuuser;
         this.beizhu = beizhu;
         this.createuser = createuser;
         this.createtime = createtime;
@@ -76,28 +73,12 @@ public class CaiGouDingDanEntity {
         this.gongyingshangbianhao = gongyingshangbianhao == null ? null : gongyingshangbianhao.trim();
     }
 
-    public String getShangpinhuohao() {
-        return shangpinhuohao;
-    }
-
-    public void setShangpinhuohao(String shangpinhuohao) {
-        this.shangpinhuohao = shangpinhuohao == null ? null : shangpinhuohao.trim();
-    }
-
     public String getKehubianhao() {
         return kehubianhao;
     }
 
     public void setKehubianhao(String kehubianhao) {
         this.kehubianhao = kehubianhao == null ? null : kehubianhao.trim();
-    }
-
-    public String getShuliang() {
-        return shuliang;
-    }
-
-    public void setShuliang(String shuliang) {
-        this.shuliang = shuliang == null ? null : shuliang.trim();
     }
 
     public String getCaigoujiage() {
@@ -108,20 +89,28 @@ public class CaiGouDingDanEntity {
         this.caigoujiage = caigoujiage == null ? null : caigoujiage.trim();
     }
 
-    public String getXiaoji() {
-        return xiaoji;
-    }
-
-    public void setXiaoji(String xiaoji) {
-        this.xiaoji = xiaoji == null ? null : xiaoji.trim();
-    }
-
     public String getCaigoudingdanstatus() {
         return caigoudingdanstatus;
     }
 
     public void setCaigoudingdanstatus(String caigoudingdanstatus) {
         this.caigoudingdanstatus = caigoudingdanstatus == null ? null : caigoudingdanstatus.trim();
+    }
+
+    public String getCangku() {
+        return cangku;
+    }
+
+    public void setCangku(String cangku) {
+        this.cangku = cangku == null ? null : cangku.trim();
+    }
+
+    public String getCangkuuser() {
+        return cangkuuser;
+    }
+
+    public void setCangkuuser(String cangkuuser) {
+        this.cangkuuser = cangkuuser == null ? null : cangkuuser.trim();
     }
 
     public String getBeizhu() {
@@ -163,7 +152,6 @@ public class CaiGouDingDanEntity {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
-
 
     private String formatCreateTime;
 

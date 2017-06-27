@@ -20,4 +20,8 @@ public interface ShangPinKuWeiDAO {
     int updateByPrimaryKey(ShangPinKuWeiEntity record);
 
     List<ShangPinKuWeiEntity> datalistPage(Page page);
+
+    List<ShangPinKuWeiEntity> selectByKuWei(String cangkuid);
+
+    List<ShangPinKuWeiEntity> selectByKuweiAndProductnum(String cangku, String productnum);
 }
