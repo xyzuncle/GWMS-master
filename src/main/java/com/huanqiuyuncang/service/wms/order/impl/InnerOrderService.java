@@ -496,10 +496,13 @@ public class InnerOrderService implements InnerOrderInterface {
                        };
                    }
                }else{
-                   ProductEntity productByBarCode = productDAO.findProductByBarCodeOrNum(waibuhuohao,username);
-                   if(productByBarCode == null){
+                   ProductEntity productByBarCode = productDAO.findProductByProductNum(waibuhuohao);
+                   if(productByBarCode == null ){
                        return "商品未找到,请查看商品货号/编号；";
                    }else{
+                       if("product_daishenhe".equals(productByBarCode.getAuditStatus()) && !username.equals(productByBarCode.getCreateuser())){
+                           return "商品未找到,请查看商品货号/编号；";
+                       }
                        OrderProductEntity pd = new OrderProductEntity();
                        pd.setOuterordernum(waibudingdanhao);
                        pd.setCustomerordernum(customerOrderNum);
