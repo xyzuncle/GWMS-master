@@ -501,7 +501,7 @@ public class InnerOrderService implements InnerOrderInterface {
                        };
                    }
                }else{
-                   ProductEntity productByBarCode = productDAO.findProductByProductNum(waibuhuohao);
+                   ProductEntity productByBarCode = productDAO.findProductByBarCodeOrNum(waibuhuohao);
                    if(productByBarCode == null ){
                        return "商品未找到,请查看商品货号/编号；";
                    }else{

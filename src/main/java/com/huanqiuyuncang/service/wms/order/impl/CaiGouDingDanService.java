@@ -251,14 +251,13 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                 }
                 List<CustomerEntity> list = customerDAO.selectByLoginName(username);
                 if(list == null || list.size() == 0 ){
-                    resturt.append("第"+(i+1)+"行客户编号未找到，");
+                    resturt.append("客户编号未找到，");
+                }else{
+                    kehubianhao =  list.get(0).getCustomercode();
                 }
             }else{
                 if(!gongyingshangbianhao.equals(pd.getString("var0"))){
                     resturt.append("第"+(i+1)+"行供应商编号与第一行不同");
-                }
-                if(!kehubianhao.equals(pd.getString("var2"))){
-                    resturt.append("第"+(i+1)+"行客户编号与第一行不同");
                 }
             }
             String shangpinhuohao = pd.getString("var1");
