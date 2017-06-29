@@ -157,7 +157,7 @@ public class InnerOrderService implements InnerOrderInterface {
             orderProductEntity.setinnerpackagenum(packagenum);
             orderProductDAO.updateByPrimaryKeySelective(orderProductEntity);
             String barcode = orderProductEntity.getOuterproductnum();
-            ProductEntity product = productDAO.findProductByBarCodeOrNum(barcode, username);
+            ProductEntity product = productDAO.findProductByBarCodeOrNum(barcode);
             Integer count = Integer.parseInt(orderProductEntity.getCount());
             sum += count;
             String cartontypea = product.getCartontypea();
@@ -480,6 +480,11 @@ public class InnerOrderService implements InnerOrderInterface {
                        for(String pdNum : pdNumMap.keySet()){
                            ProductEntity productByBarCode = productDAO.findProductByProductNum(pdNum);
                            if(productByBarCode != null){
+                               if("product_daishenhe".equals(productByBarCode.getAuditStatus()) && !username.equals(productByBarCode.getCreateuser())){
+                                   return "商品未找到,请查看商品货号/编号；";
+                               }else if("product_yitingyong".equals(productByBarCode.getAuditStatus())){
+                                   return "商品已停用；";
+                               }
                                String[] arry = pdNumMap.get(pdNum);
                                BigDecimal lingshoujiaReal = new BigDecimal(shenbaojia).multiply(new BigDecimal(arry[1]));
                                BigDecimal jiesuanjiaReal = new BigDecimal(lingshoujia).multiply(new BigDecimal(arry[1]));
@@ -502,6 +507,8 @@ public class InnerOrderService implements InnerOrderInterface {
                    }else{
                        if("product_daishenhe".equals(productByBarCode.getAuditStatus()) && !username.equals(productByBarCode.getCreateuser())){
                            return "商品未找到,请查看商品货号/编号；";
+                       }else if("product_yitingyong".equals(productByBarCode.getAuditStatus())){
+                           return "商品已停用；";
                        }
                        OrderProductEntity pd = new OrderProductEntity();
                        pd.setOuterordernum(waibudingdanhao);

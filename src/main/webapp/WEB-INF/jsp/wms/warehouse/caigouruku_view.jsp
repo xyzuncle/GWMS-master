@@ -129,7 +129,7 @@
             queryParamsType : "undefined",
             queryParams:function(params) {
                 var obj = {};
-                var caigoudingdanid = $("#token").val();
+                var caigoudingdanid = $("#caigoudingdanid").val();
                 obj["caigoudingdanid"] = caigoudingdanid;
                 return obj;
             }, //查询条件

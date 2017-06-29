@@ -223,4 +223,12 @@
         WHERE loginname = #{loginname,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectByCodeAndLoginName" parameterType="java.lang.String"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_gongyingshang
+        WHERE loginname = #{loginname,jdbcType=VARCHAR}
+        and gongyingshangcode =  #{gongyingshangbianhao,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

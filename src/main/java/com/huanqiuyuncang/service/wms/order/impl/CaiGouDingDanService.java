@@ -243,7 +243,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
             if(falg){
                 falg = false;
                 gongyingshangbianhao = pd.getString("var0");
-                GongYingShangEntity gongYingShangEntity = gongYingShangDAO.selectGongyingshangByCode(gongyingshangbianhao);
+                GongYingShangEntity gongYingShangEntity = gongYingShangDAO.selectByCodeAndLoginName(gongyingshangbianhao,username);
                 if(gongYingShangEntity == null){
                     resturt.append("第"+(i+1)+"行供应商编号未找到，");
                 }else{
@@ -262,7 +262,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                 }
             }
             String shangpinhuohao = pd.getString("var1");
-            ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(shangpinhuohao, username);
+            ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(shangpinhuohao);
             if(productEntity == null){
                 resturt.append("第"+(i+1)+"商品货号未找到");
             }

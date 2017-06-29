@@ -652,7 +652,7 @@
     </select>
 
 
-    <select id="findProductByBarCodeOrNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findProductByBarCodeOrNumOrUser" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from
@@ -709,4 +709,20 @@
     <select id="selectCountryIDByName" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT t.COUNTRY_ID FROM wms_country t WHERE t.COUN_C_NAME =  #{producingArea,jdbcType=VARCHAR} OR t.COUN_E_NAME =  #{producingArea,jdbcType=VARCHAR}
     </select>
+
+    <select id="findProductByBarCodeOrNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_product
+        where
+        barCode_main = #{biaoshi,jdbcType=VARCHAR} OR
+        barCode_auxiliary1 = #{biaoshi,jdbcType=VARCHAR} OR
+        barCode_auxiliary2 = #{biaoshi,jdbcType=VARCHAR} OR
+        barCode_auxiliary3 = #{biaoshi,jdbcType=VARCHAR} OR
+        barCode_auxiliary4 = #{biaoshi,jdbcType=VARCHAR} OR
+        productNum = #{biaoshi,jdbcType=VARCHAR}
+    </select>
+
+
 </mapper>

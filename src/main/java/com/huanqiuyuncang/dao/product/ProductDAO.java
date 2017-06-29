@@ -32,5 +32,7 @@ public interface ProductDAO {
 
     String selectCountryIDByName(String producingArea);
 
-    ProductEntity findProductByBarCodeOrNum(@Param("biaoshi")String biaoshi, @Param("createuser")String createuser);
+    ProductEntity findProductByBarCodeOrNum(@Param("biaoshi")String biaoshi);
+
+    ProductEntity findProductByBarCodeOrNumOrUser(@Param("biaoshi")String biaoshi, @Param("createuser")String createuser);
 }

@@ -2,7 +2,11 @@ package com.huanqiuyuncang.test.demo;
 
 
 import com.huanqiuyuncang.dao.checktable.CheckTableDAO;
+import com.huanqiuyuncang.dao.customer.GongYingShangDAO;
+import com.huanqiuyuncang.dao.product.ProductDAO;
+import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.entity.demo.TestUser;
+import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.demo.TestUserManager;
 import com.huanqiuyuncang.service.system.checktable.impl.CheckTableService;
 import com.huanqiuyuncang.util.PageData;
@@ -32,6 +36,12 @@ public class TestUserClass {
 
     @Autowired
     private CheckTableDAO checkTableDAO;
+
+    @Autowired
+    private GongYingShangDAO gongYingShangDAO;
+
+    @Autowired
+    private ProductDAO productDAO;
 
     @Test
     public void testSave()throws Exception{
@@ -129,6 +139,11 @@ public class TestUserClass {
         pd.put("fieldvalue","11");
         Integer count = checkTableDAO.selectByTableNameAndField(pd);
         System.out.println("******************   "+count+"  ************************************");
+    }
+    @Test
+    public void testgongyingshang(){
+        ProductEntity productByBarCode = productDAO.findProductByBarCodeOrNum("1111");
+        System.out.println("    ***************************************     "+(productByBarCode == null));
     }
 
 

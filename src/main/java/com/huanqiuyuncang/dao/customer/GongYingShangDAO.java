@@ -3,6 +3,7 @@ package com.huanqiuyuncang.dao.customer;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface GongYingShangDAO {
     GongYingShangEntity selectGongyingshangByCode(String code);
 
     GongYingShangEntity selectGongyingshangByName(String name);
+
+    GongYingShangEntity selectByCodeAndLoginName(@Param("gongyingshangbianhao") String gongyingshangbianhao, @Param("loginname")String loginname);
 }
