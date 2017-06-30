@@ -145,21 +145,22 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                 if(shangPinKuWeiEntities != null && shangPinKuWeiEntities.size()>0){
                     cangwei = shangPinKuWeiEntities.get(0).getKuwei();
                 }
-                String saomiaostatus = shangpin.getShangpinhuohao();
-                if(huohaoList.contains(saomiaostatus) &&"0".equals(saomiaostatus)){
+                String huohao = shangpin.getShangpinhuohao();
+                String saomiaostatus = shangpin.getSaomastatus();
+                if(huohaoList.contains(huohao) &&"0".equals(saomiaostatus)){
                     args.put("neibuhuohao",shangpin.getShangpinhuohao());
                     args.put("kehubianhao",caiGouDingDan.getKehubianhao());
                     args.put("cangwei",cangwei);
                     ProductWarehouseEntity productWarehouse = productWarehouseDAO.selectByPd(args);
                     if(productWarehouse == null){
-                        createProductWarehouse(shangpin,caiGouDingDan.getKehubianhao(),huohaoArr.get(saomiaostatus),cangwei);
+                        createProductWarehouse(shangpin,caiGouDingDan.getKehubianhao(),huohaoArr.get(huohao),cangwei);
                         saomiaostatus = "1";
                     }else{
                         if("1".equals(productWarehouse.getSuokustatus())){
                             falg = false;
                             saomiaostatus = "0";
                         }else{
-                            updateProductWarehouse(shangpin, productWarehouse,huohaoArr.get(saomiaostatus));
+                            updateProductWarehouse(shangpin, productWarehouse,huohaoArr.get(huohao));
                             saomiaostatus = "1";
                         }
                     }
