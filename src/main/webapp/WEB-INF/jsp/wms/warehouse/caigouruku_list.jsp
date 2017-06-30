@@ -144,7 +144,7 @@
                                                             <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.caigoudingdanid}');">
                                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
                                                             </a>
-                                                            <c:if test="${pd.caigoudingdanstatus == 'caigouStatus_dairuku' }">
+                                                            <c:if test="${var.caigoudingdanstatus == 'caigouStatus_dairuku' }">
                                                                 <a class="btn btn-xs btn-primary" onclick="ruku('${var.caigoudingdanid}');" title="扫描入库" >
                                                                     <i class='ace-icon fa fa-eye bigger-120'></i></a>
                                                             </c:if>
@@ -224,7 +224,7 @@
     $(function() {
 
         var caigoudingdanstatus = "${pd.caigoudingdanstatus}";
-        if(caigoudingdanstatus == "caigouStatus_yiqueren" ){
+        if(caigoudingdanstatus == "caigouStatus_dairuku" ){
             $("#definedTab").removeClass("active");
             $("#baseTab").addClass("active");
         }else if (caigoudingdanstatus == "caigouStatus_yiruku"){
