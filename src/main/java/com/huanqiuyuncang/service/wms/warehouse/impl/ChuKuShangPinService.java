@@ -70,13 +70,14 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
     }
 
     @Override
-    public PageData updateSaomiaoShangPin(String[] huohaoarr, String[] dingdanhaoarr) {
+    public PageData updateSaomiaoShangPin(String[] shuliangarr, String[] huohaoarr, String[] dingdanhaoarr) {
         PageData pd = new PageData();
         pd.put("msg","error");
         pd.put("resturt","没有找到该货号");
         for(int i = 0 ;i<huohaoarr.length;i++){
             String dingdanhao = dingdanhaoarr[i];
             String huohao = huohaoarr[i];
+            String shuliang = shuliangarr[i];
             ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinDAO.selectByDingDanHaoAndHuoHao(dingdanhao,huohao);
             if(chuKuShangPinEntity != null){
                 CustomerEntity customerEntity = customerDAO.selectCustomerByCode(chuKuShangPinEntity.getKehubianhao());
@@ -89,11 +90,12 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
                     pd.put("resturt","仓库处于盘点状态，不能进行进出库操作。");
                 }else{
                     Integer sum = Integer.parseInt(productWarehouse.getShuliang());
-                    int count = Integer.parseInt(chuKuShangPinEntity.getShuliang());
+                    int count = Integer.parseInt(shuliang);
                     if("0".equals(statusArr[7])){
                         if(sum < count){
                             pd.put("msg","error");
                             pd.put("resturt","库存不足！");
+                            return pd;
                         }
                     }
                     sum = sum-count;

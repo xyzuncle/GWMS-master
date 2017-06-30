@@ -41,9 +41,11 @@
                                             <table id="saomiao" class="table ">
                                                 <tr>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>
-                                                    <td><input type="text" class="huohao" name="shangpinhuohao"   maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text" class="huohao" name="huohao"   maxlength="30"  style="width:98%;"/></td>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>
-                                                    <td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td>
+                                                    <td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>
+                                                    <td><input type="number" name="shuliang" value="0"  maxlength="30"  style="width:98%;"/></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -84,7 +86,10 @@
             $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>' +
                     ' <td><input type="text" class="huohao"  name="shangpinhuohao"  maxlength="30"  style="width:98%;"/>' +
                     '</td><td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>' +
-                    '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> </tr>');
+                    '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> ' +
+                    '</td><td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>' +
+                    '<td><input type="number" name="shuliang"  value="0"   maxlength="30"  style="width:98%;"/></td> ' +
+                    '</tr>');
             $("input.huohao:last").focus();
         }
     });

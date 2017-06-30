@@ -128,12 +128,10 @@ public class ChuKuShangPinController extends BaseController {
     @RequestMapping(value="/updatecangku")
     public ModelAndView updatecangku() throws Exception{
         ModelAndView mv = this.getModelAndView();
-        PageData pd = this.getPageData();
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
         String[] huohaoarr = this.getRequest().getParameterValues("huohao");
         String[] dingdanhaoarr = this.getRequest().getParameterValues("dingdanhao");
-        PageData result = chuKuShangPinService.updateSaomiaoShangPin(huohaoarr,dingdanhaoarr);
+        String[] shuliang = this.getRequest().getParameterValues("shuliang");
+        PageData result = chuKuShangPinService.updateSaomiaoShangPin(huohaoarr,dingdanhaoarr,shuliang);
         mv.addObject("msg",result.getString("msg"));
         mv.addObject("resturt",result.getString("resturt"));
         mv.setViewName("save_result");

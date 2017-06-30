@@ -25,5 +25,5 @@ public interface ChuKuShangPinInterface {
     void deleteAll(String[] arrayDATA_ids);
 
 
-    PageData updateSaomiaoShangPin(String[] huohaoarr, String[] dingdanhaoarr);
+    PageData updateSaomiaoShangPin(String[] shuliang, String[] huohaoarr, String[] dingdanhaoarr);
 }
