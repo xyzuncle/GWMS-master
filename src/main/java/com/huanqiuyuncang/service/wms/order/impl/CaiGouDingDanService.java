@@ -7,6 +7,7 @@ import com.huanqiuyuncang.dao.kuwei.ShangPinKuWeiDAO;
 import com.huanqiuyuncang.dao.order.CaiGouDingDanDAO;
 import com.huanqiuyuncang.dao.order.CaiGouShangPinDAO;
 import com.huanqiuyuncang.dao.product.ProductDAO;
+import com.huanqiuyuncang.dao.saomiao.ShangPinSaomiaoDAO;
 import com.huanqiuyuncang.dao.warehouse.ProductWarehouseDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
@@ -16,6 +17,7 @@ import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
 import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
 import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
+import com.huanqiuyuncang.entity.saomiao.ShangPinSaomiaoEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.service.wms.order.CaiGouDingDanInterface;
 import com.huanqiuyuncang.util.Jurisdiction;
@@ -53,6 +55,9 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
 
     @Autowired
     private ShangPinKuWeiDAO shangPinKuWeiDAO;
+
+    @Autowired
+    private ShangPinSaomiaoDAO shangPinSaomiaoDAO;
 
     @Override
     public int deleteByPrimaryKey(String caigoudingdanid) {
@@ -135,6 +140,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(caiGouDingDan.getCangku());
         String cangkuuser = caiGouDingDan.getCangkuuser();
         Boolean falg = true;
+        Boolean falg2 = true;
         PageData args = new PageData();
         if(huohaoArr != null){
             List<String> huohaoList  = new ArrayList<>(huohaoArr.keySet());
@@ -148,6 +154,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                 String huohao = shangpin.getShangpinhuohao();
                 String saomiaostatus = shangpin.getSaomastatus();
                 if(huohaoList.contains(huohao) &&"0".equals(saomiaostatus)){
+                    createShangPinSaomiao(huohaoArr, shangpin, huohao);
                     args.put("neibuhuohao",shangpin.getShangpinhuohao());
                     args.put("kehubianhao",caiGouDingDan.getKehubianhao());
                     args.put("cangwei",cangwei);
@@ -165,10 +172,16 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
                         }
                     }
                 }
+                Integer sum = shangPinSaomiaoDAO.selectSaomiaoSumByShangpin(shangpin.getId());
+                if(falg2 && sum == Integer.parseInt(shangpin.getShuliang())){
+                    falg2 = true;
+                }else {
+                    falg2 = false;
+                }
                 shangpin.setSaomastatus(saomiaostatus);
                 caiGouShangPinDAO.updateByPrimaryKeySelective(shangpin);
             }
-            if(falg && shangpinList.size() == huohaoList.size()){
+            if(falg && falg2){
                 updateCaiGouDingDanStatus(caiGouDingDan);
                 pd.put("msg","success");
                 pd.put("resturt","ok");
@@ -178,6 +191,15 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
             }
         }
         return pd;
+    }
+
+    private void createShangPinSaomiao(Map<String, String> huohaoArr, CaiGouShangPinEntity shangpin, String huohao) {
+        Integer shuliang = Integer.parseInt(huohaoArr.get(huohao));
+        ShangPinSaomiaoEntity shangPinSaomiaoEntity = new ShangPinSaomiaoEntity();
+        shangPinSaomiaoEntity.setId(UuidUtil.get32UUID());
+        shangPinSaomiaoEntity.setSaomiaoshuliang(shuliang);
+        shangPinSaomiaoEntity.setShangpinid(shangpin.getId());
+        shangPinSaomiaoDAO.insertSelective(shangPinSaomiaoEntity);
     }
 
     private void updateCaiGouDingDanStatus(CaiGouDingDanEntity caiGouDingDan) {
@@ -194,7 +216,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         Date date = new Date();
         productWarehouse.setUpdatetime(date);
         productWarehouse.setUpdateuser(username);
-        if(StringUtils.isBlank(shuliang) || "0".equals(shuliang)){
+        if(StringUtils.isBlank(shuliang)){
             shuliang = shangpin.getShuliang();
         }
         Integer sum =Integer.parseInt(productWarehouse.getShuliang());
@@ -209,7 +231,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         ProductWarehouseEntity productWarehouse;
         productWarehouse = new ProductWarehouseEntity();
         productWarehouse.setProductwarehouseid(UuidUtil.get32UUID());
-        if(StringUtils.isBlank(shuliang) || "0".equals(shuliang)){
+        if(StringUtils.isBlank(shuliang)){
             productWarehouse.setShuliang(shangpin.getShuliang());
         }else{
             productWarehouse.setShuliang(shuliang);

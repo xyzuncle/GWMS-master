@@ -1,14 +1,17 @@
 package com.huanqiuyuncang.service.wms.warehouse.impl;
 
 import com.huanqiuyuncang.dao.customer.CustomerDAO;
+import com.huanqiuyuncang.dao.saomiao.ShangPinSaomiaoDAO;
 import com.huanqiuyuncang.dao.warehouse.ChuKuShangPinDAO;
 import com.huanqiuyuncang.dao.warehouse.ProductWarehouseDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
+import com.huanqiuyuncang.entity.saomiao.ShangPinSaomiaoEntity;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.service.wms.warehouse.ChuKuShangPinInterface;
 import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,8 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
     private CustomerDAO customerDAO;
     @Autowired
     private ProductWarehouseDAO productWarehouseDAO;
-
+    @Autowired
+    private ShangPinSaomiaoDAO shangPinSaomiaoDAO;
     @Override
     public int deleteByPrimaryKey(String chukushangpinid) {
         return chuKuShangPinDAO.deleteByPrimaryKey(chukushangpinid);
@@ -89,6 +93,11 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
                     pd.put("msg","error");
                     pd.put("resturt","仓库处于盘点状态，不能进行进出库操作。");
                 }else{
+                    ShangPinSaomiaoEntity shangPinSaomiaoEntity = new ShangPinSaomiaoEntity();
+                    shangPinSaomiaoEntity.setId(UuidUtil.get32UUID());
+                    shangPinSaomiaoEntity.setShangpinid(chuKuShangPinEntity.getChukushangpinid());
+                    shangPinSaomiaoEntity.setSaomiaoshuliang(Integer.parseInt(shuliang));
+                    shangPinSaomiaoDAO.insertSelective(shangPinSaomiaoEntity);
                     Integer sum = Integer.parseInt(productWarehouse.getShuliang());
                     int count = Integer.parseInt(shuliang);
                     if("0".equals(statusArr[7])){
@@ -101,7 +110,10 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
                     sum = sum-count;
                     productWarehouse.setShuliang(Integer.toString(sum));
                     productWarehouseDAO.updateByPrimaryKeySelective(productWarehouse);
-                    chuKuShangPinDAO.updateByPrimaryKey(chuKuShangPinEntity);
+                    Integer saomiaoSum = shangPinSaomiaoDAO.selectSaomiaoSumByShangpin(chuKuShangPinEntity.getChukushangpinid());
+                    if(saomiaoSum == Integer.parseInt(chuKuShangPinEntity.getShuliang())){
+                        chuKuShangPinDAO.updateByPrimaryKey(chuKuShangPinEntity);
+                    }
                     pd.put("msg","success");
                     pd.put("resturt","");
                 }
