@@ -153,7 +153,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
-    <select id="selectByPrimaryKey" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    <select id="selectSaomiaoSumByShangpin" resultType="java.lang.Integer" parameterType="java.lang.String" >
         select
         sum(saomiaoshuliang)
         from wms_shangpinsaomiao

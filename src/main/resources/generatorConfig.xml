@@ -105,7 +105,7 @@
                selectByExampleQueryId="false">
         </table>-->
 
-        <table tableName="wms_caigoudingdan" domainObjectName="CaiGouDingDanEntity"
+        <table tableName="wms_shangpinsaomiao" domainObjectName="ShangPinSaomiaoEntity"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

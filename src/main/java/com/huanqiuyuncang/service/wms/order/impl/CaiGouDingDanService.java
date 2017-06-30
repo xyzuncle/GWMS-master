@@ -194,11 +194,17 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     }
 
     private void createShangPinSaomiao(Map<String, String> huohaoArr, CaiGouShangPinEntity shangpin, String huohao) {
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
         Integer shuliang = Integer.parseInt(huohaoArr.get(huohao));
         ShangPinSaomiaoEntity shangPinSaomiaoEntity = new ShangPinSaomiaoEntity();
         shangPinSaomiaoEntity.setId(UuidUtil.get32UUID());
         shangPinSaomiaoEntity.setSaomiaoshuliang(shuliang);
         shangPinSaomiaoEntity.setShangpinid(shangpin.getId());
+        shangPinSaomiaoEntity.setCreatetime(date);
+        shangPinSaomiaoEntity.setCreateuser(username);
+        shangPinSaomiaoEntity.setUpdatetime(date);
+        shangPinSaomiaoEntity.setUpdateuser(username);
         shangPinSaomiaoDAO.insertSelective(shangPinSaomiaoEntity);
     }
 
