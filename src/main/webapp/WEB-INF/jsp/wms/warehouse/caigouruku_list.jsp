@@ -145,7 +145,9 @@
                                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
                                                             </a>
                                                             <c:if test="${var.caigoudingdanstatus == 'caigouStatus_dairuku' }">
-                                                                <a class="btn btn-xs btn-primary" onclick="ruku('${var.caigoudingdanid}');" title="扫描入库" >
+                                                                <a class="btn btn-xs btn-primary" onclick="ruku('${var.caigoudingdanid}',0);" title="自动扫描入库" >
+                                                                <i class='ace-icon fa  fa-fighter-jet bigger-120'></i></a>
+                                                                <a class="btn btn-xs btn-primary" onclick="ruku('${var.caigoudingdanid}',1);" title="手动扫描入库" >
                                                                     <i class='ace-icon fa fa-eye bigger-120'></i></a>
                                                             </c:if>
                                                         </div>
@@ -272,12 +274,12 @@
     });
 
     //修改
-    function ruku(Id){
+    function ruku(Id,status){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="";
-        diag.URL = '<%=basePath%>caigoudingdan/goruku.do?caigoudingdanid='+Id;
+        diag.URL = '<%=basePath%>caigoudingdan/goruku.do?caigoudingdanid='+Id+"&status="+status;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件

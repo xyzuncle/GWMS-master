@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: lzf
-  Date: 2017/4/4
-  Time: 9:05
+  Date: 2017/5/14
+  Time: 9:29
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -30,30 +30,24 @@
                 <div class="row">
                     <div class="col-xs-12">
 
-                        <form action="caigoudingdan/${msg }.do" name="Form" id="Form" method="post">
-                            <input type="hidden" name="caigoudingdanid" id="caigoudingdanid" value="${caigoudingdan.caigoudingdanid}"/>
-                            <input type="hidden" name="saomamoshi" id="saomamoshi" value="0"/>
+                        <form action="chukushangpin/${msg }.do" name="Form" id="Form" method="post">
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
-                                        <td style="width:88px;text-align: right;padding-top: 13px;">采购订单号:</td>
-                                        <td><input readonly type="text" name="caigoudingdanhao" id="caigoudingdanhao" value="${caigoudingdan.caigoudingdanhao}" maxlength="30"  style="width:98%;"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" style="text-align: center;">扫描商品</td>
+                                        <td colspan="2" style="text-align: center;">扫描条码:</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
                                             <table id="saomiao" class="table ">
                                                 <tr>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>
-                                                    <td><input type="text"  name="shangpinhuohao"   maxlength="30"  style="width:98%;"/></td>
-                                                    <td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>
-                                                    <td><input type="number" name="shuliang"   maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text" name="huohao"   maxlength="30"  style="width:98%;"/></td>
+                                                    <td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>
+                                                    <td><input type="text"  name="dingdanhao"   maxlength="30"  style="width:98%;"/></td>
                                                 </tr>
-
                                             </table>
                                         </td>
+
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
@@ -65,8 +59,6 @@
                             </div>
                             <div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
                         </form>
-
-                        <div id="zhongxin2" class="center" style="display:none"><img src="static/images/jzx.gif" style="width: 50px;" /><br/><h4 class="lighter block green"></h4></div>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -86,25 +78,37 @@
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
 <script type="text/javascript">
     $(top.hangge());
-    //保存
-
-    $("input[name='shangpinhuohao']:last").focus();
+    $("input[name='huohao']:last").focus();
     $(document).keydown(function (event) {
         if(13 == event.keyCode){
+           /* $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>' +
+             ' <td><input type="text"  name="huohao"  maxlength="30"  style="width:98%;"/>' +
+             '</td><td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>' +
+             '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> ' +
+             '</td><td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>' +
+             '<td><input type="number" name="shuliang"  value="0"   maxlength="30"  style="width:98%;"/></td> ' +
+             '</tr>');
+             $("input.huohao:last").focus();*/
 
             var str = $("input:focus").attr("name");
-            if("shangpinhuohao" === str){
+            if("huohao" === str){
+                $("input[name='dingdanhao']:last").focus();
+            }else if ("dingdanhao" === str){
                 $("input[name='shuliang']:last").focus();
             }else if ("shuliang" === str){
-                $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>' +
-                        ' <td><input type="text" name="shangpinhuohao"  maxlength="30"  style="width:98%;"/>' +
-                        '</td><td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>' +
-                        '<td><input type="number" name="shuliang"   maxlength="30"  style="width:98%;"/></td> </tr>');
-                $("input[name='shangpinhuohao']:last").focus();
+                 $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>' +
+                 ' <td><input type="text"  name="huohao"  maxlength="30"  style="width:98%;"/>' +
+                 '</td><td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>' +
+                 '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> ' +
+                 '</td><td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>' +
+                 '<td><input type="number" name="shuliang"  maxlength="30"  style="width:98%;"/></td> ' +
+                 '</tr>');
+                $("input[name='huohao']:last").focus();
             }
+
         }
     });
-
+    //保存
     function save(){
         $("#Form").submit();
         $("#zhongxin").hide();

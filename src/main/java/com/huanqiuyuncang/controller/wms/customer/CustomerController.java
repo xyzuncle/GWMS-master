@@ -168,7 +168,7 @@ public class CustomerController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String str = "";
-        for(int i = 0;i<8 ; i++){
+        for(int i = 0;i<9 ; i++){
             str = str + pd.getString(""+i)+"_";
         }
         str =  str.substring(0,str.length()-1);

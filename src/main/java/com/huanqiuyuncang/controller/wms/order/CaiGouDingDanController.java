@@ -307,9 +307,16 @@ public class CaiGouDingDanController  extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String caigoudingdanid = pd.getString("caigoudingdanid");
+        String status = pd.getString("status");
+
         CaiGouDingDanEntity caiGouDingDan = caiGouDingDanService.selectByPrimaryKey(caigoudingdanid);//根据ID读取
-        mv.setViewName("wms/warehouse/caigouruku_edit");
-        mv.addObject("msg", "ruku");
+        if("0".equals(status)){
+            mv.setViewName("wms/warehouse/caigouruku_zidongsaomiao");
+            mv.addObject("msg", "zidongruku");
+        }else{
+            mv.setViewName("wms/warehouse/caigouruku_edit");
+            mv.addObject("msg", "ruku");
+        }
         mv.addObject("caigoudingdan", caiGouDingDan);
         mv.addObject("pd", pd);
         return mv;
@@ -348,6 +355,36 @@ public class CaiGouDingDanController  extends BaseController {
         mv.setViewName("save_result");
         return mv;
     }
+
+    @RequestMapping(value="/zidongruku")
+    public ModelAndView zidongruku() throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String caigoudingdanid = pd.getString("caigoudingdanid");
+        String[] arr = this.getRequest().getParameterValues("shangpinhuohao");
+        Map<String,String> huohaoshuliang = makehuohaoshuliang(arr);
+        PageData ruku = caiGouDingDanService.saveruku(caigoudingdanid,huohaoshuliang);
+        mv.addObject("msg",ruku.getString("msg"));
+        mv.addObject("resturt",ruku.getString("resturt"));
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+    private Map<String,String> makehuohaoshuliang(String[] arr) {
+        Map<String,String> map = new HashMap<>();
+        for (int i = 0 ;i <arr.length ;i++){
+            String shuliang = map.get(arr[i]);
+            if(shuliang == null){
+                map.put(arr[i],"1");
+            }else{
+                String s = map.get(arr[i]);
+                int sum = Integer.parseInt(s);
+                map.put(arr[i],Integer.toString(sum+1));
+            }
+        }
+        return  map;
+    }
+
 
     private Map<String,String> makehuohaoshuliang(String[] arr, String[] shuliangarr) {
         Map<String,String> map = new HashMap<>();

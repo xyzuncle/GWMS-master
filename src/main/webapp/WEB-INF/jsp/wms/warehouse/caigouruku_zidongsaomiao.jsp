@@ -48,8 +48,6 @@
                                                 <tr>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>
                                                     <td><input type="text"  name="shangpinhuohao"   maxlength="30"  style="width:98%;"/></td>
-                                                    <td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>
-                                                    <td><input type="number" name="shuliang"   maxlength="30"  style="width:98%;"/></td>
                                                 </tr>
 
                                             </table>

@@ -93,11 +93,15 @@ public class ChuKuShangPinController extends BaseController {
     public ModelAndView goSaoma()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String chukushangpinid = pd.getString("chukushangpinid");
-        ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinService.selectByPrimaryKey(chukushangpinid);//根据ID读取
-        mv.setViewName("wms/warehouse/shangpin_saoma");
-        mv.addObject("msg", "updatecangku");
-        mv.addObject("chukushangpin", chuKuShangPinEntity);
+        String status = pd.getString("status");
+        if("0".equals(status)){
+            mv.setViewName("wms/warehouse/shangpin_zidongsaoma");
+            mv.addObject("msg", "updatezidongcangku");
+        }else{
+            mv.setViewName("wms/warehouse/shangpin_saoma");
+            mv.addObject("msg", "updatecangku");
+        }
+
         mv.addObject("pd", pd);
         return mv;
     }
@@ -125,19 +129,68 @@ public class ChuKuShangPinController extends BaseController {
     }
 
 
-    @RequestMapping(value="/updatecangku")
-    public ModelAndView updatecangku() throws Exception{
+    @RequestMapping(value="/updatezidongcangku")
+    public ModelAndView updatezidongcangku() throws Exception{
         ModelAndView mv = this.getModelAndView();
         String[] huohaoarr = this.getRequest().getParameterValues("huohao");
         String[] dingdanhaoarr = this.getRequest().getParameterValues("dingdanhao");
-        String[] shuliang = this.getRequest().getParameterValues("shuliang");
-        PageData result = chuKuShangPinService.updateSaomiaoShangPin(huohaoarr,dingdanhaoarr,shuliang);
+        Map<String, List<String>> stringListMap = makeShangpinShuliang(huohaoarr, dingdanhaoarr);
+        /*map.put("dingdanhaoList",dingdanhaoList);
+        map.put("huohaoList",huohaoList);
+        map.put("shuliangList",shuliangList);*/
+        List<String> dingdanhaoList = stringListMap.get("dingdanhaoList");
+        List<String> huohaoList = stringListMap.get("huohaoList");
+        List<String> shuliangList = stringListMap.get("shuliangList");
+        PageData result = chuKuShangPinService.updateSaomiaoShangPin(shuliangList.toArray(new String[shuliangList.size()]),
+                huohaoList.toArray(new String[huohaoList.size()]),dingdanhaoList.toArray(new String[dingdanhaoList.size()]));
         mv.addObject("msg",result.getString("msg"));
         mv.addObject("resturt",result.getString("resturt"));
         mv.setViewName("save_result");
         return mv;
     }
 
+    private Map<String,List<String>> makeShangpinShuliang(String[] huohaoarr, String[] dingdanhaoarr) {
+        Map<String,List<String>> map = new HashMap<>();
+        Map<String,String> huohaomap = new HashMap<>();
+        List<String> dingdanhaoList = new ArrayList<>();
+        List<String> huohaoList = new ArrayList<>();
+        List<String> shuliangList = new ArrayList<>();
+        for (int i = 0 ;i <huohaoarr.length ;i++){
+            String shuliang = huohaomap.get(huohaoarr[i]);
+            String dingdanhao =  dingdanhaoarr[i];
+            if(shuliang == null){
+                huohaomap.put(huohaoarr[i],"1");
+            }else{
+                String s = huohaomap.get(huohaoarr[i]);
+                int sum = Integer.parseInt(s);
+                huohaomap.put(huohaoarr[i],Integer.toString(sum+1));
+            }
+            if(!dingdanhaoList.contains(dingdanhao)){
+                dingdanhaoList.add(dingdanhao);
+            }
+        }
+        for(String key : huohaomap.keySet()){
+            huohaoList.add(key);
+            shuliangList.add(huohaomap.get(key));
+        }
+        map.put("dingdanhaoList",dingdanhaoList);
+        map.put("huohaoList",huohaoList);
+        map.put("shuliangList",shuliangList);
+        return map;
+    }
+
+    @RequestMapping(value="/updatecangku")
+    public ModelAndView updatecangku() throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        String[] huohaoarr = this.getRequest().getParameterValues("huohao");
+        String[] dingdanhaoarr = this.getRequest().getParameterValues("dingdanhao");
+        String[] shuliang = this.getRequest().getParameterValues("shuliang");
+        PageData result = chuKuShangPinService.updateSaomiaoShangPin(shuliang,huohaoarr,dingdanhaoarr);
+        mv.addObject("msg",result.getString("msg"));
+        mv.addObject("resturt",result.getString("resturt"));
+        mv.setViewName("save_result");
+        return mv;
+    }
 
     /**删除
      * @param out

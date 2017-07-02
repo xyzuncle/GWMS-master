@@ -84,17 +84,24 @@
                                     </tr>
                                     <tr>
                                         <td style="width:130px;text-align: right;padding-top: 13px;">计算运费:</td>
-                                        <td colspan="3">
+                                        <td >
                                             <select style="width:80px;" name="6" id="6">
                                                 <option value="1">是</option>
                                                 <option value="0">否</option>
                                             </select>
                                         </td>
+                                        <td style="width:130px;text-align: right;padding-top: 13px;">是否负仓出库:</td>
+                                        <td >
+                                            <select style="width:80px;" name="7" id="7">
+                                                <option value="0">否</option>
+                                                <option value="1">是</option>
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td style="width:130px;text-align: right;padding-top: 13px;">是否负仓出库:</td>
+                                        <td style="width:130px;text-align: right;padding-top: 13px;">公共仓发货:</td>
                                         <td colspan="3">
-                                            <select style="width:80px;" name="7" id="7">
+                                            <select style="width:80px;" name="8" id="8">
                                                 <option value="0">否</option>
                                                 <option value="1">是</option>
                                             </select>

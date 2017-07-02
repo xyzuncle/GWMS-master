@@ -19,9 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -166,6 +164,42 @@ public class TestUserClass {
         Integer aaa = shangPinSaomiaoDAO.selectSaomiaoSumByShangpin("aaa");
         System.out.println("    *************************************** ccc    "+aaa);
     }
+    @Test
+    public void testMap(){
+        String[] huohaoarr = {"1","1","1","2","3","4","5","6"};
+        String[] dingdanhaoarr = {"1","1","1","2","3","4","5","6"};
+        makeShangpinShuliang(huohaoarr, dingdanhaoarr);
+    }
 
+
+    private void makeShangpinShuliang(String[] huohaoarr, String[] dingdanhaoarr) {
+
+        Map<String,String> huohaomap = new HashMap<>();
+        List<String> dingdanhaoList = new ArrayList<>();
+        List<String> huohaoList = new ArrayList<>();
+        List<String> shuliangList = new ArrayList<>();
+        for (int i = 0 ;i <huohaoarr.length ;i++){
+            String shuliang = huohaomap.get(huohaoarr[i]);
+            String dingdanhao =  dingdanhaoarr[i];
+            if(shuliang == null){
+                huohaomap.put(huohaoarr[i],"1");
+            }else{
+                String s = huohaomap.get(huohaoarr[i]);
+                int sum = Integer.parseInt(s);
+                huohaomap.put(huohaoarr[i],Integer.toString(sum+1));
+            }
+            if(!dingdanhaoList.contains(dingdanhao)){
+                dingdanhaoList.add(dingdanhao);
+            }
+        }
+        for(String key : huohaomap.keySet()){
+            huohaoList.add(key);
+            shuliangList.add(huohaomap.get(key));
+        }
+
+        System.out.println("***************     huohaoList" + Arrays.asList(huohaoList.toArray(new String[huohaoList.size()])));
+        System.out.println("***************     shuliangList" + Arrays.asList(shuliangList.toArray(new String[shuliangList.size()])));
+        System.out.println("***************     dingdanhaoList" + Arrays.asList(dingdanhaoList.toArray(new String[dingdanhaoList.size()])));
+    }
 
 }

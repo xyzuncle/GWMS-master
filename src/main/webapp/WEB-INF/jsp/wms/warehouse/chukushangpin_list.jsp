@@ -161,7 +161,9 @@
                             <div class="page-header position-relative">
                                 <table style="width:100%;">
                                     <c:if test="${pd.chukuzhuangtai == 'daichuku' }">
-                                        <a class="btn btn-xs btn-primary" onclick="saoma();" title="扫描入库" >
+                                        <a class="btn btn-xs btn-primary" onclick="saoma(0);" title="自动扫描入库" >
+                                            <i class='ace-icon fa  fa-fighter-jet bigger-120'></i></a>
+                                        <a class="btn btn-xs btn-primary" onclick="saoma(1);" title="手动扫描入库" >
                                             <i class='ace-icon fa fa-eye bigger-120'></i></a>
                                     </c:if>
                                     <tr>
@@ -337,12 +339,12 @@
         });
     };
 
-    function saoma(id){
+    function saoma(status){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>chukushangpin/goSaoma.do?chukushangpinid='+id;
+        diag.URL = '<%=basePath%>chukushangpin/goSaoma.do?status='+status;
         diag.Width = 600;
         diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件
