@@ -34,21 +34,21 @@
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">客户编号:</td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">供应商编号:</td>
                                         <td>
                                             <input type="text"
                                                     <c:if test="${msg == 'edit' }">
                                                         disabled
                                                     </c:if>
-                                                   name="gongyingshangcode" id="gongyingshangcode" onblur="checkCode()" value="${gongyingshang.gongyingshangcode}" maxlength="30" placeholder="这里输入客户编号" title="客户编号" style="width:98%;"/>
+                                                   name="gongyingshangcode" id="gongyingshangcode" onblur="checkCode()" value="${gongyingshang.gongyingshangcode}" maxlength="30" placeholder="这里输入供应商编号" title="供应商编号" style="width:98%;"/>
                                             <input type="hidden" id="yuanshicode" value="${gongyingshang.gongyingshangcode}">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="width:82px;text-align: right;padding-top: 13px;">客户名称:</td>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">供应商名称:</td>
                                         <td>
                                             <input  type="text" name="gongyingshangname" id="gongyingshangname" onblur="checkName()" value="${gongyingshang.gongyingshangname}"
-                                                    maxlength="50" placeholder="这里输入客户名称" title="客户名称" style="width:98%;"/>
+                                                    maxlength="50" placeholder="这里输入供应商名称" title="供应商名称" style="width:98%;"/>
                                             <input type="hidden" id="yuanshiname" value="${gongyingshang.gongyingshangname}">
                                         </td>
                                     </tr>

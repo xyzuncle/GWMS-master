@@ -58,7 +58,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">登录用户:</td>
-                                        <td><input type="text" name="loginname" id="loginname" value="${customer.loginname}" maxlength="255" placeholder="默认发货仓库" title="默认发货仓库" style="width:98%;"/></td>
+                                        <td><input type="text" name="loginname" id="loginname" value="${customer.loginname}" maxlength="255" placeholder="登录用户" title="登录用户" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">备注:</td>

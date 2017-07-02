@@ -240,13 +240,13 @@
       </if>
   </select>
 
-    <select id="selectByDingDanHaoAndHuoHao" parameterType="java.lang.String" resultMap="BaseResultMap" >
+    <select id="selectByDingDanHaoAndTiaoma" parameterType="java.lang.String" resultMap="BaseResultMap" >
         select
         <include refid="Base_Column_List" />
         from wms_chukushangpin
         where 1=1
         and kehudingdanhao LIKE  "%"#{dingdanhao,jdbcType=VARCHAR}"%"
-        and neibuhuohao LIKE  "%"#{huohao,jdbcType=VARCHAR}"%"
+        and shangpintiaoma LIKE  "%"#{tiaoma,jdbcType=VARCHAR}"%"
     </select>
 
 </mapper>

@@ -3,9 +3,12 @@ package com.huanqiuyuncang.test.demo;
 
 import com.huanqiuyuncang.dao.checktable.CheckTableDAO;
 import com.huanqiuyuncang.dao.customer.GongYingShangDAO;
+import com.huanqiuyuncang.dao.kuwei.CangKuDAO;
 import com.huanqiuyuncang.dao.product.ProductDAO;
+import com.huanqiuyuncang.dao.saomiao.ShangPinSaomiaoDAO;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.entity.demo.TestUser;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.demo.TestUserManager;
 import com.huanqiuyuncang.service.system.checktable.impl.CheckTableService;
@@ -42,6 +45,12 @@ public class TestUserClass {
 
     @Autowired
     private ProductDAO productDAO;
+
+    @Autowired
+    private CangKuDAO cangKuDAO;
+
+    @Autowired
+    private ShangPinSaomiaoDAO shangPinSaomiaoDAO;
 
     @Test
     public void testSave()throws Exception{
@@ -144,6 +153,18 @@ public class TestUserClass {
     public void testgongyingshang(){
         ProductEntity productByBarCode = productDAO.findProductByBarCodeOrNum("1111");
         System.out.println("    ***************************************     "+(productByBarCode == null));
+    }
+
+    @Test
+    public void testcangku(){
+        CangKuEntity cangKuEntity = cangKuDAO.selectByCangKu("aaa");
+        System.out.println("    *************************************** bbb    "+(cangKuEntity == null));
+    }
+
+    @Test
+    public void testsum(){
+        Integer aaa = shangPinSaomiaoDAO.selectSaomiaoSumByShangpin("aaa");
+        System.out.println("    *************************************** ccc    "+aaa);
     }
 
 

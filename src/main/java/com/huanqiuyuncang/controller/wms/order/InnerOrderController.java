@@ -14,6 +14,7 @@ import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.entity.system.Dictionaries;
 import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.kuwei.BaoGuoKuWeiInterface;
+import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
@@ -54,6 +55,8 @@ public class InnerOrderController extends BaseController {
     private DictionariesManager dictionariesService;
     @Autowired
     private BaoGuoKuWeiInterface baoGuoKuWeiService;
+    @Autowired
+    private CangKuInterface cangKuService;
 
     /**保存
      * @param
@@ -595,6 +598,15 @@ public class InnerOrderController extends BaseController {
     public ModelAndView goChuku()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        String username = Jurisdiction.getUsername();
+        List<CustomerEntity> customerEntities = customerService.selectByLoginName(username);
+        if(customerEntities != null && customerEntities.size()>0){
+            CustomerEntity customerEntity = customerEntities.get(0);
+            String defaultwarehouse = customerEntity.getDefaultwarehouse();
+            CangKuEntity cangKuEntity = cangKuService.selectByCangKu(defaultwarehouse);
+            mv.addObject("cangkushuxing", cangKuEntity.getCangkushuxing());
+            mv.addObject("cangkuid", cangKuEntity.getId());
+        }
         setCangKuShuXing(mv);
         mv.setViewName("wms/innerorder/innerorder_chuku");
         mv.addObject("msg", "saveShangpinChuku");

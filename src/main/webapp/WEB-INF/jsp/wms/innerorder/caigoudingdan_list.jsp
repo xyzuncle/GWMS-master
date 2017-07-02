@@ -80,10 +80,16 @@
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
                                                 <li id="baseTab">
-                                                    <a data-toggle="tab" href="#base" onclick="changeTable('caigouStatus_daiqueren')">待确认</a>
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('caigouStatus_daiqueren')">待审核</a>
                                                 </li>
                                                 <li  id="definedTab">
-                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('caigouStatus_yiqueren')">已确认</a>
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('caigouStatus_yiqueren')">已审核</a>
+                                                </li>
+                                                <li id="dairuku">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('caigouStatus_dairuku')">待入库</a>
+                                                </li>
+                                                <li  id="yiruku">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('caigouStatus_yiruku')">已入库</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -199,12 +205,12 @@
                                         <td style="vertical-align:top;">
                                             <c:if test="${QX.add == 1 }">
                                                 <a class="btn btn-sm btn-success" onclick="add();">新增</a>
-                                                <a class="btn btn-sm btn-danger" onclick="makeAllZuofei('确定要操作选中的数据吗?');" title="批量作废" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
                                             </c:if>
+                                            <a class="btn btn-sm btn-danger" onclick="makeAllZuofei('确定要操作选中的数据吗?');" title="批量作废" ><i class='ace-icon fa fa-key bigger-120'></i></a>
                                             <c:if test="${QX.del == 1 && pd.caigoudingdanstatus == 'caigouStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
                                             </c:if>
-                                            <c:if test="${pd.caigoudingdanstatus == 'caigouStatus_daiqueren' }">
+                                            <c:if test="${pd.caigoudingdanstatus == 'caigouStatus_daiqueren' && QX.shenhe == 1  }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
                                             <c:if test="${QX.tuisongcangku == 1 && pd.caigoudingdanstatus == 'caigouStatus_yiqueren' }">
@@ -265,10 +271,24 @@
         var caigoudingdanstatus = "${pd.caigoudingdanstatus}";
         if(caigoudingdanstatus == "caigouStatus_daiqueren" ){
             $("#definedTab").removeClass("active");
+            $("#dairuku").removeClass("active");
+            $("#yiruku").removeClass("active");
             $("#baseTab").addClass("active");
         }else if (caigoudingdanstatus == "caigouStatus_yiqueren"){
             $("#baseTab").removeClass("active");
             $("#definedTab").addClass("active");
+            $("#dairuku").removeClass("active");
+            $("#yiruku").removeClass("active");
+        }else if (caigoudingdanstatus == "caigouStatus_dairuku"){
+            $("#baseTab").removeClass("active");
+            $("#definedTab").removeClass("active");
+            $("#dairuku").addClass("active");
+            $("#yiruku").removeClass("active");
+        }else if (caigoudingdanstatus == "caigouStatus_yiruku"){
+            $("#baseTab").removeClass("active");
+            $("#definedTab").removeClass("active");
+            $("#dairuku").removeClass("active");
+            $("#yiruku").addClass("active");
         }
 
         //日期框
@@ -578,7 +598,7 @@
             top.jzts();
             var diag = new top.Dialog();
             diag.Drag=true;
-            diag.Title ="订单商品出库";
+            diag.Title ="采购订单入库";
             diag.URL = '<%=basePath%>caigoudingdan/goTuisongRuku.do?caigoudingdanid='+str;
             diag.Width = 400;
             diag.Height = 200;

@@ -56,6 +56,13 @@
                                                        id="nav-search-kehubianhao" autocomplete="off" name="kehubianhao" value="${pd.kehubianhao }" placeholder="这里输入关键词"/>
 										    </span>
                                             <span class="input-icon">
+											    仓库：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-cangku" autocomplete="off" name="cangku" value="${pd.cangku }" placeholder="这里输入关键词"/>
+										    </span>
+                                            <span class="input-icon">
 											    仓位：
 										    </span>
 										    <span class="input-icon">
@@ -113,6 +120,7 @@
                                     <th class="center" style="width:50px;">序号</th>
                                     <th class="center">包裹单号</th>
                                     <th class="center">客户编号</th>
+                                    <th class="center">仓库</th>
                                     <th class="center">仓位</th>
                                     <th class="center">操作</th>
                                 </tr>
@@ -130,6 +138,7 @@
                                                     <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.baoguodanhao}</td>
                                                     <td class='center'>${var.kehubianhao}</td>
+                                                    <td class='center'>${var.cangku}</td>
                                                     <td class='center'>${var.cangwei}</td>
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">

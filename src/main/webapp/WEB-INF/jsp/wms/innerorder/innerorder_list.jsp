@@ -281,7 +281,7 @@
                                             <c:if test="${QX.del == 1 && pd.orderstatus == 'orderStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
                                             </c:if>
-                                            <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' }">
+                                            <c:if test="${pd.orderstatus == 'orderStatus_daiqueren' && QX.shenhe == 1 }">
                                                 <a class="btn btn-sm btn-primary" onclick="makeAllShenHe('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
                                             <c:if test="${QX.tuisongcangku == 1 && pd.orderstatus == 'orderStatus_yiqueren' }">
@@ -289,11 +289,11 @@
                                                     <i class='ace-icon fa fa-bookmark bigger-120'></i>
                                                 </a>
                                             </c:if>
-                                            <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
+                                         <%--   <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
                                                 <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('确定要将选中的数据生成包裹吗?');">
                                                     <i class='ace-icon fa  fa-briefcase bigger-120'></i>
                                                 </a>
-                                            </c:if>
+                                            </c:if>--%>
                                             <c:if test="${pd.orderstatus == 'orderStatus_yiqingguan' || pd.orderstatus == 'orderStatus_yiqianshou' }">
                                                 <a class="btn btn-xs btn-success" title="异常" onclick="yichang('确定要将选中的订单生成异常件?');">
                                                     <i class='ace-icon  fa fa-gavel bigger-120'></i>

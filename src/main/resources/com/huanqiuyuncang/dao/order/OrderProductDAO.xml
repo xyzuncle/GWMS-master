@@ -221,13 +221,13 @@
 
     <select id="orderproductSum" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT
-        sum(count)
+        COALESCE(SUM(count),0)
         from wms_orderproduct
         WHERE innerpackagenum = #{innerpackagenum,jdbcType=VARCHAR}
     </select>
     <select id="selectProductsumByOrderNum" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT
-        sum(count)
+        COALESCE(SUM(count),0)
         from wms_orderproduct
         WHERE customerordernum = #{customerordernum,jdbcType=VARCHAR}
     </select>

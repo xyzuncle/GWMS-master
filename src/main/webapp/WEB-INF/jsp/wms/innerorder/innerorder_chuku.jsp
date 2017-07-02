@@ -46,7 +46,9 @@
                                                 <c:choose>
                                                     <c:when test="${not empty dictionaries}">
                                                         <c:forEach items="${dictionaries}" var="dic" varStatus="baoguanStatus">
-                                                            <option value="${dic.BIANMA}" id="${dic.BIANMA}">${dic.NAME}</option>
+                                                            <option value="${dic.BIANMA}"
+                                                                    <c:if test="${dic.BIANMA == cangkushuxing}"> selected</c:if>
+                                                                    id="${dic.BIANMA}">${dic.NAME}</option>
                                                         </c:forEach>
                                                     </c:when>
                                                 </c:choose>
@@ -119,6 +121,13 @@
                 if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
                 else $('#form-field-select-4').removeClass('tag-input-style');
             });
+        }
+
+        var cangkushuxing = $("#cangkushuxing").val();
+        var cangkuid = "${cangkuid}";
+        if(cangkushuxing){
+            searchCangku();
+            $("#"+cangkuid).attr("selected","selected");
         }
     });
     function save(){

@@ -46,7 +46,10 @@
                                                 <c:choose>
                                                     <c:when test="${not empty dictionaries}">
                                                         <c:forEach items="${dictionaries}" var="dic" varStatus="baoguanStatus">
-                                                            <option value="${dic.BIANMA}" id="${dic.BIANMA}">${dic.NAME}</option>
+                                                            <option value="${dic.BIANMA}"
+                                                                    <c:if test="${dic.BIANMA == cangkushuxing}"> selected</c:if>
+                                                                    id="${dic.BIANMA}">${dic.NAME}</option>
+
                                                         </c:forEach>
                                                     </c:when>
                                                 </c:choose>
@@ -95,6 +98,10 @@
 <script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
     $(top.hangge());
+
+
+
+
     $(function() {
         if(!ace.vars['touch']) {
             $('.chosen-select').chosen({allow_single_deselect:true});
@@ -120,6 +127,15 @@
                 else $('#form-field-select-4').removeClass('tag-input-style');
             });
         }
+        /*mv.addObject("cangkushuxing", cangKuEntity.getCangkushuxing());
+         mv.addObject("cangkuid", cangKuEntity.getId());*/
+        var cangkushuxing = $("#cangkushuxing").val();
+        var cangkuid = "${cangkuid}";
+        if(cangkushuxing){
+            searchCangku();
+            $("#"+cangkuid).attr("selected","selected");
+        }
+
     });
     function save(){
         $("#Form").submit();
@@ -134,6 +150,7 @@
             data: {code:code},
             dataType:'json',
             cache: false,
+            async: false,
             success: function(data){
                 $("#cangku").html('<option>请选择</option>');
                 $.each(data.list, function(i, dvar){

@@ -121,9 +121,11 @@ public class ProductWarehouseController extends BaseController {
         Date date = new Date();
         String productwarehouseid = productWarehouseEntity.getProductwarehouseid();
         String cangwei = productWarehouseEntity.getCangwei();
+        String cangku = productWarehouseEntity.getCangku();
         ProductWarehouseEntity sourceEntity = productWarehouseService.selectByPrimaryKey(productwarehouseid);
         PageData aa = new PageData();
         aa.put("cangwei",cangwei);
+        aa.put("cangku",cangku);
         ProductWarehouseEntity productWarehouse = productWarehouseService.selectByPd(aa);
         if(productWarehouse != null){
             Integer sum = Integer.parseInt(productWarehouse.getShuliang()) + Integer.parseInt(sourceEntity.getShuliang());

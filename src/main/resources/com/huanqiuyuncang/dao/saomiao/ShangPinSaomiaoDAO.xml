@@ -155,7 +155,7 @@
 
     <select id="selectSaomiaoSumByShangpin" resultType="java.lang.Integer" parameterType="java.lang.String" >
         select
-        sum(saomiaoshuliang)
+        COALESCE(SUM(saomiaoshuliang),0)
         from wms_shangpinsaomiao
         where shangpinid = #{shangpinid,jdbcType=VARCHAR}
     </select>

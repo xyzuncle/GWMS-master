@@ -703,6 +703,8 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setUpdateuser(createuser);
                     chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
                 });
+
+            createpackage(id);
         }
     }
 
@@ -722,6 +724,15 @@ public class InnerOrderService implements InnerOrderInterface {
                 ruKuBaoGuoEntity.setCangwei(baoGuoKuWeiEntity.getKuwei());
             }else{
                 ruKuBaoGuoEntity.setCangwei("P0000");
+            }
+            List<CustomerEntity> customerEntities = customerDAO.selectByLoginName(username);
+            String customerCode = "";
+            if(customerEntities != null && customerEntities.size()>0){
+                customerCode = customerEntities.get(0).getCustomercode();
+            }
+            List<BaoGuoKuWeiEntity> baoGuoKuWeiEntities = baoGuoKuWeiDAO.selectbyCustomerNum(customerCode);
+            if(baoGuoKuWeiEntities != null && baoGuoKuWeiEntities.size()>0){
+                username = baoGuoKuWeiEntities.get(0).getCreateuser();
             }
             ruKuBaoGuoEntity.setCreateuser(username);
             ruKuBaoGuoEntity.setCreatetime(date);

@@ -21,4 +21,6 @@ public interface CangKuDAO {
     List<CangKuEntity> datalistPage(Page page);
 
     List<CangKuEntity> getCangku(String cangkushuxing);
+
+    CangKuEntity selectByCangKu(String cangku);
 }

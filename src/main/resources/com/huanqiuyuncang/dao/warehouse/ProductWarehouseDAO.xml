@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
         <constructor >
             <idArg column="productwarehouseid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="neibuhuohao" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="kehubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -17,7 +18,7 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List" >
-        productwarehouseid, cangwei, neibuhuohao, kehubianhao, shangpintiaoma, shuliang,
+        productwarehouseid, cangku, cangwei, neibuhuohao, kehubianhao, shangpintiaoma, shuliang,
         suokustatus, createuser, createtime, updateuser, updatetime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -31,11 +32,11 @@
         where productwarehouseid = #{productwarehouseid,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
-        insert into wms_productwarehouse (productwarehouseid, cangwei, neibuhuohao,
+        insert into wms_productwarehouse (productwarehouseid, cangku,cangwei, neibuhuohao,
         kehubianhao, shangpintiaoma, shuliang,
         suokustatus, createuser, createtime,
         updateuser, updatetime)
-        values (#{productwarehouseid,jdbcType=VARCHAR}, #{cangwei,jdbcType=VARCHAR}, #{neibuhuohao,jdbcType=VARCHAR},
+        values (#{productwarehouseid,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR},#{cangwei,jdbcType=VARCHAR}, #{neibuhuohao,jdbcType=VARCHAR},
         #{kehubianhao,jdbcType=VARCHAR}, #{shangpintiaoma,jdbcType=VARCHAR}, #{shuliang,jdbcType=VARCHAR},
         #{suokustatus,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
         #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
@@ -45,6 +46,9 @@
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="productwarehouseid != null" >
                 productwarehouseid,
+            </if>
+            <if test="cangku != null" >
+                cangku,
             </if>
             <if test="cangwei != null" >
                 cangwei,
@@ -81,6 +85,9 @@
             <if test="productwarehouseid != null" >
                 #{productwarehouseid,jdbcType=VARCHAR},
             </if>
+            <if test="cangku != null" >
+                #{cangku,jdbcType=VARCHAR},
+            </if>
             <if test="cangwei != null" >
                 #{cangwei,jdbcType=VARCHAR},
             </if>
@@ -116,6 +123,9 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
         update wms_productwarehouse
         <set >
+            <if test="cangku != null" >
+                cangku = #{cangku,jdbcType=VARCHAR},
+            </if>
             <if test="cangwei != null" >
                 cangwei = #{cangwei,jdbcType=VARCHAR},
             </if>
@@ -151,7 +161,8 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity" >
         update wms_productwarehouse
-        set cangwei = #{cangwei,jdbcType=VARCHAR},
+        set cangku = #{cangku,jdbcType=VARCHAR},
+        cangwei = #{cangwei,jdbcType=VARCHAR},
         neibuhuohao = #{neibuhuohao,jdbcType=VARCHAR},
         kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
         shangpintiaoma = #{shangpintiaoma,jdbcType=VARCHAR},
@@ -174,6 +185,9 @@
         <if test="pd.shangpintiaoma!= null and pd.shangpintiaoma != ''"><!-- 商品名称 -->
             and shangpintiaoma LIKE  "%"#{pd.shangpintiaoma,jdbcType=VARCHAR}"%"
         </if>
+        <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
+            and cangku LIKE  "%"#{pd.cangku,jdbcType=VARCHAR}"%"
+        </if>
         <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
             and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
         </if>
@@ -185,6 +199,9 @@
         where 1=1
         <if test="shangpintiaoma!= null and shangpintiaoma != ''"><!-- 商品名称 -->
             and shangpintiaoma LIKE  "%"#{shangpintiaoma,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="cangku!= null and cangku != ''"><!-- 商品名称 -->
+            and cangku LIKE  "%"#{cangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="cangwei!= null and cangwei != ''"><!-- 商品名称 -->
             and cangwei LIKE  "%"#{cangwei,jdbcType=VARCHAR}"%"
@@ -200,6 +217,9 @@
         where 1=1
         <if test="neibuhuohao!= null and neibuhuohao != ''"><!-- 商品名称 -->
             and neibuhuohao LIKE  "%"#{neibuhuohao,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="cangku!= null and cangku != ''"><!-- 商品名称 -->
+            and cangku LIKE  "%"#{cangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="cangwei!= null and cangwei != ''"><!-- 商品名称 -->
             and cangwei LIKE  "%"#{cangwei,jdbcType=VARCHAR}"%"

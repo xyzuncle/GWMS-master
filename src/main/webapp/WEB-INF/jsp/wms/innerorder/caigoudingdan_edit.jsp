@@ -128,6 +128,11 @@
                     title : '数量'
                 },
                 {
+                    field : 'saomiaoshuliang',
+                    align : "center",
+                    title : '扫描数量'
+                },
+                {
                     field : 'caigoujiage',
                     align : "center",
                     title : '采购价格'

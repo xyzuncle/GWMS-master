@@ -5,6 +5,8 @@ import java.util.Date;
 public class PackageWarehouseEntity {
     private String packagewarehouseid;
 
+    private String cangku;
+
     private String cangwei;
 
     private String baoguodanhao;
@@ -21,8 +23,9 @@ public class PackageWarehouseEntity {
 
     private Date updatetime;
 
-    public PackageWarehouseEntity(String packagewarehouseid, String cangwei, String baoguodanhao, String kehubianhao, String shuliang, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public PackageWarehouseEntity(String packagewarehouseid,String cangku, String cangwei, String baoguodanhao, String kehubianhao, String shuliang, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.packagewarehouseid = packagewarehouseid;
+        this.cangku = cangku;
         this.cangwei = cangwei;
         this.baoguodanhao = baoguodanhao;
         this.kehubianhao = kehubianhao;
@@ -43,6 +46,14 @@ public class PackageWarehouseEntity {
 
     public void setPackagewarehouseid(String packagewarehouseid) {
         this.packagewarehouseid = packagewarehouseid == null ? null : packagewarehouseid.trim();
+    }
+
+    public String getCangku() {
+        return cangku;
+    }
+
+    public void setCangku(String cangku) {
+        this.cangku = cangku;
     }
 
     public String getCangwei() {

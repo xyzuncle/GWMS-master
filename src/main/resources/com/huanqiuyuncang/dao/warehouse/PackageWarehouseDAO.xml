@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity" >
     <constructor >
       <idArg column="packagewarehouseid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="baoguodanhao" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="kehubianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -15,7 +16,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    packagewarehouseid, cangwei, baoguodanhao, kehubianhao, shuliang, createuser, createtime, 
+    packagewarehouseid, cangku, cangwei, baoguodanhao, kehubianhao, shuliang, createuser, createtime,
     updateuser, updatetime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -29,11 +30,11 @@
     where packagewarehouseid = #{packagewarehouseid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity" >
-    insert into wms_packagewarehouse (packagewarehouseid, cangwei, baoguodanhao, 
+    insert into wms_packagewarehouse (packagewarehouseid, cangku,cangwei, baoguodanhao,
       kehubianhao, shuliang, createuser, 
       createtime, updateuser, updatetime
       )
-    values (#{packagewarehouseid,jdbcType=VARCHAR}, #{cangwei,jdbcType=VARCHAR}, #{baoguodanhao,jdbcType=VARCHAR}, 
+    values (#{packagewarehouseid,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR}, #{cangwei,jdbcType=VARCHAR}, #{baoguodanhao,jdbcType=VARCHAR},
       #{kehubianhao,jdbcType=VARCHAR}, #{shuliang,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
       )
@@ -44,7 +45,10 @@
       <if test="packagewarehouseid != null" >
         packagewarehouseid,
       </if>
-      <if test="cangwei != null" >
+      <if test="cangku != null" >
+          cangku,
+      </if>
+        <if test="cangwei != null" >
         cangwei,
       </if>
       <if test="baoguodanhao != null" >
@@ -72,6 +76,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="packagewarehouseid != null" >
         #{packagewarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="cangku != null" >
+        #{cangku,jdbcType=VARCHAR},
       </if>
       <if test="cangwei != null" >
         #{cangwei,jdbcType=VARCHAR},
@@ -102,6 +109,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity" >
     update wms_packagewarehouse
     <set >
+      <if test="cangku != null" >
+          cangku = #{cangku,jdbcType=VARCHAR},
+      </if>
       <if test="cangwei != null" >
         cangwei = #{cangwei,jdbcType=VARCHAR},
       </if>
@@ -131,7 +141,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity" >
     update wms_packagewarehouse
-    set cangwei = #{cangwei,jdbcType=VARCHAR},
+    set cangku = #{cangku,jdbcType=VARCHAR},
+      cangwei = #{cangwei,jdbcType=VARCHAR},
       baoguodanhao = #{baoguodanhao,jdbcType=VARCHAR},
       kehubianhao = #{kehubianhao,jdbcType=VARCHAR},
       shuliang = #{shuliang,jdbcType=VARCHAR},
@@ -152,6 +163,9 @@
       <if test="pd.kehubianhao!= null and pd.kehubianhao != ''"><!-- 商品名称 -->
           and kehubianhao LIKE  "%"#{pd.kehubianhao,jdbcType=VARCHAR}"%"
       </if>
+      <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
+          and cangku LIKE  "%"#{pd.cangku,jdbcType=VARCHAR}"%"
+      </if>
       <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
           and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
       </if>
@@ -164,6 +178,9 @@
         where 1=1
         <if test="baoguodanhao!= null and baoguodanhao != ''">
             and baoguodanhao LIKE  "%"#{baoguodanhao,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="cangku!= null and cangku != ''">
+            and cangku LIKE  "%"#{cangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="cangwei!= null and cangwei != ''">
             and cangwei LIKE  "%"#{cangwei,jdbcType=VARCHAR}"%"

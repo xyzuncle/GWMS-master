@@ -1,18 +1,17 @@
 package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
-import com.huanqiuyuncang.controller.wms.customer.CustomerController;
+import com.huanqiuyuncang.service.wms.saomiao.ShangPinSaomiaoInterface;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
-import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
 import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
-import com.huanqiuyuncang.entity.order.OrderProductEntity;
 import com.huanqiuyuncang.entity.system.Dictionaries;
-import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.customer.GongYingShangInterface;
+import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.order.CaiGouDingDanInterface;
 import com.huanqiuyuncang.service.wms.order.CaiGouShangPinInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
@@ -30,7 +29,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -54,6 +52,12 @@ public class CaiGouDingDanController  extends BaseController {
     private CaiGouShangPinInterface caiGouShangPinService;
     @Autowired
     private ProductWarehouseInterface productWarehouseService;
+
+    @Autowired
+    private CangKuInterface cangKuService;
+
+    @Autowired
+    private ShangPinSaomiaoInterface shangPinSaomiaoService;
 
     @Resource(name="dictionariesService")
     private DictionariesManager dictionariesService;
@@ -356,6 +360,10 @@ public class CaiGouDingDanController  extends BaseController {
     @RequestMapping(value="/pdlist")
     public void pdlist(PrintWriter printWriter,String caigoudingdanid) throws Exception{
        List<CaiGouShangPinEntity> list = caiGouShangPinService.selectByCaiGouDingDanId(caigoudingdanid);
+        list.forEach(caiGouShangPinEntity -> {
+            Integer sum = shangPinSaomiaoService.selectSaomiaoSumByShangpin(caiGouShangPinEntity.getId());
+            caiGouShangPinEntity.setSaomiaoshuliang(Integer.toString(sum));
+        });
         String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
         String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
         printWriter.write(resultJson);
@@ -488,6 +496,15 @@ public class CaiGouDingDanController  extends BaseController {
     public ModelAndView goTuisongRuku()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        String username = Jurisdiction.getUsername();
+        List<CustomerEntity> customerEntities = customerService.selectByLoginName(username);
+        if(customerEntities != null && customerEntities.size()>0){
+            CustomerEntity customerEntity = customerEntities.get(0);
+            String defaultwarehouse = customerEntity.getDefaultwarehouse();
+            CangKuEntity cangKuEntity = cangKuService.selectByCangKu(defaultwarehouse);
+            mv.addObject("cangkushuxing", cangKuEntity.getCangkushuxing());
+            mv.addObject("cangkuid", cangKuEntity.getId());
+        }
         setCangKuShuXing(mv);
         mv.setViewName("wms/innerorder/caigoudingdan_ruku");
         mv.addObject("msg", "saveShangpinRuku");

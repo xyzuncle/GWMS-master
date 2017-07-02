@@ -114,9 +114,11 @@
                                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                             </a>
                                                             </c:if>
+                                                            <c:if test="${QX.zhuangtaixiugai == 1 }">
                                                             <a class="btn btn-xs btn-success" title="修改客户状态" onclick="changestatus('${var.customerid}');">
                                                                 <i class="ace-icon fa 	fa-exchange  bigger-120" title="修改客户状态"></i>
                                                             </a>
+                                                            </c:if>
                                                         </div>
                                                     </td>
                                                 </tr>

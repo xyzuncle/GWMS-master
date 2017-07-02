@@ -76,15 +76,15 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
     }
 
     @Override
-    public PageData updateSaomiaoShangPin(String[] shuliangarr, String[] huohaoarr, String[] dingdanhaoarr) {
+    public PageData updateSaomiaoShangPin(String[] shuliangarr, String[] tiaomaarr, String[] dingdanhaoarr) {
         PageData pd = new PageData();
         pd.put("msg","error");
         pd.put("resturt","没有找到该货号");
-        for(int i = 0 ;i<huohaoarr.length;i++){
+        for(int i = 0 ;i<tiaomaarr.length;i++){
             String dingdanhao = dingdanhaoarr[i];
-            String huohao = huohaoarr[i];
+            String tiaoma = tiaomaarr[i];
             String shuliang = shuliangarr[i];
-            ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinDAO.selectByDingDanHaoAndHuoHao(dingdanhao,huohao);
+            ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinDAO.selectByDingDanHaoAndTiaoma(dingdanhao,tiaoma);
             if(chuKuShangPinEntity != null){
                 CustomerEntity customerEntity = customerDAO.selectCustomerByCode(chuKuShangPinEntity.getKehubianhao());
                 String customerstatus = customerEntity.getCustomerstatus();
@@ -109,6 +109,7 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
                     productWarehouse.setShuliang(Integer.toString(sum));
                     productWarehouseDAO.updateByPrimaryKeySelective(productWarehouse);
                     Integer saomiaoSum = shangPinSaomiaoDAO.selectSaomiaoSumByShangpin(chuKuShangPinEntity.getChukushangpinid());
+
                     if(saomiaoSum == Integer.parseInt(chuKuShangPinEntity.getShuliang())){
                         chuKuShangPinDAO.updateByPrimaryKey(chuKuShangPinEntity);
                     }

@@ -23,4 +23,5 @@ public interface CangKuInterface {
     void deleteAll(String[] arrayDATA_ids);
 
 
+    CangKuEntity selectByCangKu(String cangku);
 }

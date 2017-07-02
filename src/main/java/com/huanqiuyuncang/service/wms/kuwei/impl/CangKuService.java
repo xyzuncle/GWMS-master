@@ -69,4 +69,10 @@ public class CangKuService implements CangKuInterface {
         }
     }
 
+    @Override
+    public CangKuEntity selectByCangKu(String cangku) {
+
+        return  cangKuDAO.selectByCangKu(cangku);
+    }
+
 }

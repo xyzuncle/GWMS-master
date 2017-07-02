@@ -83,7 +83,7 @@
                             <div class="col-sm-12 widget-container-col">
                                 <div class="widget-box transparent">
                                     <div class="widget-header">
-                                        <h4 class="widget-title lighter">采购订单管理</h4>
+                                        <h4 class="widget-title lighter">采购入库管理</h4>
                                         <div class="widget-toolbar no-border">
                                             <ul class="nav nav-tabs" id="myTab2">
                                                 <li id="baseTab">

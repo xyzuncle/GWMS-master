@@ -76,9 +76,10 @@ public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
                 Date date = new Date();
                 ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_yidabao");
                 String cangwei = ruKuBaoGuoEntity.getCangwei();
+                String cangku = ruKuBaoGuoEntity.getCangku();
                 PackageWarehouseEntity packageWarehouse = packageWarehouseDAO.selectByRuKuBaoGuo(ruKuBaoGuoEntity);
                 if(packageWarehouse == null){
-                    createPackageWarehouse(username, date, cangwei);
+                    createPackageWarehouse(username, date,cangku,  cangwei);
                 }else {
                     updatePackageWarehouse(packageWarehouse);
                 }
@@ -102,9 +103,10 @@ public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
         packageWarehouseDAO.updateByPrimaryKeySelective(packageWarehouse);
     }
 
-    private void createPackageWarehouse(String username, Date date, String cangwei) {
+    private void createPackageWarehouse(String username, Date date, String cangku, String cangwei) {
         PackageWarehouseEntity packageW = new PackageWarehouseEntity();
         packageW.setPackagewarehouseid(UuidUtil.get32UUID());
+        packageW.setCangku(cangku);
         packageW.setCangwei(cangwei);
         packageW.setUpdatetime(date);
         packageW.setUpdateuser(username);

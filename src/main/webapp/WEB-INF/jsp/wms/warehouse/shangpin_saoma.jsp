@@ -40,12 +40,12 @@
                                         <td colspan="2">
                                             <table id="saomiao" class="table ">
                                                 <tr>
-                                                    <td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>
+                                                    <td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>
                                                     <td><input type="text" name="huohao"   maxlength="30"  style="width:98%;"/></td>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>
                                                     <td><input type="text"  name="dingdanhao"   maxlength="30"  style="width:98%;"/></td>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>
-                                                    <td><input type="number" name="shuliang" value="0"  maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="number" name="shuliang"  maxlength="30"  style="width:98%;"/></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -98,12 +98,12 @@
             }else if ("dingdanhao" === str){
                 $("input[name='shuliang']:last").focus();
             }else if ("shuliang" === str){
-                 $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>' +
+                 $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>' +
                  ' <td><input type="text"  name="huohao"  maxlength="30"  style="width:98%;"/>' +
                  '</td><td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>' +
                  '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> ' +
                  '</td><td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>' +
-                 '<td><input type="number" name="shuliang"  value="0"   maxlength="30"  style="width:98%;"/></td> ' +
+                 '<td><input type="number" name="shuliang"  maxlength="30"  style="width:98%;"/></td> ' +
                  '</tr>');
                 $("input[name='huohao']:last").focus();
             }

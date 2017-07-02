@@ -196,7 +196,7 @@
                                                     <i class='ace-icon fa fa-bookmark bigger-120'></i>
                                                 </a>
                                             </c:if>
-                                            <c:if test="${pd.orderstatus == 'packageStatus_daishenhe' }">
+                                            <c:if test="${pd.orderstatus == 'packageStatus_daishenhe' && QX.shenhe == 1  }">
                                                 <a class="btn btn-sm btn-primary" onclick="makequeren('确定要审核选中的数据吗?');" title="批量审核" ><i class='ace-icon fa fa-eye-slash bigger-120'></i></a>
                                             </c:if>
                                             <c:if test="${pd.orderstatus == 'packageStatus_yishenhe' }">

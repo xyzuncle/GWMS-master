@@ -96,4 +96,14 @@ public class CaiGouShangPinEntity {
     public void setSaomastatus(String saomastatus) {
         this.saomastatus = saomastatus == null ? null : saomastatus.trim();
     }
+
+    private String saomiaoshuliang;
+
+    public String getSaomiaoshuliang() {
+        return saomiaoshuliang;
+    }
+
+    public void setSaomiaoshuliang(String saomiaoshuliang) {
+        this.saomiaoshuliang = saomiaoshuliang;
+    }
 }
