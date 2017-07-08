@@ -599,13 +599,27 @@ public class InnerOrderController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         String username = Jurisdiction.getUsername();
-        List<CustomerEntity> customerEntities = customerService.selectByLoginName(username);
-        if(customerEntities != null && customerEntities.size()>0){
-            CustomerEntity customerEntity = customerEntities.get(0);
+        //innerorderid
+        String DATA_IDS = pd.getString("innerorderid");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            InnerOrderEntity innerOrderEntity = innerOrderService.selectByPrimaryKey(ArrayDATA_IDS[0]);
+            String customernum = innerOrderEntity.getCustomernum();
+            CustomerEntity customerEntity = customerService.selectCustomerByCode(customernum);
             String defaultwarehouse = customerEntity.getDefaultwarehouse();
             CangKuEntity cangKuEntity = cangKuService.selectByCangKu(defaultwarehouse);
             mv.addObject("cangkushuxing", cangKuEntity.getCangkushuxing());
             mv.addObject("cangkuid", cangKuEntity.getId());
+            String customerstatus = customerEntity.getCustomerstatus();
+            String[] split = customerstatus.split("_");
+           /* <option value="1">默认库位</option>
+            <option value="0">自定义库位</option>*/
+            if("0".equals(split[2])){
+                mv.addObject("kuwei", "自定义库位");
+            }else{
+                mv.addObject("kuwei", "默认库位");
+            }
+
         }
         setCangKuShuXing(mv);
         mv.setViewName("wms/innerorder/innerorder_chuku");
@@ -632,11 +646,11 @@ public class InnerOrderController extends BaseController {
     }
 
     @RequestMapping(value="/saveShangpinChuku")
-    public ModelAndView saveShangpinChuku(String innerorderid,String cangkushuxing,String cangku) throws Exception{
+    public ModelAndView saveShangpinChuku(String innerorderid,String cangkushuxing,String cangku,String kuwei) throws Exception{
         ModelAndView mv = this.getModelAndView();
         if(null != innerorderid && !"".equals(innerorderid)){
             String ids[] = innerorderid.split(",");
-            innerOrderService.saveShangpinChuku(ids,cangkushuxing,cangku);
+            innerOrderService.saveShangpinChuku(ids,cangkushuxing,cangku,kuwei);
         }
 
         mv.addObject("msg","success");

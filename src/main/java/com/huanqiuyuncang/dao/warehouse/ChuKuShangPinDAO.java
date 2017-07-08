@@ -21,5 +21,5 @@ public interface ChuKuShangPinDAO {
 
     List<ChuKuShangPinEntity> datalistPage(Page page);
 
-    ChuKuShangPinEntity selectByDingDanHaoAndTiaoma(@Param("dingdanhao") String dingdanhao, @Param("huohao")String tiaoma);
+    ChuKuShangPinEntity selectByDingDanHaoAndTiaoma(@Param("dingdanhao") String dingdanhao, @Param("tiaoma")String tiaoma);
 }

@@ -67,6 +67,8 @@ public class InnerOrderService implements InnerOrderInterface {
     @Autowired
     private ShangPinKuWeiDAO shangPinKuWeiDAO;
 
+
+
     @Override
     public int insert(InnerOrderEntity record) {
         return innerOrderDAO.insert(record);
@@ -672,14 +674,14 @@ public class InnerOrderService implements InnerOrderInterface {
     }
 
     @Override
-    public void saveShangpinChuku(String[] ids, String cangkushuxing, String cangku) {
+    public void saveShangpinChuku(String[] ids, String cangkushuxing, String cangku, String kuwei) {
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         for (String id :ids){
             InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
             String customerName = innerOrderEntity.getCustomernum();
               List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
-                orderProductEntities.forEach(orderProduct ->{
+                for(OrderProductEntity orderProduct :orderProductEntities){
                     CustomerEntity customer = customerDAO.selectCustomerByCode(innerOrderEntity.getCustomernum());
                     ChuKuShangPinEntity chuKuShangPinEntity = new ChuKuShangPinEntity();
                     chuKuShangPinEntity.setChukushangpinid(UuidUtil.get32UUID());
@@ -694,15 +696,19 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setCangku(cangku);
                     CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangku);
                     String createuser = cangKuEntity.getCreateuser();
-                    List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByKuweiAndProductnum(cangku,productEntity.getProductnum());
-                    String kuwei = (list!=null && list.size()>0)?list.get(0).getKuwei():"";
+
+                    List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuWei(kuwei);
+                    if("自定义库位".equals(kuwei) || "默认库位".equals(kuwei)||shangPinKuWeiEntities == null){
+                        List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByKuweiAndProductnum(cangku,productEntity.getProductnum());
+                        kuwei = (list!=null && list.size()>0)?list.get(0).getKuwei():"";
+                    }
                     chuKuShangPinEntity.setCangwei(kuwei);
                     chuKuShangPinEntity.setCreateuser(createuser);
                     chuKuShangPinEntity.setCreatetime(date);
                     chuKuShangPinEntity.setUpdatetime(date);
                     chuKuShangPinEntity.setUpdateuser(createuser);
                     chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
-                });
+                };
 
             createpackage(id);
         }

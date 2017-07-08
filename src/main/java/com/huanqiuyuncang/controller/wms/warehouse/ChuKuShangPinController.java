@@ -7,6 +7,7 @@ import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
+import com.huanqiuyuncang.service.wms.saomiao.ShangPinSaomiaoInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ChuKuShangPinInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -38,6 +39,9 @@ public class ChuKuShangPinController extends BaseController {
     @Autowired
     private CustomerInterface customerService;
 
+    @Autowired
+    private ShangPinSaomiaoInterface shangPinSaomiaoService;
+
     /**列表
      * @param page
      * @throws Exception
@@ -48,6 +52,11 @@ public class ChuKuShangPinController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         page.setPd(pd);
         List<ChuKuShangPinEntity> varList = chuKuShangPinService.datalistPage(page);
+
+        varList.forEach(chuKuShangPinEntity -> {
+            Integer sum = shangPinSaomiaoService.selectSaomiaoSumByShangpin(chuKuShangPinEntity.getChukushangpinid());
+            chuKuShangPinEntity.setSaomiaoshuliang(Integer.toString(sum));
+        });
         mv.setViewName("wms/warehouse/chukushangpin_list");
         mv.addObject("varList", varList);
         mv.addObject("pd", pd);
@@ -139,10 +148,10 @@ public class ChuKuShangPinController extends BaseController {
         map.put("huohaoList",huohaoList);
         map.put("shuliangList",shuliangList);*/
         List<String> dingdanhaoList = stringListMap.get("dingdanhaoList");
-        List<String> huohaoList = stringListMap.get("huohaoList");
+        List<String> tiaomaList = stringListMap.get("huohaoList");
         List<String> shuliangList = stringListMap.get("shuliangList");
         PageData result = chuKuShangPinService.updateSaomiaoShangPin(shuliangList.toArray(new String[shuliangList.size()]),
-                huohaoList.toArray(new String[huohaoList.size()]),dingdanhaoList.toArray(new String[dingdanhaoList.size()]));
+                tiaomaList.toArray(new String[tiaomaList.size()]),dingdanhaoList.toArray(new String[dingdanhaoList.size()]));
         mv.addObject("msg",result.getString("msg"));
         mv.addObject("resturt",result.getString("resturt"));
         mv.setViewName("save_result");
@@ -182,10 +191,10 @@ public class ChuKuShangPinController extends BaseController {
     @RequestMapping(value="/updatecangku")
     public ModelAndView updatecangku() throws Exception{
         ModelAndView mv = this.getModelAndView();
-        String[] huohaoarr = this.getRequest().getParameterValues("huohao");
+        String[] tiaomaarr = this.getRequest().getParameterValues("huohao");
         String[] dingdanhaoarr = this.getRequest().getParameterValues("dingdanhao");
         String[] shuliang = this.getRequest().getParameterValues("shuliang");
-        PageData result = chuKuShangPinService.updateSaomiaoShangPin(shuliang,huohaoarr,dingdanhaoarr);
+        PageData result = chuKuShangPinService.updateSaomiaoShangPin(shuliang,tiaomaarr,dingdanhaoarr);
         mv.addObject("msg",result.getString("msg"));
         mv.addObject("resturt",result.getString("resturt"));
         mv.setViewName("save_result");

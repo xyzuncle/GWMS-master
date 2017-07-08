@@ -122,6 +122,7 @@
                                     <th class="center">外部订单号</th>
                                     <th class="center">商品条码</th>
                                     <th class="center">数量</th>
+                                    <th class="center">扫描数量</th>
                                     <th class="center">仓位</th>
                                 </tr>
                                 </thead>
@@ -140,6 +141,7 @@
                                                     <td class='center'>${var.waibudingdanhao}</td>
                                                     <td class='center'>${var.shangpintiaoma}</td>
                                                     <td class='center'>${var.shuliang}</td>
+                                                    <td class='center'>${var.saomiaoshuliang}</td>
                                                     <td class='center'>${var.cangwei}</td>
                                                 </tr>
                                             </c:forEach>

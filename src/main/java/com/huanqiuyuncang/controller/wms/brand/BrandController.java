@@ -39,6 +39,8 @@ public class BrandController  extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd  = this.getPageData();
         pd.put("brandid", this.get32UUID());	//主键
+        BeanMapUtil.setCreateUserInfo(pd);
+        BeanMapUtil.setUpdateUserInfo(pd);
         brandService.insertSelective(pd);
         mv.addObject("msg","success");
         mv.setViewName("save_result");

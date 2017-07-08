@@ -174,4 +174,14 @@ public class ChuKuShangPinEntity {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
+
+    private String saomiaoshuliang;
+
+    public String getSaomiaoshuliang() {
+        return saomiaoshuliang;
+    }
+
+    public void setSaomiaoshuliang(String saomiaoshuliang) {
+        this.saomiaoshuliang = saomiaoshuliang;
+    }
 }

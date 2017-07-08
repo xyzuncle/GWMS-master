@@ -51,7 +51,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="width:130px;text-align: right;padding-top: 13px;">发货仓库:</td>
+                                        <td style="width:130px;text-align: right;padding-top: 13px;">默认库位:</td>
                                         <td>
                                             <select style="width:80px;" name="2" id="2">
                                                 <option value="1">默认库位</option>

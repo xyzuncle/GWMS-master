@@ -59,7 +59,7 @@ public interface InnerOrderInterface {
 
     List<CangKuEntity> getCangku(String code);
 
-    void saveShangpinChuku(String[] ids, String cangkushuxing, String cangku);
+    void saveShangpinChuku(String[] ids, String cangkushuxing, String cangku, String kuwei);
 
     void saveBaoguoRuku(String[] ids, String baoguokuwei);
 }

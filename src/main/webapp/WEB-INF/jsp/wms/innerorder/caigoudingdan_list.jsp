@@ -206,7 +206,7 @@
                                             <c:if test="${QX.add == 1 }">
                                                 <a class="btn btn-sm btn-success" onclick="add();">新增</a>
                                             </c:if>
-                                            <a class="btn btn-sm btn-danger" onclick="makeAllZuofei('确定要操作选中的数据吗?');" title="批量作废" ><i class='ace-icon fa fa-key bigger-120'></i></a>
+                                            <a class="btn btn-sm btn-danger" onclick="makeAllZuofei('确定要作废选中的数据吗?');" title="批量作废" ><i class='ace-icon fa fa-key bigger-120'></i></a>
                                             <c:if test="${QX.del == 1 && pd.caigoudingdanstatus == 'caigouStatus_daiqueren' }">
                                                 <a class="btn btn-sm btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='ace-icon fa fa-trash-o bigger-120'></i></a>
                                             </c:if>
@@ -528,7 +528,7 @@
                     });
                     return;
                 }else{
-                    if(msg == '确定要操作选中的数据吗?'){
+                    if(msg == '确定要作废选中的数据吗?'){
                         top.jzts();
                         $.ajax({
                             type: "POST",

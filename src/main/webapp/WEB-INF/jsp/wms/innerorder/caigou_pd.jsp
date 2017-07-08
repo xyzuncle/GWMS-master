@@ -36,7 +36,7 @@
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>
-                                        <td><input type="text" name="shangpinhuohao" id="shangpinhuohao" value="${caigoupd.shangpinhuohao}" maxlength="30" style="width:98%;"/></td>
+                                        <td><input type="text" onblur="checkProductNum()" name="shangpinhuohao" id="shangpinhuohao" value="${caigoupd.shangpinhuohao}" maxlength="30" style="width:98%;"/></td>
                                     </tr>
                                     <tr>
                                         <td style="width:92px;text-align: right;padding-top: 13px;">数量:</td>
@@ -89,6 +89,32 @@
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
+    }
+
+    //检查货号
+    function checkProductNum(){
+        var id = $("#id").val();
+        if(id == ""){
+            var productnum = $.trim($("#shangpinhuohao").val());
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>product/findProductByProductNum.do',
+                data: {productnum:productnum},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    if("success" == data.result){
+                        $("#shangpinhuohao").tips({
+                            side:3,
+                            msg:'货号'+productnum+' 不存在',
+                            bg:'#AE81FF',
+                            time:3
+                        });
+                        $("#shangpinhuohao").val('');
+                    }
+                }
+            });
+        }
     }
 
 </script>
