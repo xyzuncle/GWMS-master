@@ -154,6 +154,7 @@
             url: '<%=basePath%>innerorder/getCangku.do?tm='+new Date().getTime(),
             data: {code:code},
             dataType:'json',
+            async: false,
             cache: false,
             success: function(data){
                 $("#cangku").html('<option>请选择</option>');

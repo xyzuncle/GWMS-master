@@ -65,6 +65,12 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td style="width:82px;text-align: right;padding-top: 13px;">库位:</td>
+                                        <td>
+                                            <input type="text" disabled name="kuwei" id="kuwei" value="${kuwei}" maxlength="30" style="width:98%;"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td style="text-align: center;" colspan="10">
                                             <a class="btn btn-mini btn-primary" onclick="save();">保存</a>
                                             <a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -131,9 +137,15 @@
          mv.addObject("cangkuid", cangKuEntity.getId());*/
         var cangkushuxing = $("#cangkushuxing").val();
         var cangkuid = "${cangkuid}";
+        var kuwei = $("#kuwei").val();
         if(cangkushuxing){
             searchCangku();
             $("#"+cangkuid).attr("selected","selected");
+        }
+        if("自定义库位"==kuwei){
+            $("#kuwei").removeAttr("disabled")
+        }else if("默认库位"==kuwei){
+            $("#kuwei").attr("disabled","disabled")
         }
 
     });

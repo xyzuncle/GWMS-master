@@ -1,6 +1,7 @@
 package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
+import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.service.wms.saomiao.ShangPinSaomiaoInterface;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
@@ -533,14 +534,23 @@ public class CaiGouDingDanController  extends BaseController {
     public ModelAndView goTuisongRuku()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String username = Jurisdiction.getUsername();
-        List<CustomerEntity> customerEntities = customerService.selectByLoginName(username);
-        if(customerEntities != null && customerEntities.size()>0){
-            CustomerEntity customerEntity = customerEntities.get(0);
-            String defaultwarehouse = customerEntity.getDefaultwarehouse();
+        String DATA_IDS = pd.getString("caigoudingdanid");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            CaiGouDingDanEntity caiGouDingDanEntity = caiGouDingDanService.selectByPrimaryKey(ArrayDATA_IDS[0]);
+            String gongyingshangbianhao = caiGouDingDanEntity.getGongyingshangbianhao();
+            GongYingShangEntity gongYingShangEntity = gongYingShangService.selectgongyingshangByCode(gongyingshangbianhao);
+            String defaultwarehouse = gongYingShangEntity.getDefaultwarehouse();
             CangKuEntity cangKuEntity = cangKuService.selectByCangKu(defaultwarehouse);
             mv.addObject("cangkushuxing", cangKuEntity.getCangkushuxing());
             mv.addObject("cangkuid", cangKuEntity.getId());
+            String gongyingshangstatus = gongYingShangEntity.getGongyingshangstatus();
+            String[] split = gongyingshangstatus.split("_");
+            if("0".equals(split[2])){
+                mv.addObject("kuwei", "自定义库位");
+            }else{
+                mv.addObject("kuwei", "默认库位");
+            }
         }
         setCangKuShuXing(mv);
         mv.setViewName("wms/innerorder/caigoudingdan_ruku");
