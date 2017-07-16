@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.warehouse.YiKuDAO" >
+  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.warehouse.YiKuEntity" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productNum" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="srcCangku" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="srcCangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="targetCangku" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="targetCangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="yikushuangliang" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="yikuStatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, productNum, srcCangku, srcCangwei, targetCangku, targetCangwei, yikushuangliang, 
+    yikuStatus, createuser, createtime, updateuser, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_yiku
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_yiku
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.YiKuEntity" >
+    insert into wms_yiku (id, productNum, srcCangku, 
+      srcCangwei, targetCangku, targetCangwei, 
+      yikushuangliang, yikuStatus, createuser, 
+      createtime, updateuser, updatetime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{productnum,jdbcType=VARCHAR}, #{srccangku,jdbcType=VARCHAR}, 
+      #{srccangwei,jdbcType=VARCHAR}, #{targetcangku,jdbcType=VARCHAR}, #{targetcangwei,jdbcType=VARCHAR}, 
+      #{yikushuangliang,jdbcType=VARCHAR}, #{yikustatus,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.warehouse.YiKuEntity" >
+    insert into wms_yiku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productnum != null" >
+        productNum,
+      </if>
+      <if test="srccangku != null" >
+        srcCangku,
+      </if>
+      <if test="srccangwei != null" >
+        srcCangwei,
+      </if>
+      <if test="targetcangku != null" >
+        targetCangku,
+      </if>
+      <if test="targetcangwei != null" >
+        targetCangwei,
+      </if>
+      <if test="yikushuangliang != null" >
+        yikushuangliang,
+      </if>
+      <if test="yikustatus != null" >
+        yikuStatus,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productnum != null" >
+        #{productnum,jdbcType=VARCHAR},
+      </if>
+      <if test="srccangku != null" >
+        #{srccangku,jdbcType=VARCHAR},
+      </if>
+      <if test="srccangwei != null" >
+        #{srccangwei,jdbcType=VARCHAR},
+      </if>
+      <if test="targetcangku != null" >
+        #{targetcangku,jdbcType=VARCHAR},
+      </if>
+      <if test="targetcangwei != null" >
+        #{targetcangwei,jdbcType=VARCHAR},
+      </if>
+      <if test="yikushuangliang != null" >
+        #{yikushuangliang,jdbcType=VARCHAR},
+      </if>
+      <if test="yikustatus != null" >
+        #{yikustatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.warehouse.YiKuEntity" >
+    update wms_yiku
+    <set >
+      <if test="productnum != null" >
+        productNum = #{productnum,jdbcType=VARCHAR},
+      </if>
+      <if test="srccangku != null" >
+        srcCangku = #{srccangku,jdbcType=VARCHAR},
+      </if>
+      <if test="srccangwei != null" >
+        srcCangwei = #{srccangwei,jdbcType=VARCHAR},
+      </if>
+      <if test="targetcangku != null" >
+        targetCangku = #{targetcangku,jdbcType=VARCHAR},
+      </if>
+      <if test="targetcangwei != null" >
+        targetCangwei = #{targetcangwei,jdbcType=VARCHAR},
+      </if>
+      <if test="yikushuangliang != null" >
+        yikushuangliang = #{yikushuangliang,jdbcType=VARCHAR},
+      </if>
+      <if test="yikustatus != null" >
+        yikuStatus = #{yikustatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.warehouse.YiKuEntity" >
+    update wms_yiku
+    set productNum = #{productnum,jdbcType=VARCHAR},
+      srcCangku = #{srccangku,jdbcType=VARCHAR},
+      srcCangwei = #{srccangwei,jdbcType=VARCHAR},
+      targetCangku = #{targetcangku,jdbcType=VARCHAR},
+      targetCangwei = #{targetcangwei,jdbcType=VARCHAR},
+      yikushuangliang = #{yikushuangliang,jdbcType=VARCHAR},
+      yikuStatus = #{yikustatus,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_yiku
+        where 1=1
+        <if test="pd.productNum!= null and pd.productNum != ''">
+            and productNum LIKE  "%"#{pd.productNum,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.yikuStatus!= null and pd.yikuStatus != ''">
+            and yikuStatus LIKE  "%"#{pd.yikuStatus,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.srcCangku!= null and pd.srcCangku != ''">
+            and srcCangku LIKE  "%"#{pd.srcCangku,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.srcCangwei!= null and pd.srcCangwei != ''">
+            and srcCangwei LIKE  "%"#{pd.srcCangwei,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.targetCangku!= null and pd.targetCangku != ''">
+            and targetCangku LIKE  "%"#{pd.targetCangku,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.targetCangwei!= null and pd.targetCangwei != ''">
+            and targetCangwei LIKE  "%"#{pd.targetCangwei,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.createuser!= null and pd.createuser != ''">
+            and createuser LIKE  "%"#{pd.createuser,jdbcType=VARCHAR}"%"
+        </if>
+        ORDER BY createtime desc
+    </select>
+
+    <select id="selectByPdNumAndTargetCangkuInfo" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_yiku
+        where 1=1
+        <if test="pd.productNum!= null and pd.productNum != ''">
+            and productNum LIKE  "%"#{pd.productNum,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.targetCangku!= null and pd.targetCangku != ''">
+            and targetCangku LIKE  "%"#{pd.targetCangku,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.targetCangwei!= null and pd.targetCangwei != ''">
+            and targetCangwei LIKE  "%"#{pd.targetCangwei,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+
+    <select id="selectByArgs" parameterType="pd" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_yiku
+        where 1=1
+        <if test="productNum!= null and productNum != ''">
+            and productNum LIKE  "%"#{productNum,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="yikuStatus!= null and yikuStatus != ''">
+            and yikuStatus LIKE  "%"#{yikuStatus,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="srcCangku!= null and srcCangku != ''">
+            and srcCangku LIKE  "%"#{srcCangku,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="srcCangwei!= null and srcCangwei != ''">
+            and srcCangwei LIKE  "%"#{srcCangwei,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="targetCangku!= null and targetCangku != ''">
+            and targetCangku LIKE  "%"#{targetCangku,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="targetCangwei!= null and targetCangwei != ''">
+            and targetCangwei LIKE  "%"#{targetCangwei,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="createuser!= null and createuser != ''">
+            and createuser LIKE  "%"#{createuser,jdbcType=VARCHAR}"%"
+        </if>
+        ORDER BY createtime desc
+    </select>
+
+</mapper>
