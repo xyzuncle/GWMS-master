@@ -17,6 +17,8 @@ public class CaiGouDingDanEntity {
 
     private String cangku;
 
+    private String cangwei;
+
     private String cangkuuser;
 
     private String beizhu;
@@ -29,7 +31,7 @@ public class CaiGouDingDanEntity {
 
     private Date updatetime;
 
-    public CaiGouDingDanEntity(String caigoudingdanid, String caigoudingdanhao, String gongyingshangbianhao, String kehubianhao, String caigoujiage, String caigoudingdanstatus, String cangku, String cangkuuser, String beizhu, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public CaiGouDingDanEntity(String caigoudingdanid, String caigoudingdanhao, String gongyingshangbianhao, String kehubianhao, String caigoujiage, String caigoudingdanstatus, String cangku,String cangwei, String cangkuuser, String beizhu, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.caigoudingdanid = caigoudingdanid;
         this.caigoudingdanhao = caigoudingdanhao;
         this.gongyingshangbianhao = gongyingshangbianhao;
@@ -37,6 +39,7 @@ public class CaiGouDingDanEntity {
         this.caigoujiage = caigoujiage;
         this.caigoudingdanstatus = caigoudingdanstatus;
         this.cangku = cangku;
+        this.cangwei = cangwei;
         this.cangkuuser = cangkuuser;
         this.beizhu = beizhu;
         this.createuser = createuser;
@@ -173,5 +176,11 @@ public class CaiGouDingDanEntity {
         this.formateUpdateTime = formateUpdateTime;
     }
 
+    public String getCangwei() {
+        return cangwei;
+    }
 
+    public void setCangwei(String cangwei) {
+        this.cangwei = cangwei;
+    }
 }

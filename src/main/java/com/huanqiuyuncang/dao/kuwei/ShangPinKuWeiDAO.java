@@ -24,5 +24,9 @@ public interface ShangPinKuWeiDAO {
 
     List<ShangPinKuWeiEntity> selectByKuWei(String cangkuid);
 
-    List<ShangPinKuWeiEntity> selectByKuweiAndProductnum(@Param("cangku") String cangku, @Param("productnum") String productnum);
+    List<ShangPinKuWeiEntity> selectByCangkuAndProductnum(@Param("cangku") String cangku, @Param("productnum") String productnum);
+
+    ShangPinKuWeiEntity selectByPdnumAndKwAndCreateuser(@Param("productnum") String productnum, @Param("kuwei") String kuwei, @Param("createuser") String createuser);
+
+    ShangPinKuWeiEntity selectByKuWeiAndCreateUser( @Param("kuwei")String kuwei, @Param("createuser")String createuser);
 }

@@ -141,4 +141,14 @@ public class ProductWarehouseEntity {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
+
+    private String productName;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 }

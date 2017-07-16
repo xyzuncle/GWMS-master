@@ -22,6 +22,12 @@ public interface CangKuInterface {
 
     void deleteAll(String[] arrayDATA_ids);
 
-
     CangKuEntity selectByCangKu(String cangku);
+
+    List<CangKuEntity> selectByCreateUser(String createUser);
+
+    List<CangKuEntity> selectByCangkuuser(String cangkuuser);
+
+    List<CangKuEntity> getCangku(String cangkushuxing);
+
 }

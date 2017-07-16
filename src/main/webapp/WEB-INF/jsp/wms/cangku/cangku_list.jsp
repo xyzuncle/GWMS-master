@@ -107,7 +107,11 @@
                                                                     <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                                 </a>
                                                             </c:if>
-
+                                                            <c:if test="${QX.guanlianyonghu == 1 }">
+                                                                <a class="btn btn-xs btn-success" title="关联用户" onclick="cangkuuser('${var.id}');">
+                                                                    <i class="ace-icon fa fa-users bigger-120" title="关联用户"></i>
+                                                                </a>
+                                                            </c:if>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -272,6 +276,22 @@
         diag.Drag=true;
         diag.Title ="编辑";
         diag.URL = '<%=basePath%>cangku/goEdit.do?id='+Id;
+        diag.Width = 600;
+        diag.Height = 500;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
+            }
+            diag.close();
+        };
+        diag.show();
+    }
+    function cangkuuser(Id){
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="关联用户";
+        diag.URL = '<%=basePath%>cangku/goguanlianyonghu.do?id='+Id;
         diag.Width = 600;
         diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件

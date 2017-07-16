@@ -8,6 +8,7 @@ import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.util.*;
 import net.sf.json.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,6 +92,16 @@ public class CangKuController extends BaseController {
         mv.setViewName("save_result");
         return mv;
     }
+    @RequestMapping(value="/guanlianyonghu")
+    public ModelAndView guanlianyonghu(String id ,String cangkuuser) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        CangKuEntity cangKuEntity = cangKuService.selectByPrimaryKey(id);
+        cangKuEntity.setCangkuuser(cangkuuser);
+        cangKuService.updateByPrimaryKeySelective(cangKuEntity);
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
 
     /**列表
      * @param page
@@ -100,13 +111,38 @@ public class CangKuController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        List<CangKuEntity> varList = null;
+        String USERNAME = Jurisdiction.getUsername();
+        String role_name = gerRolename(USERNAME);
+        if("仓库管理员".equals(role_name)){
+            String cangkuid = pd.getString("cangku");
+            if(cangkuid == null || StringUtils.isBlank(cangkuid)){
+                List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
+                if(cangkuList != null && cangkuList.size()>0){
+                    String cangkuids = "";
+                    for(CangKuEntity cangku : cangkuList){
+                        cangkuids = cangkuids+cangku.getId()+",";
+                    }
+                    if(StringUtils.isNotBlank(cangkuids)){
+                        cangkuids = cangkuids.substring(0,cangkuids.length()-1);
+                        pd.put("cangku",cangkuids);
+                    }
+                }
+            }
+        }
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("cangku");
+        }
         page.setPd(pd);
-        List<CangKuEntity> varList =  cangKuService.datalistPage(page);
-        for (CangKuEntity cangku:varList) {
-            String cangkushuxing = cangku.getCangkushuxing();
-            pd.put("BIANMA",cangkushuxing);
-            PageData dic = dictionariesService.findByBianma(pd);
-            cangku.setCangkushuxing(dic.getString("NAME"));
+        varList = cangKuService.datalistPage(page);
+        if(varList != null && varList.size()>0){
+            for (CangKuEntity cangku:varList) {
+                String cangkushuxing = cangku.getCangkushuxing();
+                pd.put("BIANMA",cangkushuxing);
+                PageData dic = dictionariesService.findByBianma(pd);
+                cangku.setCangkushuxing(dic.getString("NAME"));
+            }
         }
         mv.setViewName("wms/cangku/cangku_list");
         mv.addObject("varList", varList);
@@ -153,6 +189,20 @@ public class CangKuController extends BaseController {
         this.getRequest().getSession().setAttribute("token", cangKuEntity.getId());
         mv.setViewName("wms/cangku/cangku_edit");
         mv.addObject("msg", "edit");
+        mv.addObject("cangku", cangKuEntity);
+        mv.addObject("pd", pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+    @RequestMapping(value="/goguanlianyonghu")
+    public ModelAndView goguanlianyonghu()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String id = pd.getString("id");
+        CangKuEntity cangKuEntity = cangKuService.selectByPrimaryKey(id);//根据ID读取
+        this.getRequest().getSession().setAttribute("token", cangKuEntity.getId());
+        mv.setViewName("wms/cangku/cangku_guanlianyonghu");
+        mv.addObject("msg", "guanlianyonghu");
         mv.addObject("cangku", cangKuEntity);
         mv.addObject("pd", pd);
         mv.addObject("QX",Jurisdiction.getHC());	//按钮权限

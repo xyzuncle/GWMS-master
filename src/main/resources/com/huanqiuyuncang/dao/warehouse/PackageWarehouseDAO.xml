@@ -164,10 +164,16 @@
           and kehubianhao LIKE  "%"#{pd.kehubianhao,jdbcType=VARCHAR}"%"
       </if>
       <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
-          and cangku LIKE  "%"#{pd.cangku,jdbcType=VARCHAR}"%"
+          and cangku in (#{pd.cangku,jdbcType=VARCHAR})
       </if>
       <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
           and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="pd.createuser!= null and pd.createuser != ''"><!-- 商品名称 -->
+          and createuser LIKE  "%"#{pd.createuser,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="pd.cangkuCodes!= null and pd.cangkuCodes != ''"><!-- 商品名称 -->
+          OR cangku in(#{pd.cangkuCodes,jdbcType=VARCHAR})
       </if>
   </select>
 

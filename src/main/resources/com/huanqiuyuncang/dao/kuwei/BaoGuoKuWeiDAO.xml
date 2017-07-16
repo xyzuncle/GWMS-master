@@ -150,7 +150,7 @@
             and customernum LIKE  "%"#{pd.customernum,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.cangku!= null and pd.cangku != ''">
-            and cangku LIKE  "%"#{pd.cangku,jdbcType=VARCHAR}"%"
+            and cangku in  (#{pd.cangku,jdbcType=VARCHAR})
         </if>
         <if test="pd.kuwei!= null and pd.kuwei != ''">
             and kuwei LIKE  "%"#{pd.kuwei,jdbcType=VARCHAR}"%"

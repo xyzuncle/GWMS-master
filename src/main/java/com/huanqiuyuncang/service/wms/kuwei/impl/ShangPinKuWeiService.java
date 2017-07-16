@@ -2,7 +2,6 @@ package com.huanqiuyuncang.service.wms.kuwei.impl;
 
 import com.huanqiuyuncang.dao.kuwei.ShangPinKuWeiDAO;
 import com.huanqiuyuncang.entity.Page;
-import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
 import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
 import com.huanqiuyuncang.service.wms.kuwei.ShangPinKuWeiInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +61,15 @@ public class ShangPinKuWeiService implements ShangPinKuWeiInterface {
     @Override
     public List<ShangPinKuWeiEntity> selectByCangKu(String cangkuid) {
         return shangPinKuWeiDAO.selectByKuWei(cangkuid);
+    }
+
+    @Override
+    public ShangPinKuWeiEntity selectByKuWeiAndCreateUser(String kuwei, String createuser) {
+        return shangPinKuWeiDAO.selectByKuWeiAndCreateUser(kuwei,createuser);
+    }
+
+
+    public ShangPinKuWeiEntity selectByPdnumAndKwAndCreateuser(String productnum, String kuwei, String createuser) {
+        return shangPinKuWeiDAO.selectByPdnumAndKwAndCreateuser(productnum,kuwei,createuser);
     }
 }

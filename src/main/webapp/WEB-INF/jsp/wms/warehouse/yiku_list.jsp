@@ -35,39 +35,47 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- 检索  -->
-                        <form action="productwarehouse/list.do" method="post" name="Form" id="Form">
+                        <form action="yiku/list.do" method="post" name="Form" id="Form">
                             <table style="margin-top:5px;">
                                 <tr>
                                     <td>
                                         <div class="nav-search">
+                                            <input type="hidden" id="nav-search-yikustatus" name="yikustatus" value="${pd.yikustatus }" >
                                             <span class="input-icon">
 											    内部货号：
 										    </span>
 										    <span class="input-icon">
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
-                                                       id="nav-search-neibuhuohao" autocomplete="off" name="neibuhuohao" value="${pd.neibuhuohao }" placeholder="这里输入关键词"/>
+                                                       id="nav-search-productnum" autocomplete="off" name="productnum" value="${pd.productnum }" placeholder="这里输入关键词"/>
 										    </span>
-                                             <span class="input-icon">
-											    商品条码：
+                                           <%--  <span class="input-icon">
+											    源仓库：
 										    </span>
 										    <span class="input-icon">
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
-                                                       id="nav-search-shangpintiaoma" autocomplete="off" name="shangpintiaoma" value="${pd.shangpintiaoma }" placeholder="这里输入关键词"/>
+                                                       id="nav-search-srccangku" autocomplete="off" name="srccangku" value="${pd.srccangku }" placeholder="这里输入关键词"/>
 										    </span>
                                             <span class="input-icon">
-											    仓库：
+											    源仓位：
 										    </span>
 										    <span class="input-icon">
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
-                                                       id="nav-search-cangku" autocomplete="off" name="cangku" value="${pd.cangku }" placeholder="这里输入关键词"/>
+                                                       id="nav-search-srccangwei" autocomplete="off" name="srccangwei" value="${pd.srccangwei }" placeholder="这里输入关键词"/>
 										    </span>
                                             <span class="input-icon">
-											    仓位：
+											    目的仓库：
 										    </span>
 										    <span class="input-icon">
 											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
-                                                       id="nav-search-cangwei" autocomplete="off" name="cangwei" value="${pd.cangwei }" placeholder="这里输入关键词"/>
+                                                       id="nav-search-targetcangku" autocomplete="off" name="targetcangku" value="${pd.targetcangku }" placeholder="这里输入关键词"/>
 										    </span>
+                                            <span class="input-icon">
+											    目的仓位：
+										    </span>
+										    <span class="input-icon">
+											    <input type="text" placeholder="这里输入关键词" class="nav-search-input"
+                                                       id="nav-search-targetcangwei" autocomplete="off" name="targetcangwei" value="${pd.targetcangwei }" placeholder="这里输入关键词"/>
+										    </span>--%>
                                         </div>
                                     </td>
                                     <c:if test="${QX.cha == 1 }">
@@ -75,6 +83,37 @@
                                     </c:if>
                                 </tr>
                             </table>
+                            <div class="col-sm-12 widget-container-col">
+                                <div class="widget-box transparent">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title lighter">移库管理</h4>
+                                        <div class="widget-toolbar no-border">
+                                            <ul class="nav nav-tabs" id="myTab2">
+
+                                                <li status="daiyiku" name="yikuStatus">
+                                                    <a data-toggle="tab" href="#base" onclick="changeTable('yiku_daiyiku')">待移库</a>
+                                                </li>
+                                                <li  status="yiyiku" name="yikuStatus">
+                                                    <a data-toggle="tab" href="#defined" onclick="changeTable('yiku_yiyiku')">已移库</a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main padding-12 no-padding-left no-padding-right">
+                                            <div class="tab-content padding-4">
+                                                <div id="base" class="tab-pane in active">
+                                                </div>
+                                                <div id="defined" class="tab-pane">
+                                                </div>
+                                                <div id="disable" class="tab-pane">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- 检索  -->
                             <table id="simple-table" class="table table-striped table-bordered table-hover" style="margin-top:5px;">
                                 <thead>
@@ -83,12 +122,13 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">仓库</th>
-                                    <th class="center">仓位</th>
-                                    <th class="center">内部货号</th>
-                                    <th class="center">商品条码</th>
-                                    <th class="center">数量</th>
-                                    <th class="center">操作</th>
+                                    <th class="center">货号</th>
+                                    <th class="center">源仓库</th>
+                                    <th class="center">源仓位</th>
+                                    <th class="center">目的仓库</th>
+                                    <th class="center">目的仓位</th>
+                                    <th class="center">目的仓位</th>
+                                    <th class="center">移库数量</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -102,23 +142,12 @@
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.productwarehouseid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
-                                                    <td class='center'>${var.cangku}</td>
-                                                    <td class='center'>${var.cangwei}</td>
-                                                    <td class='center'>${var.neibuhuohao}</td>
-                                                    <td class='center'>${var.shangpintiaoma}</td>
-                                                    <td class='center'>${var.shuliang}</td>
-                                                    <td class="center">
-                                                        <c:if test="${QX.edit != 1 && QX.del != 1 }">
-                                                            <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
-                                                        </c:if>
-                                                        <div class="hidden-sm hidden-xs btn-group">
-
-                                                            <a class="btn btn-xs btn-success" title="盘点" onclick="pandian('是否盘点该仓库?','${var.productwarehouseid}');">
-                                                                <i class="ace-icon fa  fa-ban bigger-120" title="盘点"></i>
-                                                            </a>
-                                                        </div>
-
-                                                    </td>
+                                                    <td class='center'>${var.productnum}</td>
+                                                    <td class='center'>${var.srccangku}</td>
+                                                    <td class='center'>${var.srccangwei}</td>
+                                                    <td class='center'>${var.targetcangku}</td>
+                                                    <td class='center'>${var.targetcangwei}</td>
+                                                    <td class='center'>${var.yikushuangliang}</td>
                                                 </tr>
 
                                             </c:forEach>
@@ -141,9 +170,9 @@
                                 <table style="width:100%;">
                                     <tr>
                                         <td style="vertical-align:top;">
-                                            <a class="btn btn-xs btn-success" title="移库" onclick="yiku('确定要选中的商品移库吗?');">
-                                                <i class="ace-icon fa fa-pencil-square-o bigger-120" title="移库"></i>
-                                            </a>
+                                            <c:if test="${ pd.yikustatus == 'yiku_daiyiku' }">
+                                                <a class="btn btn-sm btn-primary" onclick="saomiao();" title="移库扫描" ><i class='ace-icon fa fa-bookmark bigger-120'></i></a>
+                                            </c:if>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
@@ -188,6 +217,19 @@
         $("#Form").submit();
     }
     $(function() {
+
+        var yikuStatus = "${pd.yikuStatus}";
+
+        var arr = yikuStatus.split("_");
+        $("li[name='yikuStatus']").each(function(){
+            var status = $(this).attr("status");
+            if(status == arr[1] ){
+                $(this).addClass("active");
+            }else{
+                $(this).removeClass("active");
+            }
+        });
+
         //复选框全选控制
         var active_class = 'active';
         $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
@@ -202,66 +244,31 @@
 
 
     function yiku(msg){
-        bootbox.confirm(msg, function(result) {
-            if(result) {
-                var str = '';
-                for(var i=0;i < document.getElementsByName('ids').length;i++){
-                    if(document.getElementsByName('ids')[i].checked){
-                        if(str=='') str += document.getElementsByName('ids')[i].value;
-                        else str += ',' + document.getElementsByName('ids')[i].value;
-                    }
-                }
-                if(str==''){
-                    bootbox.dialog({
-                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
-                        buttons:
-                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
-                    });
-                    $("#zcheckbox").tips({
-                        side:1,
-                        msg:'点这里全选',
-                        bg:'#AE81FF',
-                        time:8
-                    });
-                    return;
-                }else{
-                    top.jzts();
-                    var diag = new top.Dialog();
-                    diag.Drag=true;
-                    diag.Title ="商品移库";
-                    diag.URL = '<%=basePath%>productwarehouse/goyiku.do?productwarehouseid='+str;
-                    diag.Width = 400;
-                    diag.Height = 300;
-                    diag.CancelEvent = function(){ //关闭事件
-                        if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                            nextPage(${page.currentPage});
-                        }
-                        diag.close();
-                    };
-                    diag.show();
-                }
+
+        top.jzts();
+        var diag = new top.Dialog();
+        diag.Drag=true;
+        diag.Title ="移库扫描";
+        diag.URL = '<%=basePath%>yiku/yikusaomiao.do';
+        diag.Width = 400;
+        diag.Height = 300;
+        diag.CancelEvent = function(){ //关闭事件
+            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                nextPage(${page.currentPage});
             }
-        });
+            diag.close();
+        };
+        diag.show();
+
 
     }
-    function pandian(msg,Id){
-        bootbox.confirm(msg, function(result) {
-            if(result) {
-                $.ajax({
-                    type: "POST",
-                    url: '<%=basePath%>productwarehouse/pandian.do',
-                    data: {productwarehouseid:Id},
-                    dataType:'json',
-                    cache: false,
-                    success: function(data){
-                        $.each(data.list, function(i, list){
-                            nextPage(${page.currentPage});
-                        });
-                    }
-                });
-            }
-        });
+
+    function changeTable(auditStatus){
+        $("#nav-search-yikustatus").val(auditStatus);
+        top.jzts();
+        $("#Form").submit();
     }
+
 
 </script>
 

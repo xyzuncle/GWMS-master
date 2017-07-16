@@ -2,13 +2,23 @@ package com.huanqiuyuncang.controller.wms.warehouse;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.customer.CustomerEntity;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
+import com.huanqiuyuncang.entity.warehouse.YiKuEntity;
+import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
+import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
+import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
+import com.huanqiuyuncang.service.wms.warehouse.YiKuInterface;
 import com.huanqiuyuncang.util.AppUtil;
 import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
+import com.huanqiuyuncang.util.UuidUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +38,17 @@ public class ProductWarehouseController extends BaseController {
     @Autowired
     private ProductWarehouseInterface productWarehouseService;
 
+    @Autowired
+    private ProductInterface productService;
+
+    @Autowired
+    private YiKuInterface yiKuService;
+
+    @Autowired
+    private CustomerInterface customerService;
+
+    @Autowired
+    private CangKuInterface cangKuService;
     /**列表
      * @param page
      * @throws Exception
@@ -37,14 +58,60 @@ public class ProductWarehouseController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表Product");
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
-        pd.put("createuser",Jurisdiction.getUsername());
+        List<CangKuEntity> cangkucommonlist = cangKuService.getCangku("cangkushuxing_common");
+        String USERNAME = Jurisdiction.getUsername();
+        String role_name = gerRolename(USERNAME);
+        if("注册用户".equals(role_name)){
+            List<CustomerEntity> customerList = customerService.selectByLoginName(USERNAME);
+            if(customerList != null && customerList.size() >0){
+                CustomerEntity customerEntity = customerList.get(0);
+                String kehubianhao = customerEntity.getCustomercode();
+                if(StringUtils.isBlank(pd.getString("kehubianhao"))){
+                    pd.put("kehubianhao",kehubianhao);
+                    String cangkuCodes = "";
+                    for(CangKuEntity cangku : cangkucommonlist){
+                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
+                    }
+                    pd.put("cangkuCodes",cangkuCodes);
+                }
+            }
+
+        }else if("仓库管理员".equals(role_name)){
+            String cangkuid = pd.getString("cangku");
+            if(cangkuid == null || StringUtils.isBlank(cangkuid)){
+                List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
+                cangkuList.addAll(cangkucommonlist);
+                if(cangkuList != null && cangkuList.size()>0){
+                    String cangkuCodes = "";
+                    for(CangKuEntity cangku : cangkuList){
+                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
+                    }
+                    if(StringUtils.isNotBlank(cangkuCodes)){
+                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
+                        if(StringUtils.isBlank(pd.getString("cangku"))){
+                            pd.put("cangku",cangkuCodes);
+                        }
+
+                    }
+                }
+            }
+        }
         //判断是否据有查看所有权限
         Map<String, String> hc = Jurisdiction.getHC();
         if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
-            pd.remove("createuser");
+            pd.remove("cangku");
+            pd.remove("cangkuCodes");
+            pd.remove("kehubianhao");
         }
         page.setPd(pd);
         List<ProductWarehouseEntity> varList = productWarehouseService.datalistPage(page);
+
+        for(ProductWarehouseEntity pw : varList){
+            String cangkuid = pw.getCangku();
+            CangKuEntity cangKuEntity = cangKuService.selectByPrimaryKey(cangkuid);
+            pw.setCangku(cangKuEntity.getCangkuname());
+        }
+
         mv.setViewName("wms/warehouse/productwarehouse_list");
         mv.addObject("varList", varList);
         mv.addObject("pd", pd);
@@ -92,11 +159,22 @@ public class ProductWarehouseController extends BaseController {
     public ModelAndView goyiku()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String productwarehouseid = pd.getString("productwarehouseid");
-        ProductWarehouseEntity ProductWarehouseEntity = productWarehouseService.selectByPrimaryKey(productwarehouseid);//根据ID读取
+        List<ProductWarehouseEntity> list = new ArrayList<>();
+        String DATA_IDS = pd.getString("productwarehouseid");
+        if(null != DATA_IDS && !"".equals(DATA_IDS)){
+            String ArrayDATA_IDS[] = DATA_IDS.split(",");
+            for(String id : ArrayDATA_IDS){
+                ProductWarehouseEntity productWarehouseEntity = productWarehouseService.selectByPrimaryKey(id);
+                ProductEntity product = productService.findProductByProductNum(productWarehouseEntity.getNeibuhuohao());
+                productWarehouseEntity.setProductName(product.getProductname());
+                list.add(productWarehouseEntity);
+
+            }
+        }
         mv.setViewName("wms/warehouse/productwarehouse_edit");
         mv.addObject("msg", "yiku");
-        mv.addObject("productwarehouse", ProductWarehouseEntity);
+        mv.addObject("ids", DATA_IDS);
+        mv.addObject("list", list);
         mv.addObject("pd", pd);
         return mv;
     }
@@ -114,12 +192,33 @@ public class ProductWarehouseController extends BaseController {
     }
 
     @RequestMapping(value="/yiku")
-    public ModelAndView yiku(ProductWarehouseEntity productWarehouseEntity) throws Exception{
+    public ModelAndView yiku(List<ProductWarehouseEntity> pwlist,String cangku,String cangwei) throws Exception{
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
-        String productwarehouseid = productWarehouseEntity.getProductwarehouseid();
+        List<YiKuEntity> list = new ArrayList<>();
+        for(ProductWarehouseEntity pw : pwlist){
+            String productwarehouseid = pw.getProductwarehouseid();
+            String yikushuliang = pw.getShuliang();
+            ProductWarehouseEntity productWarehouseEntity = productWarehouseService.selectByPrimaryKey(productwarehouseid);
+            YiKuEntity yiKu = new YiKuEntity();
+            yiKu.setId(UuidUtil.get32UUID());
+            yiKu.setProductnum(productWarehouseEntity.getNeibuhuohao());
+            yiKu.setSrccangku(productWarehouseEntity.getCangku());
+            yiKu.setSrccangwei(productWarehouseEntity.getCangwei());
+            yiKu.setTargetcangku(cangku);
+            yiKu.setTargetcangwei(cangwei);
+            yiKu.setYikushuangliang(yikushuliang);
+            yiKu.setYikustatus("yiku_daiyiku");
+            yiKu.setCreateuser(username);
+            yiKu.setCreatetime(date);
+            yiKu.setUpdateuser(username);
+            yiKu.setUpdatetime(date);
+            list.add(yiKu);
+        }
+        yiKuService.insert(list);
+        /*String productwarehouseid = productWarehouseEntity.getProductwarehouseid();
         String cangwei = productWarehouseEntity.getCangwei();
         String cangku = productWarehouseEntity.getCangku();
         ProductWarehouseEntity sourceEntity = productWarehouseService.selectByPrimaryKey(productwarehouseid);
@@ -134,7 +233,7 @@ public class ProductWarehouseController extends BaseController {
         }else{
             sourceEntity.setCangwei(cangwei);
             productWarehouseService.updateByPrimaryKeySelective(sourceEntity);
-        }
+        }*/
         mv.addObject("msg","success");
         mv.setViewName("save_result");
         return mv;

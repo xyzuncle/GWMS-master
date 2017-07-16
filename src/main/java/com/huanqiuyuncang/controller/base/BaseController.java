@@ -1,11 +1,15 @@
 package com.huanqiuyuncang.controller.base;
 
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.huanqiuyuncang.dao.checktable.CheckTableDAO;
+import com.huanqiuyuncang.entity.system.User;
 import com.huanqiuyuncang.service.system.checktable.CheckTableInterface;
 import com.huanqiuyuncang.service.system.checktable.impl.CheckTableService;
+import com.huanqiuyuncang.service.system.role.RoleManager;
+import com.huanqiuyuncang.service.system.user.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,6 +32,12 @@ public class BaseController {
 
     @Autowired
     protected  CheckTableInterface checkTableService;
+
+
+    @Resource(name="userService")
+    private UserManager userService;
+    @Resource(name="roleService")
+    private RoleManager roleService;
 	
 	/** new PageData对象
 	 * @return
@@ -94,6 +104,16 @@ public class BaseController {
         }
         return sum;
 
+    }
+
+
+    protected String gerRolename(String USERNAME) throws Exception {
+        PageData argspd = new PageData();
+        argspd.put("USERNAME",USERNAME);
+        PageData userinfo = userService.findByUsername(argspd);
+        String USER_ID = userinfo.getString("USER_ID");
+        User user = userService.getUserAndRoleById(USER_ID);
+        return user.getRole().getROLE_NAME();
     }
 
 }

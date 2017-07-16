@@ -75,4 +75,20 @@ public class CangKuService implements CangKuInterface {
         return  cangKuDAO.selectByCangKu(cangku);
     }
 
+    @Override
+    public  List<CangKuEntity> selectByCreateUser(String createUser) {
+        return cangKuDAO.selectByCreateUser(createUser);
+    }
+
+    @Override
+    public List<CangKuEntity> selectByCangkuuser(String cangkuuser) {
+
+        return cangKuDAO.selectByCangkuuser(cangkuuser);
+    }
+
+    @Override
+    public List<CangKuEntity> getCangku(String cangkushuxing) {
+        return cangKuDAO.getCangku(cangkushuxing);
+    }
+
 }

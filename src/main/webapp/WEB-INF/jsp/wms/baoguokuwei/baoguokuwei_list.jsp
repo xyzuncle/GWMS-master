@@ -287,6 +287,7 @@
         };
         diag.show();
     }
+
     //批量操作
     function makeAll(msg){
         bootbox.confirm(msg, function(result) {
@@ -335,6 +336,8 @@
             }
         });
     };
+
+
 
 </script>
 

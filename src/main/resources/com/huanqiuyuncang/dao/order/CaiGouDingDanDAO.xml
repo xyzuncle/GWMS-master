@@ -10,6 +10,7 @@
             <arg column="caigoujiage" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="caigoudingdanstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="cangwei" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="cangkuuser" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -20,7 +21,7 @@
     </resultMap>
     <sql id="Base_Column_List" >
         caigoudingdanid, caigoudingdanhao, gongyingshangbianhao, kehubianhao, caigoujiage,
-        caigoudingdanstatus, cangku, cangkuuser, beizhu, createuser, createtime, updateuser,
+        caigoudingdanstatus, cangku,cangwei, cangkuuser, beizhu, createuser, createtime, updateuser,
         updatetime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -36,12 +37,12 @@
     <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.CaiGouDingDanEntity" >
         insert into wms_caigoudingdan (caigoudingdanid, caigoudingdanhao,
         gongyingshangbianhao, kehubianhao, caigoujiage,
-        caigoudingdanstatus, cangku, cangkuuser,
+        caigoudingdanstatus, cangku, cangwei, cangkuuser,
         beizhu, createuser, createtime,
         updateuser, updatetime)
         values (#{caigoudingdanid,jdbcType=VARCHAR}, #{caigoudingdanhao,jdbcType=VARCHAR},
         #{gongyingshangbianhao,jdbcType=VARCHAR}, #{kehubianhao,jdbcType=VARCHAR}, #{caigoujiage,jdbcType=VARCHAR},
-        #{caigoudingdanstatus,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR}, #{cangkuuser,jdbcType=VARCHAR},
+        #{caigoudingdanstatus,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR},#{cangwei,jdbcType=VARCHAR}, #{cangkuuser,jdbcType=VARCHAR},
         #{beizhu,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
         #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
     </insert>
@@ -68,6 +69,9 @@
             </if>
             <if test="cangku != null" >
                 cangku,
+            </if>
+            <if test="cangwei != null" >
+                cangwei,
             </if>
             <if test="cangkuuser != null" >
                 cangkuuser,
@@ -110,6 +114,9 @@
             <if test="cangku != null" >
                 #{cangku,jdbcType=VARCHAR},
             </if>
+            <if test="cangwei != null" >
+                #{cangwei,jdbcType=VARCHAR},
+            </if>
             <if test="cangkuuser != null" >
                 #{cangkuuser,jdbcType=VARCHAR},
             </if>
@@ -151,6 +158,9 @@
             <if test="cangku != null" >
                 cangku = #{cangku,jdbcType=VARCHAR},
             </if>
+            <if test="cangwei != null" >
+                cangwei = #{cangwei,jdbcType=VARCHAR},
+            </if>
             <if test="cangkuuser != null" >
                 cangkuuser = #{cangkuuser,jdbcType=VARCHAR},
             </if>
@@ -180,6 +190,7 @@
         caigoujiage = #{caigoujiage,jdbcType=VARCHAR},
         caigoudingdanstatus = #{caigoudingdanstatus,jdbcType=VARCHAR},
         cangku = #{cangku,jdbcType=VARCHAR},
+        cangwei = #{cangwei,jdbcType=VARCHAR},
         cangkuuser = #{cangkuuser,jdbcType=VARCHAR},
         beizhu = #{beizhu,jdbcType=VARCHAR},
         createuser = #{createuser,jdbcType=VARCHAR},
@@ -204,6 +215,9 @@
         </if>
         <if test="pd.caigoudingdanstatus != null and pd.caigoudingdanstatus != ''" >
             AND caigoudingdanstatus = #{pd.caigoudingdanstatus,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.cangku != null and pd.cangku != ''" >
+            AND cangku = #{pd.cangku,jdbcType=VARCHAR}
         </if>
         <if test="pd.createuser != null and pd.createuser != ''" >
             and  createuser = #{pd.createuser,jdbcType=VARCHAR}

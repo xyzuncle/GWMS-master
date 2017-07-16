@@ -3,10 +3,12 @@ package com.huanqiuyuncang.controller.wms.warehouse;
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity;
+import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.warehouse.PackageWarehouseInterface;
 import com.huanqiuyuncang.service.wms.warehouse.RuKuBaoGuoInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -35,6 +37,8 @@ public class RuKuBaoGuoController extends BaseController {
     @Autowired
     private PackageWarehouseInterface packageWarehouseService;
 
+    @Autowired
+    private CangKuInterface cangKuService;
     /**列表
      * @param page
      * @throws Exception
@@ -43,6 +47,28 @@ public class RuKuBaoGuoController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
+        String USERNAME = Jurisdiction.getUsername();
+        String role_name = gerRolename(USERNAME);
+        if("仓库管理员".equals(role_name)){
+            String cangkuid = pd.getString("cangku");
+            if(cangkuid == null || StringUtils.isBlank(cangkuid)){
+                List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
+                if(cangkuList != null && cangkuList.size()>0){
+                    String cangkuCodes = "";
+                    for(CangKuEntity cangku : cangkuList){
+                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
+                    }
+                    if(StringUtils.isNotBlank(cangkuCodes)){
+                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
+                        pd.put("cangku",cangkuCodes);
+                    }
+                }
+            }
+        }
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("cangku");
+        }
         page.setPd(pd);
         List<RuKuBaoGuoEntity> varList = ruKuBaoGuoService.datalistPage(page);
         mv.setViewName("wms/warehouse/rukubaoguo_list");

@@ -223,6 +223,9 @@
       <if test="pd.kehudingdanhao!= null and pd.kehudingdanhao != ''"><!-- 商品名称 -->
           and kehudingdanhao LIKE  "%"#{pd.kehudingdanhao,jdbcType=VARCHAR}"%"
       </if>
+      <if test="pd.kehubianhao!= null and pd.kehubianhao != ''"><!-- 商品名称 -->
+          and kehubianhao LIKE  "%"#{pd.kehubianhao,jdbcType=VARCHAR}"%"
+      </if>
       <if test="pd.waibudingdanhao!= null and pd.waibudingdanhao != ''"><!-- 商品名称 -->
           and waibudingdanhao LIKE  "%"#{pd.waibudingdanhao,jdbcType=VARCHAR}"%"
       </if>
@@ -232,12 +235,19 @@
       <if test="pd.shangpintiaoma!= null and pd.shangpintiaoma != ''"><!-- 商品名称 -->
           and shangpintiaoma LIKE  "%"#{pd.shangpintiaoma,jdbcType=VARCHAR}"%"
       </if>
+      <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
+          and cangku IN (#{pd.cangku,jdbcType=VARCHAR})
+      </if>
       <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
           and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
       </if>
       <if test="pd.chukuzhuangtai!= null and pd.chukuzhuangtai != ''"><!-- 商品名称 -->
           and chukuzhuangtai LIKE  "%"#{pd.chukuzhuangtai,jdbcType=VARCHAR}"%"
       </if>
+      <if test="pd.createuser!= null and pd.createuser != ''"><!-- 商品名称 -->
+          and createuser LIKE  "%"#{pd.createuser,jdbcType=VARCHAR}"%"
+      </if>
+
   </select>
 
     <select id="selectByDingDanHaoAndTiaoma" parameterType="java.lang.String" resultMap="BaseResultMap" >

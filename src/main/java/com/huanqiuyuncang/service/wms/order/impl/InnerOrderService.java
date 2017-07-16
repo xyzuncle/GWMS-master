@@ -699,7 +699,7 @@ public class InnerOrderService implements InnerOrderInterface {
 
                     List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuWei(kuwei);
                     if("自定义库位".equals(kuwei) || "默认库位".equals(kuwei)||shangPinKuWeiEntities == null){
-                        List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByKuweiAndProductnum(cangku,productEntity.getProductnum());
+                        List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByCangkuAndProductnum(cangku,productEntity.getProductnum());
                         kuwei = (list!=null && list.size()>0)?list.get(0).getKuwei():"";
                     }
                     chuKuShangPinEntity.setCangwei(kuwei);

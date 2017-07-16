@@ -37,12 +37,48 @@
                     <div class="col-xs-12">
 
                         <form action="productwarehouse/${msg }.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="productwarehouseid" id="productwarehouseid" value="${productwarehouse.productwarehouseid}"/>
+                            <input type="hidden" name="ids" id="ids" value="${ids}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>
+                                        <td style="width:90px;text-align: right;padding-top: 13px;">仓库:</td>
+                                        <td><input type="text" name="cangku" id="cangku" value="" maxlength="30" style="width:98%;"/></td>
                                         <td style="width:90px;text-align: right;padding-top: 13px;">仓位:</td>
-                                        <td><input type="text" name="cangwei" id="cangwei" value="${productwarehouse.cangwei}" maxlength="30" style="width:98%;"/></td>
+                                        <td><input type="text" name="cangwei" id="cangwei" value="" maxlength="30" style="width:98%;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <table  class="table table-striped table-bordered table-hover">
+                                            <tr>
+                                                <th class="center">商品名称</th>
+                                                <th class="center">商品编号</th>
+                                                <th class="center">库存数量</th>
+                                                <th class="center">移库数量</th>
+                                            </tr>
+                                            <c:choose>
+                                            <c:when test="${not empty list}">
+                                            <c:forEach items="${list}" var="var" varStatus="vs">
+                                                <tr>
+                                                    <td class='center'>${var.productName}</td>
+                                                    <td class='center'>${var.neibuhuohao}</td>
+                                                    <td class='center'>${var.shuliang}</td>
+                                                    <td class='center'>
+                                                        <input type="hidden" name="productwarehouseid[${vs.index}]" value="${var.productwarehouseid}" maxlength="30" style="width:98%;"/>
+                                                        <input type="number" name="shuliang[${vs.index}]"value="" maxlength="30" style="width:98%;"/>
+                                                    </td>
+                                                </tr>
+
+                                            </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr class="main_info">
+                                                    <td colspan="100" class="center" >没有相关数据</td>
+                                                </tr>
+                                            </c:otherwise>
+                                            </c:choose>
+                                            <tr>
+
+                                            </tr>
+                                        </table>
                                     </tr>
                                 </table>
                             </div>

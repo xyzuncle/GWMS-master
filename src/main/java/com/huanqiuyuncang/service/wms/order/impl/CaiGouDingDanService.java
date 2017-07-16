@@ -140,58 +140,72 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     @Override
     public PageData saveruku(String caigoudingdanid,  Map<String,String> tiaomaMap) {
         PageData pd = new PageData();
+        Boolean falg = true; // 记录订单中商品的盘点状态
+        Boolean falg2 = true; // 记录扫描数量与商品采购数量是否相等
+        //1.获取扫描的采购订单信息
         CaiGouDingDanEntity caiGouDingDan = caiGouDingDanDAO.selectByPrimaryKey(caigoudingdanid);
-        CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(caiGouDingDan.getCangku());
-        String cangkuuser = caiGouDingDan.getCangkuuser();
-        Boolean falg = true;
-        Boolean falg2 = true;
-        PageData args = new PageData();
+        //2.获取采购订单的仓库信息
+        String cangkuId = caiGouDingDan.getCangku();
+        CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangkuId);
         if(tiaomaMap != null){
-            List<String> huohaoList  = new ArrayList<>(tiaomaMap.keySet());
+            //3.获取扫描的条码集合
+            List<String> tiaomaList  = new ArrayList<>(tiaomaMap.keySet());
+            //4.获取采购订单的商品集合
             List<CaiGouShangPinEntity> shangpinList = caiGouShangPinDAO.selectByCaiGouDingDanId(caigoudingdanid);
+            //5.保存和修改商品的扫描信息
             for (CaiGouShangPinEntity shangpin: shangpinList) {
-                List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuweiAndProductnum(cangKuEntity.getId(), shangpin.getShangpinhuohao());
+                //5.1 获取商品库位信息 采购订单有仓位（该仓位是推送入库填写的）就延用，无就查询默认仓库。
                 String cangwei = "";
-                String cangku = "";
-                if(shangPinKuWeiEntities != null && shangPinKuWeiEntities.size()>0){
-                    cangwei = shangPinKuWeiEntities.get(0).getKuwei();
-                    cangku = shangPinKuWeiEntities.get(0).getCangku();
+                if(StringUtils.isBlank(caiGouDingDan.getCangwei())){
+                    List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByCangkuAndProductnum(cangkuId, shangpin.getShangpinhuohao());
+                    if(shangPinKuWeiEntities != null && shangPinKuWeiEntities.size()>0){
+                        cangwei = shangPinKuWeiEntities.get(0).getKuwei();
+                    }
+                }else {
+                    cangwei = caiGouDingDan.getCangwei();
                 }
+
+                //5.2 获取采购商品信息
                 String huohao = shangpin.getShangpinhuohao();
                 ProductEntity product = productDAO.findProductByProductNum(huohao);
                 String barcodeMain = product.getBarcodeMain();
                 String saomiaostatus = shangpin.getSaomastatus();
-                if(huohaoList.contains(barcodeMain) &&"0".equals(saomiaostatus)){
+                //5.3 判断商品的扫描状态
+                if(tiaomaList.contains(barcodeMain) &&"0".equals(saomiaostatus)){
+                    //5.4 创建商品的扫描信息
                     String saomiaoshuliang = tiaomaMap.get(barcodeMain);
                     createShangPinSaomiao(saomiaoshuliang, shangpin);
+                    //5.5 获取商品库存信息，无：创建；有：修改商品库存信息（判断盘点状态）
+                    PageData args = new PageData();
                     args.put("neibuhuohao",shangpin.getShangpinhuohao());
                     args.put("kehubianhao",caiGouDingDan.getKehubianhao());
-                    args.put("cangku",cangku);
+                    args.put("cangku",cangKuEntity.getCangkubianhao());
                     args.put("cangwei",cangwei);
                     ProductWarehouseEntity productWarehouse = productWarehouseDAO.selectByPd(args);
                     if(productWarehouse == null){
-                        createProductWarehouse(shangpin,caiGouDingDan.getKehubianhao(),saomiaoshuliang,cangku,cangwei,cangkuuser);
-                        saomiaostatus = "1";
+                        createProductWarehouse(shangpin,caiGouDingDan.getKehubianhao(),saomiaoshuliang,cangKuEntity.getCangkubianhao(),cangwei);
                     }else{
                         if("1".equals(productWarehouse.getSuokustatus())){
                             falg = false;
-                            saomiaostatus = "0";
+
                         }else{
-                            updateProductWarehouse(shangpin, productWarehouse,saomiaoshuliang,cangkuuser);
-                            saomiaostatus = "1";
+                            updateProductWarehouse(shangpin, productWarehouse,saomiaoshuliang);
                         }
                     }
                 }
+                //5.6 获取该商品的扫描总数量（扫描属性相等修改扫描状态；否修改falg2标记）
                 Integer sum = shangPinSaomiaoDAO.selectSaomiaoSumByShangpin(shangpin.getId());
                 sum = sum == null?0:sum;
-                if(falg2 && sum == Integer.parseInt(shangpin.getShuliang())){
-                    falg2 = true;
+                if(sum == Integer.parseInt(shangpin.getShuliang())){
+                    saomiaostatus = "1";
                 }else {
                     falg2 = false;
+                    saomiaostatus = "0";
                 }
                 shangpin.setSaomastatus(saomiaostatus);
                 caiGouShangPinDAO.updateByPrimaryKeySelective(shangpin);
             }
+            //6.判断是否存在有盘点商品和未扫描完商品（true：修改采购订单状态；false：返回提示信息）
             if(falg && falg2){
                 updateCaiGouDingDanStatus(caiGouDingDan);
                 pd.put("msg","success");
@@ -228,8 +242,9 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         caiGouDingDanDAO.updateByPrimaryKeySelective(caiGouDingDan);
     }
 
-    private void updateProductWarehouse(CaiGouShangPinEntity shangpin, ProductWarehouseEntity productWarehouse, String shuliang, String cangkuuser) {
+    private void updateProductWarehouse(CaiGouShangPinEntity shangpin, ProductWarehouseEntity productWarehouse, String shuliang) {
         Date date = new Date();
+        String cangkuuser = Jurisdiction.getUsername();
         productWarehouse.setUpdatetime(date);
         productWarehouse.setUpdateuser(cangkuuser);
         if(StringUtils.isBlank(shuliang)){
@@ -241,7 +256,8 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         productWarehouseDAO.updateByPrimaryKeySelective(productWarehouse);
     }
 
-    private void createProductWarehouse(CaiGouShangPinEntity shangpin, String kehubianhao, String shuliang,String cangku, String cangwei, String cangkuuser) {
+    private void createProductWarehouse(CaiGouShangPinEntity shangpin, String kehubianhao, String shuliang,String cangku, String cangwei) {
+        String username = Jurisdiction.getUsername();
         Date date = new Date();
         ProductWarehouseEntity productWarehouse;
         productWarehouse = new ProductWarehouseEntity();
@@ -256,9 +272,9 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         productWarehouse.setCangwei(cangwei);
         productWarehouse.setShangpintiaoma(productByProductNum.getBarcodeMain());
         productWarehouse.setCreatetime(date);
-        productWarehouse.setCreateuser(cangkuuser);
+        productWarehouse.setCreateuser(username);
         productWarehouse.setUpdatetime(date);
-        productWarehouse.setUpdateuser(cangkuuser);
+        productWarehouse.setUpdateuser(username);
         productWarehouse.setKehubianhao(kehubianhao);
         productWarehouse.setNeibuhuohao(shangpin.getShangpinhuohao());
         productWarehouseDAO.insertSelective(productWarehouse);
@@ -341,7 +357,7 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
     }
 
     @Override
-    public void saveShangpinRuku(String[] ids, String cangkushuxing, String cangku) {
+    public void saveShangpinRuku(String[] ids, String cangkushuxing, String cangku, String kuwei) {
         for(String id : ids){
             CaiGouDingDanEntity caiGouDingDanEntity = caiGouDingDanDAO.selectByPrimaryKey(id);
             caiGouDingDanEntity.setCaigoudingdanstatus("caigouStatus_dairuku");
@@ -349,6 +365,11 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
             String createuser = cangKuEntity.getCreateuser();
             caiGouDingDanEntity.setCangkuuser(createuser);
             caiGouDingDanEntity.setCangku(cangku);
+            if("自定义库位".equals(kuwei) || "默认库位".equals(kuwei)|| "".equals(kuwei)){
+                caiGouDingDanEntity.setCangwei("");
+            }else{
+                caiGouDingDanEntity.setCangwei(kuwei);
+            }
             caiGouDingDanDAO.updateByPrimaryKeySelective(caiGouDingDanEntity);
         }
     }

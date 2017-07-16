@@ -4,12 +4,15 @@ import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
+import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.kuwei.BaoGuoKuWeiInterface;
+import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.util.AppUtil;
 import com.huanqiuyuncang.util.BeanMapUtil;
 import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
@@ -32,7 +35,8 @@ public class BaoGuoKuWeiController extends BaseController {
     String menuUrl = "baoguokuwei/list.do"; //菜单地址(权限用)
     @Autowired
     private BaoGuoKuWeiInterface baoGuoKuWeiService;
-
+    @Autowired
+    private CangKuInterface cangKuService;
     /**保存
      * @param
      * @throws Exception
@@ -98,6 +102,28 @@ public class BaoGuoKuWeiController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        String USERNAME = Jurisdiction.getUsername();
+        String role_name = gerRolename(USERNAME);
+        if("仓库管理员".equals(role_name)){
+            String cangkuid = pd.getString("cangku");
+            if(cangkuid == null || StringUtils.isBlank(cangkuid)){
+                List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
+                if(cangkuList != null && cangkuList.size()>0){
+                    String cangkuCodes = "";
+                    for(CangKuEntity cangku : cangkuList){
+                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
+                    }
+                    if(StringUtils.isNotBlank(cangkuCodes)){
+                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
+                        pd.put("cangku",cangkuCodes);
+                    }
+                }
+            }
+        }
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("cangku");
+        }
         page.setPd(pd);
         List<BaoGuoKuWeiEntity> varList =  baoGuoKuWeiService.datalistPage(page);
         mv.setViewName("wms/baoguokuwei/baoguokuwei_list");
@@ -133,6 +159,19 @@ public class BaoGuoKuWeiController extends BaseController {
         String id = pd.getString("id");
         BaoGuoKuWeiEntity baoGuoKuWei = baoGuoKuWeiService.selectByPrimaryKey(id);//根据ID读取
         mv.setViewName("wms/baoguokuwei/baoguokuwei_edit");
+        mv.addObject("msg", "edit");
+        mv.addObject("baoguokuwei", baoGuoKuWei);
+        mv.addObject("pd", pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+    @RequestMapping(value="/gopackageuser")
+    public ModelAndView gopackageuser()throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String id = pd.getString("id");
+        BaoGuoKuWeiEntity baoGuoKuWei = baoGuoKuWeiService.selectByPrimaryKey(id);//根据ID读取
+        mv.setViewName("wms/baoguokuwei/baoguokuwei_packageuser");
         mv.addObject("msg", "edit");
         mv.addObject("baoguokuwei", baoGuoKuWei);
         mv.addObject("pd", pd);

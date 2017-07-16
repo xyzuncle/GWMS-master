@@ -11,6 +11,8 @@ public class CangKuEntity {
 
     private String cangkushuxing;
 
+    private String cangkuuser;
+
     private String beizhu;
 
     private String createuser;
@@ -21,11 +23,12 @@ public class CangKuEntity {
 
     private Date updatetime;
 
-    public CangKuEntity(String id, String cangkubianhao, String cangkuname, String cangkushuxing, String beizhu, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public CangKuEntity(String id, String cangkubianhao, String cangkuname, String cangkushuxing,String cangkuuser, String beizhu, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.id = id;
         this.cangkubianhao = cangkubianhao;
         this.cangkuname = cangkuname;
         this.cangkushuxing = cangkushuxing;
+        this.cangkuuser = cangkuuser;
         this.beizhu = beizhu;
         this.createuser = createuser;
         this.createtime = createtime;
@@ -107,5 +110,13 @@ public class CangKuEntity {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getCangkuuser() {
+        return cangkuuser;
+    }
+
+    public void setCangkuuser(String cangkuuser) {
+        this.cangkuuser = cangkuuser;
     }
 }

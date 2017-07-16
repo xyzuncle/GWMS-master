@@ -163,12 +163,31 @@
         and cangku =  #{cangkuid,jdbcType=VARCHAR}
     </select>
 
-    <select id="selectByKuweiAndProductnum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByCangkuAndProductnum" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from
         wms_shangpinkuwei where  1=1
         and cangku =  #{cangku,jdbcType=VARCHAR}
         and productNum =  #{productnum,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByPdnumAndKwAndCreateuser" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_shangpinkuwei where  1=1
+        and productNum =  #{productnum,jdbcType=VARCHAR}
+        and kuwei =  #{kuwei,jdbcType=VARCHAR}
+        and createuser =  #{createuser,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByKuWeiAndCreateUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        wms_shangpinkuwei where  1=1
+        and kuwei =  #{kuwei,jdbcType=VARCHAR}
+        and createuser =  #{createuser,jdbcType=VARCHAR}
     </select>
 </mapper>

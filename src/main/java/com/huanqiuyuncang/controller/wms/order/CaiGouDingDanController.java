@@ -285,6 +285,28 @@ public class CaiGouDingDanController  extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表gongYingShang");
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
+        String USERNAME = Jurisdiction.getUsername();
+        String role_name = gerRolename(USERNAME);
+        if("仓库管理员".equals(role_name)){
+            String cangkuid = pd.getString("cangku");
+            if(cangkuid == null || StringUtils.isBlank(cangkuid)){
+                List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
+                if(cangkuList != null && cangkuList.size()>0){
+                    String cangkuCodes = "";
+                    for(CangKuEntity cangku : cangkuList){
+                        cangkuCodes = cangkuCodes+cangku.getId()+",";
+                    }
+                    if(StringUtils.isNotBlank(cangkuCodes)){
+                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
+                        pd.put("cangku",cangkuCodes);
+                    }
+                }
+            }
+        }
+        Map<String, String> hc = Jurisdiction.getHC();
+        if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
+            pd.remove("cangku");
+        }
         page.setPd(pd);
         List<CaiGouDingDanEntity> varList = caiGouDingDanService.datalistPage(page);
         varList.forEach(caiGouDingDanEntity -> {
@@ -561,11 +583,11 @@ public class CaiGouDingDanController  extends BaseController {
 
 
     @RequestMapping(value="/saveShangpinRuku")
-    public ModelAndView saveShangpinRuku(String caigoudingdanid,String cangkushuxing,String cangku) throws Exception{
+    public ModelAndView saveShangpinRuku(String caigoudingdanid,String cangkushuxing,String cangku,String kuwei) throws Exception{
         ModelAndView mv = this.getModelAndView();
         if(null != caigoudingdanid && !"".equals(caigoudingdanid)){
             String ids[] = caigoudingdanid.split(",");
-            caiGouDingDanService.saveShangpinRuku(ids,cangkushuxing,cangku);
+            caiGouDingDanService.saveShangpinRuku(ids,cangkushuxing,cangku,kuwei);
         }
 
         mv.addObject("msg","success");

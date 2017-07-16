@@ -23,4 +23,8 @@ public interface CangKuDAO {
     List<CangKuEntity> getCangku(String cangkushuxing);
 
     CangKuEntity selectByCangKu(String cangku);
+
+    List<CangKuEntity> selectByCreateUser(String createuser);
+
+    List<CangKuEntity> selectByCangkuuser(String cangkuuser);
 }
