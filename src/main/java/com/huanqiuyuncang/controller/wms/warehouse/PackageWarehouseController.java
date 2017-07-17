@@ -45,6 +45,14 @@ public class PackageWarehouseController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
+        if(StringUtils.isNotBlank(pd.getString("cangku"))){
+            String cangku = pd.getString("cangku");
+            CangKuEntity cangKuEntity = new CangKuEntity();
+            cangKuEntity.setCangkubianhao(cangku);
+            ArrayList<CangKuEntity> cangKuEntities = new ArrayList<>();
+            cangKuEntities.add(cangKuEntity);
+            pd.put("cangku",cangKuEntities);
+        }
         List<CangKuEntity> cangkucommonlist = cangKuService.getCangku("cangkushuxing_common");
         String USERNAME = Jurisdiction.getUsername();
         String role_name = gerRolename(USERNAME);
@@ -55,11 +63,7 @@ public class PackageWarehouseController extends BaseController {
                 String kehubianhao = customerEntity.getCustomercode();
                 if(StringUtils.isBlank(pd.getString("kehubianhao"))){
                     pd.put("kehubianhao",kehubianhao);
-                    String cangkuCodes = "";
-                    for(CangKuEntity cangku : cangkucommonlist){
-                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
-                    }
-                    pd.put("cangkuCodes",cangkuCodes);
+                    pd.put("cangkuCodes",cangkucommonlist);
                 }
             }
 
@@ -69,16 +73,9 @@ public class PackageWarehouseController extends BaseController {
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 cangkuList.addAll(cangkucommonlist);
                 if(cangkuList != null && cangkuList.size()>0){
-                    String cangkuCodes = "";
-                    for(CangKuEntity cangku : cangkuList){
-                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
-                    }
-                    if(StringUtils.isNotBlank(cangkuCodes)){
-                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
-                        if(StringUtils.isBlank(pd.getString("cangku"))){
-                            pd.put("cangku",cangkuCodes);
-                        }
 
+                    if(StringUtils.isBlank(pd.getString("cangku"))){
+                        pd.put("cangku",cangkuList);
                     }
                 }
             }

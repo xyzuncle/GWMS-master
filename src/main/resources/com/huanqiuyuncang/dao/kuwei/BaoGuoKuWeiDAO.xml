@@ -150,7 +150,10 @@
             and customernum LIKE  "%"#{pd.customernum,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.cangku!= null and pd.cangku != ''">
-            and cangku in  (#{pd.cangku,jdbcType=VARCHAR})
+            and cangku in
+            <foreach item="item" index="index" collection="pd.cangku" open="(" separator="," close=")">
+                #{item.cangkubianhao}
+            </foreach>
         </if>
         <if test="pd.kuwei!= null and pd.kuwei != ''">
             and kuwei LIKE  "%"#{pd.kuwei,jdbcType=VARCHAR}"%"

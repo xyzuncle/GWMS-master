@@ -77,14 +77,7 @@ public class ChuKuShangPinController extends BaseController {
 
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 if(cangkuList != null && cangkuList.size()>0){
-                    String cangkuids = "";
-                    for(CangKuEntity cangku : cangkuList){
-                        cangkuids = cangkuids+cangku.getId()+",";
-                    }
-                    if(StringUtils.isNotBlank(cangkuids)){
-                        cangkuids = cangkuids.substring(0,cangkuids.length()-1);
-                        pd.put("cangku",cangkuids);
-                    }
+                    pd.put("cangku",cangkuList);
                 }
             }
         }

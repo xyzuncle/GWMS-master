@@ -54,14 +54,7 @@ public class RuKuBaoGuoController extends BaseController {
             if(cangkuid == null || StringUtils.isBlank(cangkuid)){
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 if(cangkuList != null && cangkuList.size()>0){
-                    String cangkuCodes = "";
-                    for(CangKuEntity cangku : cangkuList){
-                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
-                    }
-                    if(StringUtils.isNotBlank(cangkuCodes)){
-                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
-                        pd.put("cangku",cangkuCodes);
-                    }
+                    pd.put("cangku",cangkuList);
                 }
             }
         }

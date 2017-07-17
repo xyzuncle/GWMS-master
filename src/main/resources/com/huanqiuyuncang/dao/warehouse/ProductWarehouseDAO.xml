@@ -186,7 +186,11 @@
             and shangpintiaoma LIKE  "%"#{pd.shangpintiaoma,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
-            and cangku in(#{pd.cangku,jdbcType=VARCHAR})
+          /*  and cangku in(#{pd.cangku,jdbcType=VARCHAR})*/
+            and cangku in
+            <foreach item="item" index="index" collection="pd.cangku" open="(" separator="," close=")">
+                #{item.cangkubianhao}
+            </foreach>
         </if>
         <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
             and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
@@ -195,7 +199,10 @@
             and createuser LIKE  "%"#{pd.createuser,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.cangkuCodes!= null and pd.cangkuCodes != ''"><!-- 商品名称 -->
-            OR cangku in(#{pd.cangkuCodes,jdbcType=VARCHAR})
+            OR cangku in
+            <foreach item="item" index="index" collection="pd.cangkuCodes" open="(" separator="," close=")">
+                 #{item.cangkubianhao}
+            </foreach>
         </if>
     </select>
     <select id="selectByChuKuShangPin" parameterType="ChuKuShangPin" resultMap="BaseResultMap" >

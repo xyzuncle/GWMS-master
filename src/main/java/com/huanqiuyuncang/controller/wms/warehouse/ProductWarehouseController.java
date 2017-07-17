@@ -58,6 +58,14 @@ public class ProductWarehouseController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表Product");
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
+        if(StringUtils.isNotBlank(pd.getString("cangku"))){
+            String cangku = pd.getString("cangku");
+            CangKuEntity cangKuEntity = new CangKuEntity();
+            cangKuEntity.setCangkubianhao(cangku);
+            ArrayList<CangKuEntity> cangKuEntities = new ArrayList<>();
+            cangKuEntities.add(cangKuEntity);
+            pd.put("cangku",cangKuEntities);
+        }
         List<CangKuEntity> cangkucommonlist = cangKuService.getCangku("cangkushuxing_common");
         String USERNAME = Jurisdiction.getUsername();
         String role_name = gerRolename(USERNAME);
@@ -68,11 +76,7 @@ public class ProductWarehouseController extends BaseController {
                 String kehubianhao = customerEntity.getCustomercode();
                 if(StringUtils.isBlank(pd.getString("kehubianhao"))){
                     pd.put("kehubianhao",kehubianhao);
-                    String cangkuCodes = "";
-                    for(CangKuEntity cangku : cangkucommonlist){
-                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
-                    }
-                    pd.put("cangkuCodes",cangkuCodes);
+                    pd.put("cangkuCodes",cangkucommonlist);
                 }
             }
 
@@ -82,17 +86,9 @@ public class ProductWarehouseController extends BaseController {
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 cangkuList.addAll(cangkucommonlist);
                 if(cangkuList != null && cangkuList.size()>0){
-                    String cangkuCodes = "";
-                    for(CangKuEntity cangku : cangkuList){
-                        cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
-                    }
-                    if(StringUtils.isNotBlank(cangkuCodes)){
-                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
                         if(StringUtils.isBlank(pd.getString("cangku"))){
-                            pd.put("cangku",cangkuCodes);
+                            pd.put("cangku",cangkuList);
                         }
-
-                    }
                 }
             }
         }
@@ -107,8 +103,8 @@ public class ProductWarehouseController extends BaseController {
         List<ProductWarehouseEntity> varList = productWarehouseService.datalistPage(page);
 
         for(ProductWarehouseEntity pw : varList){
-            String cangkuid = pw.getCangku();
-            CangKuEntity cangKuEntity = cangKuService.selectByPrimaryKey(cangkuid);
+            String cangkubianhao = pw.getCangku();
+            CangKuEntity cangKuEntity = cangKuService.selectByCangKu(cangkubianhao);
             pw.setCangku(cangKuEntity.getCangkuname());
         }
 

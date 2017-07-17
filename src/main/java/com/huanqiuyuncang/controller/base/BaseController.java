@@ -34,10 +34,10 @@ public class BaseController {
     protected  CheckTableInterface checkTableService;
 
 
-    @Resource(name="userService")
-    private UserManager userService;
-    @Resource(name="roleService")
-    private RoleManager roleService;
+    @Autowired
+    protected UserManager userService;
+    @Autowired
+    protected RoleManager roleService;
 	
 	/** new PageData对象
 	 * @return

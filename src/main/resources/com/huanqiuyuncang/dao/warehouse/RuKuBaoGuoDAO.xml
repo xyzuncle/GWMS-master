@@ -164,7 +164,10 @@
             and kehubianhao LIKE  "%"#{pd.kehubianhao,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
-            and cangwei in  (#{pd.cangwei,jdbcType=VARCHAR})
+            and cangwei in
+            <foreach item="item" index="index" collection="pd.cangwei" open="(" separator="," close=")">
+                #{item.cangkubianhao}
+            </foreach>
         </if>
         <if test="pd.rukuzhuangtai!= null and pd.rukuzhuangtai != ''"><!-- 商品名称 -->
             and rukuzhuangtai LIKE  "%"#{pd.rukuzhuangtai,jdbcType=VARCHAR}"%"
