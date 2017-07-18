@@ -218,7 +218,7 @@
     }
     $(function() {
 
-        var yikuStatus = "${pd.yikuStatus}";
+        var yikuStatus = "${pd.yikustatus}";
 
         var arr = yikuStatus.split("_");
         $("li[name='yikuStatus']").each(function(){
@@ -243,14 +243,14 @@
     });
 
 
-    function yiku(msg){
+    function saomiao(){
 
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="移库扫描";
         diag.URL = '<%=basePath%>yiku/yikusaomiao.do';
-        diag.Width = 400;
+        diag.Width = 800;
         diag.Height = 300;
         diag.CancelEvent = function(){ //关闭事件
             if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){

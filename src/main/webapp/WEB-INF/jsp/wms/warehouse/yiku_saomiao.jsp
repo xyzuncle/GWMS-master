@@ -40,11 +40,11 @@
                                             <table id="saomiao" class="table ">
                                                 <tr>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>
-                                                    <td><input type="text" name="shangpintiaoma[0]"  maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text" name="list[0].shangpintiaoma"  maxlength="30"  style="width:98%;"/></td>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">库位:</td>
-                                                    <td><input type="text" name="kuwei[0]"  maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text" name="list[0].kuwei"  maxlength="30"  style="width:98%;"/></td>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>
-                                                    <td><input type="text" name="shuliang[0]"  maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text" name="list[0].shuliang"  maxlength="30"  style="width:98%;"/></td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -83,19 +83,22 @@
     $("input[name='shangpintiaoma[" +i+"]']:last").focus();
     $(document).keydown(function (event) {
         if(13 == event.keyCode){
-            i++;
             var str = $("input:focus").attr("name");
-            if("shangpintiaoma" === str){
-                $("input[name='kuwei']:last").focus();
-            }else if ("kuwei" === str){
-                $("#saomiao").append(' <td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>'+
-                        '<td><input type="text" name="shangpintiaoma[' +i+']"  maxlength="30"  style="width:98%;"/></td>'+
+            if("list["+i+"].shangpintiaoma" === str){
+                $("input[name='list[" +i+"].kuwei']:last").focus();
+            }else if ("list["+i+"].kuwei" === str){
+                $("input[name='list[" +i+"].shuliang']:last").focus();
+            }else if("list["+i+"].shuliang" === str){
+                i++;
+                $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>'+
+                        '<td><input type="text" name="list[' +i+'].shangpintiaoma"  maxlength="30"  style="width:98%;"/></td>'+
                         '<td style="width:82px;text-align: right;padding-top: 13px;">库位:</td>'+
-                        '<td><input type="text" name="kuwei[' +i+']"  maxlength="30"  style="width:98%;"/></td> ' +
+                        '<td><input type="text" name="list[' +i+'].kuwei"  maxlength="30"  style="width:98%;"/></td> ' +
                         '<td style="width:82px;text-align: right;padding-top: 13px;">数量:</td> ' +
-                        '<td><input type="text" name="shuliang[' +i+']"  maxlength="30"  style="width:98%;"/></td>');
-                $("input[name='shangpintiaoma[" +i+"]']:last").focus();
+                        '<td><input type="text" name="list[' +i+'].shuliang"  maxlength="30"  style="width:98%;"/></td></tr>');
+                $("input[name='list[" +i+"].shangpintiaoma']:last").focus();
             }
+
         }
     });
 
