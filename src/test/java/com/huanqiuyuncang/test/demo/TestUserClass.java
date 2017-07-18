@@ -232,7 +232,7 @@ public class TestUserClass {
         List<ProductWarehouseEntity> list3 = productWarehouseDAO.datalistPage(page);
         System.out.println("***************  ccc   ***************     " + list3.size());*/
         //pd.put("shangpintiaoma","aaa");
-       // pd.put("cangkuCodes",aaa);
+       // pd.put("cangkuCodes",aaa);aa
         List<String> dd = new ArrayList<>();
         dd.add("ddddd");
         pd.put("cangku",dd);
