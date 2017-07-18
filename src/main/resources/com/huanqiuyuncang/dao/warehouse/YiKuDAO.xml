@@ -187,19 +187,19 @@
             and productNum LIKE  "%"#{pd.productNum,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.yikuStatus!= null and pd.yikuStatus != ''">
-            and yikuStatus LIKE  "%"#{pd.yikuStatus,jdbcType=VARCHAR}"%"
+            and yikuStatus LIKE  "%"#{pd.yikustatus,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.srcCangku!= null and pd.srcCangku != ''">
-            and srcCangku LIKE  "%"#{pd.srcCangku,jdbcType=VARCHAR}"%"
+            and srcCangku LIKE  "%"#{pd.srccangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.srcCangwei!= null and pd.srcCangwei != ''">
-            and srcCangwei LIKE  "%"#{pd.srcCangwei,jdbcType=VARCHAR}"%"
+            and srcCangwei LIKE  "%"#{pd.srccangwei,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.targetCangku!= null and pd.targetCangku != ''">
-            and targetCangku LIKE  "%"#{pd.targetCangku,jdbcType=VARCHAR}"%"
+            and targetCangku LIKE  "%"#{pd.targetcangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.targetCangwei!= null and pd.targetCangwei != ''">
-            and targetCangwei LIKE  "%"#{pd.targetCangwei,jdbcType=VARCHAR}"%"
+            and targetCangwei LIKE  "%"#{pd.targetcangwei,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.createuser!= null and pd.createuser != ''">
             and createuser LIKE  "%"#{pd.createuser,jdbcType=VARCHAR}"%"
@@ -213,13 +213,13 @@
         from wms_yiku
         where 1=1
         <if test="pd.productNum!= null and pd.productNum != ''">
-            and productNum LIKE  "%"#{pd.productNum,jdbcType=VARCHAR}"%"
+            and productNum LIKE  "%"#{pd.productnum,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.targetCangku!= null and pd.targetCangku != ''">
-            and targetCangku LIKE  "%"#{pd.targetCangku,jdbcType=VARCHAR}"%"
+            and targetCangku LIKE  "%"#{pd.targetcangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.targetCangwei!= null and pd.targetCangwei != ''">
-            and targetCangwei LIKE  "%"#{pd.targetCangwei,jdbcType=VARCHAR}"%"
+            and targetCangwei LIKE  "%"#{pd.targetcangwei,jdbcType=VARCHAR}"%"
         </if>
     </select>
 
@@ -229,22 +229,22 @@
         from wms_yiku
         where 1=1
         <if test="productNum!= null and productNum != ''">
-            and productNum LIKE  "%"#{productNum,jdbcType=VARCHAR}"%"
+            and productNum LIKE  "%"#{productnum,jdbcType=VARCHAR}"%"
         </if>
         <if test="yikuStatus!= null and yikuStatus != ''">
-            and yikuStatus LIKE  "%"#{yikuStatus,jdbcType=VARCHAR}"%"
+            and yikuStatus LIKE  "%"#{yikustatus,jdbcType=VARCHAR}"%"
         </if>
         <if test="srcCangku!= null and srcCangku != ''">
-            and srcCangku LIKE  "%"#{srcCangku,jdbcType=VARCHAR}"%"
+            and srcCangku LIKE  "%"#{srccangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="srcCangwei!= null and srcCangwei != ''">
-            and srcCangwei LIKE  "%"#{srcCangwei,jdbcType=VARCHAR}"%"
+            and srcCangwei LIKE  "%"#{srccangwei,jdbcType=VARCHAR}"%"
         </if>
         <if test="targetCangku!= null and targetCangku != ''">
-            and targetCangku LIKE  "%"#{targetCangku,jdbcType=VARCHAR}"%"
+            and targetCangku LIKE  "%"#{targetcangku,jdbcType=VARCHAR}"%"
         </if>
         <if test="targetCangwei!= null and targetCangwei != ''">
-            and targetCangwei LIKE  "%"#{targetCangwei,jdbcType=VARCHAR}"%"
+            and targetCangwei LIKE  "%"#{targetcangwei,jdbcType=VARCHAR}"%"
         </if>
         <if test="createuser!= null and createuser != ''">
             and createuser LIKE  "%"#{createuser,jdbcType=VARCHAR}"%"

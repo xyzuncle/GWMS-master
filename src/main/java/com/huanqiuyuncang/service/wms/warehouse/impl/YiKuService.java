@@ -111,7 +111,7 @@ public class YiKuService implements YiKuInterface {
             PageData pd  = new PageData();
             pd.put("targetcangku",cangKuEntity.getCangkubianhao());
             pd.put("targetcangwei",saomiao.getKuwei());
-            pd.put("productNum",productnum);
+            pd.put("productnum",productnum);
             pd.put("yikustatus","yiku_daiyiku");
             List<YiKuEntity> list = yiKuDAO.selectByArgs(pd);
             YiKuEntity yiKuEntity = list.get(0);

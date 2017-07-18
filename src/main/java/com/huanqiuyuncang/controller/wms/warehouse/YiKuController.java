@@ -7,6 +7,7 @@ import com.huanqiuyuncang.entity.kuwei.ShangPinKuWeiEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.YiKuEntity;
+import com.huanqiuyuncang.entity.warehouse.YiKuModel;
 import com.huanqiuyuncang.entity.warehouse.YiKuSaomiaoDTO;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.kuwei.ShangPinKuWeiInterface;
@@ -82,10 +83,10 @@ public class YiKuController extends BaseController {
     }
 
     @RequestMapping(value="/yiku")
-    public ModelAndView yiku(List<YiKuSaomiaoDTO> saomiaoList) throws Exception{
+    public ModelAndView yiku(YiKuModel model) throws Exception{
         ModelAndView mv = this.getModelAndView();
 
-        yiKuService.updateyiku(saomiaoList,mv);
+        yiKuService.updateyiku(model.getList(),mv);
 
 
 

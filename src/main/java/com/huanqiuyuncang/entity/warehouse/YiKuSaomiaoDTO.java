@@ -1,9 +1,11 @@
 package com.huanqiuyuncang.entity.warehouse;
 
+import java.io.Serializable;
+
 /**
  * Created by lzf on 2017/7/13.
  */
-public class YiKuSaomiaoDTO {
+public class YiKuSaomiaoDTO implements Serializable {
 
     private String shangpintiaoma;
 
