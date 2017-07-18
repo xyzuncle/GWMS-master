@@ -62,8 +62,8 @@
                                                     <td class='center'>${var.neibuhuohao}</td>
                                                     <td class='center'>${var.shuliang}</td>
                                                     <td class='center'>
-                                                        <input type="hidden" name="productwarehouseid[${vs.index}]" value="${var.productwarehouseid}" maxlength="30" style="width:98%;"/>
-                                                        <input type="number" name="shuliang[${vs.index}]"value="" maxlength="30" style="width:98%;"/>
+                                                        <input type="hidden" name="list[${vs.index}].productwarehouseid" value="${var.productwarehouseid}" maxlength="30" style="width:98%;"/>
+                                                        <input type="number" name="list[${vs.index}].shuliang"value="" maxlength="30" style="width:98%;"/>
                                                     </td>
                                                 </tr>
 
@@ -75,10 +75,14 @@
                                                 </tr>
                                             </c:otherwise>
                                             </c:choose>
-                                            <tr>
 
-                                            </tr>
                                         </table>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;" colspan="10">
+                                            <a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+                                            <a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>

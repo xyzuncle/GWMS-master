@@ -6,10 +6,13 @@ import com.huanqiuyuncang.dao.customer.GongYingShangDAO;
 import com.huanqiuyuncang.dao.kuwei.CangKuDAO;
 import com.huanqiuyuncang.dao.product.ProductDAO;
 import com.huanqiuyuncang.dao.saomiao.ShangPinSaomiaoDAO;
+import com.huanqiuyuncang.dao.warehouse.ProductWarehouseDAO;
+import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.entity.demo.TestUser;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
+import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.service.demo.TestUserManager;
 import com.huanqiuyuncang.service.system.checktable.impl.CheckTableService;
 import com.huanqiuyuncang.util.PageData;
@@ -49,6 +52,9 @@ public class TestUserClass {
 
     @Autowired
     private ShangPinSaomiaoDAO shangPinSaomiaoDAO;
+
+    @Autowired
+    private ProductWarehouseDAO productWarehouseDAO;
 
     @Test
     public void testSave()throws Exception{
@@ -200,6 +206,39 @@ public class TestUserClass {
         System.out.println("***************     huohaoList" + Arrays.asList(huohaoList.toArray(new String[huohaoList.size()])));
         System.out.println("***************     shuliangList" + Arrays.asList(shuliangList.toArray(new String[shuliangList.size()])));
         System.out.println("***************     dingdanhaoList" + Arrays.asList(dingdanhaoList.toArray(new String[dingdanhaoList.size()])));
+    }
+
+
+
+    @Test
+    public void testINQuery(){
+
+       Page page = new Page();
+        PageData pd = new PageData();
+       /*  List<CangKuEntity> aaa = new ArrayList<>();
+        CangKuEntity cangKuEntity = new CangKuEntity();
+        cangKuEntity.setId("aaa");
+        cangKuEntity.setCangkubianhao("bbb");
+        aaa.add(cangKuEntity);
+        List<ProductWarehouseEntity> list1 = productWarehouseDAO.aaa(aaa);
+        System.out.println("***************  aaa   ***************     " + list1.size());
+
+        pd.put("bbb",aaa);
+        List<ProductWarehouseEntity> list2 = productWarehouseDAO.bbb(pd);
+        System.out.println("***************  bbb   ***************     " + list2.size());
+
+        pd.put("ccc",aaa);
+        page.setPd(pd);
+        List<ProductWarehouseEntity> list3 = productWarehouseDAO.datalistPage(page);
+        System.out.println("***************  ccc   ***************     " + list3.size());*/
+        //pd.put("shangpintiaoma","aaa");
+       // pd.put("cangkuCodes",aaa);
+        List<String> dd = new ArrayList<>();
+        dd.add("ddddd");
+        pd.put("cangku",dd);
+        page.setPd(pd);
+        List<ProductWarehouseEntity> list4 = productWarehouseDAO.datalistPage(page);
+        System.out.println("***************  dddd   ***************     " + list4.size());
     }
 
 }

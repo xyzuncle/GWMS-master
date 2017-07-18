@@ -5,10 +5,7 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
-import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
-import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
-import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
-import com.huanqiuyuncang.entity.warehouse.YiKuEntity;
+import com.huanqiuyuncang.entity.warehouse.*;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.product.ProductInterface;
@@ -76,7 +73,15 @@ public class ProductWarehouseController extends BaseController {
                 String kehubianhao = customerEntity.getCustomercode();
                 if(StringUtils.isBlank(pd.getString("kehubianhao"))){
                     pd.put("kehubianhao",kehubianhao);
-                    pd.put("cangkuCodes",cangkucommonlist);
+                    if(cangkucommonlist != null && cangkucommonlist.size()>0){
+                        pd.put("cangkuCodes",cangkucommonlist);
+                    }else {
+                        CangKuEntity cangKuEntity = new CangKuEntity();
+                        cangKuEntity.setCangkubianhao("aaa");
+                        cangkucommonlist.add(cangKuEntity);
+                        pd.put("cangkuCodes",cangkucommonlist);
+                    }
+
                 }
             }
 
@@ -86,7 +91,7 @@ public class ProductWarehouseController extends BaseController {
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 cangkuList.addAll(cangkucommonlist);
                 if(cangkuList != null && cangkuList.size()>0){
-                        if(StringUtils.isBlank(pd.getString("cangku"))){
+                        if(StringUtils.isBlank(pd.getString("cangku"))&&cangkuList != null && cangkuList.size()>0){
                             pd.put("cangku",cangkuList);
                         }
                 }
@@ -188,13 +193,13 @@ public class ProductWarehouseController extends BaseController {
     }
 
     @RequestMapping(value="/yiku")
-    public ModelAndView yiku(List<ProductWarehouseEntity> pwlist,String cangku,String cangwei) throws Exception{
+    public ModelAndView yiku(ProductWarehouseModel pwModel, String cangku, String cangwei) throws Exception{
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         List<YiKuEntity> list = new ArrayList<>();
-        for(ProductWarehouseEntity pw : pwlist){
+        for(ProductWarehouseEntity pw : pwModel.getList()){
             String productwarehouseid = pw.getProductwarehouseid();
             String yikushuliang = pw.getShuliang();
             ProductWarehouseEntity productWarehouseEntity = productWarehouseService.selectByPrimaryKey(productwarehouseid);

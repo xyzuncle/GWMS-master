@@ -179,29 +179,28 @@
         <include refid="Base_Column_List" />
         from wms_productwarehouse
         where 1=1
-        <if test="pd.neibuhuohao!= null and pd.neibuhuohao != ''"><!-- 商品名称 -->
+        <if test="pd.neibuhuohao!= null and pd.neibuhuohao != ''">
             and neibuhuohao LIKE  "%"#{pd.neibuhuohao,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.shangpintiaoma!= null and pd.shangpintiaoma != ''"><!-- 商品名称 -->
+        <if test="pd.shangpintiaoma!= null and pd.shangpintiaoma != ''">
             and shangpintiaoma LIKE  "%"#{pd.shangpintiaoma,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
-          /*  and cangku in(#{pd.cangku,jdbcType=VARCHAR})*/
-            and cangku in
-            <foreach item="item" index="index" collection="pd.cangku" open="(" separator="," close=")">
-                #{item.cangkubianhao}
-            </foreach>
-        </if>
-        <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
+        <if test="pd.cangwei!= null and pd.cangwei != ''">
             and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.createuser!= null and pd.createuser != ''"><!-- 商品名称 -->
+        <if test="pd.cangku!= null">
+            and cangku in
+            <foreach item="item" index="index" collection="pd.cangku" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="pd.createuser!= null and pd.createuser != ''">
             and createuser LIKE  "%"#{pd.createuser,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.cangkuCodes!= null and pd.cangkuCodes != ''"><!-- 商品名称 -->
+        <if test="pd.cangkuCodes!= null">
             OR cangku in
             <foreach item="item" index="index" collection="pd.cangkuCodes" open="(" separator="," close=")">
-                 #{item.cangkubianhao}
+                 #{item}
             </foreach>
         </if>
     </select>
@@ -239,6 +238,46 @@
         </if>
         <if test="kehubianhao!= null and kehubianhao != ''">
             and kehubianhao LIKE  "%"#{kehubianhao,jdbcType=VARCHAR}"%"
+        </if>
+    </select>
+
+    <select id="aaa" parameterType="java.util.List" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productwarehouse
+        where 1=1
+        <if test="list != null "><!-- 商品名称 -->
+        and cangku in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        </if>
+    </select>
+
+    <select id="bbb" parameterType="pd" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productwarehouse
+        where 1=1
+        <if test="bbb != null ">
+        and cangku in
+        <foreach item="item" index="index" collection="bbb" open="(" separator="," close=")">
+            #{item.cangkubianhao}
+        </foreach>
+        </if>
+    </select>
+
+
+    <select id="ccc" parameterType="page" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_productwarehouse
+        where 1=1
+        <if test="pd.ccc != null ">
+        and cangku in
+        <foreach item="item" index="index" collection="pd.ccc" open="(" separator="," close=")">
+            #{item.cangkubianhao}
+        </foreach>
         </if>
     </select>
 
