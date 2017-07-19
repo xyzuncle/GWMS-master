@@ -39,6 +39,6 @@ public class TestMoney {
             return map;
         });
         */
-
+        System.out.println("aaaab".substring(0,"aaaab".length()-1));
     }
 }

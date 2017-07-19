@@ -292,7 +292,12 @@ public class CaiGouDingDanController  extends BaseController {
             if(cangkuid == null || StringUtils.isBlank(cangkuid)){
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 if(cangkuList != null && cangkuList.size()>0){
-                    pd.put("cangku",cangkuList);
+                    String cangkuids = "";
+                    for(CangKuEntity cangku : cangkuList){
+                        cangkuids = cangkuids + cangku.getId()+",";
+                    }
+                    cangkuids = cangkuids.substring(0,cangkuids.length()-1);
+                    pd.put("cangku",cangkuids);
                 }
             }
         }

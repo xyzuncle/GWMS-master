@@ -16,6 +16,7 @@ import com.huanqiuyuncang.service.wms.warehouse.YiKuInterface;
 import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import com.huanqiuyuncang.util.UuidUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,11 +57,30 @@ public class YiKuController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"列表Product");
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
-        pd.put("createuser",Jurisdiction.getUsername());
+        String USERNAME = Jurisdiction.getUsername();
+        String role_name = gerRolename(USERNAME);
+        if("仓库管理员".equals(role_name)){
+            String cangkuid = pd.getString("cangku");
+            if(cangkuid == null || StringUtils.isBlank(cangkuid)){
+                List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
+                if(cangkuList != null && cangkuList.size()>0){
+                    String cangkucodes = "";
+                    for(CangKuEntity cangKuEntity : cangkuList){
+                        cangkucodes = cangkucodes+cangKuEntity.getCangkubianhao()+",";
+                    }
+                    cangkucodes = cangkucodes.substring(0,cangkucodes.length()-1);
+                    if(StringUtils.isBlank(pd.getString("srccangku"))&&StringUtils.isBlank(pd.getString("targetcangku"))){
+                        pd.put("srcOrtargetcangku",cangkucodes);
+
+                    }
+
+                }
+            }
+        }
         //判断是否据有查看所有权限
         Map<String, String> hc = Jurisdiction.getHC();
         if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
-            pd.remove("createuser");
+
         }
         page.setPd(pd);
         List<YiKuEntity> varList = yiKuService.datalistPage(page);

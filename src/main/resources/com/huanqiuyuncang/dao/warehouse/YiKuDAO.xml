@@ -249,6 +249,12 @@
         <if test="createuser!= null and createuser != ''">
             and createuser LIKE  "%"#{createuser,jdbcType=VARCHAR}"%"
         </if>
+        <if test="srcOrtargetcangku!= null and srcOrtargetcangku != ''">
+            and(
+            srcCangku in(#{srcOrtargetcangku,jdbcType=VARCHAR}) or
+            targetCangku in(#{srcOrtargetcangku,jdbcType=VARCHAR})
+            )
+        </if>
         ORDER BY createtime desc
     </select>
 

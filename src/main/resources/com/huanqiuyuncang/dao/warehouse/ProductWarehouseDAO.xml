@@ -188,20 +188,14 @@
         <if test="pd.cangwei!= null and pd.cangwei != ''">
             and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.cangku!= null">
-            and cangku in
-            <foreach item="item" index="index" collection="pd.cangku" open="(" separator="," close=")">
-                #{item}
-            </foreach>
+        <if test="pd.cangku!= null and pd.cangku != ''">
+            and cangku in (#{pd.cangku,jdbcType=VARCHAR})
         </if>
         <if test="pd.createuser!= null and pd.createuser != ''">
             and createuser LIKE  "%"#{pd.createuser,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.cangkuCodes!= null">
-            OR cangku in
-            <foreach item="item" index="index" collection="pd.cangkuCodes" open="(" separator="," close=")">
-                 #{item}
-            </foreach>
+        <if test="pd.cangkuCodes!= null and pd.createuser != ''">
+            OR cangku in (#{pd.cangkuCodes,jdbcType=VARCHAR})
         </if>
     </select>
     <select id="selectByChuKuShangPin" parameterType="ChuKuShangPin" resultMap="BaseResultMap" >
@@ -241,44 +235,6 @@
         </if>
     </select>
 
-    <select id="aaa" parameterType="java.util.List" resultMap="BaseResultMap" >
-        select
-        <include refid="Base_Column_List" />
-        from wms_productwarehouse
-        where 1=1
-        <if test="list != null "><!-- 商品名称 -->
-        and cangku in
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-            #{item.id}
-        </foreach>
-        </if>
-    </select>
 
-    <select id="bbb" parameterType="pd" resultMap="BaseResultMap" >
-        select
-        <include refid="Base_Column_List" />
-        from wms_productwarehouse
-        where 1=1
-        <if test="bbb != null ">
-        and cangku in
-        <foreach item="item" index="index" collection="bbb" open="(" separator="," close=")">
-            #{item.cangkubianhao}
-        </foreach>
-        </if>
-    </select>
-
-
-    <select id="ccc" parameterType="page" resultMap="BaseResultMap" >
-        select
-        <include refid="Base_Column_List" />
-        from wms_productwarehouse
-        where 1=1
-        <if test="pd.ccc != null ">
-        and cangku in
-        <foreach item="item" index="index" collection="pd.ccc" open="(" separator="," close=")">
-            #{item.cangkubianhao}
-        </foreach>
-        </if>
-    </select>
 
 </mapper>

@@ -215,7 +215,7 @@ public class TestUserClass {
 
        Page page = new Page();
         PageData pd = new PageData();
-       /*  List<CangKuEntity> aaa = new ArrayList<>();
+     /*    List<CangKuEntity> aaa = new ArrayList<>();
         CangKuEntity cangKuEntity = new CangKuEntity();
         cangKuEntity.setId("aaa");
         cangKuEntity.setCangkubianhao("bbb");
@@ -233,9 +233,13 @@ public class TestUserClass {
         System.out.println("***************  ccc   ***************     " + list3.size());*/
         //pd.put("shangpintiaoma","aaa");
        // pd.put("cangkuCodes",aaa);aa
-        List<String> dd = new ArrayList<>();
+/*        List<String> dd = new ArrayList<>();
         dd.add("ddddd");
         pd.put("cangku",dd);
+        page.setPd(pd);
+        List<ProductWarehouseEntity> list4 = productWarehouseDAO.datalistPage(page);
+        System.out.println("***************  dddd   ***************     " + list4.size());*/
+        pd.put("ddd","aaa,bbb,ccc,ddd");
         page.setPd(pd);
         List<ProductWarehouseEntity> list4 = productWarehouseDAO.datalistPage(page);
         System.out.println("***************  dddd   ***************     " + list4.size());

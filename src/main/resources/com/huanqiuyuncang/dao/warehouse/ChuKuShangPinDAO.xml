@@ -236,10 +236,7 @@
           and shangpintiaoma LIKE  "%"#{pd.shangpintiaoma,jdbcType=VARCHAR}"%"
       </if>
       <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
-          and cangku IN
-          <foreach item="item" index="index" collection="pd.cangku" open="(" separator="," close=")">
-            #{item.id}
-          </foreach>
+          and cangku IN (#{pd.cangku,jdbcType=VARCHAR})
       </if>
       <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
           and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"

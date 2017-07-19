@@ -217,10 +217,7 @@
             AND caigoudingdanstatus = #{pd.caigoudingdanstatus,jdbcType=VARCHAR}
         </if>
         <if test="pd.cangku != null and pd.cangku != ''" >
-            AND cangku IN
-            <foreach item="item" index="index" collection="pd.cangwei" open="(" separator="," close=")">
-                #{item.id}
-            </foreach>
+            AND cangku IN (#{pd.cangku,jdbcType=VARCHAR})
         </if>
         <if test="pd.createuser != null and pd.createuser != ''" >
             and  createuser = #{pd.createuser,jdbcType=VARCHAR}

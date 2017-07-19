@@ -63,7 +63,14 @@ public class PackageWarehouseController extends BaseController {
                 String kehubianhao = customerEntity.getCustomercode();
                 if(StringUtils.isBlank(pd.getString("kehubianhao"))){
                     pd.put("kehubianhao",kehubianhao);
-                    pd.put("cangkuCodes",cangkucommonlist);
+                    if(cangkucommonlist != null && cangkucommonlist.size()>0){
+                        String cangkuCodes = "";
+                        for(CangKuEntity cangku : cangkucommonlist){
+                            cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
+                        }
+                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
+                        pd.put("cangkuCodes",cangkuCodes);
+                    }
                 }
             }
 
@@ -73,9 +80,13 @@ public class PackageWarehouseController extends BaseController {
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 cangkuList.addAll(cangkucommonlist);
                 if(cangkuList != null && cangkuList.size()>0){
-
-                    if(StringUtils.isBlank(pd.getString("cangku"))){
-                        pd.put("cangku",cangkuList);
+                    if(StringUtils.isBlank(pd.getString("cangku"))&&cangkuList != null && cangkuList.size()>0){
+                        String cangkuCodes = "";
+                        for(CangKuEntity cangku : cangkuList){
+                            cangkuCodes = cangkuCodes+cangku.getCangkubianhao()+",";
+                        }
+                        cangkuCodes = cangkuCodes.substring(0,cangkuCodes.length()-1);
+                        pd.put("cangku",cangkuCodes);
                     }
                 }
             }

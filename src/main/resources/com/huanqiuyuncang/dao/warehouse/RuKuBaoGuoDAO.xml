@@ -163,11 +163,11 @@
         <if test="pd.kehubianhao!= null and pd.kehubianhao != ''"><!-- 商品名称 -->
             and kehubianhao LIKE  "%"#{pd.kehubianhao,jdbcType=VARCHAR}"%"
         </if>
+        <if test="pd.cangku!= null and pd.cangku != ''"><!-- 商品名称 -->
+            and cangwei in  (#{pd.cangku,jdbcType=VARCHAR})
+        </if>
         <if test="pd.cangwei!= null and pd.cangwei != ''"><!-- 商品名称 -->
-            and cangwei in
-            <foreach item="item" index="index" collection="pd.cangwei" open="(" separator="," close=")">
-                #{item.cangkubianhao}
-            </foreach>
+            and cangwei LIKE  "%"#{pd.cangwei,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.rukuzhuangtai!= null and pd.rukuzhuangtai != ''"><!-- 商品名称 -->
             and rukuzhuangtai LIKE  "%"#{pd.rukuzhuangtai,jdbcType=VARCHAR}"%"

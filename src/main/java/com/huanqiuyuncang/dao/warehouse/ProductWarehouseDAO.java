@@ -28,7 +28,4 @@ public interface ProductWarehouseDAO {
 
     ProductWarehouseEntity selectByPd(PageData pd);
 
-    List<ProductWarehouseEntity> aaa(List<CangKuEntity> aaa);
-    List<ProductWarehouseEntity> bbb(PageData pd);
-    List<ProductWarehouseEntity> ccc(Page page);
 }
