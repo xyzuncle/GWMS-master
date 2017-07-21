@@ -119,7 +119,7 @@
         cangkushuxing = #{cangkushuxing,jdbcType=VARCHAR},
       </if>
       <if test="cangkuuser != null" >
-          cangkuuser = #{cangkushuxing,jdbcType=VARCHAR},
+          cangkuuser = #{cangkuuser,jdbcType=VARCHAR},
       </if>
       <if test="beizhu != null" >
         beizhu = #{beizhu,jdbcType=VARCHAR},
@@ -168,10 +168,7 @@
             and cangkushuxing LIKE  "%"#{pd.cangkushuxing,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.cangku!= null and pd.cangku != ''">
-            and id IN
-            <foreach item="item" index="index" collection="pd.cangku" open="(" separator="," close=")">
-                #{item.id}
-            </foreach>
+            and id IN(#{pd.cangku,jdbcType=VARCHAR})
         </if>
     </select>
 

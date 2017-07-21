@@ -127,7 +127,6 @@
                                     <th class="center">源仓位</th>
                                     <th class="center">目的仓库</th>
                                     <th class="center">目的仓位</th>
-                                    <th class="center">目的仓位</th>
                                     <th class="center">移库数量</th>
                                 </tr>
                                 </thead>
@@ -139,7 +138,7 @@
                                             <c:forEach items="${varList}" var="var" varStatus="vs">
                                                 <tr>
                                                     <td class='center'>
-                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.productwarehouseid}" class="ace" /><span class="lbl"></span></label>
+                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.id}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
                                                     <td class='center'>${var.productnum}</td>

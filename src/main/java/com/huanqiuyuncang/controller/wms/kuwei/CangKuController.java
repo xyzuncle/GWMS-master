@@ -116,10 +116,15 @@ public class CangKuController extends BaseController {
         String role_name = gerRolename(USERNAME);
         if("仓库管理员".equals(role_name)){
             String cangkuid = pd.getString("cangku");
-            if(cangkuid == null || StringUtils.isBlank(cangkuid)){
+            if(StringUtils.isBlank(cangkuid)){
                 List<CangKuEntity> cangkuList = cangKuService.selectByCangkuuser(USERNAME);
                 if(cangkuList != null && cangkuList.size()>0){
-                        pd.put("cangku",cangkuList);
+                    String cangkuids = "";
+                    for(CangKuEntity cangKuEntity : cangkuList){
+                        cangkuids = cangkuids+ cangKuEntity.getId()+",";
+                    }
+                    cangkuids = cangkuids.substring(0,cangkuids.length()-1);
+                    pd.put("cangku",cangkuids);
                 }
             }
         }

@@ -183,22 +183,22 @@
         <include refid="Base_Column_List" />
         from wms_yiku
         where 1=1
-        <if test="pd.productNum!= null and pd.productNum != ''">
-            and productNum LIKE  "%"#{pd.productNum,jdbcType=VARCHAR}"%"
+        <if test="pd.productnum!= null and pd.productnum != ''">
+            and productNum LIKE  "%"#{pd.productnum,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.yikuStatus!= null and pd.yikuStatus != ''">
+        <if test="pd.yikustatus!= null and pd.yikustatus != ''">
             and yikuStatus LIKE  "%"#{pd.yikustatus,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.srcCangku!= null and pd.srcCangku != ''">
+        <if test="pd.srccangku!= null and pd.srccangku != ''">
             and srcCangku LIKE  "%"#{pd.srccangku,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.srcCangwei!= null and pd.srcCangwei != ''">
+        <if test="pd.srccangwei!= null and pd.srccangwei != ''">
             and srcCangwei LIKE  "%"#{pd.srccangwei,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.targetCangku!= null and pd.targetCangku != ''">
+        <if test="pd.targetcangku!= null and pd.targetcangku != ''">
             and targetCangku LIKE  "%"#{pd.targetcangku,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.targetCangwei!= null and pd.targetCangwei != ''">
+        <if test="pd.targetcangwei!= null and pd.targetcangwei != ''">
             and targetCangwei LIKE  "%"#{pd.targetcangwei,jdbcType=VARCHAR}"%"
         </if>
         <if test="pd.createuser!= null and pd.createuser != ''">
@@ -212,13 +212,13 @@
         <include refid="Base_Column_List" />
         from wms_yiku
         where 1=1
-        <if test="pd.productNum!= null and pd.productNum != ''">
+        <if test="pd.productnum!= null and pd.productnum != ''">
             and productNum LIKE  "%"#{pd.productnum,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.targetCangku!= null and pd.targetCangku != ''">
+        <if test="pd.targetcangku!= null and pd.targetcangku != ''">
             and targetCangku LIKE  "%"#{pd.targetcangku,jdbcType=VARCHAR}"%"
         </if>
-        <if test="pd.targetCangwei!= null and pd.targetCangwei != ''">
+        <if test="pd.targetcangwei!= null and pd.targetcangwei != ''">
             and targetCangwei LIKE  "%"#{pd.targetcangwei,jdbcType=VARCHAR}"%"
         </if>
     </select>
@@ -228,22 +228,22 @@
         <include refid="Base_Column_List" />
         from wms_yiku
         where 1=1
-        <if test="productNum!= null and productNum != ''">
+        <if test="productnum!= null and productnum != ''">
             and productNum LIKE  "%"#{productnum,jdbcType=VARCHAR}"%"
         </if>
-        <if test="yikuStatus!= null and yikuStatus != ''">
+        <if test="yikustatus!= null and yikustatus != ''">
             and yikuStatus LIKE  "%"#{yikustatus,jdbcType=VARCHAR}"%"
         </if>
-        <if test="srcCangku!= null and srcCangku != ''">
+        <if test="srccangku!= null and srccangku != ''">
             and srcCangku LIKE  "%"#{srccangku,jdbcType=VARCHAR}"%"
         </if>
-        <if test="srcCangwei!= null and srcCangwei != ''">
+        <if test="srccangwei!= null and srccangwei != ''">
             and srcCangwei LIKE  "%"#{srccangwei,jdbcType=VARCHAR}"%"
         </if>
-        <if test="targetCangku!= null and targetCangku != ''">
+        <if test="targetcangku!= null and targetcangku != ''">
             and targetCangku LIKE  "%"#{targetcangku,jdbcType=VARCHAR}"%"
         </if>
-        <if test="targetCangwei!= null and targetCangwei != ''">
+        <if test="targetcangwei!= null and targetcangwei != ''">
             and targetCangwei LIKE  "%"#{targetcangwei,jdbcType=VARCHAR}"%"
         </if>
         <if test="createuser!= null and createuser != ''">

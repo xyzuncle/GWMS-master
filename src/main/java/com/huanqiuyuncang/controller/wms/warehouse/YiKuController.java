@@ -105,12 +105,7 @@ public class YiKuController extends BaseController {
     @RequestMapping(value="/yiku")
     public ModelAndView yiku(YiKuModel model) throws Exception{
         ModelAndView mv = this.getModelAndView();
-
         yiKuService.updateyiku(model.getList(),mv);
-
-
-
-
         mv.setViewName("save_result");
         return mv;
     }
