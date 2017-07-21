@@ -204,7 +204,7 @@ public class InnerOrderService implements InnerOrderInterface {
             }
         }
         innerOrder.setInnerpackagenum(packagenum);
-        innerOrder.setOrderstatus("packageStatus_daishenhe");
+        innerOrder.setOrderstatus("orderStatus_daidabao");
         innerOrder.setCartonid(defaultCarton);
         innerOrder.setPackageid(packageType);
     }
@@ -694,19 +694,17 @@ public class InnerOrderService implements InnerOrderInterface {
                     chuKuShangPinEntity.setShuliang(orderProduct.getCount());
                     chuKuShangPinEntity.setChukuzhuangtai("daichuku");
                     chuKuShangPinEntity.setCangku(cangku);
-                    CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangku);
-                    String createuser = cangKuEntity.getCreateuser();
-
-                    List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuWei(kuwei);
+                    CangKuEntity cangKuEntity = cangKuDAO.selectByCangKu(cangku);
+                    ShangPinKuWeiEntity shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuWei(kuwei);
                     if("自定义库位".equals(kuwei) || "默认库位".equals(kuwei)||shangPinKuWeiEntities == null){
-                        List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByCangkuAndProductnum(cangku,productEntity.getProductnum());
+                        List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByCangkuAndProductnum(cangKuEntity.getId(),productEntity.getProductnum());
                         kuwei = (list!=null && list.size()>0)?list.get(0).getKuwei():"";
                     }
                     chuKuShangPinEntity.setCangwei(kuwei);
-                    chuKuShangPinEntity.setCreateuser(createuser);
+                    chuKuShangPinEntity.setCreateuser(username);
                     chuKuShangPinEntity.setCreatetime(date);
                     chuKuShangPinEntity.setUpdatetime(date);
-                    chuKuShangPinEntity.setUpdateuser(createuser);
+                    chuKuShangPinEntity.setUpdateuser(username);
                     chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
                 };
 

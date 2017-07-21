@@ -22,11 +22,11 @@ public interface ShangPinKuWeiDAO {
 
     List<ShangPinKuWeiEntity> datalistPage(Page page);
 
-    List<ShangPinKuWeiEntity> selectByKuWei(String cangkuid);
+    List<ShangPinKuWeiEntity> selectByCangKu(String cangkuid);
 
     List<ShangPinKuWeiEntity> selectByCangkuAndProductnum(@Param("cangku") String cangku, @Param("productnum") String productnum);
 
-    ShangPinKuWeiEntity selectByPdnumAndKwAndCreateuser(@Param("productnum") String productnum, @Param("kuwei") String kuwei, @Param("createuser") String createuser);
+    ShangPinKuWeiEntity selectByPdnumAndKw(@Param("productnum") String productnum, @Param("kuwei") String kuwei);
 
-    ShangPinKuWeiEntity selectByKuWeiAndCreateUser( @Param("kuwei")String kuwei, @Param("createuser")String createuser);
+    ShangPinKuWeiEntity selectByKuWei(String kuwei);
 }

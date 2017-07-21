@@ -60,16 +60,16 @@ public class ShangPinKuWeiService implements ShangPinKuWeiInterface {
 
     @Override
     public List<ShangPinKuWeiEntity> selectByCangKu(String cangkuid) {
-        return shangPinKuWeiDAO.selectByKuWei(cangkuid);
+        return shangPinKuWeiDAO.selectByCangKu(cangkuid);
     }
 
     @Override
-    public ShangPinKuWeiEntity selectByKuWeiAndCreateUser(String kuwei, String createuser) {
-        return shangPinKuWeiDAO.selectByKuWeiAndCreateUser(kuwei,createuser);
+    public ShangPinKuWeiEntity selectByKuWei(String kuwei) {
+        return shangPinKuWeiDAO.selectByKuWei(kuwei);
     }
 
 
-    public ShangPinKuWeiEntity selectByPdnumAndKwAndCreateuser(String productnum, String kuwei, String createuser) {
-        return shangPinKuWeiDAO.selectByPdnumAndKwAndCreateuser(productnum,kuwei,createuser);
+    public ShangPinKuWeiEntity selectByPdnumAndKw(String productnum, String kuwei) {
+        return shangPinKuWeiDAO.selectByPdnumAndKw(productnum,kuwei);
     }
 }

@@ -25,7 +25,7 @@ public class CangKuService implements CangKuInterface {
 
     @Override
     public int deleteByPrimaryKey(String id) {
-        List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuWei(id);
+        List<ShangPinKuWeiEntity> shangPinKuWeiEntities = shangPinKuWeiDAO.selectByCangKu(id);
         for (ShangPinKuWeiEntity shangpinkuwei: shangPinKuWeiEntities) {
             shangPinKuWeiDAO.deleteByPrimaryKey(shangpinkuwei.getId());
         }

@@ -159,7 +159,7 @@
             success: function(data){
                 $("#cangku").html('<option>请选择</option>');
                 $.each(data.list, function(i, dvar){
-                    $("#cangku").append("<option value="+dvar.id+" id="+dvar.id+">"+dvar.cangkuname+"</option>");
+                    $("#cangku").append("<option value="+dvar.cangkubianhao+" id="+dvar.cangkubianhao+">"+dvar.cangkuname+"</option>");
                 });
             }
         });

@@ -24,7 +24,7 @@ public interface ShangPinKuWeiInterface {
 
     List<ShangPinKuWeiEntity> selectByCangKu(String cangkuid);
 
-    ShangPinKuWeiEntity selectByKuWeiAndCreateUser(String kuwei, String createuser);
+    ShangPinKuWeiEntity selectByKuWei(String kuwei);
 
-    ShangPinKuWeiEntity selectByPdnumAndKwAndCreateuser(String productnum, String kuwei, String createuser);
+    ShangPinKuWeiEntity selectByPdnumAndKw(String productnum, String kuwei);
 }

@@ -100,7 +100,7 @@ public class YiKuService implements YiKuInterface {
         Date date = new Date();
         for(YiKuSaomiaoDTO saomiao : saomiaoList){
             //1.根据登陆用户的扫描的库位查询库位信息。
-            ShangPinKuWeiEntity kuWei = shangPinKuWeiDAO.selectByKuWeiAndCreateUser(saomiao.getKuwei(),createuser);
+            ShangPinKuWeiEntity kuWei = shangPinKuWeiDAO.selectByKuWei(saomiao.getKuwei());
             String cangkuid = kuWei.getCangku();
             //2.根据库位信息查询所属仓库
             CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangkuid);
