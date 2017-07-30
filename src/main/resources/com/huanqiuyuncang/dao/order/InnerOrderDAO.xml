@@ -48,6 +48,7 @@
             <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="remark1" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="remark2" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="yujingstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
             <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -62,7 +63,7 @@
         paymentnum, paymenttime, orderproductcount, customerremarks, couriername, couriernum,
         customsmodel, ordervalue, cartonID, packageId, declarevalue, taxesfees, freight,
         packingcost, orthercost, warehousedelivery, orderstatus, ordermultistatus, remark,
-        remark1, remark2, createuser, createtime, updateuser, updatetime
+        remark1, remark2, yujingstatus, createuser, createtime, updateuser, updatetime
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select
@@ -85,7 +86,7 @@
       packageId, declarevalue, taxesfees,
       freight, packingcost, orthercost,
       warehousedelivery, orderstatus, ordermultistatus,
-      remark, remark1, remark2,
+      remark, remark1, remark2,yujingstatus,
       createuser, createtime, updateuser,
       updatetime)
     values (#{innerorderid,jdbcType=VARCHAR}, #{innerpackagenum,jdbcType=VARCHAR}, #{customerordernum,jdbcType=VARCHAR},
@@ -102,7 +103,7 @@
       #{packageid,jdbcType=VARCHAR}, #{declarevalue,jdbcType=VARCHAR}, #{taxesfees,jdbcType=VARCHAR},
       #{freight,jdbcType=VARCHAR}, #{packingcost,jdbcType=VARCHAR}, #{orthercost,jdbcType=VARCHAR},
       #{warehousedelivery,jdbcType=VARCHAR}, #{orderstatus,jdbcType=VARCHAR}, #{ordermultistatus,jdbcType=VARCHAR},
-      #{remark,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},#{yujingstatus,jdbcType=VARCHAR},
       #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
       #{updatetime,jdbcType=TIMESTAMP})
   </insert>
@@ -243,6 +244,9 @@
             </if>
             <if test="remark2 != null" >
                 remark2,
+            </if>
+            <if test="yujingstatus != null" >
+                yujingstatus,
             </if>
             <if test="createuser != null" >
                 createuser,
@@ -393,6 +397,9 @@
             <if test="remark2 != null" >
                 #{remark2,jdbcType=VARCHAR},
             </if>
+            <if test="yujingstatus != null" >
+                #{yujingstatus,jdbcType=VARCHAR},
+            </if>
             <if test="createuser != null" >
                 #{createuser,jdbcType=VARCHAR},
             </if>
@@ -542,6 +549,9 @@
             <if test="remark2 != null" >
                 remark2 = #{remark2,jdbcType=VARCHAR},
             </if>
+            <if test="yujingstatus != null" >
+                yujingstatus = #{yujingstatus,jdbcType=VARCHAR},
+            </if>
             <if test="createuser != null" >
                 createuser = #{createuser,jdbcType=VARCHAR},
             </if>
@@ -577,7 +587,10 @@
             and customernum = #{pd.customernum}
         </if>
         <if test="pd.outerordernum!=null and pd.outerordernum!=''">
-            and outerordernum LIKE "%"#{pd.outerordernum}"%"
+            and (
+            outerordernum LIKE "%"#{pd.outerordernum}"%" OR
+            customerordernum LIKE "%"#{pd.outerordernum}"%"
+            )
         </if>
         <if test="pd.sendercountry!=null and pd.sendercountry!=''">
             and sendercountry LIKE "%"#{pd.sendercountry}"%"
@@ -714,5 +727,31 @@
           and innerpackagenum IS NOT NULL
 
     </select>
+
+    <select id="selectByOuterordernum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_innerorder
+        WHERE 1=1
+          and  outerordernum = #{outerordernum}
+    </select>
+
+    <select id="selectByDingdanhao" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_innerorder
+        WHERE 1=1
+          and  customerordernum = #{dingdanhao}
+    </select>
+
+    <select id="selectByBaoguoDanhao" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_innerorder
+        WHERE 1=1
+        and  innerpackagenum = #{baoguodanhao}
+    </select>
+
+
 
 </mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.system.ProvincesDAO" >
+  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.system.ProvincesEntity" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER"  javaType="java.lang.Integer" />
+      <arg column="provinceid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="countryid" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, provinceid, province, countryid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from provinces
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from provinces
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.huanqiuyuncang.entity.system.ProvincesEntity" >
+    insert into provinces ( provinceid, province,
+      countryid)
+    values ( #{provinceid,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},
+      #{countryid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.system.ProvincesEntity" >
+    insert into provinces
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      <if test="provinceid != null" >
+        provinceid,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="countryid != null" >
+        countryid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="provinceid != null" >
+        #{provinceid,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="countryid != null" >
+        #{countryid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.system.ProvincesEntity" >
+    update provinces
+    <set >
+      <if test="provinceid != null" >
+        provinceid = #{provinceid,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="countryid != null" >
+        countryid = #{countryid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.system.ProvincesEntity" >
+    update provinces
+    set provinceid = #{provinceid,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      countryid = #{countryid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        provinces
+        WHERE 1=1
+        <if test="pd.countryid!= null and pd.countryid != ''">
+            and countryid =  #{pd.countryid,jdbcType=VARCHAR}
+        </if>
+        <if test="pd.keywords!= null and pd.keywords != ''">
+            and (
+            province like  "%#{pd.keywords,jdbcType=VARCHAR}%"
+            or provinceid = #{pd.keywords,jdbcType=VARCHAR}
+            )
+        </if>
+    </select>
+
+    <select id="selectByProvinceid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        provinces
+        WHERE 1=1
+        and provinceid = #{provinceid,jdbcType=VARCHAR}
+    </select>
+</mapper>

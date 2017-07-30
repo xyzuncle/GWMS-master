@@ -105,7 +105,22 @@
                selectByExampleQueryId="false">
         </table>-->
 
-        <table tableName="wms_yiku" domainObjectName="YiKuEntity"
+       <!-- <table tableName="areas" domainObjectName="AreasEntity"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="cities" domainObjectName="CitiesEntity"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="provinces" domainObjectName="ProvincesEntity"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
+        <table tableName="wms_pandian" domainObjectName="PandianEntity"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

@@ -26,4 +26,8 @@ public interface ChuKuShangPinInterface {
 
 
     PageData updateSaomiaoShangPin(String[] shuliang, String[] huohaoarr, String[] dingdanhaoarr);
+
+    ChuKuShangPinEntity selectByDingdanhaoAndTiaoma(String dingdanhao, String tiaoma);
+
+    List<ChuKuShangPinEntity> selectHistoryInfoByBarcode(String tiaoma);
 }

@@ -45,14 +45,6 @@ public class PackageWarehouseController extends BaseController {
     public ModelAndView list(Page page) throws Exception{
         PageData pd = this.getPageData();
         ModelAndView mv = this.getModelAndView();
-        if(StringUtils.isNotBlank(pd.getString("cangku"))){
-            String cangku = pd.getString("cangku");
-            CangKuEntity cangKuEntity = new CangKuEntity();
-            cangKuEntity.setCangkubianhao(cangku);
-            ArrayList<CangKuEntity> cangKuEntities = new ArrayList<>();
-            cangKuEntities.add(cangKuEntity);
-            pd.put("cangku",cangKuEntities);
-        }
         List<CangKuEntity> cangkucommonlist = cangKuService.getCangku("cangkushuxing_common");
         String USERNAME = Jurisdiction.getUsername();
         String role_name = gerRolename(USERNAME);

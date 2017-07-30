@@ -42,4 +42,11 @@ public interface InnerOrderDAO {
     List<InnerOrderEntity> selectByCustomerInfo(InnerOrderEntity innerOrder);
 
     String selectAreaNameByCode(String areaCode);
+
+
+    InnerOrderEntity selectByOuterordernum(String outerordernum);
+
+    InnerOrderEntity selectByDingdanhao(String dingdanhao);
+
+    List<InnerOrderEntity> selectByBaoguoDanhao(String baoguodanhao);
 }

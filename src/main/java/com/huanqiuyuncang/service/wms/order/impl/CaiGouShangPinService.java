@@ -3,6 +3,7 @@ package com.huanqiuyuncang.service.wms.order.impl;
 import com.huanqiuyuncang.dao.order.CaiGouShangPinDAO;
 import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
 import com.huanqiuyuncang.service.wms.order.CaiGouShangPinInterface;
+import com.huanqiuyuncang.util.PageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,15 @@ public class CaiGouShangPinService implements CaiGouShangPinInterface {
 
     public List<CaiGouShangPinEntity> selectByCaiGouDingDanId(String caigoudingdanid){
         return caiGouShangPinDAO.selectByCaiGouDingDanId(caigoudingdanid);
+    }
+
+    @Override
+    public String selectKuweiByBarcodeAndCangku(String barCode,String cangkuid) {
+        return caiGouShangPinDAO.selectKuweiByBarcodeAndCangku(barCode,cangkuid);
+    }
+
+    @Override
+    public  List<PageData> selectHistoryInfoByBarcode(String barCode) {
+        return  caiGouShangPinDAO.selectHistoryInfoByBarcode(barCode);
     }
 }

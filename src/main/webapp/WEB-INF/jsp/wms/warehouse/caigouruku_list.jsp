@@ -280,8 +280,8 @@
         diag.Drag=true;
         diag.Title ="";
         diag.URL = '<%=basePath%>caigoudingdan/goruku.do?caigoudingdanid='+Id+"&status="+status;
-        diag.Width = 700;
-        diag.Height = 800;
+        diag.Width = 900;
+        diag.Height = 900;
         diag.CancelEvent = function(){ //关闭事件
             if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
                 nextPage(${page.currentPage});

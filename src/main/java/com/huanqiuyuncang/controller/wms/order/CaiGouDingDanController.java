@@ -2,6 +2,9 @@ package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
+import com.huanqiuyuncang.entity.order.OrderProductEntity;
+import com.huanqiuyuncang.entity.order.ProductSaomiaoDTO;
+import com.huanqiuyuncang.service.wms.product.impl.ProductService;
 import com.huanqiuyuncang.service.wms.saomiao.ShangPinSaomiaoInterface;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
@@ -28,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.*;
@@ -46,16 +50,21 @@ public class CaiGouDingDanController  extends BaseController {
 
     @Autowired
     private GongYingShangInterface gongYingShangService;
+
     @Autowired
     private CustomerInterface customerService;
 
     @Autowired
     private CaiGouShangPinInterface caiGouShangPinService;
+
     @Autowired
     private ProductWarehouseInterface productWarehouseService;
 
     @Autowired
     private CangKuInterface cangKuService;
+
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     private ShangPinSaomiaoInterface shangPinSaomiaoService;
@@ -331,6 +340,12 @@ public class CaiGouDingDanController  extends BaseController {
         String status = pd.getString("status");
 
         CaiGouDingDanEntity caiGouDingDan = caiGouDingDanService.selectByPrimaryKey(caigoudingdanid);//根据ID读取
+        String yujingstatus = caiGouDingDan.getYujingstatus();
+        if(StringUtils.isNotBlank(yujingstatus)){
+            pd.put("BIANMA",yujingstatus);
+            PageData dic = dictionariesService.findByBianma(pd);
+            caiGouDingDan.setYujingstatus(dic.getString("NAME"));
+        }
         if("0".equals(status)){
             mv.setViewName("wms/warehouse/caigouruku_zidongsaomiao");
             mv.addObject("msg", "zidongruku");
@@ -598,4 +613,91 @@ public class CaiGouDingDanController  extends BaseController {
         mv.addObject("dictionaries",dictionaries);
     }
 
+    @RequestMapping(value="/huizong")
+    public void huizong(PrintWriter printWriter) throws Exception{
+        HttpServletRequest request = this.getRequest();
+        String[] shangpinhuohaos = request.getParameterValues("shangpinhuohao");
+        String caigoudingdanid = request.getParameter("caigoudingdanid");
+        String saomamoshi = request.getParameter("saomamoshi");
+        CaiGouDingDanEntity caiGouDingDanEntity = caiGouDingDanService.selectByPrimaryKey(caigoudingdanid);
+        String cangkuid = caiGouDingDanEntity.getCangku();
+        Map<String,ProductSaomiaoDTO> map = new HashMap<>();
+        String[] shuliangs = null;
+        if("1".equals(saomamoshi)){
+            shuliangs  = request.getParameterValues("shuliang");
+        }
+            for(int i = 0 ; i < shangpinhuohaos.length ; i++){
+                String tiaoma = shangpinhuohaos[i];
+                if(StringUtils.isNotEmpty(tiaoma)){
+                    String kuwei = caiGouShangPinService.selectKuweiByBarcodeAndCangku(tiaoma,cangkuid);
+                    ProductSaomiaoDTO productSaomiaoDTO = map.get(tiaoma);
+                    if(productSaomiaoDTO == null){
+                        productSaomiaoDTO = new ProductSaomiaoDTO();
+                        productSaomiaoDTO.setTiaoma(tiaoma);
+                        if("1".equals(saomamoshi)){
+                            productSaomiaoDTO.setShuliang(Integer.parseInt(shuliangs[i]));
+                        }else{
+                            productSaomiaoDTO.setShuliang(1);
+                        }
+                        productSaomiaoDTO.setKuwei(kuwei);
+                        map.put(tiaoma,productSaomiaoDTO);
+                    }else{
+                        if("1".equals(saomamoshi)){
+                            productSaomiaoDTO.setShuliang(Integer.parseInt(shuliangs[i]));
+                        }else{
+                            Integer shuliang = productSaomiaoDTO.getShuliang();
+                            productSaomiaoDTO.setShuliang(shuliang+1);
+                        }
+
+                    }
+                }
+            }
+
+        List<ProductSaomiaoDTO> list = new ArrayList<>();
+        for(String key : map.keySet()){
+            list.add(map.get(key));
+        }
+        String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
+        String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
+        printWriter.write(resultJson);
+    }
+
+
+    @RequestMapping(value="/mingxi")
+    public void mingxi(PrintWriter printWriter) throws Exception{
+        HttpServletRequest request = this.getRequest();
+        List<ProductSaomiaoDTO> reslist = new ArrayList<>();
+        String tiaoma = request.getParameter("tiaoma");
+        if(StringUtils.isNotBlank(tiaoma)){
+            List<PageData> list = caiGouShangPinService.selectHistoryInfoByBarcode(tiaoma);
+            for(PageData pd : list){
+                String shuliang = pd.getString("shuliang");
+                String cangkuid = pd.getString("cangku");
+                String cangwei = pd.getString("cangwei");
+                if(StringUtils.isBlank(cangwei)){
+                    cangwei = caiGouShangPinService.selectKuweiByBarcodeAndCangku(tiaoma, cangkuid);
+                }
+                ProductSaomiaoDTO productSaomiaoDTO = new ProductSaomiaoDTO();
+                productSaomiaoDTO.setTiaoma(tiaoma);
+                productSaomiaoDTO.setShuliang(Integer.parseInt(shuliang));
+                productSaomiaoDTO.setKuwei(cangwei);
+                reslist.add(productSaomiaoDTO);
+            }
+        }
+        String json = JSONArray.fromObject(reslist, DateJsonConfig.getJsonConfig()).toString();
+        String resultJson = "{\"total\":" + reslist.size() + ",\"rows\":" + json + "}";
+        printWriter.write(resultJson);
+    }
+
+    @RequestMapping(value="/getkuwei")
+    @ResponseBody
+    public Object getArea() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        String cangkuid = pd.getString("cangku");
+        String tiaoma = pd.getString("tiaoma");
+        String cangwei = caiGouShangPinService.selectKuweiByBarcodeAndCangku(tiaoma, cangkuid);
+        map.put("cangwei", cangwei);
+        return AppUtil.returnObject(pd, map);
+    }
 }

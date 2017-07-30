@@ -358,18 +358,31 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
 
     @Override
     public void saveShangpinRuku(String[] ids, String cangkushuxing, String cangku, String kuwei) {
+        String username = Jurisdiction.getUsername();
+        CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangku);
+        if(StringUtils.isNotBlank(kuwei) && !"默认库位".equals(kuwei)&& !"自定义库位".equals(kuwei)){
+            ShangPinKuWeiEntity shangPinKuWeiEntity = shangPinKuWeiDAO.selectByKuWei(kuwei);
+            if(shangPinKuWeiEntity == null){
+                ShangPinKuWeiEntity newKuWei = new ShangPinKuWeiEntity();
+                newKuWei.setCangku(cangKuEntity.getId());
+                newKuWei.setId(UuidUtil.get32UUID());
+                newKuWei.setKuwei(kuwei);
+                newKuWei.setCreateuser(username);
+                newKuWei.setCreatetime(new Date());
+                newKuWei.setUpdateuser(username);
+                newKuWei.setUpdatetime(new Date());
+                shangPinKuWeiDAO.insertSelective(newKuWei);
+            }
+        }else{
+            kuwei = "";
+        }
         for(String id : ids){
             CaiGouDingDanEntity caiGouDingDanEntity = caiGouDingDanDAO.selectByPrimaryKey(id);
             caiGouDingDanEntity.setCaigoudingdanstatus("caigouStatus_dairuku");
-            CangKuEntity cangKuEntity = cangKuDAO.selectByPrimaryKey(cangku);
             String createuser = cangKuEntity.getCreateuser();
             caiGouDingDanEntity.setCangkuuser(createuser);
             caiGouDingDanEntity.setCangku(cangku);
-            if("自定义库位".equals(kuwei) || "默认库位".equals(kuwei)|| "".equals(kuwei)){
-                caiGouDingDanEntity.setCangwei("");
-            }else{
-                caiGouDingDanEntity.setCangwei(kuwei);
-            }
+            caiGouDingDanEntity.setCangwei(kuwei);
             caiGouDingDanDAO.updateByPrimaryKeySelective(caiGouDingDanEntity);
         }
     }

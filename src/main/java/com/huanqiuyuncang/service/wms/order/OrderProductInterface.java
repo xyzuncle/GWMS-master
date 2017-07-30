@@ -1,6 +1,7 @@
 package com.huanqiuyuncang.service.wms.order;
 
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface OrderProductInterface {
     void insertOrderProduct(OrderProductEntity orderProductEntity);
 
     String selectProductsumByOrderNum(String customerordernum);
+
+    PageData selectStatisticsByOrderNum(String customerordernum);
 }

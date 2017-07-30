@@ -96,6 +96,8 @@ public class InnerOrderEntity {
 
     private String remark2;
 
+    private String yujingstatus;
+
     private String createuser;
 
     private Date createtime;
@@ -144,7 +146,18 @@ public class InnerOrderEntity {
         this.formateOrderTime = formateOrderTime;
     }
 
-    public InnerOrderEntity(String innerorderid, String innerpackagenum, String customerordernum, String customernum, String outerordernum, Date ordertime, String sender, String senderphone, String sendercountry, String senderprovince, String sendercity, String senderarea, String senderaddress, String senderpostcode, String recipient, String recipientidcard, String recipientphone, String recipientcountry, String recipientprovince, String recipientcity, String recipientarea, String recipientaddress, String recipientpostcode, String paymentmethod, String paymentnum, String paymenttime, String orderproductcount, String customerremarks, String couriername, String couriernum, String customsmodel, String ordervalue, String cartonid, String packageid, String declarevalue, String taxesfees, String freight, String packingcost, String orthercost, String warehousedelivery, String orderstatus, String ordermultistatus, String remark, String remark1, String remark2, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public InnerOrderEntity(String innerorderid, String innerpackagenum, String customerordernum, String customernum,
+                            String outerordernum, Date ordertime, String sender, String senderphone, String sendercountry,
+                            String senderprovince, String sendercity, String senderarea, String senderaddress,
+                            String senderpostcode, String recipient, String recipientidcard, String recipientphone,
+                            String recipientcountry, String recipientprovince, String recipientcity, String recipientarea,
+                            String recipientaddress, String recipientpostcode, String paymentmethod, String paymentnum,
+                            String paymenttime, String orderproductcount, String customerremarks, String couriername,
+                            String couriernum, String customsmodel, String ordervalue, String cartonid, String packageid,
+                            String declarevalue, String taxesfees, String freight, String packingcost, String orthercost,
+                            String warehousedelivery, String orderstatus, String ordermultistatus, String remark,
+                            String remark1, String remark2, String yujingstatus, String createuser, Date createtime, String updateuser,
+                            Date updatetime) {
         this.innerorderid = innerorderid;
         this.innerpackagenum = innerpackagenum;
         this.customerordernum = customerordernum;
@@ -190,6 +203,7 @@ public class InnerOrderEntity {
         this.remark = remark;
         this.remark1 = remark1;
         this.remark2 = remark2;
+        this.yujingstatus = yujingstatus;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -384,6 +398,14 @@ public class InnerOrderEntity {
 
     public void setRecipientpostcode(String recipientpostcode) {
         this.recipientpostcode = recipientpostcode == null ? null : recipientpostcode.trim();
+    }
+
+    public String getYujingstatus() {
+        return yujingstatus;
+    }
+
+    public void setYujingstatus(String yujingstatus) {
+        this.yujingstatus = yujingstatus;
     }
 
     public String getPaymentmethod() {

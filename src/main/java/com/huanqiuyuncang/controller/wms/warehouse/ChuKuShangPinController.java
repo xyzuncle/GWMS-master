@@ -4,6 +4,8 @@ import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.order.CaiGouDingDanEntity;
+import com.huanqiuyuncang.entity.order.ProductSaomiaoDTO;
 import com.huanqiuyuncang.entity.system.Role;
 import com.huanqiuyuncang.entity.system.User;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
@@ -16,10 +18,8 @@ import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.saomiao.ShangPinSaomiaoInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ChuKuShangPinInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
-import com.huanqiuyuncang.util.AppUtil;
-import com.huanqiuyuncang.util.Jurisdiction;
-import com.huanqiuyuncang.util.PageData;
-import com.huanqiuyuncang.util.StringUtil;
+import com.huanqiuyuncang.util.*;
+import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -182,11 +183,9 @@ public class ChuKuShangPinController extends BaseController {
     public ModelAndView updatezidongcangku() throws Exception{
         ModelAndView mv = this.getModelAndView();
         String[] huohaoarr = this.getRequest().getParameterValues("huohao");
-        String[] dingdanhaoarr = this.getRequest().getParameterValues("dingdanhao");
+        String dingdanhao = this.getRequest().getParameter("dingdanhao");
+        String [] dingdanhaoarr = {dingdanhao};
         Map<String, List<String>> stringListMap = makeShangpinShuliang(huohaoarr, dingdanhaoarr);
-        /*map.put("dingdanhaoList",dingdanhaoList);
-        map.put("huohaoList",huohaoList);
-        map.put("shuliangList",shuliangList);*/
         List<String> dingdanhaoList = stringListMap.get("dingdanhaoList");
         List<String> tiaomaList = stringListMap.get("huohaoList");
         List<String> shuliangList = stringListMap.get("shuliangList");
@@ -293,6 +292,88 @@ public class ChuKuShangPinController extends BaseController {
         return AppUtil.returnObject(pd, map);
     }
 
+    @RequestMapping(value="/huizong")
+    public void huizong(PrintWriter printWriter) throws Exception{
+        HttpServletRequest request = this.getRequest();
+        String[] huohaos = request.getParameterValues("huohao");
+        String dingdanhao = request.getParameter("dingdanhao");
+        String[] shuliangs = null;
+        String saomamoshi = request.getParameter("saomamoshi");
+        if("1".equals(saomamoshi)){
+            shuliangs  = request.getParameterValues("shuliang");
+        }
+        Map<String,ProductSaomiaoDTO> map = new HashMap<>();
+        for(int i = 0 ; i < huohaos.length ; i++){
+            String tiaoma = huohaos[i];
+            if(StringUtils.isNotEmpty(tiaoma)){
+                ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinService.selectByDingdanhaoAndTiaoma(dingdanhao,tiaoma);
+                ProductSaomiaoDTO productSaomiaoDTO = map.get(tiaoma);
+                if(productSaomiaoDTO == null){
+                    productSaomiaoDTO = new ProductSaomiaoDTO();
+                    productSaomiaoDTO.setTiaoma(tiaoma);
+                    if("1".equals(saomamoshi)){
+                        productSaomiaoDTO.setShuliang(Integer.parseInt(shuliangs[i]));
+                    }else{
+                        productSaomiaoDTO.setShuliang(1);
+                    }
+                    String kuwei = chuKuShangPinEntity == null?"":chuKuShangPinEntity.getCangwei();
+                    productSaomiaoDTO.setKuwei(kuwei);
+                    map.put(tiaoma,productSaomiaoDTO);
+                }else{
+                    if("1".equals(saomamoshi)){
+                        productSaomiaoDTO.setShuliang(Integer.parseInt(shuliangs[i]));
+                    }else{
+                        Integer shuliang = productSaomiaoDTO.getShuliang();
+                        productSaomiaoDTO.setShuliang(shuliang+1);
+                    }
+                }
+            }
+        }
+        List<ProductSaomiaoDTO> list = new ArrayList<>();
+        for(String key : map.keySet()){
+            list.add(map.get(key));
+        }
+        String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
+        String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
+        printWriter.write(resultJson);
+    }
 
 
+    @RequestMapping(value="/mingxi")
+    public void mingxi(PrintWriter printWriter) throws Exception{
+        HttpServletRequest request = this.getRequest();
+        List<ProductSaomiaoDTO> reslist = new ArrayList<>();
+        String tiaoma = request.getParameter("tiaoma");
+        if(StringUtils.isNotBlank(tiaoma)){
+            List<ChuKuShangPinEntity> list = chuKuShangPinService.selectHistoryInfoByBarcode(tiaoma);
+            for(ChuKuShangPinEntity chuKuShangPinEntity : list){
+                String shuliang = chuKuShangPinEntity.getShuliang();
+                String cangwei = chuKuShangPinEntity.getCangwei();
+                ProductSaomiaoDTO productSaomiaoDTO = new ProductSaomiaoDTO();
+                productSaomiaoDTO.setTiaoma(tiaoma);
+                productSaomiaoDTO.setShuliang(Integer.parseInt(shuliang));
+                productSaomiaoDTO.setKuwei(cangwei);
+                reslist.add(productSaomiaoDTO);
+            }
+        }
+        String json = JSONArray.fromObject(reslist, DateJsonConfig.getJsonConfig()).toString();
+        String resultJson = "{\"total\":" + reslist.size() + ",\"rows\":" + json + "}";
+        printWriter.write(resultJson);
+    }
+
+    @RequestMapping(value="/getkuwei")
+    @ResponseBody
+    public Object getArea() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        String dingdanhao = pd.getString("dingdanhao");
+        String tiaoma = pd.getString("tiaoma");
+        ChuKuShangPinEntity chuKuShangPinEntity = chuKuShangPinService.selectByDingdanhaoAndTiaoma(dingdanhao, tiaoma);
+        String cangwei = "";
+        if(chuKuShangPinEntity != null){
+            cangwei = chuKuShangPinEntity.getCangwei();
+        }
+        map.put("cangwei", cangwei);
+        return AppUtil.returnObject(pd, map);
+    }
 }

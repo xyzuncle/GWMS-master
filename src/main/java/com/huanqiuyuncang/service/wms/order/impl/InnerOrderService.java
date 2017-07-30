@@ -346,44 +346,8 @@ public class InnerOrderService implements InnerOrderInterface {
             InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
             if("orderStatus_daiqueren".equals(innerOrderEntity.getOrderstatus())){
                 innerOrderEntity.setOrderstatus("orderStatus_yiqueren");
-              /*  List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
-                orderProductEntities.forEach(orderProduct ->{
-                    CustomerEntity customer = customerDAO.selectCustomerByCode(innerOrderEntity.getCustomernum());
-                    ChuKuShangPinEntity chuKuShangPinEntity = new ChuKuShangPinEntity();
-                    chuKuShangPinEntity.setChukushangpinid(UuidUtil.get32UUID());
-                    chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
-                    chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
-                    chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
-                    ProductEntity productEntity = productDAO.findProductByBarCodeOrNum(orderProduct.getOuterproductnum(), username);
-                    chuKuShangPinEntity.setNeibuhuohao(productEntity.getProductnum());
-                    chuKuShangPinEntity.setShangpintiaoma(productEntity.getBarcodeMain());
-                    chuKuShangPinEntity.setShuliang(orderProduct.getCount());
-                    chuKuShangPinEntity.setChukuzhuangtai("daichuku");
-                    chuKuShangPinEntity.setCangwei(customer.getDefaultwarehouse());
-                    chuKuShangPinEntity.setCreateuser(username);
-                    chuKuShangPinEntity.setCreatetime(date);
-                    chuKuShangPinEntity.setUpdatetime(date);
-                    chuKuShangPinEntity.setUpdateuser(username);
-                    chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
-                });*/
             }else if("orderStatus_daidabao".equals(innerOrderEntity.getOrderstatus())){
                 innerOrderEntity.setOrderstatus("orderStatus_yidabao");
-            /*    RuKuBaoGuoEntity ruKuBaoGuoEntity = new RuKuBaoGuoEntity();
-                ruKuBaoGuoEntity.setRukubaoguoid(UuidUtil.get32UUID());
-                ruKuBaoGuoEntity.setRukuzhuangtai("orderStatus_daidabao");
-                ruKuBaoGuoEntity.setKehubianhao(innerOrderEntity.getCustomernum());
-                ruKuBaoGuoEntity.setBaoguodanhao(innerOrderEntity.getInnerpackagenum());
-                List<BaoGuoKuWeiEntity> list = baoGuoKuWeiDAO.selectbyCustomerNum(innerOrderEntity.getCustomernum());
-                if(list != null && list.size()>0){
-                    ruKuBaoGuoEntity.setCangwei(list.get(0).getKuwei());
-                }else{
-                    ruKuBaoGuoEntity.setCangwei("P0000");
-                }
-                ruKuBaoGuoEntity.setCreateuser(username);
-                ruKuBaoGuoEntity.setCreatetime(date);
-                ruKuBaoGuoEntity.setUpdatetime(date);
-                ruKuBaoGuoEntity.setUpdateuser(username);
-                ruKuBaoGuoDAO.insertSelective(ruKuBaoGuoEntity);*/
             }
             innerOrderDAO.updateByPrimaryKeySelective(innerOrderEntity);
         }
@@ -557,6 +521,18 @@ public class InnerOrderService implements InnerOrderInterface {
         String baoguanmoshi = pageData.getString("var23");
         String dingdanhuozhi = pageData.getString("var24");
         Date ordertime = null;
+        if(StringUtils.isBlank(waibudingdanhao)){
+            return "外部订单号未填写；";
+        }else{
+            if(!outerOrderNum.keySet().contains(waibudingdanhao)){
+                return "订单页已有该订单号；";
+            }else{
+                InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByOuterordernum(waibudingdanhao);
+                if(innerOrderEntity != null){
+                    return "该订单号已导入；";
+                }
+            }
+        }
         if (StringUtils.isBlank(baoguanmoshi)) {
             return "报关模式未填写；";
         } else {
@@ -678,35 +654,52 @@ public class InnerOrderService implements InnerOrderInterface {
         String username = Jurisdiction.getUsername();
         Date date = new Date();
         for (String id :ids){
+            //1. 获取要推送入库的订单
             InnerOrderEntity innerOrderEntity = innerOrderDAO.selectByPrimaryKey(id);
-            String customerName = innerOrderEntity.getCustomernum();
-              List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
-                for(OrderProductEntity orderProduct :orderProductEntities){
-                    CustomerEntity customer = customerDAO.selectCustomerByCode(innerOrderEntity.getCustomernum());
-                    ChuKuShangPinEntity chuKuShangPinEntity = new ChuKuShangPinEntity();
-                    chuKuShangPinEntity.setChukushangpinid(UuidUtil.get32UUID());
-                    chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
-                    chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
-                    chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
-                    ProductEntity productEntity = productDAO.findProductByProductNum(orderProduct.getOuterproductnum());
-                    chuKuShangPinEntity.setNeibuhuohao(productEntity.getProductnum());
-                    chuKuShangPinEntity.setShangpintiaoma(productEntity.getBarcodeMain());
-                    chuKuShangPinEntity.setShuliang(orderProduct.getCount());
-                    chuKuShangPinEntity.setChukuzhuangtai("daichuku");
-                    chuKuShangPinEntity.setCangku(cangku);
-                    CangKuEntity cangKuEntity = cangKuDAO.selectByCangKu(cangku);
-                    ShangPinKuWeiEntity shangPinKuWeiEntities = shangPinKuWeiDAO.selectByKuWei(kuwei);
-                    if("自定义库位".equals(kuwei) || "默认库位".equals(kuwei)||shangPinKuWeiEntities == null){
-                        List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByCangkuAndProductnum(cangKuEntity.getId(),productEntity.getProductnum());
-                        kuwei = (list!=null && list.size()>0)?list.get(0).getKuwei():"";
-                    }
-                    chuKuShangPinEntity.setCangwei(kuwei);
-                    chuKuShangPinEntity.setCreateuser(username);
-                    chuKuShangPinEntity.setCreatetime(date);
-                    chuKuShangPinEntity.setUpdatetime(date);
-                    chuKuShangPinEntity.setUpdateuser(username);
-                    chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
-                };
+            //2.获取该订单的商品集合
+            List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(innerOrderEntity.getCustomerordernum());
+            //3.查询仓库信息
+            CangKuEntity cangKuEntity = cangKuDAO.selectByCangKu(cangku);
+            if(StringUtils.isNotBlank(kuwei) && !"默认库位".equals(kuwei)&& !"自定义库位".equals(kuwei)){
+                ShangPinKuWeiEntity shangPinKuWeiEntity = shangPinKuWeiDAO.selectByKuWei(kuwei);
+                if(shangPinKuWeiEntity == null){
+                    ShangPinKuWeiEntity newKuWei = new ShangPinKuWeiEntity();
+                    newKuWei.setCangku(cangKuEntity.getId());
+                    newKuWei.setId(UuidUtil.get32UUID());
+                    newKuWei.setKuwei(kuwei);
+                    newKuWei.setCreateuser(username);
+                    newKuWei.setCreatetime(new Date());
+                    newKuWei.setUpdateuser(username);
+                    newKuWei.setUpdatetime(new Date());
+                    shangPinKuWeiDAO.insertSelective(newKuWei);
+                }
+            }else{
+                kuwei = "";
+            }
+            for(OrderProductEntity orderProduct :orderProductEntities){
+                //3.创建商品出库信息
+                ChuKuShangPinEntity chuKuShangPinEntity = new ChuKuShangPinEntity();
+                chuKuShangPinEntity.setChukushangpinid(UuidUtil.get32UUID());
+                chuKuShangPinEntity.setKehubianhao(innerOrderEntity.getCustomernum());
+                chuKuShangPinEntity.setKehudingdanhao(innerOrderEntity.getCustomerordernum());
+                chuKuShangPinEntity.setWaibudingdanhao(innerOrderEntity.getOuterordernum());
+                ProductEntity productEntity = productDAO.findProductByProductNum(orderProduct.getOuterproductnum());
+                chuKuShangPinEntity.setNeibuhuohao(productEntity.getProductnum());
+                chuKuShangPinEntity.setShangpintiaoma(productEntity.getBarcodeMain());
+                chuKuShangPinEntity.setShuliang(orderProduct.getCount());
+                chuKuShangPinEntity.setChukuzhuangtai("daichuku");
+                chuKuShangPinEntity.setCangku(cangku);
+                if(StringUtils.isBlank(kuwei)){
+                    List<ShangPinKuWeiEntity> list = shangPinKuWeiDAO.selectByCangkuAndProductnum(cangKuEntity.getId(), productEntity.getProductnum());
+                    kuwei = (list!=null && list.size()>0)?list.get(0).getKuwei():"";
+                }
+                chuKuShangPinEntity.setCangwei(kuwei);
+                chuKuShangPinEntity.setCreateuser(username);
+                chuKuShangPinEntity.setCreatetime(date);
+                chuKuShangPinEntity.setUpdatetime(date);
+                chuKuShangPinEntity.setUpdateuser(username);
+                chuKuShangPinDAO.insertSelective(chuKuShangPinEntity);
+            };
 
             createpackage(id);
         }
@@ -745,6 +738,16 @@ public class InnerOrderService implements InnerOrderInterface {
             ruKuBaoGuoDAO.insertSelective(ruKuBaoGuoEntity);
         }
 
+    }
+
+    @Override
+    public InnerOrderEntity selectByDingdanhao(String dingdanhao) {
+        return innerOrderDAO.selectByDingdanhao(dingdanhao);
+    }
+
+    @Override
+    public List<InnerOrderEntity> selectByBaoguoDanhao(String baoguodanhao) {
+        return innerOrderDAO.selectByBaoguoDanhao(baoguodanhao);
     }
 
 }

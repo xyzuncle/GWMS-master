@@ -1,6 +1,7 @@
 package com.huanqiuyuncang.service.wms.order;
 
 import com.huanqiuyuncang.entity.order.CaiGouShangPinEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface CaiGouShangPinInterface {
     int updateByPrimaryKey(CaiGouShangPinEntity record);
 
     List<CaiGouShangPinEntity> selectByCaiGouDingDanId(String caigoudingdanid);
+
+    String selectKuweiByBarcodeAndCangku(String barCode,String cangkuid);
+
+    List<PageData> selectHistoryInfoByBarcode(String barCode);
 }

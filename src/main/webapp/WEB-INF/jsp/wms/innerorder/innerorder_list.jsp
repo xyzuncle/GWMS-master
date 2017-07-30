@@ -64,7 +64,7 @@
                                              </select>
                                         </span>
                                         <span class="input-icon">
-                                            外部订单号：
+                                            订单号：
                                         </span>
                                         <span class="input-icon">
                                             <input type="text"  class="nav-search-input" id="nav-search-outerordernum" autocomplete="off" name="outerordernum" style="width:90px;"  value="${pd.outerordernum}"/>
@@ -176,10 +176,10 @@
                                     <th class="center">收件人城市</th>
                                     <th class="center">商品数量</th>
                                     <th class="center">订单金额</th>
+                                    <th class="center">备注</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
-
                                 <tbody>
                                 <!-- 开始循环 -->
                                 <c:choose>
@@ -191,13 +191,14 @@
                                                         <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
-                                                    <td class='center'>${var.customerordernum}</td>
+                                                    <td class='center'>${var.customerordernum} <br> ${var.outerordernum} </td>
                                                     <td class='center'>${var.sender}</td>
                                                     <td class='center'>${var.recipient}</td>
                                                     <td class='center'>${var.recipientprovince}</td>
                                                     <td class='center'>${var.recipientcity}</td>
                                                     <td class='center'>${var.productsum}</td>
                                                     <td class='center'>${var.ordervalue}</td>
+                                                    <td class='center'>${var.remark}</td>
                                                     <td class="center">
                                                         <c:if test="${QX.edit != 1 && QX.del != 1 }">
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
@@ -265,6 +266,16 @@
                                     </c:otherwise>
                                 </c:choose>
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td class="center" colspan="2"></td>
+                                    <td class="center" colspan="2">订单总金额</td>
+                                    <td class="center" colspan="2">${allprice}</td>
+                                    <td class="center" colspan="2">商品总数量</td>
+                                    <td class="center" colspan="2">${allcount}</td>
+                                    <td class="center"></td>
+                                </tr>
+                                </tfoot>
                             </table>
 
                             <!-- 检索  -->

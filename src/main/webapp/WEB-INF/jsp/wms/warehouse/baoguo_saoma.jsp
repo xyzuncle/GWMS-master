@@ -40,11 +40,54 @@
                                             <table id="saomiao" class="table ">
                                                 <tr>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">包裹单号:</td>
-                                                    <td><input type="text" name="baoguodanhao"  maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text"  onblur="searchInfo(this)" name="baoguodanhao"  maxlength="30"  style="width:98%;"/></td>
                                                 </tr>
                                             </table>
                                         </td>
 
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <div class="col-xs-4">
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <h3> 序号：</h3>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-xs-offset-4">
+                                                                <h3 id="xuhao">0</h3>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <h2> 当前库位：</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-xs-offset-4">
+                                                            <h2 id="dangqiancangwei"></h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <h2> 预警：</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-xs-offset-4">
+                                                            <h2 id="yujinh"></h2>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
@@ -79,7 +122,8 @@
     $("input:last").focus();
     $(document).keydown(function (event) {
         if(13 == event.keyCode){
-            $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">包裹单号:</td> <td><input type="text" name="baoguodanhao"  maxlength="30"  style="width:98%;"/></td> </tr>');
+            $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">包裹单号:</td> <td>' +
+                    '<input type="text" onblur="searchInfo(this)" name="baoguodanhao"  maxlength="30"  style="width:98%;"/></td> </tr>');
             $("input:last").focus();
         }
     });
@@ -89,6 +133,33 @@
         $("#Form").submit();
         $("#zhongxin").hide();
         $("#zhongxin2").show();
+    }
+
+    function searchInfo(obj){
+        var baoguodanhao = $(obj).val();
+        if(baoguodanhao && baoguodanhao !== ""){
+            var xuhao = $("#xuhao").html();
+            $("#xuhao").html((parseInt(xuhao)+1));
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>rukubaoguo/getkuwei.do?',
+                data: {baoguodanhao:baoguodanhao},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    var cangwei = data.cangwei;
+                    var yujing = data.yujing;
+                    $("#dangqiancangwei").html(cangwei);
+                    if(yujing && yujing != ""){
+                        $("#yujing").html(yujing);
+                    }else{
+                        $("#yujing").html("");
+                    }
+
+                }
+            });
+        }
+
     }
 
 </script>

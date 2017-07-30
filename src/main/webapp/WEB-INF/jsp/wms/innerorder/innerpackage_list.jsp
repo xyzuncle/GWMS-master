@@ -541,7 +541,7 @@
             top.jzts();
             var diag = new top.Dialog();
             diag.Drag=true;
-            diag.Title ="订单商品出库";
+            diag.Title ="包裹入库";
             diag.URL = '<%=basePath%>innerorder/gobaoguokuwei.do?innerorderid='+str;
             diag.Width = 400;
             diag.Height = 200;

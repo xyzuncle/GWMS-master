@@ -23,6 +23,8 @@ public class CaiGouDingDanEntity {
 
     private String beizhu;
 
+    private String yujingstatus;
+
     private String createuser;
 
     private Date createtime;
@@ -31,7 +33,7 @@ public class CaiGouDingDanEntity {
 
     private Date updatetime;
 
-    public CaiGouDingDanEntity(String caigoudingdanid, String caigoudingdanhao, String gongyingshangbianhao, String kehubianhao, String caigoujiage, String caigoudingdanstatus, String cangku,String cangwei, String cangkuuser, String beizhu, String createuser, Date createtime, String updateuser, Date updatetime) {
+    public CaiGouDingDanEntity(String caigoudingdanid, String caigoudingdanhao, String gongyingshangbianhao, String kehubianhao, String caigoujiage, String caigoudingdanstatus, String cangku,String cangwei, String cangkuuser, String beizhu, String yujingstatus, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.caigoudingdanid = caigoudingdanid;
         this.caigoudingdanhao = caigoudingdanhao;
         this.gongyingshangbianhao = gongyingshangbianhao;
@@ -42,6 +44,7 @@ public class CaiGouDingDanEntity {
         this.cangwei = cangwei;
         this.cangkuuser = cangkuuser;
         this.beizhu = beizhu;
+        this.beizhu = yujingstatus;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -122,6 +125,14 @@ public class CaiGouDingDanEntity {
 
     public void setBeizhu(String beizhu) {
         this.beizhu = beizhu == null ? null : beizhu.trim();
+    }
+
+    public String getYujingstatus() {
+        return yujingstatus;
+    }
+
+    public void setYujingstatus(String yujingstatus) {
+        this.yujingstatus = yujingstatus;
     }
 
     public String getCreateuser() {

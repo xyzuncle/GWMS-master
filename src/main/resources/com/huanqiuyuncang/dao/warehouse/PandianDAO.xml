@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.warehouse.PandianDAO" >
+  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.warehouse.PandianEntity" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="productwarehouseid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="status" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="beizhu" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="cangku" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="kuwei" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="shangpinbianhao" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, productwarehouseid, status, beizhu, cangku, kuwei, shangpinbianhao, createuser, 
+    createtime, updateuser, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from wms_pandian
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wms_pandian
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.huanqiuyuncang.entity.warehouse.PandianEntity" >
+    insert into wms_pandian (id, productwarehouseid, status, 
+      beizhu, cangku, kuwei, 
+      shangpinbianhao, createuser, createtime, 
+      updateuser, updatetime)
+    values (#{id,jdbcType=VARCHAR}, #{productwarehouseid,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{beizhu,jdbcType=VARCHAR}, #{cangku,jdbcType=VARCHAR}, #{kuwei,jdbcType=VARCHAR}, 
+      #{shangpinbianhao,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.warehouse.PandianEntity" >
+    insert into wms_pandian
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productwarehouseid != null" >
+        productwarehouseid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="beizhu != null" >
+        beizhu,
+      </if>
+      <if test="cangku != null" >
+        cangku,
+      </if>
+      <if test="kuwei != null" >
+        kuwei,
+      </if>
+      <if test="shangpinbianhao != null" >
+        shangpinbianhao,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productwarehouseid != null" >
+        #{productwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null" >
+        #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="cangku != null" >
+        #{cangku,jdbcType=VARCHAR},
+      </if>
+      <if test="kuwei != null" >
+        #{kuwei,jdbcType=VARCHAR},
+      </if>
+      <if test="shangpinbianhao != null" >
+        #{shangpinbianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.warehouse.PandianEntity" >
+    update wms_pandian
+    <set >
+      <if test="productwarehouseid != null" >
+        productwarehouseid = #{productwarehouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="beizhu != null" >
+        beizhu = #{beizhu,jdbcType=VARCHAR},
+      </if>
+      <if test="cangku != null" >
+        cangku = #{cangku,jdbcType=VARCHAR},
+      </if>
+      <if test="kuwei != null" >
+        kuwei = #{kuwei,jdbcType=VARCHAR},
+      </if>
+      <if test="shangpinbianhao != null" >
+        shangpinbianhao = #{shangpinbianhao,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.warehouse.PandianEntity" >
+    update wms_pandian
+    set productwarehouseid = #{productwarehouseid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      beizhu = #{beizhu,jdbcType=VARCHAR},
+      cangku = #{cangku,jdbcType=VARCHAR},
+      kuwei = #{kuwei,jdbcType=VARCHAR},
+      shangpinbianhao = #{shangpinbianhao,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_pandian
+        where 1=1
+        <if test="pd.shangpinbianhao!= null and pd.shangpinbianhao != ''">
+            and shangpinbianhao LIKE  "%"#{pd.shangpinbianhao,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.status!= null and pd.status != ''">
+            and status LIKE  "%"#{pd.status,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.kuwei!= null and pd.kuwei != ''">
+            and kuwei LIKE  "%"#{pd.kuwei,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="pd.cangku!= null and pd.cangku != ''">
+            and cangku in (#{pd.cangku,jdbcType=VARCHAR})
+        </if>
+    </select>
+
+    <select id="selectByPageData" parameterType="pd" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM wms_pandian t , wms_product d
+        WHERE t.shangpinbianhao = d.productNum
+        <if test="shangpinbianhao!= null and shangpinbianhao != ''">
+            and t.shangpinbianhao LIKE  "%"#{shangpinbianhao,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="status!= null and status != ''">
+            and t.status LIKE  "%"#{status,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="kuwei!= null and kuwei != ''">
+            and t.kuwei LIKE  "%"#{kuwei,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="cangku!= null and cangku != ''">
+            and t.cangku = #{cangku,jdbcType=VARCHAR}
+        </if>
+        <if test="tiaoma!= null and tiaoma != ''">
+            and t.barCode_main =#{tiaoma,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+</mapper>

@@ -19,6 +19,7 @@
     <base href="<%=basePath%>">
     <!-- jsp文件头和头部 -->
     <%@ include file="../../system/index/top.jsp"%>
+    <link href="static/ace/css/bootstrap-table.min.css" rel="stylesheet"/>
 </head>
 <body class="no-skin">
 <!-- /section:basics/navbar.layout -->
@@ -31,8 +32,18 @@
                     <div class="col-xs-12">
 
                         <form action="chukushangpin/${msg }.do" name="Form" id="Form" method="post">
+                            <input type="hidden" name="dangqiantiaoma" id="dangqiantiaoma" />
+                            <input type="hidden" name="saomamoshi" id="saomamoshi" value="1"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
+                                    <tr>
+                                        <td style="width:88px;text-align: right;padding-top: 13px;">订单号:</td>
+                                        <td><input  type="text" name="dingdanhao" id="dingdanhao" maxlength="30"  style="width:98%;"/></td>
+                                    </tr>
+                                    <tr id="yujingtr" style="display: none">
+                                        <td style="width:88px;text-align: right;padding-top: 13px;">预警:</td>
+                                        <td><input readonly type="text"id="yujingstatus" maxlength="30"  style="width:98%;"/></td>
+                                    </tr>
                                     <tr>
                                         <td colspan="2" style="text-align: center;">扫描货号:</td>
                                     </tr>
@@ -41,15 +52,47 @@
                                             <table id="saomiao" class="table ">
                                                 <tr>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>
-                                                    <td><input type="text" name="huohao"   maxlength="30"  style="width:98%;"/></td>
-                                                    <td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>
-                                                    <td><input type="text"  name="dingdanhao"   maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="text" name="huohao" onblur="searchInfo(this)"    maxlength="30"  style="width:98%;"/></td>
                                                     <td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>
-                                                    <td><input type="number" name="shuliang"  maxlength="30"  style="width:98%;"/></td>
+                                                    <td><input type="number" name="shuliang"  onblur="refreshInfo()" maxlength="30"  style="width:98%;"/></td>
                                                 </tr>
                                             </table>
                                         </td>
 
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <table id="huizong" data-height="300"  class="table table-bordered"></table>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <table id="mingxi" data-height="300"  class="table table-bordered"></table>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <h3> 序号：</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-xs-offset-4">
+                                                            <h3 id="xuhao">0</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <h2> 当前库位：</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-xs-offset-4">
+                                                            <h2 id="dangqiancangwei"></h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" colspan="10">
@@ -78,32 +121,38 @@
 <%@ include file="../../system/index/foot.jsp"%>
 <!--提示框-->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
+<script type="text/javascript" src="static/ace/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="static/ace/js/bootstrap-table-zh-CN.js"></script>
 <script type="text/javascript">
     $(top.hangge());
-    $("input[name='huohao']:last").focus();
+    $("input[name='dingdanhao']:last").focus();
     $(document).keydown(function (event) {
         if(13 == event.keyCode){
-           /* $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品货号:</td>' +
-             ' <td><input type="text"  name="huohao"  maxlength="30"  style="width:98%;"/>' +
-             '</td><td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>' +
-             '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> ' +
-             '</td><td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>' +
-             '<td><input type="number" name="shuliang"  value="0"   maxlength="30"  style="width:98%;"/></td> ' +
-             '</tr>');
-             $("input.huohao:last").focus();*/
-
             var str = $("input:focus").attr("name");
-            if("huohao" === str){
-                $("input[name='dingdanhao']:last").focus();
-            }else if ("dingdanhao" === str){
+            if("dingdanhao" === str){
+                var dingdanhao = $("#dingdanhao").val();
+                $.ajax({
+                    type: "POST",
+                    url: '<%=basePath%>innerorder/getyujing.do?',
+                    data: {dingdanhao:dingdanhao},
+                    dataType:'json',
+                    cache: false,
+                    success: function(data){
+                        var yujing = data.yujing;
+                        if(yujing && yujing != ""){
+                            $("#yujingstatus").val(yujing);
+                            $("#yujingtr").removeAttr("style");
+                        }
+                    }
+                });
+                $("input[name='huohao']:last").focus();
+            }else if ("huohao" === str){
                 $("input[name='shuliang']:last").focus();
             }else if ("shuliang" === str){
                  $("#saomiao").append('<tr><td style="width:82px;text-align: right;padding-top: 13px;">商品条码:</td>' +
-                 ' <td><input type="text"  name="huohao"  maxlength="30"  style="width:98%;"/>' +
-                 '</td><td style="width:82px;text-align: right;padding-top: 13px;">订单号:</td>' +
-                 '<td><input type="number" name="dingdanhao"   maxlength="30"  style="width:98%;"/></td> ' +
+                 ' <td><input type="text"  name="huohao" onblur="searchInfo(this)"  maxlength="30"  style="width:98%;"/>' +
                  '</td><td style="width:82px;text-align: right;padding-top: 13px;">数量:</td>' +
-                 '<td><input type="number" name="shuliang"  maxlength="30"  style="width:98%;"/></td> ' +
+                 '<td><input type="number" name="shuliang"  onblur="refreshInfo()"  maxlength="30"  style="width:98%;"/></td> ' +
                  '</tr>');
                 $("input[name='huohao']:last").focus();
             }
@@ -117,6 +166,109 @@
         $("#zhongxin2").show();
     }
 
+    function huizong(){
+        var option = {
+            url: '${pageContext.request.contextPath}/chukushangpin/huizong.do', //请求地址
+            columns: [
+                {
+                    field : 'tiaoma',
+                    align : "center",
+                    title : '商品条码'
+                },
+                {
+                    field : 'shuliang',
+                    align : "center",
+                    title : '数量'
+                },
+                {
+                    field : 'kuwei',
+                    align : "center",
+                    title : '库位'
+                }
+            ],//表格字段
+            method:"post",
+            search:false,
+            queryParamsType : "undefined",
+            queryParams:function(params) {
+                var obj = $("#Form").serialize();
+                return obj;
+            }, //查询条件
+            sidePagination: "server", //服务端请求
+            singleSelect:true,//设置表格单选
+            cache:false,//是否对表格数据进行缓存，默认false
+            contentType:"application/x-www-form-urlencoded",//spring只有这个格式在POST请求下，才能实现
+            dataType:"json"//这格式传输内容的格式
+        };
+        $("#huizong").bootstrapTable(option);
+    }
+
+    function mingxi(){
+        var option = {
+            url: '${pageContext.request.contextPath}/chukushangpin/mingxi.do', //请求地址
+            columns: [
+                {
+                    field : 'tiaoma',
+                    align : "center",
+                    title : '商品条码'
+                },
+                {
+                    field : 'shuliang',
+                    align : "center",
+                    title : '数量'
+                },
+                {
+                    field : 'kuwei',
+                    align : "center",
+                    title : '库位'
+                }
+            ],//表格字段
+            method:"post",
+            search:false,
+            queryParamsType : "undefined",
+            queryParams:function(params) {
+                var obj = {};
+                obj["tiaoma"] = $("#dangqiantiaoma").val();
+                return obj;
+            }, //查询条件
+            sidePagination: "server", //服务端请求
+            singleSelect:true,//设置表格单选
+            cache:false,//是否对表格数据进行缓存，默认false
+            contentType:"application/x-www-form-urlencoded",//spring只有这个格式在POST请求下，才能实现
+            dataType:"json"//这格式传输内容的格式
+        };
+        $("#mingxi").bootstrapTable(option);
+    }
+
+    $(function(){
+        huizong();
+        mingxi("");
+    });
+
+    function searchInfo(obj){
+        var tiaoma = $(obj).val();
+        if(tiaoma && tiaoma !== ""){
+            $("#dangqiantiaoma").val(tiaoma);
+            var dingdanhao = $("#dingdanhao").val();
+            $("#mingxi").bootstrapTable("refresh");
+            var xuhao = $("#xuhao").html();
+            $("#xuhao").html((parseInt(xuhao)+1));
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>chukushangpin/getkuwei.do?',
+                data: {dingdanhao:dingdanhao,tiaoma:tiaoma},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    var cangwei = data.cangwei;
+                    $("#dangqiancangwei").html(cangwei);
+                }
+            });
+        }
+
+    }
+    function refreshInfo(){
+        $("#huizong").bootstrapTable("refresh");
+    }
 </script>
 </body>
 </html>

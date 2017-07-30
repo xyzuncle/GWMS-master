@@ -62,4 +62,8 @@ public interface InnerOrderInterface {
     void saveShangpinChuku(String[] ids, String cangkushuxing, String cangku, String kuwei);
 
     void saveBaoguoRuku(String[] ids, String baoguokuwei);
+
+    InnerOrderEntity selectByDingdanhao(String dingdanhao);
+
+    List<InnerOrderEntity> selectByBaoguoDanhao(String baoguodanhao);
 }

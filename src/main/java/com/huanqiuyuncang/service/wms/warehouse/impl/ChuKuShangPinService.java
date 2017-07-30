@@ -121,6 +121,16 @@ public class ChuKuShangPinService implements ChuKuShangPinInterface {
         return pd;
     }
 
+    @Override
+    public ChuKuShangPinEntity selectByDingdanhaoAndTiaoma(String dingdanhao, String tiaoma) {
+        return chuKuShangPinDAO.selectByDingDanHaoAndTiaoma(dingdanhao,tiaoma);
+    }
+
+    @Override
+    public List<ChuKuShangPinEntity> selectHistoryInfoByBarcode(String tiaoma) {
+        return chuKuShangPinDAO.selectHistoryInfoByBarcode(tiaoma);
+    }
+
     private void createshangpinsaomiao(String shuliang, ChuKuShangPinEntity chuKuShangPinEntity) {
         String username = Jurisdiction.getUsername();
         Date date = new Date();

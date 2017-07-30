@@ -88,7 +88,6 @@
                                     <th class="center">内部货号</th>
                                     <th class="center">商品条码</th>
                                     <th class="center">数量</th>
-                                    <th class="center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -107,19 +106,6 @@
                                                     <td class='center'>${var.neibuhuohao}</td>
                                                     <td class='center'>${var.shangpintiaoma}</td>
                                                     <td class='center'>${var.shuliang}</td>
-                                                    <td class="center">
-                                                        <c:if test="${QX.edit != 1 && QX.del != 1 }">
-                                                            <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
-                                                        </c:if>
-                                                        <div class="hidden-sm hidden-xs btn-group">
-                                                            <c:if test="${QX.pandian != 1}">
-                                                            <a class="btn btn-xs btn-success" title="盘点" onclick="pandian('是否盘点该仓库?','${var.productwarehouseid}');">
-                                                                <i class="ace-icon fa  fa-ban bigger-120" title="盘点"></i>
-                                                            </a>
-                                                            </c:if>
-                                                        </div>
-
-                                                    </td>
                                                 </tr>
 
                                             </c:forEach>
@@ -145,6 +131,11 @@
                                             <a class="btn btn-xs btn-success" title="移库" onclick="yiku('确定要选中的商品移库吗?');">
                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120" title="移库"></i>
                                             </a>
+                                            <c:if test="${QX.pandian != 1}">
+                                                <a class="btn btn-xs btn-success" title="盘点" onclick="pandian('是否盘点选中库存?');">
+                                                    <i class="ace-icon fa  fa-ban bigger-120" title="盘点"></i>
+                                                </a>
+                                            </c:if>
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
@@ -245,21 +236,43 @@
         });
 
     }
-    function pandian(msg,Id){
+    function pandian(msg){
         bootbox.confirm(msg, function(result) {
             if(result) {
-                $.ajax({
-                    type: "POST",
-                    url: '<%=basePath%>productwarehouse/pandian.do',
-                    data: {productwarehouseid:Id},
-                    dataType:'json',
-                    cache: false,
-                    success: function(data){
-                        $.each(data.list, function(i, list){
-                            nextPage(${page.currentPage});
-                        });
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
                     }
-                });
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: '<%=basePath%>productwarehouse/pandian.do',
+                        data: {productwarehouseid:str},
+                        dataType:'json',
+                        cache: false,
+                        success: function(data){
+                            $.each(data.list, function(i, list){
+                                nextPage(${page.currentPage});
+                            });
+                        }
+                    });
+                }
             }
         });
     }

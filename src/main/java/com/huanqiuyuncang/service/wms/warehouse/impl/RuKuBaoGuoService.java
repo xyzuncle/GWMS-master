@@ -92,6 +92,11 @@ public class RuKuBaoGuoService implements RuKuBaoGuoInterface {
         return pd;
     }
 
+    @Override
+    public RuKuBaoGuoEntity selectByBaoguoDanhao(String baoguodanhao) {
+        return ruKuBaoGuoDAO.selectByDanHao(baoguodanhao);
+    }
+
     private void updatePackageWarehouse(PackageWarehouseEntity packageWarehouse) {
         String username = Jurisdiction.getUsername();
         Date date = new Date();

@@ -4,11 +4,14 @@ import com.huanqiuyuncang.controller.base.BaseController;
 import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity;
+import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
+import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.wms.warehouse.PackageWarehouseInterface;
 import com.huanqiuyuncang.service.wms.warehouse.RuKuBaoGuoInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -38,7 +42,15 @@ public class RuKuBaoGuoController extends BaseController {
     private PackageWarehouseInterface packageWarehouseService;
 
     @Autowired
+    private InnerOrderInterface innerOrderService;
+
+
+    @Autowired
     private CangKuInterface cangKuService;
+
+
+    @Resource(name="dictionariesService")
+    private DictionariesManager dictionariesService;
     /**列表
      * @param page
      * @throws Exception
@@ -215,6 +227,30 @@ public class RuKuBaoGuoController extends BaseController {
         return AppUtil.returnObject(pd, map);
     }
 
+    @RequestMapping(value="/getkuwei")
+    @ResponseBody
+    public Object getArea() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        String baoguodanhao = pd.getString("baoguodanhao");
+        RuKuBaoGuoEntity rukubaoguo = ruKuBaoGuoService.selectByBaoguoDanhao(baoguodanhao);
+        List<InnerOrderEntity> list = innerOrderService.selectByBaoguoDanhao(baoguodanhao);
+        String cangwei = "";
+        if(rukubaoguo != null){
+            cangwei = rukubaoguo.getCangwei();
+        }
+        if(list != null && list.size()>0){
+            String yujingstatus = list.get(0).getYujingstatus();
+            if(StringUtils.isNotBlank(yujingstatus)){
+                pd.put("BIANMA",yujingstatus);
+                PageData dic = dictionariesService.findByBianma(pd);
+                yujingstatus = dic.getString("NAME");
+            }
+            map.put("yujing", yujingstatus);
+        }
+        map.put("cangwei", cangwei);
 
+        return AppUtil.returnObject(pd, map);
+    }
 
 }

@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -140,21 +141,26 @@ public class InnerOrderController extends BaseController {
         page.setPd(pd);
         List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        varList.forEach(innerOrderEntity -> {
-            String formateCreateTime = formatter.format(innerOrderEntity.getOrdertime());
-            innerOrderEntity.setFormateOrderTime(formateCreateTime);
+        BigDecimal allprice = new BigDecimal(0);
+         Double allcount = new Double(0);
+        for(InnerOrderEntity innerOrderEntity : varList) {
             String recipientprovince = innerOrderEntity.getRecipientprovince();
             String recipientcity = innerOrderEntity.getRecipientcity();
             recipientprovince = innerOrderService.selectProvinceNameByCode(recipientprovince);
             recipientcity = innerOrderService.selectCityNameByCode(recipientcity);
             innerOrderEntity.setRecipientprovince(recipientprovince);
             innerOrderEntity.setRecipientcity(recipientcity);
-            String sum = orderProductService.selectProductsumByOrderNum(innerOrderEntity.getCustomerordernum());
-            innerOrderEntity.setProductsum(sum);
-        });
+            PageData respd = orderProductService.selectStatisticsByOrderNum(innerOrderEntity.getCustomerordernum());
+            BigDecimal sumprice = (BigDecimal)respd.get("sumprice");
+            allprice = allprice.add(sumprice);
+            Double sumcount = (Double)respd.get("sumcount");
+            allcount = allcount+sumcount;
+        };
         List<CustomerEntity> customerList = getCustomerList();
         mv.setViewName("wms/innerorder/innerorder_list");
         mv.addObject("varList", varList);
+        mv.addObject("allprice", allprice);
+        mv.addObject("allcount", allcount);
         mv.addObject("customerList", customerList);
         mv.addObject("pd", pd);
         mv.addObject("QX",hc);	//按钮权限
@@ -691,6 +697,23 @@ public class InnerOrderController extends BaseController {
         String code = pd.getString("code");
         List<BaoGuoKuWeiEntity> pdList = baoGuoKuWeiService.selectByCustomernum(code);
         map.put("list", pdList);
+        return AppUtil.returnObject(pd, map);
+    }
+
+    @RequestMapping(value="/getyujing")
+    @ResponseBody
+    public Object getyujing() throws Exception{
+        Map<String,Object> map = new HashMap<String,Object>();
+        PageData pd = this.getPageData();
+        String dingdanhao = pd.getString("dingdanhao");
+        InnerOrderEntity innerOrderEntity = innerOrderService.selectByDingdanhao(dingdanhao);
+        String yujing = innerOrderEntity.getYujingstatus();
+        if(StringUtils.isNotEmpty(yujing)){
+            pd.put("BIANMA",yujing);
+            PageData dic = dictionariesService.findByBianma(pd);
+            yujing = dic.getString("NAME");
+        }
+        map.put("yujing", yujing);
         return AppUtil.returnObject(pd, map);
     }
 

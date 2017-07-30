@@ -255,8 +255,17 @@
         <include refid="Base_Column_List" />
         from wms_chukushangpin
         where 1=1
-        and kehudingdanhao LIKE  "%"#{dingdanhao,jdbcType=VARCHAR}"%"
-        and shangpintiaoma LIKE  "%"#{tiaoma,jdbcType=VARCHAR}"%"
+        and kehudingdanhao = #{dingdanhao,jdbcType=VARCHAR}
+        and shangpintiaoma = #{tiaoma,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectHistoryInfoByBarcode" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_chukushangpin
+        where 1=1
+        and chukuzhuangtai = 'yichuku'
+        and shangpintiaoma =  #{tiaoma,jdbcType=VARCHAR}
     </select>
 
 </mapper>

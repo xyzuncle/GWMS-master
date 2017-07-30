@@ -10,6 +10,7 @@ import com.huanqiuyuncang.entity.pdconversion.ProductConversionEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import com.huanqiuyuncang.util.Jurisdiction;
+import com.huanqiuyuncang.util.PageData;
 import com.huanqiuyuncang.util.UuidUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +129,11 @@ public class OrderProductService implements OrderProductInterface {
     @Override
     public String selectProductsumByOrderNum(String customerordernum) {
         return orderProductDAO.selectProductsumByOrderNum(customerordernum);
+    }
+
+    @Override
+    public PageData selectStatisticsByOrderNum(String customerordernum) {
+        return orderProductDAO.selectStatisticsByOrderNum(customerordernum);
     }
 
     private Map<String,String[]> getPdNumMap(ProductConversionEntity pdConversion ){

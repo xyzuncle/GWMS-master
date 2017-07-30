@@ -40,14 +40,14 @@
                                 <td>
                                     <div class="nav-search">
                                         <span class="input-icon">
-                                            客户编号：
+                                            供应商编号：
                                         </span>
                                         <span class="input-icon">
                                             <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-gongyingshangcode"
                                                    autocomplete="off" name="gongyingshangcode" value="${pd.gongyingshangcode }" placeholder="这里输入关键词"/>
                                         </span>
                                         <span class="input-icon">
-                                            客户名称：
+                                            供应商名称：
                                         </span>
                                         <span class="input-icon">
                                             <input type="text" placeholder="这里输入关键词" class="nav-search-input" id="nav-search-gongyingshangname"
@@ -347,7 +347,7 @@
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
-        diag.Title ="修改客户状态";
+        diag.Title ="修改供应商状态";
         diag.URL = '<%=basePath%>gongyingshang/goStatus.do?gongyingshangid='+Id;
         diag.Width = 600;
         diag.Height = 300;

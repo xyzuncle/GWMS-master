@@ -1,6 +1,7 @@
 package com.huanqiuyuncang.dao.order;
 
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
+import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
 
@@ -26,4 +27,7 @@ public interface OrderProductDAO {
     List<OrderProductEntity> selectOrderProductBypackagenum(String innerpackagenum);
 
     String selectProductsumByOrderNum(String customerordernum);
+
+    PageData selectStatisticsByOrderNum(String customerordernum);
+
 }

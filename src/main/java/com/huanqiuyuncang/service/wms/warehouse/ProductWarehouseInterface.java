@@ -28,4 +28,6 @@ public interface ProductWarehouseInterface {
     ProductWarehouseEntity selectByChuKuShangPin(ChuKuShangPinEntity chuKuShangPinEntity);
 
     ProductWarehouseEntity selectByPd(PageData pd);
+
+    void savePandian(String[] idsarr);
 }

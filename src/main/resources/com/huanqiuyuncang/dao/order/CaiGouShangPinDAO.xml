@@ -142,4 +142,22 @@
         where caigoudingdanid = #{caigoudingdanid,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectKuweiByBarcodeAndCangku" resultType="java.lang.String" parameterType="java.lang.String" >
+        SELECT a.kuwei
+        FROM wms_shangpinkuwei a ,wms_product b ,wms_cangku c
+        WHERE a.productNum = b.productNum
+        AND a.cangku = c.id
+        AND c.id = #{cangkuid,jdbcType=VARCHAR}
+       AND b.barCode_main = #{barCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectHistoryInfoByBarcode" resultType="pd" parameterType="java.lang.String" >
+        SELECT a.caigoudingdanid caigoudingdanid , b.shuliang shuliang , a.cangku cangku , a.cangwei cangwei
+        FROM wms_caigoudingdan a ,wms_caigoushangpin b ,wms_product c
+        WHERE a.caigoudingdanstatus = 'caigouStatus_yiruku'
+        AND a.caigoudingdanid = b.caigoudingdanid
+        AND b.shangpinhuohao = c.productNum
+        AND c.barCode_main = #{barCode,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

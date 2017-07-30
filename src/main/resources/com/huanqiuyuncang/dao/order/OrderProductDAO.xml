@@ -231,4 +231,12 @@
         from wms_orderproduct
         WHERE customerordernum = #{customerordernum,jdbcType=VARCHAR}
     </select>
+    <select id="selectStatisticsByOrderNum" parameterType="java.lang.String" resultType="pd">
+      SELECT
+        SUM(CAST(t.count * t.retailPrice  AS  DECIMAL(8,3))) sumprice ,
+        SUM(t.count) sumcount
+      FROM wms_orderproduct t
+      WHERE t.customerordernum = #{customerordernum,jdbcType=VARCHAR}
+    </select>
+
 </mapper>
