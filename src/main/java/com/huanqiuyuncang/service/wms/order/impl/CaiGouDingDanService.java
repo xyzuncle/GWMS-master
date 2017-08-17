@@ -378,7 +378,8 @@ public class CaiGouDingDanService implements CaiGouDingDanInterface {
         }
         for(String id : ids){
             CaiGouDingDanEntity caiGouDingDanEntity = caiGouDingDanDAO.selectByPrimaryKey(id);
-            caiGouDingDanEntity.setCaigoudingdanstatus("caigouStatus_dairuku");
+           // caiGouDingDanEntity.setCaigoudingdanstatus("caigouStatus_dairuku");
+            caiGouDingDanEntity.setCaigoudingdanstatus("caigouStatus_yiruku");
             String createuser = cangKuEntity.getCreateuser();
             caiGouDingDanEntity.setCangkuuser(createuser);
             caiGouDingDanEntity.setCangku(cangku);

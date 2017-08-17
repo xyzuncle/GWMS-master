@@ -204,7 +204,8 @@ public class InnerOrderService implements InnerOrderInterface {
             }
         }
         innerOrder.setInnerpackagenum(packagenum);
-        innerOrder.setOrderstatus("orderStatus_daidabao");
+        innerOrder.setOrderstatus("orderStatus_yidabao");
+       // innerOrder.setOrderstatus("orderStatus_daidabao");
         innerOrder.setCartonid(defaultCarton);
         innerOrder.setPackageid(packageType);
     }
