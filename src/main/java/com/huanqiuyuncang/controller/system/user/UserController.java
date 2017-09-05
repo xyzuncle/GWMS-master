@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -545,6 +546,13 @@ public class UserController extends BaseController {
 	public void initBinder(WebDataBinder binder){
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
+	}
+
+	@RequestMapping("/buildexcel")
+	public String buildExcel(HttpServletResponse response, HttpServletRequest request){
+            ObjectExcelView view =  new ObjectExcelView();
+            view.buildExcleFJ(response,request);
+            return "";
 	}
 
 }
