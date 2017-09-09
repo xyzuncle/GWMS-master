@@ -25,6 +25,8 @@
     <%@ include file="../../system/index/top.jsp"%>
     <!-- 日期框 -->
     <link rel="stylesheet" href="static/ace/css/datepicker.css" />
+
+    <link href="static/ace/css/bootstrap-table.min.css" rel="stylesheet"/>
 </head>
 <body class="no-skin">
 
@@ -73,10 +75,10 @@
                                             下单时间：
                                         </span>
                                         <span class="input-icon">
-                                            <input class="date-picker" name="starttime" id="starttime"  value="${pd.starttime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="开始日期" />
-                                            <input class="date-picker" name="endtime" name="endtime"  value="${pd.endtime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:110px;" placeholder="结束日期"/>
+                                            <input class="date-picker" name="starttime" id="starttime"  value="${pd.starttime}" type="text" data-date-format="yyyy-mm-dd " readonly="readonly" style="width:110px;" placeholder="开始日期" />
+                                            <input class="date-picker" name="endtime" id="endtime"  value="${pd.endtime}" type="text" data-date-format="yyyy-mm-dd " readonly="readonly" style="width:110px;" placeholder="结束日期"/>
                                         </span>
-                                         <span class="input-icon">
+                                        <%-- <span class="input-icon">
                                             寄件人国家：
                                         </span>
                                         <span class="input-icon">
@@ -84,7 +86,7 @@
                                         </span>
                                         <span class="input-icon">
                                             寄件人姓名/电话：
-                                        </span>
+                                        </span>--%>
                                         <span class="input-icon">
                                             <input type="text" class="nav-search-input" id="nav-search-sender" autocomplete="off" name="sender" value="${pd.sender }" />
                                         </span>
@@ -188,15 +190,17 @@
                                             <c:forEach items="${varList}" var="var" varStatus="vs">
                                                 <tr>
                                                     <td class='center'>
-                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
+                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.id}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
-                                                    <td class='center'>${var.customerordernum} <br> ${var.outerordernum} </td>
+                                                    <td class='center'>
+                                                        <a class="btn btn-xs btn-success" title="编辑" onclick="showChild('${var.id}');">
+                                                        ${var.ordernum} </a><br> ${var.outerordernum} </td>
                                                     <td class='center'>${var.sender}</td>
                                                     <td class='center'>${var.recipient}</td>
                                                     <td class='center'>${var.recipientprovince}</td>
                                                     <td class='center'>${var.recipientcity}</td>
-                                                    <td class='center'>${var.productsum}</td>
+                                                    <td class='center'>${var.orderproductcount}</td>
                                                     <td class='center'>${var.ordervalue}</td>
                                                     <td class='center'>${var.remark}</td>
                                                     <td class="center">
@@ -204,16 +208,16 @@
                                                             <span class="label label-large label-grey arrowed-in-right arrowed-in"><i class="ace-icon fa fa-lock" title="无权限"></i></span>
                                                         </c:if>
                                                         <div class="hidden-sm hidden-xs btn-group">
-                                                            <a class="btn btn-xs btn-primary" onclick="viewinnerorder('${var.innerorderid}');">
+                                                            <a class="btn btn-xs btn-primary" onclick="viewinnerorder('${var.id}');">
                                                                 <i class="ace-icon fa   fa-eye bigger-120" title="详情"></i>
-                                                            </a>
+
                                                             <c:if test="${QX.edit == 1 }">
-                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.innerorderid}');">
+                                                                <a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.id}');">
                                                                     <i class="ace-icon fa fa-pencil-square-o bigger-120" title="编辑"></i>
                                                                 </a>
                                                             </c:if>
                                                                <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
-                                                                   <a class="btn btn-xs btn-success" title="凭证" onclick="pingzheng('${var.innerorderid}');">
+                                                                   <a class="btn btn-xs btn-success" title="凭证" onclick="pingzheng('${var.id}');">
                                                                        <i class="ace-icon fa fa-eye bigger-120" title="凭证"></i>
                                                                    </a>
 
@@ -229,7 +233,7 @@
 
                                                                     <c:if test="${QX.edit == 1 }">
                                                                         <li>
-                                                                                <a style="cursor:pointer;" onclick="edit('${var.innerorderid}');" class="tooltip-success" data-rel="tooltip" title="修改">
+                                                                                <a style="cursor:pointer;" onclick="edit('${var.id}');" class="tooltip-success" data-rel="tooltip" title="修改">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
@@ -238,7 +242,7 @@
                                                                     </c:if>
                                                                     <c:if test="${QX.del == 1 }">
                                                                         <li>
-                                                                            <a style="cursor:pointer;" onclick="del('${var.innerorderid}');" class="tooltip-error" data-rel="tooltip" title="删除">
+                                                                            <a style="cursor:pointer;" onclick="del('${var.id}');" class="tooltip-error" data-rel="tooltip" title="删除">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -300,11 +304,6 @@
                                                     <i class='ace-icon fa fa-bookmark bigger-120'></i>
                                                 </a>
                                             </c:if>
-                                         <%--   <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
-                                                <a class="btn btn-xs btn-success" title="生成包裹" onclick="makepackage('确定要将选中的数据生成包裹吗?');">
-                                                    <i class='ace-icon fa  fa-briefcase bigger-120'></i>
-                                                </a>
-                                            </c:if>--%>
                                             <c:if test="${pd.orderstatus == 'orderStatus_yiqingguan' || pd.orderstatus == 'orderStatus_yiqianshou' }">
                                                 <a class="btn btn-xs btn-success" title="异常" onclick="yichang('确定要将选中的订单生成异常件?');">
                                                     <i class='ace-icon  fa fa-gavel bigger-120'></i>
@@ -315,11 +314,31 @@
                                                     <i class='ace-icon  fa fa-gavel bigger-120'></i>
                                                 </a>
                                             </c:if>
-                                      <%--      <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
-                                                <a class="btn btn-xs btn-success" title="生成出库单" onclick="makeShangpinChuku('确定要将选中订单生成出库单吗?');">
-                                                    <i class='ace-icon fa  fa-briefcase bigger-120'></i>
+
+                                            <a class="btn btn-xs btn-success" title="添加商品" onclick="addproduct('确定要将选中订单添加商品吗?');">
+                                                <i class='ace-icon  fa fa-exclamation-circle bigger-120'></i>
+                                            </a>
+
+                                            <c:if test="${pd.orderstatus == 'orderStatus_yiqueren'  }">
+                                                <a class="btn btn-xs btn-success" title="合单" onclick="hedan();">
+                                                    合单
                                                 </a>
-                                            </c:if>--%>
+                                            </c:if>
+                                            <c:if test="${pd.orderstatus == 'orderStatus_yiqueren' }">
+                                                <a class="btn btn-xs btn-success" title="拆单" onclick="chaidan('确定要将选中的订单生成异常件?');">
+                                                    拆单
+                                                </a>
+                                            </c:if>
+                                            <a class="btn btn-xs btn-success" title="导出订单号" onclick="toDingdanhaoExcel();">
+                                                导出订单号
+                                            </a>
+                                            <a class="btn btn-xs btn-success" title="导出订单号" onclick="toDingdanExcelForYT();">
+                                                导出圆通模板
+                                            </a>
+                                            <a class="btn btn-xs btn-success" title="导出分拣单" onclick="tofenjiandan();">
+                                                导出圆通模板
+                                            </a>
+
                                         </td>
                                         <td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
                                     </tr>
@@ -329,7 +348,21 @@
 
                     </div>
                     <!-- /.col -->
-
+                    <div id="modal-table" class="modal fade" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body no-padding">
+                                    <table id="orderChildren" data-height="200"  class="table table-bordered"></table>
+                                </div>
+                                <div class="modal-footer no-margin-top">
+                                    <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+                                        <i class="ace-icon fa fa-times"></i>
+                                        Close
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
                 </div>
                 <!-- /.row -->
             </div>
@@ -361,18 +394,68 @@
 <!--提示框-->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
 
+
+<script type="text/javascript" src="static/ace/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="static/ace/js/bootstrap-table-zh-CN.js"></script>
+
 <script type="text/javascript">
     $(top.hangge());//关闭加载状态
+
+    function toDingdanhaoExcel(){
+        window.location.href='<%=basePath%>innerorder/toDingdanhaoExcel.do';
+    }
+
+    function toDingdanExcelForYT(){
+        window.location.href='<%=basePath%>innerorder/toDingdanExcelForYT.do';
+    }
+
+    function tofenjiandan(){
+        bootbox.confirm("是否导出选中订单的分拣单？", function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                    window.location.href='<%=basePath%>innerorder/tofenjiandan.do?DATA_IDS='+str;
+                }
+            }
+        });
+    }
+
     //检索
     function tosearch(){
         top.jzts();
         $("#Form").submit();
     }
-
+    function showChild(id){
+        $("#orderChildren").bootstrapTable({
+            queryParams: function (params) {
+                obj["id"] = id;
+                return obj;
+            }
+        });
+        $('#orderChildren').bootstrapTable('refresh');
+        $("#modal-table").modal("show");
+    }
     $(function() {
-
         var orderstatus = "${pd.orderstatus}";
-
         var arr = orderstatus.split("_");
         $("li[name='orderStatus']").each(function(){
             var status = $(this).attr("status");
@@ -419,8 +502,44 @@
                 else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
             });
         });
-    });
 
+        var option = {
+            url: '${pageContext.request.contextPath}/innerorder/orderChildren.do', //请求地址
+            columns: [
+                {
+                    field : 'ordernum',
+                    align : "center",
+                    title : '订单号'
+                },
+                {
+                    field : 'orderproductcount',
+                    align : "center",
+                    title : '商品数量'
+                },
+                {
+                    field : 'ordervalue',
+                    align : "center",
+                    title : '订单货值'
+                },
+                {
+                    field : 'yujingstatus',
+                    align : "center",
+                    title : '预警状态'
+                }
+            ],//表格字段
+            method:"post",
+            search:false,
+            queryParamsType : "undefined",
+
+            sidePagination: "server", //服务端请求
+            singleSelect:true,//设置表格单选
+            cache:false,//是否对表格数据进行缓存，默认false
+            contentType:"application/x-www-form-urlencoded",//spring只有这个格式在POST请求下，才能实现
+            dataType:"json"//这格式传输内容的格式
+        };
+        $("#orderChildren").bootstrapTable(option);
+
+    });
     //新增
     function add(){
         top.jzts();
@@ -448,7 +567,7 @@
         bootbox.confirm("确定要删除吗?", function(result) {
             if(result) {
                 top.jzts();
-                var url = "<%=basePath%>innerorder/delete.do?innerorderid="+Id+"&tm="+new Date().getTime();
+                var url = "<%=basePath%>innerorder/delete.do?id="+Id+"&tm="+new Date().getTime();
                 $.get(url,function(data){
                     if("success"  == data){
                         nextPage(${page.currentPage});
@@ -466,7 +585,7 @@
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerorder/goEdit.do?innerorderid='+Id;
+        diag.URL = '<%=basePath%>innerorder/goEdit.do?id='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件
@@ -477,7 +596,6 @@
         };
         diag.show();
     }
-
     function makeChuku(){
         var str = '';
         for(var i=0;i < document.getElementsByName('ids').length;i++){
@@ -504,7 +622,7 @@
             var diag = new top.Dialog();
             diag.Drag=true;
             diag.Title ="订单商品出库";
-            diag.URL = '<%=basePath%>innerorder/goChuku.do?innerorderid='+str;
+            diag.URL = '<%=basePath%>innerorder/goChuku.do?id='+str;
             diag.Width = 400;
             diag.Height = 200;
             diag.CancelEvent = function(){ //关闭事件
@@ -517,15 +635,13 @@
         }
 
     }
-
-
     function viewinnerorder(Id){
 
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerorder/goview.do?innerorderid='+Id;
+        diag.URL = '<%=basePath%>innerorder/goview.do?id='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件
@@ -568,7 +684,6 @@
                             url: '<%=basePath%>innerorder/deleteAll.do?tm='+new Date().getTime(),
                             data: {DATA_IDS:str},
                             dataType:'json',
-                            //beforeSend: validateData,
                             cache: false,
                             success: function(data){
                                 if("success"  == data.msg){
@@ -583,14 +698,12 @@
                 }
             }
         });
-    };
-
+    }
     function changeTable(auditStatus){
         $("#nav-search-orderstatus").val(auditStatus);
         top.jzts();
         $("#Form").submit();
     }
-
     function makeAllShenHe(msg){
         bootbox.confirm(msg, function(result) {
             if(result) {
@@ -622,7 +735,6 @@
                             url: '<%=basePath%>innerorder/shenheAll.do?tm='+new Date().getTime(),
                             data: {DATA_IDS:str},
                             dataType:'json',
-                            //beforeSend: validateData,
                             cache: false,
                             success: function(data){
                                 $.each(data.list, function(i, list){
@@ -635,13 +747,12 @@
             }
         });
     }
-
     function pingzheng(id){
         top.jzts();
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerorder/pingzheng.do?innerorderid='+id;
+        diag.URL = '<%=basePath%>innerorder/pingzheng.do?id='+id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件
@@ -652,8 +763,6 @@
         };
         diag.show();
     }
-
-
     //打开上传excel页面
     function fromExcel(){
         top.jzts();
@@ -676,53 +785,6 @@
         };
         diag.show();
     }
-
-    function makepackage(msg){
-        bootbox.confirm(msg, function(result) {
-            if(result) {
-                var str = '';
-                for(var i=0;i < document.getElementsByName('ids').length;i++){
-                    if(document.getElementsByName('ids')[i].checked){
-                        if(str=='') str += document.getElementsByName('ids')[i].value;
-                        else str += ',' + document.getElementsByName('ids')[i].value;
-                    }
-                }
-                if(str==''){
-                    bootbox.dialog({
-                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
-                        buttons:
-                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
-                    });
-                    $("#zcheckbox").tips({
-                        side:1,
-                        msg:'点这里全选',
-                        bg:'#AE81FF',
-                        time:8
-                    });
-                    return;
-                }else{
-                    if(msg == '确定要将选中的数据生成包裹吗?'){
-                        top.jzts();
-                        $.ajax({
-                            type: "POST",
-                            url: '<%=basePath%>innerorder/createpackage.do?tm='+new Date().getTime(),
-                            data: {DATA_IDS:str},
-                            dataType:'json',
-                            //beforeSend: validateData,
-                            cache: false,
-                            success: function(data){
-                                $.each(data.list, function(i, list){
-                                    nextPage(${page.currentPage});
-                                });
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    };
-
-
     function makeAllZuofei(msg){
         bootbox.confirm(msg, function(result) {
             if(result) {
@@ -765,7 +827,6 @@
             }
         });
     };
-
     function yichang(msg){
         bootbox.confirm(msg, function(result) {
             if(result) {
@@ -808,6 +869,132 @@
             }
         });
     };
+    function addproduct(msg){
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                var str = '';
+                for(var i=0;i < document.getElementsByName('ids').length;i++){
+                    if(document.getElementsByName('ids')[i].checked){
+                        if(str=='') str += document.getElementsByName('ids')[i].value;
+                        else str += ',' + document.getElementsByName('ids')[i].value;
+                    }
+                }
+                if(str==''){
+                    bootbox.dialog({
+                        message: "<span class='bigger-110'>您没有选择任何内容!</span>",
+                        buttons:
+                        { "button":{ "label":"确定", "className":"btn-sm btn-success"}}
+                    });
+                    $("#zcheckbox").tips({
+                        side:1,
+                        msg:'点这里全选',
+                        bg:'#AE81FF',
+                        time:8
+                    });
+                    return;
+                }else{
+                    top.jzts();
+                    var diag = new top.Dialog();
+                    diag.Drag=true;
+                    diag.Title ="添加商品";
+                    diag.URL = '<%=basePath%>innerorder/goOrderProductPage.do?id='+str;
+                    diag.Width = 400;
+                    diag.Height = 200;
+                    diag.CancelEvent = function(){ //关闭事件
+                        if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                            nextPage(${page.currentPage});
+                        }
+                        diag.close();
+                    };
+                    diag.show();
+                }
+            }
+        });
+    };
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+    }
+    function hedan(){
+        var starttime = $("#starttime").val();
+        var endtime = $("#endtime").val();
+
+        if(starttime === "" || starttime == undefined || starttime == null){
+            starttime = getNowFormatDate();
+        }
+        if(endtime === "" || endtime == undefined || endtime == null){
+            endtime = getNowFormatDate();
+        }
+
+        var msg = "是否将"+starttime+"至"+endtime+"的订单进行合单处理！";
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                top.jzts();
+                var diag = new top.Dialog();
+                diag.Drag=true;
+                diag.Title ="合单";
+                diag.URL = '<%=basePath%>innerorder/gohedan.do?starttime='+starttime+"&endtime"+endtime;
+                diag.Width = 400;
+                diag.Height = 200;
+                diag.CancelEvent = function(){ //关闭事件
+                    if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                        nextPage(${page.currentPage});
+                    }
+                    diag.close();
+                };
+                diag.show();
+            }
+        });
+
+    }
+    function chaidan(){
+        var starttime = $("#starttime").val();
+        var endtime = $("#endtime").val();
+
+        if(starttime === "" || starttime == undefined || starttime == null){
+            starttime = getNowFormatDate();
+        }
+        if(endtime === "" || endtime == undefined || endtime == null){
+            endtime = getNowFormatDate();
+        }
+
+        var msg = "是否将"+starttime+"至"+endtime+"的订单进行拆单处理";
+        bootbox.confirm(msg, function(result) {
+            if(result) {
+                top.jzts();
+                var diag = new top.Dialog();
+                diag.Drag=true;
+                diag.Title ="拆单";
+                diag.URL = '<%=basePath%>innerorder/gochaidan.do?starttime='+starttime+"&endtime"+endtime;
+                diag.Width = 400;
+                diag.Height = 200;
+                diag.CancelEvent = function(){ //关闭事件
+                    if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+                        nextPage(${page.currentPage});
+                    }
+                    diag.close();
+                };
+                diag.show();
+            }
+        });
+
+    }
+
+
+
+
 
 </script>
 

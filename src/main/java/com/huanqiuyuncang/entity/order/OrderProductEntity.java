@@ -2,7 +2,7 @@ package com.huanqiuyuncang.entity.order;
 
 import java.util.Date;
 
-public class OrderProductEntity {
+public class OrderProductEntity implements Cloneable {
     private String orderproducrtid;
 
     private String innerpackagenum;
@@ -51,9 +51,18 @@ public class OrderProductEntity {
         this.formateUpdateTime = formateUpdateTime;
     }
 
+    @Override
+    public Object clone() {
+        OrderProductEntity orderProduct = null;
+        try {
+            orderProduct = (OrderProductEntity)super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return orderProduct;
+    }
 
-
-    public OrderProductEntity(String orderproducrtid,String innerpackagenum, String customerordernum, String outerordernum,
+    public OrderProductEntity(String orderproducrtid, String innerpackagenum, String customerordernum, String outerordernum,
                               String outerproductnum, String barcode, String count, String declareprice, String retailprice,
                               String remark, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.orderproducrtid = orderproducrtid;
@@ -187,4 +196,7 @@ public class OrderProductEntity {
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
     }
+
+
+
 }

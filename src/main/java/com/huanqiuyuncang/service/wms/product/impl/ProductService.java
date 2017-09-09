@@ -126,8 +126,9 @@ public class ProductService implements ProductInterface {
                 product.setProducingArea(producingArea);
                 String brandname = product.getBrandname();
                 BrandEntity brandEntity = brandDAO.selectByPrimaryKey(brandname);
-                product.setBrandname(brandEntity.getBrandname());
-
+                if(brandEntity != null){
+                    product.setBrandname(brandEntity.getBrandname());
+                }
             });
         }
         return productList;

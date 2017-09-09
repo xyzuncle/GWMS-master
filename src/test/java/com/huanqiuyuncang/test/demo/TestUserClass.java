@@ -5,6 +5,7 @@ import com.huanqiuyuncang.dao.checktable.CheckTableDAO;
 import com.huanqiuyuncang.dao.customer.GongYingShangDAO;
 import com.huanqiuyuncang.dao.kuwei.CangKuDAO;
 import com.huanqiuyuncang.dao.order.OrderProductDAO;
+import com.huanqiuyuncang.dao.order.OrdernumDAO;
 import com.huanqiuyuncang.dao.product.ProductDAO;
 import com.huanqiuyuncang.dao.saomiao.ShangPinSaomiaoDAO;
 import com.huanqiuyuncang.dao.system.AreasDAO;
@@ -15,6 +16,7 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.GongYingShangEntity;
 import com.huanqiuyuncang.entity.demo.TestUser;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
+import com.huanqiuyuncang.entity.order.OrdernumEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.entity.system.CitiesEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
@@ -22,6 +24,7 @@ import com.huanqiuyuncang.service.demo.TestUserManager;
 import com.huanqiuyuncang.service.system.checktable.impl.CheckTableService;
 import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import com.huanqiuyuncang.util.PageData;
+import org.apache.james.mime4j.field.datetime.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +76,9 @@ public class TestUserClass {
     private ProvincesDAO provincesDAO;
     @Autowired
     private AreasDAO areasDAO;
+
+    @Autowired
+    private OrdernumDAO ordernumDAO;
     @Test
     public void testSave()throws Exception{
         TestUser testUser = new TestUser();
@@ -266,12 +272,12 @@ public class TestUserClass {
 
     @Test
     public void testStatistics(){
-        PageData pd = orderProductDAO.selectStatisticsByOrderNum("Oultst17062902516");
+        /*PageData pd = orderProductDAO.selectStatisticsByOrderNum("Oultst17062902516");
         BigDecimal sumprice = (BigDecimal)pd.get("sumprice");
         Double sumcount = (Double)pd.get("sumcount");
 
         System.out.println("***************  testStatistics   ***************     " + pd.get("sumprice") + "===="+sumcount);
-    }
+    */}
     @Test
     public void testCity(){
     /*    CitiesEntity citiesEntity = new CitiesEntity();
@@ -287,6 +293,17 @@ public class TestUserClass {
         page.setPd(pd);
         List<CitiesEntity> citiesEntities = citiesDAO.datalistPage(page);
         System.out.println("***************  testCity   ***************     " + citiesEntities.size());
+    }
+
+    @Test
+    public void testOrderNum(){
+        List<OrdernumEntity> aaa = ordernumDAO.selectByPartentId("aaa");
+        System.out.println("***************  testOrderNum   ***************     " + aaa.size());
+    }
+    @Test
+    public void testDate(){
+        String startDate = " 00:00:00";
+        String endDate = " 23:59:59";
     }
 
 }

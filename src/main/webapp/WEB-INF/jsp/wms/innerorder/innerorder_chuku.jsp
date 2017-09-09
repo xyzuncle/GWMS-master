@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <form action="innerorder/${msg }.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="innerorderid" id="innerorderid" value="${pd.innerorderid}"/>
+                            <input type="hidden" name="id" id="id" value="${pd.id}"/>
                             <div id="zhongxin" style="padding-top: 13px;">
                                 <table id="table_report" class="table table-striped table-bordered table-hover">
                                     <tr>

@@ -128,11 +128,9 @@
                                         <label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
                                     </th>
                                     <th class="center" style="width:50px;">序号</th>
-                                    <th class="center">客户订单号</th>
-                                    <th class="center">外部订单号</th>
-                                    <th class="center">下单时间</th>
-                                    <th class="center">顾客备注</th>
-                                    <th class="center">备注</th>
+                                    <th class="center">包裹单号</th>
+                                    <th class="center">商品数量</th>
+                                    <th class="center">包裹金额</th>
                                     <th class="center">操作</th>
                                 </tr>
                                 </thead>
@@ -145,20 +143,18 @@
                                             <c:forEach items="${varList}" var="var" varStatus="vs">
                                                 <tr>
                                                     <td class='center'>
-                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.innerorderid}" class="ace" /><span class="lbl"></span></label>
+                                                        <label class="pos-rel"><input type='checkbox' name='ids' value="${var.id}" class="ace" /><span class="lbl"></span></label>
                                                     </td>
                                                     <td class='center' style="width: 30px;">${page.currentResult+vs.index+1}</td>
-                                                    <td class='center'>${var.customerordernum}</td>
-                                                    <td class='center'>${var.outerordernum}</td>
-                                                    <td class='center'>${var.formateOrderTime}</td>
-                                                    <td class='center'>${var.customerremarks}</td>
-                                                    <td class='center'>${var.remark}</td>
+                                                    <td class='center'>${var.packagenum}</td>
+                                                    <td class='center'>${var.productcount}</td>
+                                                    <td class='center'>${var.packagevalue}</td>
                                                     <td class="center">
-                                                        <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.innerorderid}');">
+                                                        <a class="btn btn-xs btn-success" title="详情" onclick="view('${var.id}');">
                                                             <i class="ace-icon fa fa-pencil-square-o bigger-120" title="详情"></i>
                                                         </a>
                                                         <c:if test="${pd.orderstatus == 'orderStatus_yidabao' }">
-                                                            <a class="btn btn-sm btn-primary" onclick="miandan('${var.innerorderid}');" title="面单" ><i class='ace-icon fa fa-barcode bigger-120'></i></a>
+                                                            <a class="btn btn-sm btn-primary" onclick="miandan('${var.id}');" title="面单" ><i class='ace-icon fa fa-barcode bigger-120'></i></a>
                                                         </c:if>
                                                     </td>
                                                 </tr>
@@ -322,7 +318,7 @@
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="编辑";
-        diag.URL = '<%=basePath%>innerpackage/goView.do?innerorderid='+Id;
+        diag.URL = '<%=basePath%>innerpackage/goView.do?id='+Id;
         diag.Width = 700;
         diag.Height = 800;
         diag.CancelEvent = function(){ //关闭事件
@@ -335,22 +331,7 @@
     }
 
     function miandan(Id){
-       /* top.jzts();
-        var diag = new top.Dialog();
-        diag.Drag=true;
-        diag.Title ="编辑";
-        diag.URL = '<%=basePath%>barcode/getBillInfo.do?innerorderid='+Id;
-        diag.Width = 700;
-        diag.Height = 800;
-        diag.CancelEvent = function(){ //关闭事件
-            if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-                nextPage(${page.currentPage});
-            }
-            diag.close();
-        };
-        diag.show();
-*/
-        var url = '<%=basePath%>barcode/getBillInfo.do?innerorderid='+Id;
+        var url = '<%=basePath%>barcode/getBillInfo.do?id='+Id;
         window.open(url,'newwindow');
     }
 
@@ -542,7 +523,7 @@
             var diag = new top.Dialog();
             diag.Drag=true;
             diag.Title ="包裹入库";
-            diag.URL = '<%=basePath%>innerorder/gobaoguokuwei.do?innerorderid='+str;
+            diag.URL = '<%=basePath%>innerorder/gobaoguokuwei.do?id='+str;
             diag.Width = 400;
             diag.Height = 200;
             diag.CancelEvent = function(){ //关闭事件

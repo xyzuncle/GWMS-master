@@ -2,6 +2,7 @@ package com.huanqiuyuncang.dao.order;
 
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
+import com.huanqiuyuncang.entity.order.OrderInfoDTO;
 import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface InnerOrderDAO {
 
     int updateByPrimaryKeySelective(InnerOrderEntity record);
 
-    List<InnerOrderEntity> datalistPage(Page page);
+    List<OrderInfoDTO> datalistPage(Page page);
 
     int deleteByPrimaryKey(String innerorderid);
 
@@ -46,7 +47,15 @@ public interface InnerOrderDAO {
 
     InnerOrderEntity selectByOuterordernum(String outerordernum);
 
-    InnerOrderEntity selectByDingdanhao(String dingdanhao);
+    String selectCustomernumByOrderNumId(String ordernumid);
 
-    List<InnerOrderEntity> selectByBaoguoDanhao(String baoguodanhao);
+    List<InnerOrderEntity> packagelistPage(Page page);
+
+    List<InnerOrderEntity> distinctRecipientByOrdertime(PageData pd);
+
+
+
+  /*  InnerOrderEntity selectByDingdanhao(String dingdanhao);
+
+    List<InnerOrderEntity> selectByBaoguoDanhao(String baoguodanhao);*/
 }

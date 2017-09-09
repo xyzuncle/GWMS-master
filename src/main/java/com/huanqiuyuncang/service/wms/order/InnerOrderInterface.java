@@ -3,6 +3,7 @@ package com.huanqiuyuncang.service.wms.order;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
+import com.huanqiuyuncang.entity.order.OrderInfoDTO;
 import com.huanqiuyuncang.util.PageData;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface InnerOrderInterface {
 
     int updateByPrimaryKeySelective(InnerOrderEntity record);
 
-    List<InnerOrderEntity> datalistPage(Page page);
+    List<OrderInfoDTO> datalistPage(Page page);
 
     int deleteByPrimaryKey(String innerorderid);
 
@@ -44,7 +45,7 @@ public interface InnerOrderInterface {
 
     String saveOrderFromExcel(List<PageData> orderListPd, List<PageData> listPd);
 
-    void createpackage(String id);
+    void createpackage(String[] id);
 
     String savePackageFromExcel(List<PageData> orderList, List<PageData> orderPdList);
 
@@ -63,7 +64,19 @@ public interface InnerOrderInterface {
 
     void saveBaoguoRuku(String[] ids, String baoguokuwei);
 
-    InnerOrderEntity selectByDingdanhao(String dingdanhao);
+    String selectCustomernumByOrderNumId(String ordernumid);
 
-    List<InnerOrderEntity> selectByBaoguoDanhao(String baoguodanhao);
+    List<InnerOrderEntity> packagelistPage(Page page);
+
+    String savehedan(String DATA_IDS);
+
+    String savechaidan(String DATA_IDS);
+
+    List<OrderInfoDTO> selectByhedan(PageData pd);
+
+    List<OrderInfoDTO> selectBychaidan(PageData pd);
+
+/*    InnerOrderEntity selectByDingdanhao(String dingdanhao);
+
+    List<InnerOrderEntity> selectByBaoguoDanhao(String baoguodanhao);*/
 }

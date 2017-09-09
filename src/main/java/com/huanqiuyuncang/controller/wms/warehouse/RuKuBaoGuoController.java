@@ -5,6 +5,7 @@ import com.huanqiuyuncang.dao.warehouse.RuKuBaoGuoDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
+import com.huanqiuyuncang.entity.order.OrdernumEntity;
 import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.PackageWarehouseEntity;
 import com.huanqiuyuncang.entity.warehouse.ProductWarehouseEntity;
@@ -12,6 +13,7 @@ import com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity;
 import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
 import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
+import com.huanqiuyuncang.service.wms.order.OrdernumInterface;
 import com.huanqiuyuncang.service.wms.warehouse.PackageWarehouseInterface;
 import com.huanqiuyuncang.service.wms.warehouse.RuKuBaoGuoInterface;
 import com.huanqiuyuncang.util.AppUtil;
@@ -47,6 +49,9 @@ public class RuKuBaoGuoController extends BaseController {
 
     @Autowired
     private CangKuInterface cangKuService;
+
+    @Autowired
+    private OrdernumInterface ordernumService;
 
 
     @Resource(name="dictionariesService")
@@ -229,12 +234,12 @@ public class RuKuBaoGuoController extends BaseController {
 
     @RequestMapping(value="/getkuwei")
     @ResponseBody
-    public Object getArea() throws Exception{
+    public Object getkuwei() throws Exception{
         Map<String,Object> map = new HashMap<String,Object>();
         PageData pd = this.getPageData();
         String baoguodanhao = pd.getString("baoguodanhao");
         RuKuBaoGuoEntity rukubaoguo = ruKuBaoGuoService.selectByBaoguoDanhao(baoguodanhao);
-        List<InnerOrderEntity> list = innerOrderService.selectByBaoguoDanhao(baoguodanhao);
+        List<OrdernumEntity> list = ordernumService.selectByBaoguoDanhao(baoguodanhao);
         String cangwei = "";
         if(rukubaoguo != null){
             cangwei = rukubaoguo.getCangwei();

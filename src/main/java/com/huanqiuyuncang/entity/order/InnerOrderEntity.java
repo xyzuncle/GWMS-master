@@ -5,11 +5,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 public class InnerOrderEntity {
+
     private String innerorderid;
-
-    private String innerpackagenum;
-
-    private String customerordernum;
 
     private String customernum;
 
@@ -86,17 +83,11 @@ public class InnerOrderEntity {
 
     private String warehousedelivery;
 
-    private String orderstatus;
-
-    private String ordermultistatus;
-
     private String remark;
 
     private String remark1;
 
     private String remark2;
-
-    private String yujingstatus;
 
     private String createuser;
 
@@ -114,53 +105,9 @@ public class InnerOrderEntity {
 
     private String  productsum;
 
-    public String getProductsum() {
-        return productsum;
-    }
 
-    public void setProductsum(String productsum) {
-        this.productsum = productsum;
-    }
-
-    public String getFormatCreateTime() {
-        return formatCreateTime;
-    }
-
-    public void setFormatCreateTime(String formatCreateTime) {
-        this.formatCreateTime = formatCreateTime;
-    }
-
-    public String getFormateUpdateTime() {
-        return formateUpdateTime;
-    }
-
-    public void setFormateUpdateTime(String formateUpdateTime) {
-        this.formateUpdateTime = formateUpdateTime;
-    }
-
-    public String getFormateOrderTime() {
-        return formateOrderTime;
-    }
-
-    public void setFormateOrderTime(String formateOrderTime) {
-        this.formateOrderTime = formateOrderTime;
-    }
-
-    public InnerOrderEntity(String innerorderid, String innerpackagenum, String customerordernum, String customernum,
-                            String outerordernum, Date ordertime, String sender, String senderphone, String sendercountry,
-                            String senderprovince, String sendercity, String senderarea, String senderaddress,
-                            String senderpostcode, String recipient, String recipientidcard, String recipientphone,
-                            String recipientcountry, String recipientprovince, String recipientcity, String recipientarea,
-                            String recipientaddress, String recipientpostcode, String paymentmethod, String paymentnum,
-                            String paymenttime, String orderproductcount, String customerremarks, String couriername,
-                            String couriernum, String customsmodel, String ordervalue, String cartonid, String packageid,
-                            String declarevalue, String taxesfees, String freight, String packingcost, String orthercost,
-                            String warehousedelivery, String orderstatus, String ordermultistatus, String remark,
-                            String remark1, String remark2, String yujingstatus, String createuser, Date createtime, String updateuser,
-                            Date updatetime) {
+    public InnerOrderEntity(String innerorderid, String customernum, String outerordernum, Date ordertime, String sender, String senderphone, String sendercountry, String senderprovince, String sendercity, String senderarea, String senderaddress, String senderpostcode, String recipient, String recipientidcard, String recipientphone, String recipientcountry, String recipientprovince, String recipientcity, String recipientarea, String recipientaddress, String recipientpostcode, String paymentmethod, String paymentnum, String paymenttime, String orderproductcount, String customerremarks, String couriername, String couriernum, String customsmodel, String ordervalue, String cartonid, String packageid, String declarevalue, String taxesfees, String freight, String packingcost, String orthercost, String warehousedelivery, String remark, String remark1, String remark2, String createuser, Date createtime, String updateuser, Date updatetime) {
         this.innerorderid = innerorderid;
-        this.innerpackagenum = innerpackagenum;
-        this.customerordernum = customerordernum;
         this.customernum = customernum;
         this.outerordernum = outerordernum;
         this.ordertime = ordertime;
@@ -198,12 +145,9 @@ public class InnerOrderEntity {
         this.packingcost = packingcost;
         this.orthercost = orthercost;
         this.warehousedelivery = warehousedelivery;
-        this.orderstatus = orderstatus;
-        this.ordermultistatus = ordermultistatus;
         this.remark = remark;
         this.remark1 = remark1;
         this.remark2 = remark2;
-        this.yujingstatus = yujingstatus;
         this.createuser = createuser;
         this.createtime = createtime;
         this.updateuser = updateuser;
@@ -220,14 +164,6 @@ public class InnerOrderEntity {
 
     public void setInnerorderid(String innerorderid) {
         this.innerorderid = innerorderid == null ? null : innerorderid.trim();
-    }
-
-    public String getCustomerordernum() {
-        return customerordernum;
-    }
-
-    public void setCustomerordernum(String customerordernum) {
-        this.customerordernum = customerordernum == null ? null : customerordernum.trim();
     }
 
     public String getCustomernum() {
@@ -247,9 +183,7 @@ public class InnerOrderEntity {
     }
 
     public Date getOrdertime() {
-
         return ordertime;
-
     }
 
     public void setOrdertime(Date ordertime) {
@@ -336,14 +270,6 @@ public class InnerOrderEntity {
         this.recipientidcard = recipientidcard == null ? null : recipientidcard.trim();
     }
 
-    public String getOrdermultistatus() {
-        return ordermultistatus;
-    }
-
-    public void setOrdermultistatus(String ordermultistatus) {
-        this.ordermultistatus = ordermultistatus;
-    }
-
     public String getRecipientphone() {
         return recipientphone;
     }
@@ -400,14 +326,6 @@ public class InnerOrderEntity {
         this.recipientpostcode = recipientpostcode == null ? null : recipientpostcode.trim();
     }
 
-    public String getYujingstatus() {
-        return yujingstatus;
-    }
-
-    public void setYujingstatus(String yujingstatus) {
-        this.yujingstatus = yujingstatus;
-    }
-
     public String getPaymentmethod() {
         return paymentmethod;
     }
@@ -429,7 +347,7 @@ public class InnerOrderEntity {
     }
 
     public void setPaymenttime(String paymenttime) {
-        this.paymenttime = paymenttime;
+        this.paymenttime = paymenttime == null ? null : paymenttime.trim();
     }
 
     public String getOrderproductcount() {
@@ -480,6 +398,22 @@ public class InnerOrderEntity {
         this.ordervalue = ordervalue == null ? null : ordervalue.trim();
     }
 
+    public String getCartonid() {
+        return cartonid;
+    }
+
+    public void setCartonid(String cartonid) {
+        this.cartonid = cartonid == null ? null : cartonid.trim();
+    }
+
+    public String getPackageid() {
+        return packageid;
+    }
+
+    public void setPackageid(String packageid) {
+        this.packageid = packageid == null ? null : packageid.trim();
+    }
+
     public String getDeclarevalue() {
         return declarevalue;
     }
@@ -526,14 +460,6 @@ public class InnerOrderEntity {
 
     public void setWarehousedelivery(String warehousedelivery) {
         this.warehousedelivery = warehousedelivery == null ? null : warehousedelivery.trim();
-    }
-
-    public String getOrderstatus() {
-        return orderstatus;
-    }
-
-    public void setOrderstatus(String orderstatus) {
-        this.orderstatus = orderstatus == null ? null : orderstatus.trim();
     }
 
     public String getRemark() {
@@ -592,27 +518,35 @@ public class InnerOrderEntity {
         this.updatetime = updatetime;
     }
 
-    public String getInnerpackagenum() {
-        return innerpackagenum;
+    public String getFormateOrderTime() {
+        return formateOrderTime;
     }
 
-    public void setInnerpackagenum(String innerpackagenum) {
-        this.innerpackagenum = innerpackagenum;
+    public void setFormateOrderTime(String formateOrderTime) {
+        this.formateOrderTime = formateOrderTime;
     }
 
-    public String getCartonid() {
-        return cartonid;
+    public String getFormatCreateTime() {
+        return formatCreateTime;
     }
 
-    public void setCartonid(String cartonid) {
-        this.cartonid = cartonid;
+    public void setFormatCreateTime(String formatCreateTime) {
+        this.formatCreateTime = formatCreateTime;
     }
 
-    public String getPackageid() {
-        return packageid;
+    public String getFormateUpdateTime() {
+        return formateUpdateTime;
     }
 
-    public void setPackageid(String packageid) {
-        this.packageid = packageid;
+    public void setFormateUpdateTime(String formateUpdateTime) {
+        this.formateUpdateTime = formateUpdateTime;
+    }
+
+    public String getProductsum() {
+        return productsum;
+    }
+
+    public void setProductsum(String productsum) {
+        this.productsum = productsum;
     }
 }

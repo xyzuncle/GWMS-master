@@ -3,11 +3,13 @@ package com.huanqiuyuncang.controller.wms.barcode;
 
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
 import com.huanqiuyuncang.entity.order.OrderProductEntity;
+import com.huanqiuyuncang.entity.order.OrdernumEntity;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.entity.yto.ExpressBill;
 import com.huanqiuyuncang.entity.yto.TransferCenter;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
+import com.huanqiuyuncang.service.wms.order.OrdernumInterface;
 import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.service.yto.ExpressBillService;
 import com.huanqiuyuncang.service.yto.LogisticsInterface;
@@ -40,6 +42,9 @@ public class BarCodeController {
     @Autowired
     private ProductInterface productService;
 
+    @Autowired
+    private OrdernumInterface ordernumService;
+
     @RequestMapping("/destination")
     @ResponseBody
     public void getDestinationCodeImg(HttpServletResponse responses,String provide,String city,String area){
@@ -68,20 +73,21 @@ public class BarCodeController {
     }
 
     @RequestMapping("/getBillInfo")
-    public ModelAndView getBarCodeImgInfo(String innerorderid){
+    public ModelAndView getBarCodeImgInfo(String id){
 
         Map<String,Object> billMap = new HashMap<String,Object>();
         ModelAndView view = new ModelAndView();
         try {
-            InnerOrderEntity innerOrderEntity = innerOrderService.selectByPrimaryKey(innerorderid);
-            Integer sum = orderProductService.orderproductSum(innerOrderEntity.getInnerpackagenum());
+            OrdernumEntity ordernumEntity = ordernumService.selectByPrimaryKey(id);
+            InnerOrderEntity innerOrderEntity = innerOrderService.selectByPrimaryKey(ordernumEntity.getOrderinfo());
+            Integer sum = orderProductService.orderproductSum(ordernumEntity.getPackagenum());
             String recipientarea = innerOrderService.selectAreaNameByCode(innerOrderEntity.getRecipientarea());
             String recipientprovince = innerOrderService.selectProvinceNameByCode(innerOrderEntity.getRecipientprovince());
             String recipientcity = innerOrderService.selectCityNameByCode(innerOrderEntity.getRecipientcity());
             innerOrderEntity.setRecipientarea(recipientarea);
             innerOrderEntity.setRecipientprovince(recipientprovince);
             innerOrderEntity.setRecipientcity(recipientcity);
-            List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProductBypackagenum(innerOrderEntity.getInnerpackagenum());
+            List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProductBypackagenum(ordernumEntity.getPackagenum());
             StringBuffer goods = new StringBuffer("");
             if(orderProductEntities != null && orderProductEntities.size()>0){
                 orderProductEntities.forEach(orderProduct -> {
@@ -97,7 +103,7 @@ public class BarCodeController {
 
 
             //包裹单号，用于生产面单号使用
-            String innerpackagenum = innerOrderEntity.getInnerpackagenum();
+            String innerpackagenum = ordernumEntity.getPackagenum();
 
             //需要通过拉取面单的接口来获取面单号
             ExpressBill bill = ExpressBillService.mites(innerpackagenum);

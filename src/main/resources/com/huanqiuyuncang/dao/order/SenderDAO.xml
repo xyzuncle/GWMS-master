@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huanqiuyuncang.dao.order.SenderDAO">
+  <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.SenderEntity">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="customercode" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sender" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="senderphone" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sendercountry" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="senderprovince" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sendercity" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="senderarea" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="senderaddress" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="senderpostcode" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="createuser" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="createtime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updateuser" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="updatetime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customercode, sender, senderphone, sendercountry, senderprovince, sendercity, senderarea,
+    senderaddress, senderpostcode, remark, createuser, createtime, updateuser, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wms_sender
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from wms_sender
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.SenderEntity">
+    insert into wms_sender (id, customercode, sender,
+      senderphone, sendercountry, senderprovince, 
+      sendercity, senderarea, senderaddress, 
+      senderpostcode, remark, createuser, 
+      createtime, updateuser, updatetime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{customercode,jdbcType=VARCHAR}, #{sender,jdbcType=VARCHAR},
+      #{senderphone,jdbcType=VARCHAR}, #{sendercountry,jdbcType=VARCHAR}, #{senderprovince,jdbcType=VARCHAR}, 
+      #{sendercity,jdbcType=VARCHAR}, #{senderarea,jdbcType=VARCHAR}, #{senderaddress,jdbcType=VARCHAR}, 
+      #{senderpostcode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.order.SenderEntity">
+    insert into wms_sender
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customercode != null">
+        customercode,
+      </if>
+      <if test="sender != null">
+        sender,
+      </if>
+      <if test="senderphone != null">
+        senderphone,
+      </if>
+      <if test="sendercountry != null">
+        sendercountry,
+      </if>
+      <if test="senderprovince != null">
+        senderprovince,
+      </if>
+      <if test="sendercity != null">
+        sendercity,
+      </if>
+      <if test="senderarea != null">
+        senderarea,
+      </if>
+      <if test="senderaddress != null">
+        senderaddress,
+      </if>
+      <if test="senderpostcode != null">
+        senderpostcode,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createuser != null">
+        createuser,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updateuser != null">
+        updateuser,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="customercode != null">
+        #{customercode,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="senderphone != null">
+        #{senderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendercountry != null">
+        #{sendercountry,jdbcType=VARCHAR},
+      </if>
+      <if test="senderprovince != null">
+        #{senderprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="sendercity != null">
+        #{sendercity,jdbcType=VARCHAR},
+      </if>
+      <if test="senderarea != null">
+        #{senderarea,jdbcType=VARCHAR},
+      </if>
+      <if test="senderaddress != null">
+        #{senderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="senderpostcode != null">
+        #{senderpostcode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.SenderEntity">
+    update wms_sender
+    <set>
+      <if test="customercode != null">
+        customercode = #{customercode,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="senderphone != null">
+        senderphone = #{senderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendercountry != null">
+        sendercountry = #{sendercountry,jdbcType=VARCHAR},
+      </if>
+      <if test="senderprovince != null">
+        senderprovince = #{senderprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="sendercity != null">
+        sendercity = #{sendercity,jdbcType=VARCHAR},
+      </if>
+      <if test="senderarea != null">
+        senderarea = #{senderarea,jdbcType=VARCHAR},
+      </if>
+      <if test="senderaddress != null">
+        senderaddress = #{senderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="senderpostcode != null">
+        senderpostcode = #{senderpostcode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null">
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.SenderEntity">
+    update wms_sender
+    set customercode = #{customercode,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      senderphone = #{senderphone,jdbcType=VARCHAR},
+      sendercountry = #{sendercountry,jdbcType=VARCHAR},
+      senderprovince = #{senderprovince,jdbcType=VARCHAR},
+      sendercity = #{sendercity,jdbcType=VARCHAR},
+      senderarea = #{senderarea,jdbcType=VARCHAR},
+      senderaddress = #{senderaddress,jdbcType=VARCHAR},
+      senderpostcode = #{senderpostcode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="datalistPage" parameterType="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from wms_sender
+        WHERE 1=1
+        <if test="pd.sender!=null and pd.sender!=''"><!-- 时间检索 -->
+           AND sender LIKE "%"#{pd.sender}"%"
+        </if>
+        <if test="pd.customercode!=null and pd.customercode!=''"><!-- 时间检索 -->
+           AND  customercode = #{pd.customercode}
+        </if>
+    </select>
+
+    <select id="selectByCustomercode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from wms_sender
+        WHERE 1=1
+        AND  customercode = #{pd.customercode}
+
+    </select>
+
+</mapper>

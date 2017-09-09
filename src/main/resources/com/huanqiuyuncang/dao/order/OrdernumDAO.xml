@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huanqiuyuncang.dao.order.OrdernumDAO" >
+    <resultMap id="BaseResultMap" type="com.huanqiuyuncang.entity.order.OrdernumEntity" >
+        <constructor >
+            <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="ordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="packagenum" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="orderinfo" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="ordervalue" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="orderproductcount" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="orderstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="yujingstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="ispartent" jdbcType="INTEGER" javaType="java.lang.Integer" />
+            <arg column="parentid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="createtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="updateuser" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        </constructor>
+    </resultMap>
+
+    <resultMap id="childrenResultMap" type="com.huanqiuyuncang.entity.order.OrdernumEntity" >
+        <constructor >
+            <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="ordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="orderproductcount" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="ordervalue" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="yujingstatus" jdbcType="VARCHAR" javaType="java.lang.String" />
+        </constructor>
+    </resultMap>
+
+    <resultMap id="PageResultMap" type="com.huanqiuyuncang.entity.order.OrderInfoDTO" >
+        <constructor >
+            <arg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="innerorderid" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="ordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="outerordernum" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="sender" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="recipient" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="recipientprovince" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="recipientcity" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="ordervalue" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+        </constructor>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, ordernum, packagenum, orderinfo,ordervalue,orderproductcount, orderstatus, yujingstatus, ispartent, parentid,
+        remark, createuser, createtime, updateuser, updatetime
+    </sql>
+
+    <sql id="Page_Column_List" >
+        b.id,innerorderid, ordernum, outerordernum, sender, recipient,  recipientprovince,
+        recipientcity,b.ordervalue,city,province,b.orderproductcount,a.remark
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from wms_ordernum
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from wms_ordernum
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.huanqiuyuncang.entity.order.OrdernumEntity" >
+        insert into wms_ordernum (id, ordernum, packagenum,
+        orderinfo,  ordervalue, orderproductcount, orderstatus, yujingstatus,
+        ispartent, parentid, remark,
+        createuser, createtime, updateuser,
+        updatetime)
+        values (#{id,jdbcType=VARCHAR}, #{ordernum,jdbcType=VARCHAR}, #{packagenum,jdbcType=VARCHAR},
+        #{orderinfo,jdbcType=VARCHAR},#{ordervalue,jdbcType=VARCHAR},#{orderproductcount,jdbcType=VARCHAR}, #{orderstatus,jdbcType=VARCHAR}, #{yujingstatus,jdbcType=VARCHAR},
+        #{ispartent,jdbcType=INTEGER}, #{parentid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+        #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR},
+        #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.huanqiuyuncang.entity.order.OrdernumEntity" >
+        insert into wms_ordernum
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="ordernum != null" >
+                ordernum,
+            </if>
+            <if test="packagenum != null" >
+                packagenum,
+            </if>
+            <if test="orderinfo != null" >
+                orderinfo,
+            </if>
+            <if test="ordervalue != null" >
+                ordervalue,
+            </if>
+            <if test="orderproductcount != null" >
+                orderproductcount,
+            </if>
+            <if test="orderstatus != null" >
+                orderstatus,
+            </if>
+            <if test="yujingstatus != null" >
+                yujingstatus,
+            </if>
+            <if test="ispartent != null" >
+                ispartent,
+            </if>
+            <if test="parentid != null" >
+                parentid,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="createuser != null" >
+                createuser,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updateuser != null" >
+                updateuser,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="ordernum != null" >
+                #{ordernum,jdbcType=VARCHAR},
+            </if>
+            <if test="packagenum != null" >
+                #{packagenum,jdbcType=VARCHAR},
+            </if>
+            <if test="orderinfo != null" >
+                #{orderinfo,jdbcType=VARCHAR},
+            </if>
+            <if test="ordervalue != null" >
+                #{ordervalue,jdbcType=VARCHAR},
+            </if>
+            <if test="orderproductcount != null" >
+                #{orderproductcount,jdbcType=VARCHAR},
+            </if>
+            <if test="orderstatus != null" >
+                #{orderstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="yujingstatus != null" >
+                #{yujingstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="ispartent != null" >
+                #{ispartent,jdbcType=INTEGER},
+            </if>
+            <if test="parentid != null" >
+                #{parentid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.huanqiuyuncang.entity.order.OrdernumEntity" >
+        update wms_ordernum
+        <set >
+            <if test="ordernum != null" >
+                ordernum = #{ordernum,jdbcType=VARCHAR},
+            </if>
+            <if test="packagenum != null" >
+                packagenum = #{packagenum,jdbcType=VARCHAR},
+            </if>
+            <if test="orderinfo != null" >
+                orderinfo = #{orderinfo,jdbcType=VARCHAR},
+            </if>
+            <if test="ordervalue != null" >
+                ordervalue = #{ordervalue,jdbcType=VARCHAR},
+            </if>
+            <if test="orderproductcount != null" >
+                orderproductcount = #{orderproductcount,jdbcType=VARCHAR},
+            </if>
+            <if test="orderstatus != null" >
+                orderstatus = #{orderstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="yujingstatus != null" >
+                yujingstatus = #{yujingstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="ispartent != null" >
+                ispartent = #{ispartent,jdbcType=INTEGER},
+            </if>
+            <if test="parentid != null" >
+                parentid = #{parentid,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null" >
+                createuser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null" >
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateuser != null" >
+                updateuser = #{updateuser,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null" >
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.huanqiuyuncang.entity.order.OrdernumEntity" >
+        update wms_ordernum
+        set ordernum = #{ordernum,jdbcType=VARCHAR},
+        packagenum = #{packagenum,jdbcType=VARCHAR},
+        orderinfo = #{orderinfo,jdbcType=VARCHAR},
+        ordervalue = #{ordervalue,jdbcType=VARCHAR},
+        orderproductcount = #{orderproductcount,jdbcType=VARCHAR},
+        orderstatus = #{orderstatus,jdbcType=VARCHAR},
+        yujingstatus = #{yujingstatus,jdbcType=VARCHAR},
+        ispartent = #{ispartent,jdbcType=INTEGER},
+        parentid = #{parentid,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        createuser = #{createuser,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+        updatetime = #{updatetime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByDingdanhao" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_ordernum
+        WHERE 1=1
+        and  ordernum = #{dingdanhao}
+    </select>
+
+    <select id="selectByBaoguoDanhao" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM wms_ordernum
+        WHERE 1=1
+        and  packagenum = #{baoguodanhao}
+    </select>
+
+    <select id="selectByPartentId" parameterType="java.lang.String" resultMap="childrenResultMap">
+        SELECT
+        id , ordernum , orderproductcount , ordervalue , NAME yujingstatus
+        FROM wms_ordernum a ,sys_dictionaries b WHERE a.yujingstatus = b.BIANMA
+        and  parentid = #{parentid}
+    </select>
+
+    <select id="selectByPageData" parameterType="pd" resultMap="PageResultMap">
+        SELECT
+        <include refid="Page_Column_List" />
+        FROM wms_innerorder a , wms_ordernum b , provinces c , cities d
+        WHERE a.innerorderid = b.orderinfo AND a.recipientprovince = c.provinceid
+        AND a.recipientcity = d.cityid and  b.orderstatus = 'orderStatus_yiqueren'
+        AND  b.yujingstatus = 'yujing_zhengchang'  AND  b.ispartent = 1
+        <if test="starttime!=null and starttime!=''">
+            and a.ordertime &gt;= #{starttime}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and a.ordertime &lt;= #{endtime}
+        </if>
+
+    </select>
+
+    <select id="selectBychaidan" parameterType="pd" resultMap="PageResultMap">
+        SELECT
+        <include refid="Page_Column_List" />
+        FROM wms_innerorder a , wms_ordernum b , provinces c , cities d
+        WHERE a.innerorderid = b.orderinfo AND a.recipientprovince = c.provinceid
+        AND a.recipientcity = d.cityid and  b.orderstatus = 'orderStatus_yiqueren'
+        AND  b.yujingstatus = 'yujing_zhengchang'  AND  b.ispartent = 1
+        AND b.ordervalue > 166
+        <if test="starttime!=null and starttime!=''">
+            and a.ordertime &gt;= #{starttime}
+        </if>
+        <if test="endtime!=null and endtime!=''">
+            and a.ordertime &lt;= #{endtime}
+        </if>
+
+    </select>
+
+    <select id="selectOrdernumToexcel" resultMap="java.lang.String">
+        SELECT
+         ordernum
+        FROM wms_ordernum
+    </select>
+
+    <select id="selectOrder4YT" resultMap="pd">
+        SELECT
+        a.ordernum ordernum , d.productName productname , c.count COUNT ,
+        b.recipient recipient , e.province province , f.city city ,g.area AREA ,
+        b.recipientaddress recipientaddress,
+        b.recipientphone recipientphone ,b.sender sender,
+        b.senderphone senderphone,b.sendercountry sendercountry ,
+        b.sendercity sendercity ,b.senderarea senderarea,
+        b.senderaddress senderaddress ,b.senderpostcode senderpostcode, b.remark remark ,
+        b.recipientpostcode recipientpostcode , b.recipientphone  recipientphone
+        FROM wms_ordernum a , wms_innerorder b , wms_orderproduct c , wms_product d , provinces e , cities f , areas g
+        WHERE a.orderinfo = b.innerorderid AND a.ordernum = c.customerordernum
+        AND c.barcode = d.barCode_main AND b.recipientprovince = e.provinceid
+        AND b.recipientcity = f.cityid AND b.recipientarea = g.areaid
+    </select>
+
+    <select id="selectFenjianDanInfoById" parameterType="java.lang.String" resultMap="pd">
+        SELECT
+        a.ordernum ordernum ,
+        b.recipient recipient,
+        d.productNum productnum,
+        d.productName productname,
+        d.barCode_main barcode,
+        c.count count
+        FROM
+        wms_ordernum a,wms_innerorder b, wms_orderproduct c, wms_product d
+        WHERE
+        a.orderinfo = b.innerorderid AND
+        a.ordernum = c.customerordernum AND
+        c.barcode = d.barCode_main AND
+        a.id = #{id}
+    </select>
+
+    <select id="selectZongFenJianDanInfoBy" parameterType="java.lang.String" resultMap="pd">
+    SELECT
+    d.productName productname,
+    d.productNum productnum,
+    SUM(c.count) COUNT,
+    d.barCode_main barcode
+    FROM
+    wms_ordernum a,wms_innerorder b, wms_orderproduct c, wms_product d
+    WHERE
+    a.orderinfo = b.innerorderid AND
+    a.ordernum = c.customerordernum AND
+    c.barcode = d.barCode_main AND
+    a.id IN (#{id})
+    GROUP BY d.productNum
+    </select>
+
+</mapper>

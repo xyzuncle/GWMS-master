@@ -6,10 +6,7 @@ import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.kuwei.BaoGuoKuWeiEntity;
 import com.huanqiuyuncang.entity.kuwei.CangKuEntity;
-import com.huanqiuyuncang.entity.order.InnerOrderEntity;
-import com.huanqiuyuncang.entity.order.OrderProductEntity;
-import com.huanqiuyuncang.entity.order.PingZhengEnetity;
-import com.huanqiuyuncang.entity.order.ProductOrderBase;
+import com.huanqiuyuncang.entity.order.*;
 import com.huanqiuyuncang.entity.product.ProductEntity;
 import com.huanqiuyuncang.entity.system.Dictionaries;
 import com.huanqiuyuncang.service.system.dictionaries.DictionariesManager;
@@ -18,6 +15,7 @@ import com.huanqiuyuncang.service.wms.kuwei.CangKuInterface;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
+import com.huanqiuyuncang.service.wms.order.OrdernumInterface;
 import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.util.*;
 import net.sf.json.JSONArray;
@@ -58,7 +56,8 @@ public class InnerOrderController extends BaseController {
     private BaoGuoKuWeiInterface baoGuoKuWeiService;
     @Autowired
     private CangKuInterface cangKuService;
-
+    @Autowired
+    private OrdernumInterface ordernumService;
     /**保存
      * @param
      * @throws Exception
@@ -68,15 +67,6 @@ public class InnerOrderController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"新增innerorder");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "add")){return null;} //校验权限
         ModelAndView mv = this.getModelAndView();
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
-        innerOrder.setInnerorderid(this.get32UUID());
-        innerOrder.setCreateuser(username);
-        innerOrder.setCreatetime(date);
-        innerOrder.setUpdateuser(username);
-        innerOrder.setUpdatetime(date);
-        innerOrder.setOrderstatus("orderStatus_daiqueren");
-        //innerOrder.setOrdermultistatus(CustomerController.CUSTOMERSTATUS);
         String token = (String)this.getRequest().getSession().getAttribute("token");
         innerOrderService.insertOrderInfo(innerOrder,token);
         this.getRequest().getSession().removeAttribute("token");
@@ -94,13 +84,14 @@ public class InnerOrderController extends BaseController {
         logBefore(logger, Jurisdiction.getUsername()+"删除innerorder");
         if(!Jurisdiction.buttonJurisdiction(menuUrl, "del")){return;} //校验权限
         PageData pd = this.getPageData();
-        String innerorderid = pd.getString("innerorderid");
-        Integer sum = checkTable("wms_innerorder","innerorderid", innerorderid);
+        String id = pd.getString("id");
+        OrdernumEntity ordernumEntity = ordernumService.selectByPrimaryKey(id);
+        Integer sum = checkTable("wms_innerorder","innerorderid", ordernumEntity.getOrderinfo());
         String msg = "success";
         if(sum >0){
             msg = "error";
         }else{
-            innerOrderService.deleteByPrimaryKey(innerorderid);
+            innerOrderService.deleteByPrimaryKey(id);
         }
         out.write(msg);
         out.close();
@@ -139,22 +130,15 @@ public class InnerOrderController extends BaseController {
             pd.put("createuser",Jurisdiction.getUsername());
         }
         page.setPd(pd);
-        List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
+        List<OrderInfoDTO> varList =   innerOrderService.datalistPage(page);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         BigDecimal allprice = new BigDecimal(0);
          Double allcount = new Double(0);
-        for(InnerOrderEntity innerOrderEntity : varList) {
-            String recipientprovince = innerOrderEntity.getRecipientprovince();
-            String recipientcity = innerOrderEntity.getRecipientcity();
-            recipientprovince = innerOrderService.selectProvinceNameByCode(recipientprovince);
-            recipientcity = innerOrderService.selectCityNameByCode(recipientcity);
-            innerOrderEntity.setRecipientprovince(recipientprovince);
-            innerOrderEntity.setRecipientcity(recipientcity);
-            PageData respd = orderProductService.selectStatisticsByOrderNum(innerOrderEntity.getCustomerordernum());
-            BigDecimal sumprice = (BigDecimal)respd.get("sumprice");
-            allprice = allprice.add(sumprice);
-            Double sumcount = (Double)respd.get("sumcount");
-            allcount = allcount+sumcount;
+        for(OrderInfoDTO order : varList) {
+            BigDecimal price = new BigDecimal(order.getOrdervalue());
+            allprice = allprice.add(price);
+            allcount = allcount+Double.parseDouble(order.getOrderproductcount());
+
         };
         List<CustomerEntity> customerList = getCustomerList();
         mv.setViewName("wms/innerorder/innerorder_list");
@@ -175,19 +159,12 @@ public class InnerOrderController extends BaseController {
     public ModelAndView goAdd()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        List<CustomerEntity> customerList = getCustomerList();
-        String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
-        String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
-        List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
-        List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
         String token = this.get32UUID();
         this.getRequest().getSession().setAttribute("token",token);
+        makeSelectInfo(mv);
         mv.setViewName("wms/innerorder/innerorder_edit");
         mv.addObject("msg", "save");
         mv.addObject("pd", pd);
-        mv.addObject("customerList", customerList);
-        mv.addObject("baoguanList", baoguanList);
-        mv.addObject("orderStatusList", orderStatusList);
         mv.addObject("token", token);
         mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
         return mv;
@@ -201,45 +178,52 @@ public class InnerOrderController extends BaseController {
     public ModelAndView goEdit()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String innerorderid = pd.getString("innerorderid");
-        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
+        String id = pd.getString("id");
+        OrdernumEntity ordernumEntity = ordernumService.selectByPrimaryKey(id);
+        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(ordernumEntity.getOrderinfo());//根据ID读取
+        makeSelectInfo(mv);
+        makeFormatterTime(innerorderEntity);
+        this.getRequest().getSession().setAttribute("token", ordernumEntity.getOrdernum());
+        mv.setViewName("wms/innerorder/innerorder_edit");
+        mv.addObject("msg", "edit");
+        mv.addObject("innerorder", innerorderEntity);
+        mv.addObject("pd", pd);
+        mv.addObject("token", ordernumEntity.getOrdernum());
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+
+    private void makeSelectInfo(ModelAndView mv) {
         List<CustomerEntity> customerList = getCustomerList();
         String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
         String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
         List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
         List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String formateCreateTime = formatter.format(innerorderEntity.getCreatetime());
-        String formateUpdateTime = formatter.format(innerorderEntity.getUpdatetime());
-        String formateOrderTime = formatter.format(innerorderEntity.getOrdertime());
-        innerorderEntity.setFormatCreateTime(formateCreateTime);
-        innerorderEntity.setFormateUpdateTime(formateUpdateTime);
-        innerorderEntity.setFormateOrderTime(formateOrderTime);
-        this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
-        mv.setViewName("wms/innerorder/innerorder_edit");
-        mv.addObject("msg", "edit");
-        mv.addObject("innerorder", innerorderEntity);
-        mv.addObject("pd", pd);
         mv.addObject("customerList", customerList);
         mv.addObject("baoguanList", baoguanList);
         mv.addObject("orderStatusList", orderStatusList);
-        mv.addObject("token", innerorderEntity.getCustomerordernum());
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        return mv;
     }
-
 
     @RequestMapping(value="/goview")
     public ModelAndView goview()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String innerorderid = pd.getString("innerorderid");
-        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
-        List<CustomerEntity> customerList = getCustomerList();
-        String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
-        String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
-        List<PageData> baoguanList = innerOrderService.selectDictionaries(baoguan_ID);
-        List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
+        String id = pd.getString("id");
+        OrdernumEntity ordernumEntity = ordernumService.selectByPrimaryKey(id);
+        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(ordernumEntity.getOrderinfo());
+        makeFormatterTime(innerorderEntity);
+        this.getRequest().getSession().setAttribute("token", ordernumEntity.getOrdernum());
+        makeSelectInfo(mv);
+        mv.setViewName("wms/innerorder/innerorder_view");
+        mv.addObject("msg", "view");
+        mv.addObject("innerorder", innerorderEntity);
+        mv.addObject("pd", pd);
+        mv.addObject("token", ordernumEntity.getOrdernum());
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+
+    private void makeFormatterTime(InnerOrderEntity innerorderEntity) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formateCreateTime = formatter.format(innerorderEntity.getCreatetime());
         String formateUpdateTime = formatter.format(innerorderEntity.getUpdatetime());
@@ -247,17 +231,6 @@ public class InnerOrderController extends BaseController {
         innerorderEntity.setFormatCreateTime(formateCreateTime);
         innerorderEntity.setFormateUpdateTime(formateUpdateTime);
         innerorderEntity.setFormateOrderTime(formateOrderTime);
-        this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
-        mv.setViewName("wms/innerorder/innerorder_view");
-        mv.addObject("msg", "view");
-        mv.addObject("innerorder", innerorderEntity);
-        mv.addObject("pd", pd);
-        mv.addObject("customerList", customerList);
-        mv.addObject("baoguanList", baoguanList);
-        mv.addObject("orderStatusList", orderStatusList);
-        mv.addObject("token", innerorderEntity.getCustomerordernum());
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        return mv;
     }
 
     /**批量删除
@@ -275,11 +248,6 @@ public class InnerOrderController extends BaseController {
         String DATA_IDS = pd.getString("DATA_IDS");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
             String ArrayDATA_IDS[] = DATA_IDS.split(",");
-            Integer sum = checkTable("wms_innerorder","innerorderid", ArrayDATA_IDS);
-            if(sum > 0){
-                map.put("msg","error");
-                return AppUtil.returnObject(pd, map);
-            }
             innerOrderService.deleteAll(ArrayDATA_IDS);
             map.put("msg", "success");
         }else{
@@ -287,7 +255,6 @@ public class InnerOrderController extends BaseController {
         }
         return AppUtil.returnObject(pd, map);
     }
-
 
     @RequestMapping(value="/orderpdlist")
     public void orderpdlist(PrintWriter printWriter,String customerordernum) throws Exception{
@@ -319,7 +286,16 @@ public class InnerOrderController extends BaseController {
         return mv;
     }
 
-
+    @RequestMapping(value="/goOrderProductPage")
+    public ModelAndView goOrderProductPage(String id)throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        this.getRequest().getSession().setAttribute("OrdersId",id);
+        mv.setViewName("wms/innerorder/innerorder_orderpd");
+        mv.addObject("msg", "saveOrdersProduct");
+        mv.addObject("pd", pd);
+        return mv;
+    }
 
     @RequestMapping(value="/goEditProduct")
     public ModelAndView goEditProduct()throws Exception{
@@ -339,8 +315,6 @@ public class InnerOrderController extends BaseController {
         return mv;
     }
 
-
-
     @RequestMapping(value="/saveOrderProduct")
     public ModelAndView saveOrderProduct(OrderProductEntity orderProductEntity)throws Exception{
         ModelAndView mv = this.getModelAndView();
@@ -354,6 +328,29 @@ public class InnerOrderController extends BaseController {
         orderProductEntity.setUpdateuser(username);
         orderProductEntity.setUpdatetime(date);
         orderProductService.insertOrderProduct(orderProductEntity);
+        mv.setViewName("save_result");
+        mv.addObject("msg","success");
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/saveOrdersProduct")
+    public ModelAndView saveOrdersProduct(OrderProductEntity orderProductEntity)throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        Date date = new Date();
+        String username = Jurisdiction.getUsername();
+        String ids = (String)this.getRequest().getSession().getAttribute("OrdersId");
+        for(String id : ids.split(",")){
+            OrdernumEntity ordernumEntity = ordernumService.selectByPrimaryKey(id);
+            orderProductEntity.setCustomerordernum(ordernumEntity.getOrdernum());
+            orderProductEntity.setCreateuser(username);
+            orderProductEntity.setCreatetime(date);
+            orderProductEntity.setUpdateuser(username);
+            orderProductEntity.setUpdatetime(date);
+            orderProductService.insertOrderProduct(orderProductEntity);
+        }
+        this.getRequest().getSession().removeAttribute("OrdersId");
         mv.setViewName("save_result");
         mv.addObject("msg","success");
         mv.addObject("pd", pd);
@@ -379,8 +376,6 @@ public class InnerOrderController extends BaseController {
         map.put("result", "success");
         return AppUtil.returnObject(new PageData(), map);
     }
-
-
 
     @RequestMapping(value="/getprovince")
     @ResponseBody
@@ -437,35 +432,14 @@ public class InnerOrderController extends BaseController {
         return AppUtil.returnObject(pd, map);
     }
 
-    @RequestMapping(value="/createpackage")
-    @ResponseBody
-    public Object createpackage() throws Exception{
-        Map<String,Object> map = new HashMap<String,Object>();
-        PageData pd = this.getPageData();
-        List<PageData> pdList = new ArrayList<PageData>();
-        String DATA_IDS = pd.getString("DATA_IDS");
-        if(null != DATA_IDS && !"".equals(DATA_IDS)){
-            String ArrayDATA_IDS[] = DATA_IDS.split(",");
-            for(int i = 0;i<ArrayDATA_IDS.length;i++){
-                innerOrderService.createpackage(ArrayDATA_IDS[i]);
-            }
-            pd.put("msg", "ok");
-        }else{
-            pd.put("msg", "no");
-        }
-        pdList.add(pd);
-        map.put("list", pdList);
-        return AppUtil.returnObject(pd, map);
-    }
-
-
     @RequestMapping(value="/pingzheng")
     public ModelAndView pingzheng()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
         SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
-        String innerorderid = pd.getString("innerorderid");
-        InnerOrderEntity order = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
+        String id = pd.getString("id");
+        OrdernumEntity ordernumEntity = ordernumService.selectByPrimaryKey(id);
+        InnerOrderEntity order = innerOrderService.selectByPrimaryKey(ordernumEntity.getOrderinfo());//根据ID读取
         PingZhengEnetity pingZhengEnetity = new PingZhengEnetity();
         String customerName = customerService.selectNameByCode(order.getCustomernum()); //客户
         pingZhengEnetity.setCustomerName(customerName);
@@ -474,7 +448,7 @@ public class InnerOrderController extends BaseController {
         pingZhengEnetity.setFukuanfangshi(order.getPaymentmethod());
         pingZhengEnetity.setDingdanbeizhu(order.getCustomerremarks());
         pingZhengEnetity.setYouxiaoqi("30天");
-        List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProduct(order.getCustomerordernum());
+        List<OrderProductEntity> orderProductEntities = orderProductService.selectOrderProduct(ordernumEntity.getOrdernum());
         Double dingdanjine = new Double(0);
         for(OrderProductEntity orderProductEntity : orderProductEntities) {
             String retailprice = orderProductEntity.getDeclareprice();
@@ -508,7 +482,6 @@ public class InnerOrderController extends BaseController {
         return mv;
     }
 
-
     /**打开上传EXCEL页面
      * @return
      * @throws Exception
@@ -519,8 +492,6 @@ public class InnerOrderController extends BaseController {
         mv.setViewName("wms/innerorder/uploadexcel");
         return mv;
     }
-
-
 
     /**下载模版
      * @param response
@@ -580,6 +551,7 @@ public class InnerOrderController extends BaseController {
         map.put("list", pdList);
         return AppUtil.returnObject(pd, map);
     }
+
     @RequestMapping(value="/yichang")
     @ResponseBody
     public Object yichang() throws Exception{
@@ -604,13 +576,10 @@ public class InnerOrderController extends BaseController {
     public ModelAndView goChuku()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String username = Jurisdiction.getUsername();
-        //innerorderid
-        String DATA_IDS = pd.getString("innerorderid");
+        String DATA_IDS = pd.getString("id");
         if(null != DATA_IDS && !"".equals(DATA_IDS)){
             String ArrayDATA_IDS[] = DATA_IDS.split(",");
-            InnerOrderEntity innerOrderEntity = innerOrderService.selectByPrimaryKey(ArrayDATA_IDS[0]);
-            String customernum = innerOrderEntity.getCustomernum();
+            String customernum = innerOrderService.selectCustomernumByOrderNumId(ArrayDATA_IDS[0]);
             CustomerEntity customerEntity = customerService.selectCustomerByCode(customernum);
             String defaultwarehouse = customerEntity.getDefaultwarehouse();
             CangKuEntity cangKuEntity = cangKuService.selectByCangKu(defaultwarehouse);
@@ -618,8 +587,6 @@ public class InnerOrderController extends BaseController {
             mv.addObject("cangkuid", cangKuEntity.getId());
             String customerstatus = customerEntity.getCustomerstatus();
             String[] split = customerstatus.split("_");
-           /* <option value="1">默认库位</option>
-            <option value="0">自定义库位</option>*/
             if("0".equals(split[2])){
                 mv.addObject("kuwei", "自定义库位");
             }else{
@@ -630,6 +597,7 @@ public class InnerOrderController extends BaseController {
         setCangKuShuXing(mv);
         mv.setViewName("wms/innerorder/innerorder_chuku");
         mv.addObject("msg", "saveShangpinChuku");
+        mv.addObject("id", DATA_IDS);
         mv.addObject("pd", pd);
         return mv;
     }
@@ -652,10 +620,10 @@ public class InnerOrderController extends BaseController {
     }
 
     @RequestMapping(value="/saveShangpinChuku")
-    public ModelAndView saveShangpinChuku(String innerorderid,String cangkushuxing,String cangku,String kuwei) throws Exception{
+    public ModelAndView saveShangpinChuku(String id,String cangkushuxing,String cangku,String kuwei) throws Exception{
         ModelAndView mv = this.getModelAndView();
-        if(null != innerorderid && !"".equals(innerorderid)){
-            String ids[] = innerorderid.split(",");
+        if(null != id && !"".equals(id)){
+            String ids[] = id.split(",");
             innerOrderService.saveShangpinChuku(ids,cangkushuxing,cangku,kuwei);
         }
 
@@ -678,10 +646,10 @@ public class InnerOrderController extends BaseController {
     }
 
     @RequestMapping(value="/saveBaoguoRuku")
-    public ModelAndView saveBaoguoRuku(String innerorderid,String baoguokuwei) throws Exception{
+    public ModelAndView saveBaoguoRuku(String id,String baoguokuwei) throws Exception{
         ModelAndView mv = this.getModelAndView();
-        if(null != innerorderid && !"".equals(innerorderid)){
-            String ids[] = innerorderid.split(",");
+        if(null != id && !"".equals(id)){
+            String ids[] = id.split(",");
             innerOrderService.saveBaoguoRuku(ids,baoguokuwei);
         }
         mv.addObject("msg","success");
@@ -706,8 +674,8 @@ public class InnerOrderController extends BaseController {
         Map<String,Object> map = new HashMap<String,Object>();
         PageData pd = this.getPageData();
         String dingdanhao = pd.getString("dingdanhao");
-        InnerOrderEntity innerOrderEntity = innerOrderService.selectByDingdanhao(dingdanhao);
-        String yujing = innerOrderEntity.getYujingstatus();
+        OrdernumEntity order = ordernumService.selectByDingdanhao(dingdanhao);
+        String yujing = order.getYujingstatus();
         if(StringUtils.isNotEmpty(yujing)){
             pd.put("BIANMA",yujing);
             PageData dic = dictionariesService.findByBianma(pd);
@@ -716,5 +684,179 @@ public class InnerOrderController extends BaseController {
         map.put("yujing", yujing);
         return AppUtil.returnObject(pd, map);
     }
+
+    @RequestMapping(value="/orderChildren")
+    public void orderChildren(PrintWriter printWriter,String id) throws Exception{
+        if(StringUtils.isNotEmpty(id)){
+            List<OrdernumEntity> list = ordernumService.selectByPartentId(id);
+            String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
+            String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
+            printWriter.write(resultJson);
+        }else{
+            printWriter.write("");
+        }
+    }
+
+    @RequestMapping(value="/gohedan")
+    public ModelAndView gohedan() throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String starttime = pd.getString("starttime");
+        String endtime = pd.getString("endtime");
+        putSearchDate(starttime,endtime,pd);
+        List<OrderInfoDTO> varList  =  innerOrderService.selectByhedan(pd);
+        mv.setViewName("wms/innerorder/innerorder_hedan");
+        mv.addObject("msg", "savehedan");
+        mv.addObject("varList", varList);
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/hedan")
+    public ModelAndView hedan(String DATA_IDS) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        innerOrderService.savehedan(DATA_IDS);
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+    @RequestMapping(value="/gochaidan")
+    public ModelAndView gochaidan() throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        PageData pd = this.getPageData();
+        String starttime = pd.getString("starttime");
+        String endtime = pd.getString("endtime");
+        putSearchDate(starttime,endtime,pd);
+        List<OrderInfoDTO> varList  =  innerOrderService.selectBychaidan(pd);
+        mv.setViewName("wms/innerorder/innerorder_chaidan");
+        mv.addObject("msg", "savechaidan");
+        mv.addObject("varList", varList);
+        mv.addObject("pd", pd);
+        return mv;
+    }
+
+    @RequestMapping(value="/chaidan")
+    public ModelAndView chaidan(String DATA_IDS) throws Exception{
+        ModelAndView mv = this.getModelAndView();
+        innerOrderService.savechaidan( DATA_IDS);
+        mv.addObject("msg","success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+    private void putSearchDate(String starttime,String endtime, PageData pd) {
+        String startDate = " 00:00:00";
+        String endDate = " 23:59:59";
+        startDate = starttime+startDate;
+        endDate = endtime+endDate;
+        pd.put("starttime",startDate);
+        pd.put("endtime",endDate);
+    }
+
+    @RequestMapping(value="/toDingdanhaoExcel")
+    public ModelAndView toDingdanhaoExcel() throws Exception{
+        PageData pd = this.getPageData();
+        List<String> varOList = ordernumService.selectOrdernumToexcel();
+        Map<String, Object> dataMap = getDingdanhaoDataMap(varOList);
+        ObjectExcelView erv = new ObjectExcelView();
+        ModelAndView mv = new ModelAndView(erv,dataMap);
+        return mv;
+    }
+
+    private Map<String,Object> getDingdanhaoDataMap(List<String> varOList) {
+        Map<String,Object> dataMap = new HashMap<String,Object>();
+        List<String> titles = new ArrayList<String>();
+        titles.add("订单号");
+        dataMap.put("titles", titles);
+        List<PageData> varList = new ArrayList<PageData>();
+        for(int i=0;i<varOList.size();i++){
+            PageData vpd = new PageData();
+            vpd.put("var1", varOList.get(i));
+            varList.add(vpd);
+        }
+        dataMap.put("varList", varList);
+        return  dataMap;
+    }
+
+    @RequestMapping(value="/toDingdanExcelForYT")
+    public ModelAndView toDingdanExcelForYT() throws Exception{
+        PageData pd = this.getPageData();
+        List<PageData> varOList = ordernumService.selectOrder4YT();
+        Map<String, Object> dataMap = getOrderDataMap(varOList);
+        ObjectExcelView erv = new ObjectExcelView();
+        ModelAndView mv = new ModelAndView(erv,dataMap);
+        return mv;
+    }
+
+    @RequestMapping(value="/tofenjiandan")
+    public ModelAndView tofenjiandan(String DATA_IDS) throws Exception{
+        String[] ids = DATA_IDS.split(",");
+        for(String id:ids){
+            List<PageData> fenJianDanInfo = ordernumService.selectFenjianDanInfoById(id);
+        }
+        List<PageData> fenJianDanInfo = ordernumService.selectZongFenJianDanInfoBy(DATA_IDS);
+        Map<String, Object> dataMap = getOrderDataMap(fenJianDanInfo);
+        ObjectExcelView erv = new ObjectExcelView();
+        ModelAndView mv = new ModelAndView(erv,dataMap);
+        return mv;
+    }
+
+    private Map<String, Object> getOrderDataMap(List<PageData> varOList) {
+        Map<String,Object> dataMap = new HashMap<String,Object>();
+        List<String> titles = new ArrayList<String>();
+        titles.add("订单号");	//1
+        titles.add("商品名称");	//2
+        titles.add("数量");	//3
+        titles.add("卖家姓名");	//4
+        titles.add("买家收货省");	//5
+        titles.add("买家收货市");	//6
+        titles.add("买家收货区");	//7
+        titles.add("买家收货地址");	//8
+        titles.add("卖家手机号");	//9
+        titles.add("发件人");	//10
+        titles.add("发件人电话");	//11
+        titles.add("发件人省");	//12
+        titles.add("发件人市");	//13
+        titles.add("发件人区");	//14
+        titles.add("发件地址");	//15
+        titles.add("发件人邮编");	//16
+        titles.add("代收货款");	//17
+        titles.add("备注");	//18
+        titles.add("买家邮编");	//19
+        titles.add("买家电话");	//20
+        titles.add("报价金额");	//21
+        dataMap.put("titles", titles);
+        List<PageData> varList = new ArrayList<PageData>();
+        for(int i=0;i<varOList.size();i++){
+            PageData pd = varOList.get(i);
+            PageData vpd = new PageData();
+            vpd.put("var1", pd.getString("ordernum"));
+            vpd.put("var2", pd.getString("productname"));
+            vpd.put("var3", pd.getString("recipient"));
+            vpd.put("var4", pd.getString("COUNT"));
+            vpd.put("var5", pd.getString("province"));
+            vpd.put("var6", pd.getString("city"));
+            vpd.put("var7", pd.getString("AREA"));
+            vpd.put("var8", pd.getString("recipientaddress"));
+            vpd.put("var9", pd.getString("recipientphone"));
+            vpd.put("var10", pd.getString("sender"));
+            vpd.put("var11", pd.getString("senderphone"));
+            vpd.put("var12", pd.getString("sendercountry"));
+            vpd.put("var13", pd.getString("sendercity"));
+            vpd.put("var14", pd.getString("senderarea"));
+            vpd.put("var15", pd.getString("senderaddress"));
+            vpd.put("var16", pd.getString("senderpostcode"));
+            vpd.put("var17", pd.getString("")); //代收货款
+            vpd.put("var18", pd.getString("remark"));
+            vpd.put("var19", pd.getString("recipientpostcode"));
+            vpd.put("var20", pd.getString("recipientphone"));
+            vpd.put("var21", pd.getString(""));//报价金额
+            varList.add(vpd);
+        }
+        dataMap.put("varList", varList);
+        return  dataMap;
+    }
+
 
 }

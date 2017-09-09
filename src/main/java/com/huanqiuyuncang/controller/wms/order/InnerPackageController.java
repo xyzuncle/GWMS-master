@@ -1,15 +1,18 @@
 package com.huanqiuyuncang.controller.wms.order;
 
 import com.huanqiuyuncang.controller.base.BaseController;
+import com.huanqiuyuncang.dao.order.OrdernumDAO;
 import com.huanqiuyuncang.entity.Page;
 import com.huanqiuyuncang.entity.carton.CartonEntity;
 import com.huanqiuyuncang.entity.customer.CustomerEntity;
 import com.huanqiuyuncang.entity.customs.CustomsEntity;
 import com.huanqiuyuncang.entity.order.InnerOrderEntity;
+import com.huanqiuyuncang.entity.order.OrdernumEntity;
 import com.huanqiuyuncang.entity.packagetype.PackageTypeEntity;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.service.wms.carton.CartonInterface;
 import com.huanqiuyuncang.service.wms.customer.CustomerInterface;
+import com.huanqiuyuncang.service.wms.order.OrdernumInterface;
 import com.huanqiuyuncang.service.wms.packagetype.PackageTypeInterface;
 import com.huanqiuyuncang.util.*;
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +47,9 @@ public class InnerPackageController extends BaseController {
     @Autowired
     private CartonInterface cartonService;
 
+    @Autowired
+    private OrdernumInterface ordernumService;
+
     /**列表
      * @param page
      * @throws Exception
@@ -60,7 +66,7 @@ public class InnerPackageController extends BaseController {
         if(hc.keySet().contains("adminsearch") && "1".equals(hc.get("adminsearch"))){
             pd.remove("createuser");
         }
-        List<InnerOrderEntity> varList =   innerOrderService.datalistPage(page);
+        List<InnerOrderEntity> varList =   innerOrderService.packagelistPage(page);
         varList.forEach(innerOrderEntity -> {
             String formateOrderTime = DateUtil.format(innerOrderEntity.getOrdertime(),"yyyy-MM-dd HH:mm:ss");
             innerOrderEntity.setFormateOrderTime(formateOrderTime);
@@ -74,30 +80,6 @@ public class InnerPackageController extends BaseController {
         return mv;
     }
 
-
-    /**修改
-     * @param
-     * @throws Exception
-     */
-    @RequestMapping(value="/edit")
-    public ModelAndView edit(InnerOrderEntity innerOrder) throws Exception{
-        logBefore(logger, Jurisdiction.getUsername()+"修改innerpackageid");
-        if(!Jurisdiction.buttonJurisdiction(menuUrl, "edit")){return null;} //校验权限
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = this.getPageData();
-        String username = Jurisdiction.getUsername();
-        Date date = new Date();
-        innerOrder.setUpdatetime(date);
-        innerOrder.setUpdateuser(username);
-        innerOrderService.updateByPrimaryKeySelective(innerOrder);
-        mv.addObject("msg","success");
-        mv.setViewName("save_result");
-        return mv;
-    }
-
-
-
-
     /**去修改页面
      * @param
      * @throws Exception
@@ -106,8 +88,31 @@ public class InnerPackageController extends BaseController {
     public ModelAndView goView()throws Exception{
         ModelAndView mv = this.getModelAndView();
         PageData pd = this.getPageData();
-        String innerorderid = pd.getString("innerorderid");
-        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(innerorderid);//根据ID读取
+        String id = pd.getString("id");
+        OrdernumEntity ordernumEntity = ordernumService.selectByPrimaryKey(id);
+        InnerOrderEntity innerorderEntity = innerOrderService.selectByPrimaryKey(ordernumEntity.getOrderinfo());//根据ID读取
+        formateDate(innerorderEntity);
+        this.getRequest().getSession().setAttribute("token", ordernumEntity.getOrderinfo());
+        makeSeletInfo(mv);
+        mv.setViewName("wms/innerorder/innerpackage_view");
+        mv.addObject("msg", "edit");
+        mv.addObject("innerorder", innerorderEntity);
+        mv.addObject("pd", pd);
+        mv.addObject("token",  ordernumEntity.getOrderinfo());
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+        return mv;
+    }
+
+    private void formateDate(InnerOrderEntity innerorderEntity) {
+        String formateCreateTime = DateUtil.format(innerorderEntity.getCreatetime(),"yyyy-MM-dd");
+        String formateUpdateTime = DateUtil.format(innerorderEntity.getUpdatetime(),"yyyy-MM-dd");
+        String formateOrderTime =  DateUtil.format(innerorderEntity.getOrdertime(),"yyyy-MM-dd");
+        innerorderEntity.setFormatCreateTime(formateCreateTime);
+        innerorderEntity.setFormateUpdateTime(formateUpdateTime);
+        innerorderEntity.setFormateOrderTime(formateOrderTime);
+    }
+
+    private void makeSeletInfo(ModelAndView mv) throws Exception {
         List<CustomerEntity> customerList = getCustomerList();
         String baoguan_ID = "d67d48a2aa434a8995cc3aa0d2b24756";
         String orderStatus_ID = "94809020e5b847de824c4b39e20c4e5f";
@@ -115,40 +120,12 @@ public class InnerPackageController extends BaseController {
         List<PageData> orderStatusList = innerOrderService.selectDictionaries(orderStatus_ID);
         List<CartonEntity> cartonList = cartonService.selectAll();
         List<PackageTypeEntity> packageTypeList = packageTypeService.selectAll();
-        String formateCreateTime = DateUtil.format(innerorderEntity.getCreatetime(),"yyyy-MM-dd");
-        String formateUpdateTime = DateUtil.format(innerorderEntity.getUpdatetime(),"yyyy-MM-dd");
-        String formateOrderTime =  DateUtil.format(innerorderEntity.getOrdertime(),"yyyy-MM-dd");
-        innerorderEntity.setFormatCreateTime(formateCreateTime);
-        innerorderEntity.setFormateUpdateTime(formateUpdateTime);
-        innerorderEntity.setFormateOrderTime(formateOrderTime);
-        this.getRequest().getSession().setAttribute("token", innerorderEntity.getCustomerordernum());
-        mv.setViewName("wms/innerorder/innerpackage_view");
-        mv.addObject("msg", "edit");
-        mv.addObject("innerorder", innerorderEntity);
         mv.addObject("cartonList", cartonList);
         mv.addObject("packageTypeList", packageTypeList);
-        mv.addObject("pd", pd);
         mv.addObject("customerList", customerList);
         mv.addObject("baoguanList", baoguanList);
         mv.addObject("orderStatusList", orderStatusList);
-        mv.addObject("token", innerorderEntity.getCustomerordernum());
-        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
-        return mv;
     }
-
-
-
-    @RequestMapping(value="/goAddProduct")
-    public ModelAndView goAddProduct()throws Exception{
-        ModelAndView mv = this.getModelAndView();
-        PageData pd = this.getPageData();
-        mv.setViewName("wms/innerorder/innerorder_orderpd");
-        mv.addObject("msg", "saveOrderProduct");
-        mv.addObject("pd", pd);
-        return mv;
-    }
-
-
 
 
     private List<CustomerEntity> getCustomerList() {

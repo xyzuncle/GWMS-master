@@ -48,7 +48,7 @@
                                                 <c:if test="${QX.adminOrder == 1 && msg == 'edit' }">
                                                     disabled
                                                 </c:if>
-                                                    name="customernum" id="customernum" data-placeholder="请选择" style="vertical-align:top;width:98%;">
+                                                onchange="makeSenderInfo()"    name="customernum" id="customernum" data-placeholder="请选择" style="vertical-align:top;width:98%;">
                                                 <option value="">请选择</option>
                                                 <c:choose>
                                                     <c:when test="${not empty customerList}">
@@ -179,9 +179,9 @@
                                     <c:if test="${QX.adminOrder == 1 }">
                                     <tr>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">快递企业名称:</td>
-                                        <td><input type="text" name="couriername" id="couriername" disabled value="${innerorder.couriername}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="couriername" id="couriername"  value="${innerorder.couriername}" maxlength="30"  style="width:98%;"/></td>
                                         <td style="width:82px;text-align: right;padding-top: 13px;">快递单号:</td>
-                                        <td><input type="text" name="couriernum" id="couriernum" disabled value="${innerorder.couriernum}" maxlength="30"  style="width:98%;"/></td>
+                                        <td><input type="text" name="couriernum" id="couriernum"  value="${innerorder.couriernum}" maxlength="30"  style="width:98%;"/></td>
                                     </tr>
                                     </c:if>
                                     <tr>
@@ -754,6 +754,7 @@
     }
 
     function changeCity(code){
+
         $.ajax({
             type: "POST",
             url: '<%=basePath%>innerorder/getArea.do?tm='+new Date().getTime(),
@@ -772,6 +773,42 @@
             }
         });
     }
+
+
+    function makeSenderInfo(){
+
+        var customercode = $("#customernum").val();
+        if(customercode){
+            $.ajax({
+                type: "POST",
+                url: '<%=basePath%>sender/getSenderInfo.do?tm='+new Date().getTime(),
+                data: {customercode:customercode},
+                dataType:'json',
+                cache: false,
+                success: function(data){
+                    $("#sender").val(data.sender);
+                    $("#senderphone").val(data.senderphone);
+                    $("#sendercountry").val(data.sendercountry);
+                    $("#senderprovince").val(data.senderprovince);
+                    $("#sendercity").val(data.sendercity);
+                    $("#senderarea").val(data.senderarea);
+                    $("#senderpostcode").val(data.senderpostcode);
+                    $("#senderaddress").val(data.senderaddress);
+                }
+            });
+        }else{
+            $("#sender").val("");
+            $("#senderphone").val("");
+            $("#sendercountry").val("");
+            $("#senderprovince").val("");
+            $("#sendercity").val("");
+            $("#senderarea").val("");
+            $("#senderpostcode").val("");
+            $("#senderaddress").val("");
+        }
+    }
+
+
 </script>
 </body>
 </html>

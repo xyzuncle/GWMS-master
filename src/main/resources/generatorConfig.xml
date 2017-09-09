@@ -120,11 +120,25 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>-->
-        <table tableName="wms_pandian" domainObjectName="PandianEntity"
+ <!--       <table tableName="wms_sender" domainObjectName="SenderEntity"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
-
+        <table tableName="wms_innerorder" domainObjectName="InnerOrderEntity"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
+        <table tableName="wms_ordernum" domainObjectName="OrdernumEntity"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+       <!-- <table tableName="wms_innerorder" domainObjectName="InnerOrderEntity"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
     </context>
 </generatorConfiguration>
