@@ -19,7 +19,7 @@ import com.huanqiuyuncang.service.wms.warehouse.RuKuBaoGuoInterface;
 import com.huanqiuyuncang.util.AppUtil;
 import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

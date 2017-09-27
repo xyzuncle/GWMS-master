@@ -26,7 +26,7 @@ import com.huanqiuyuncang.entity.warehouse.ChuKuShangPinEntity;
 import com.huanqiuyuncang.entity.warehouse.RuKuBaoGuoEntity;
 import com.huanqiuyuncang.service.wms.order.InnerOrderInterface;
 import com.huanqiuyuncang.util.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +34,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static javax.print.attribute.standard.MediaSizeName.C;
 
 /**
  * Created by lzf on 2017/4/11.
@@ -172,11 +174,88 @@ public class InnerOrderService implements InnerOrderInterface {
     }
 
     public void createpackage(String[] ids){
-        String customernum = innerOrderDAO.selectCustomernumByOrderNumId(ids[0]);
-        String packagenum = OrderUtil.getPackageNum(customernum);
-        setPackageInfo(ids, packagenum);
-        /*innerOrderDAO.updateByPrimaryKeySelective(innerOrder);*/
+        //一个订单一个包裹
+        String username = Jurisdiction.getUsername();
+        Date date = new Date();
+        for(String id : ids){
+            OrdernumEntity ordernumEntity = savePackageInfo(username, date, id);
+            String packagenum = ordernumEntity.getPackagenum();
+            String defaultCarton = "";
+            String packageType = "";
+            InnerOrderEntity innerorder = innerOrderDAO.selectByPrimaryKey(ordernumEntity.getOrderinfo());
+            List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(ordernumEntity.getOrdernum());
+            Integer sum = Integer.parseInt(orderProductDAO.selectProductsumByOrderNum(ordernumEntity.getOrdernum()));
+            for (OrderProductEntity orderProductEntity : orderProductEntities) {
+                savePackagenum(packagenum, orderProductEntity);
+                String barcode = orderProductEntity.getOuterproductnum();
+                ProductEntity product = productDAO.findProductByBarCodeOrNum(barcode);
+                String defaultpackage = product.getDefaultpackage();
+                Integer pnum = StringUtil.getNum(defaultpackage);
+                defaultCarton = makeDefaultCarton(defaultCarton,sum,product);
+                if(StringUtils.isEmpty(packageType)){
+                    packageType = defaultpackage;
+                }else{
+                    packageType = StringUtil.getNum(packageType)>pnum?defaultpackage:packageType;
+                }
 
+            }
+            innerorder.setCartonid(defaultCarton);
+            innerorder.setPackageid(packageType);
+            innerorder.setUpdatetime(date);
+            innerorder.setUpdateuser(username);
+            innerOrderDAO.updateByPrimaryKeySelective(innerorder);
+        }
+
+
+    }
+
+    private String makeDefaultCarton(String defaultCarton, Integer sum, ProductEntity product) {
+        String cartontypea = product.getCartontypea();
+        String cartontypeb = product.getCartontypeb();
+        Integer cartontypeanum = product.getCartontypeanum();
+        Integer cartontypebnum = product.getCartontypebnum();
+        Boolean falg = comparetoStr(defaultCarton,cartontypeb);
+        if(falg){
+            if(sum <= cartontypeanum){
+                defaultCarton = cartontypea;
+            }else if(sum <= cartontypebnum){
+                defaultCarton = cartontypeb;
+            }
+        }
+
+
+        return defaultCarton;
+    }
+
+    private Boolean comparetoStr(String defaultCarton, String cartontypeb) {
+        Boolean falg = true;
+        if(StringUtils.isBlank(defaultCarton)){
+            defaultCarton = cartontypeb;
+        }else{
+            char a = defaultCarton.charAt(0);
+            char b = cartontypeb.charAt(0);
+            falg = a < b;
+            defaultCarton = cartontypeb;
+        }
+
+        return falg;
+    }
+
+    private void savePackagenum(String packagenum, OrderProductEntity orderProductEntity) {
+        orderProductEntity.setinnerpackagenum(packagenum);
+        orderProductDAO.updateByPrimaryKeySelective(orderProductEntity);
+    }
+
+    private OrdernumEntity savePackageInfo(String username, Date date, String id) {
+        String customernum = innerOrderDAO.selectCustomernumByOrderNumId(id);
+        String packagenum = OrderUtil.getPackageNum(customernum);
+        OrdernumEntity ordernumEntity = ordernumDAO.selectByPrimaryKey(id);
+        ordernumEntity.setPackagenum(packagenum);
+        ordernumEntity.setOrderstatus("orderStatus_yidabao");
+        ordernumEntity.setUpdatetime(date);
+        ordernumEntity.setUpdateuser(username);
+        ordernumDAO.updateByPrimaryKeySelective(ordernumEntity);
+        return ordernumEntity;
     }
 
     private void setPackageInfo(String[] ids , String packagenum) {
@@ -194,8 +273,7 @@ public class InnerOrderService implements InnerOrderInterface {
             List<OrderProductEntity> orderProductEntities = orderProductDAO.selectOrderProduct(ordernumEntity.getOrdernum());
             for(int i = 0 ;i<orderProductEntities.size();i++){
                 OrderProductEntity orderProductEntity = orderProductEntities.get(i);
-                orderProductEntity.setinnerpackagenum(packagenum);
-                orderProductDAO.updateByPrimaryKeySelective(orderProductEntity);
+                savePackagenum(packagenum, orderProductEntity);
                 String barcode = orderProductEntity.getOuterproductnum();
                 ProductEntity product = productDAO.findProductByBarCodeOrNum(barcode);
                 Integer count = Integer.parseInt(orderProductEntity.getCount());

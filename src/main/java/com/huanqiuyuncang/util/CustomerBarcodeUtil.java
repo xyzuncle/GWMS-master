@@ -2,7 +2,7 @@ package com.huanqiuyuncang.util;
 
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.krysalis.barcode4j.*;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.apache.avalon.framework.configuration.Configuration;

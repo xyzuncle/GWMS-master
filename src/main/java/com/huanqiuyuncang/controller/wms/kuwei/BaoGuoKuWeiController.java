@@ -12,7 +12,7 @@ import com.huanqiuyuncang.util.AppUtil;
 import com.huanqiuyuncang.util.BeanMapUtil;
 import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;

@@ -12,7 +12,7 @@ import com.huanqiuyuncang.service.wms.order.OrderProductInterface;
 import com.huanqiuyuncang.util.Jurisdiction;
 import com.huanqiuyuncang.util.PageData;
 import com.huanqiuyuncang.util.UuidUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

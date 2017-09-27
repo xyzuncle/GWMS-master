@@ -20,7 +20,7 @@ import com.huanqiuyuncang.service.wms.warehouse.ChuKuShangPinInterface;
 import com.huanqiuyuncang.service.wms.warehouse.ProductWarehouseInterface;
 import com.huanqiuyuncang.util.*;
 import net.sf.json.JSONArray;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

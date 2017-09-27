@@ -15,7 +15,7 @@ import com.huanqiuyuncang.util.PageData;
 import com.huanqiuyuncang.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;

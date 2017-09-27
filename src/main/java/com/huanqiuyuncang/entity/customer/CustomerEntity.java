@@ -2,7 +2,7 @@ package com.huanqiuyuncang.entity.customer;
 
 import com.huanqiuyuncang.util.DateUtil;
 import com.huanqiuyuncang.util.StringUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 

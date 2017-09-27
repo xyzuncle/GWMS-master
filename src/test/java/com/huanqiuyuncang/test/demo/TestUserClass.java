@@ -300,10 +300,12 @@ public class TestUserClass {
         List<OrdernumEntity> aaa = ordernumDAO.selectByPartentId("aaa");
         System.out.println("***************  testOrderNum   ***************     " + aaa.size());
     }
+
     @Test
-    public void testDate(){
-        String startDate = " 00:00:00";
-        String endDate = " 23:59:59";
+    public void test(){
+            char a = 'a';
+            char b = 'b';
+        System.out.println(a<b);
     }
 
 }
