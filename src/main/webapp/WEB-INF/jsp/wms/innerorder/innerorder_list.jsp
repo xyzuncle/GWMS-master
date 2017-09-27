@@ -332,11 +332,11 @@
                                             <a class="btn btn-xs btn-success" title="导出订单号" onclick="toDingdanhaoExcel();">
                                                 导出订单号
                                             </a>
-                                            <a class="btn btn-xs btn-success" title="导出订单号" onclick="toDingdanExcelForYT();">
+                                            <a class="btn btn-xs btn-success" title="导出圆通模板" onclick="toDingdanExcelForYT();">
                                                 导出圆通模板
                                             </a>
                                             <a class="btn btn-xs btn-success" title="导出分拣单" onclick="tofenjiandan();">
-                                                导出圆通模板
+                                                导出分拣单
                                             </a>
 
                                         </td>
