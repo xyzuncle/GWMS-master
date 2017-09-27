@@ -794,8 +794,24 @@ public class InnerOrderController extends BaseController {
         String[] ids = DATA_IDS.split(",");
         for(String id:ids){
             List<PageData> fenJianDanInfo = ordernumService.selectFenjianDanInfoById(id);
+            for (PageData pd : fenJianDanInfo) {
+                String ordernum = pd.getString("ordernum");//订单号
+                String recipient = pd.getString("recipient");//收件人
+                String productnum = pd.getString("productnum");//商品货号
+                String productname = pd.getString("productname");//商品名称
+                String barcode = pd.getString("barcode");//商品条码
+                String count = pd.getString("count");//商品数量
+            }
+
         }
         List<PageData> zongFenJianDanInfo = ordernumService.selectZongFenJianDanInfoBy(DATA_IDS);
+        for (PageData pd : zongFenJianDanInfo) {
+            String productnum = pd.getString("productnum");//商品货号
+            String productname = pd.getString("productname");//商品名称
+            String barcode = pd.getString("barcode");//商品条码
+            String count = pd.getString("count");//商品数量
+
+        }
         return null;
     }
 
