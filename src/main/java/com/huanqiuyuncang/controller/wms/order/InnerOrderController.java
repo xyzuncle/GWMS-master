@@ -796,10 +796,7 @@ public class InnerOrderController extends BaseController {
             List<PageData> fenJianDanInfo = ordernumService.selectFenjianDanInfoById(id);
         }
         List<PageData> zongFenJianDanInfo = ordernumService.selectZongFenJianDanInfoBy(DATA_IDS);
-        Map<String, Object> dataMap = getOrderDataMap(zongFenJianDanInfo);
-        ObjectExcelView erv = new ObjectExcelView();
-        ModelAndView mv = new ModelAndView(erv,dataMap);
-        return mv;
+        return null;
     }
 
     private Map<String, Object> getOrderDataMap(List<PageData> varOList) {
