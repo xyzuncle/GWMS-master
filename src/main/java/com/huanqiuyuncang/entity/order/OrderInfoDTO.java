@@ -1,16 +1,19 @@
 package com.huanqiuyuncang.entity.order;
 
+import java.util.Date;
+
 /**
  * Created by lzf on 2017/8/26.
  */
 public class OrderInfoDTO {
+
 
     private String id;
 
     private String innerorderid;
 
     private String ordernum;
-
+    //从date 修改成 String
     private String outerordernum;
 
     private String sender;
@@ -53,6 +56,20 @@ public class OrderInfoDTO {
         this.remark = remark;
     }
 
+    public OrderInfoDTO(String id, String innerorderid, String ordernum, String outerordernum, String sender, String recipient, String recipientprovince, String recipientcity, String ordervalue, String city, String province) {
+        this.id = id;
+        this.innerorderid = innerorderid;
+        this.ordernum = ordernum;
+        this.outerordernum = outerordernum;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.recipientprovince = recipientprovince;
+        this.recipientcity = recipientcity;
+        this.ordervalue = ordervalue;
+        this.city = city;
+        this.province = province;
+    }
+
     public String getId() {
         return id;
     }
@@ -77,13 +94,6 @@ public class OrderInfoDTO {
         this.ordernum = ordernum;
     }
 
-    public String getOuterordernum() {
-        return outerordernum;
-    }
-
-    public void setOuterordernum(String outerordernum) {
-        this.outerordernum = outerordernum;
-    }
 
     public String getSender() {
         return sender;
@@ -155,5 +165,13 @@ public class OrderInfoDTO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getOuterordernum() {
+        return outerordernum;
+    }
+
+    public void setOuterordernum(String outerordernum) {
+        this.outerordernum = outerordernum;
     }
 }

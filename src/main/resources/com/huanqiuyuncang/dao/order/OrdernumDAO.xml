@@ -36,7 +36,7 @@
             <arg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="innerorderid" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="ordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
-            <arg column="outerordernum" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="outerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="sender" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="recipient" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="recipientprovince" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -271,7 +271,7 @@
         and  parentid = #{parentid}
     </select>
 
-    <select id="selectByPageData" parameterType="pd" resultMap="PageResultMap">
+    <select id="selectByhedan" parameterType="pd" resultMap="PageResultMap">
         SELECT
         <include refid="Page_Column_List" />
         FROM wms_innerorder a , wms_ordernum b , provinces c , cities d
@@ -287,7 +287,7 @@
 
     </select>
 
-    <select id="selectBychaidan" parameterType="pd" resultMap="PageResultMap">
+    <select id="selectByChaidan" parameterType="pd" resultMap="PageResultMap">
         SELECT
         <include refid="Page_Column_List" />
         FROM wms_innerorder a , wms_ordernum b , provinces c , cities d
@@ -304,13 +304,13 @@
 
     </select>
 
-    <select id="selectOrdernumToexcel" resultMap="java.lang.String">
+    <select id="selectOrdernumToexcel" resultType="java.lang.String">
         SELECT
          ordernum
         FROM wms_ordernum
     </select>
 
-    <select id="selectOrder4YT" resultMap="pd">
+    <select id="selectOrder4YT" resultType="pd">
         SELECT
         a.ordernum ordernum , d.productName productname , c.count COUNT ,
         b.recipient recipient , e.province province , f.city city ,g.area AREA ,
@@ -326,7 +326,7 @@
         AND b.recipientcity = f.cityid AND b.recipientarea = g.areaid
     </select>
 
-    <select id="selectFenjianDanInfoById" parameterType="java.lang.String" resultMap="pd">
+    <select id="selectFenjianDanInfoById" parameterType="java.lang.String" resultType="pd">
         SELECT
         a.ordernum ordernum ,
         b.recipient recipient,
@@ -343,7 +343,7 @@
         a.id = #{id}
     </select>
 
-    <select id="selectZongFenJianDanInfoBy" parameterType="java.lang.String" resultMap="pd">
+    <select id="selectZongFenJianDanInfoBy" parameterType="java.lang.String" resultType="pd">
     SELECT
     d.productName productname,
     d.productNum productnum,
