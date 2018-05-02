@@ -170,7 +170,9 @@
 
 
     function hedan(){
+        var msg = "确定要将选中的数据合单吗?"
         bootbox.confirm(msg, function(result) {
+
             if(result) {
                 var str = '';
                 for(var i=0;i < document.getElementsByName('ids').length;i++){
@@ -202,6 +204,7 @@
                             dataType:'json',
                             cache: false,
                             success: function(data){
+                                 alert(data.msg)
                                 if("success"  == data.msg){
                                     nextPage(${page.currentPage});
                                 }

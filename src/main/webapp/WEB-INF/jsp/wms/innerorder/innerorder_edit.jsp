@@ -342,8 +342,6 @@
 <script type="text/javascript">
     $(top.hangge());
     $(function(){
-
-
         $.ajax({
             type: "POST",
             url: '<%=basePath%>innerorder/getprovince.do?tm='+new Date().getTime(),
@@ -429,6 +427,7 @@
                     align : "center",
                     title : '操作',
                     formatter : function operateFormatter(value, row,index) {
+                        console.info(row["remark"]);
                     //'+row["orderproducrtid"]+'
                         var json = [
                             '<a class="btn btn-xs btn-primary" onclick="editOrderPd(\''+row["orderproducrtid"]+'\');">',
@@ -693,8 +692,8 @@
         var diag = new top.Dialog();
         diag.Drag=true;
         diag.Title ="新增商品";
-        diag.URL = '<%=basePath%>innerorder/goAddProduct.do';
         diag.Width = 500;
+        diag.URL = '<%=basePath%>innerorder/goAddProduct.do';
         diag.Height = 500;
         diag.CancelEvent = function(){ //关闭事件
             $("#orderpdTable").bootstrapTable("refresh");

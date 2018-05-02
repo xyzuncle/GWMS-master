@@ -20,6 +20,8 @@ import com.huanqiuyuncang.service.wms.product.ProductInterface;
 import com.huanqiuyuncang.util.*;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -127,7 +130,7 @@ public class InnerOrderController extends BaseController {
         PageData pd = this.getPageData();
         Map<String, String> hc = Jurisdiction.getHC();
         if(!hc.containsKey("findAllOrder")||"0".equals(hc.get("findAllOrder"))){
-            pd.put("createuser",Jurisdiction.getUsername());
+            pd.put("createuser",Jurisdiction.getUsername()); //这个是干嘛的，获取用户名？
         }
         page.setPd(pd);
         List<OrderInfoDTO> varList =   innerOrderService.datalistPage(page);
@@ -135,11 +138,14 @@ public class InnerOrderController extends BaseController {
         BigDecimal allprice = new BigDecimal(0);
          Double allcount = new Double(0);
         for(OrderInfoDTO order : varList) {
-            BigDecimal price = new BigDecimal(order.getOrdervalue());
+            //控制下订单为零的边界
+            String ordervalue= StringUtils.isEmpty(order.getOrdervalue())==true?"0":order.getOrdervalue();
+            String productCount = StringUtils.isEmpty(order.getOrderproductcount())==true?"0":order.getOrderproductcount();
+            BigDecimal price = new BigDecimal(ordervalue);
             allprice = allprice.add(price);
-            allcount = allcount+Double.parseDouble(order.getOrderproductcount());
-
+            allcount = allcount+Double.parseDouble(productCount);
         };
+
         List<CustomerEntity> customerList = getCustomerList();
         mv.setViewName("wms/innerorder/innerorder_list");
         mv.addObject("varList", varList);
@@ -257,11 +263,13 @@ public class InnerOrderController extends BaseController {
     }
 
     @RequestMapping(value="/orderpdlist")
-    public void orderpdlist(PrintWriter printWriter,String customerordernum) throws Exception{
+    public void orderpdlist(String customerordernum, HttpServletResponse response) throws Exception{
         List<OrderProductEntity> list = orderProductService.selectOrderProduct(customerordernum);
         String json = JSONArray.fromObject(list, DateJsonConfig.getJsonConfig()).toString();
         String resultJson = "{\"total\":" + list.size() + ",\"rows\":" + json + "}";
-        printWriter.write(resultJson);
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out=response.getWriter();
+        out.write(resultJson);
     }
 
     private List<CustomerEntity> getCustomerList() {
@@ -705,6 +713,7 @@ public class InnerOrderController extends BaseController {
         String endtime = pd.getString("endtime");
         putSearchDate(starttime,endtime,pd);
         List<OrderInfoDTO> varList  =  innerOrderService.selectByhedan(pd);
+        mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
         mv.setViewName("wms/innerorder/innerorder_hedan");
         mv.addObject("msg", "savehedan");
         mv.addObject("varList", varList);
@@ -790,28 +799,18 @@ public class InnerOrderController extends BaseController {
     }
 
     @RequestMapping(value="/tofenjiandan")
-    public ModelAndView tofenjiandan(String DATA_IDS) throws Exception{
+    public ModelAndView tofenjiandan(String DATA_IDS, HttpServletRequest request,HttpServletResponse response) throws Exception{
+        //分拣单
+        HSSFWorkbook wb = null  ;
         String[] ids = DATA_IDS.split(",");
         for(String id:ids){
             List<PageData> fenJianDanInfo = ordernumService.selectFenjianDanInfoById(id);
-            for (PageData pd : fenJianDanInfo) {
-                String ordernum = pd.getString("ordernum");//订单号
-                String recipient = pd.getString("recipient");//收件人
-                String productnum = pd.getString("productnum");//商品货号
-                String productname = pd.getString("productname");//商品名称
-                String barcode = pd.getString("barcode");//商品条码
-                String count = pd.getString("count");//商品数量
-            }
+            wb = ObjectExcelView.buildExcleFJ(response,request,fenJianDanInfo);
 
         }
+        //汇总单
         List<PageData> zongFenJianDanInfo = ordernumService.selectZongFenJianDanInfoBy(DATA_IDS);
-        for (PageData pd : zongFenJianDanInfo) {
-            String productnum = pd.getString("productnum");//商品货号
-            String productname = pd.getString("productname");//商品名称
-            String barcode = pd.getString("barcode");//商品条码
-            String count = pd.getString("count");//商品数量
-
-        }
+        ObjectExcelView.buildExcleHZ(wb,response,request,zongFenJianDanInfo);
         return null;
     }
 

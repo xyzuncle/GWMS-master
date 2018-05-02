@@ -198,8 +198,8 @@
                                                         ${var.ordernum} </a><br> ${var.outerordernum} </td>
                                                     <td class='center'>${var.sender}</td>
                                                     <td class='center'>${var.recipient}</td>
-                                                    <td class='center'>${var.recipientprovince}</td>
-                                                    <td class='center'>${var.recipientcity}</td>
+                                                    <td class='center'>${var.province}</td>
+                                                    <td class='center'>${var.city}</td>
                                                     <td class='center'>${var.orderproductcount}</td>
                                                     <td class='center'>${var.ordervalue}</td>
                                                     <td class='center'>${var.remark}</td>
@@ -931,6 +931,7 @@
         var starttime = $("#starttime").val();
         var endtime = $("#endtime").val();
 
+
         if(starttime === "" || starttime == undefined || starttime == null){
             starttime = getNowFormatDate();
         }
@@ -945,10 +946,13 @@
                 var diag = new top.Dialog();
                 diag.Drag=true;
                 diag.Title ="合单";
-                diag.URL = '<%=basePath%>innerorder/gohedan.do?starttime='+starttime+"&endtime"+endtime;
-                diag.Width = 400;
-                diag.Height = 200;
+                diag.URL = '<%=basePath%>innerorder/gohedan.do?starttime='+starttime+"&endtime="+endtime;
+                diag.Width = 600;
+                diag.Height = 800;
                 diag.CancelEvent = function(){ //关闭事件
+
+
+
                     if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
                         nextPage(${page.currentPage});
                     }

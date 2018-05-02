@@ -56,7 +56,7 @@
             <arg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="innerorderid" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="ordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
-            <arg column="outerordernum" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+            <arg column="outerordernum" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="sender" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="recipient" jdbcType="VARCHAR" javaType="java.lang.String" />
             <arg column="recipientprovince" jdbcType="VARCHAR" javaType="java.lang.String" />

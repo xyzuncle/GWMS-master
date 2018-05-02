@@ -128,19 +128,30 @@ public class InnerOrderService implements InnerOrderInterface {
             String innerorderid = makeInnerOrderInfo(innerOrder, username, date);
             String ordernum = makeOrderNumInfo(innerOrder, username, date, innerorderid,token);
             List<OrderProductEntity> list = orderProductDAO.selectOrderProduct(token);
-            list.forEach(orderProduct ->{
-                orderProduct.setCustomerordernum(ordernum);
-                orderProductDAO.updateByPrimaryKeySelective(orderProduct);
-            });
+            if(list!=null  && list.size()>0){
+                list.forEach(orderProduct ->{
+                    orderProduct.setCustomerordernum(ordernum);
+                    orderProductDAO.updateByPrimaryKeySelective(orderProduct);
+                });
+            }
+
         }catch (Exception e){
-            orderProductDAO.deleteByCustomerordernum(token);
+                orderProductDAO.deleteByCustomerordernum(token);
         }
     }
 
     private String makeOrderNumInfo(InnerOrderEntity innerOrder, String username, Date date, String innerorderid,String token) {
         PageData respd = orderProductDAO.selectStatisticsByOrderNum(token);
-        BigDecimal sumprice = (BigDecimal)respd.get("sumprice");
-        Double sumcount = (Double)respd.get("sumcount");
+        BigDecimal sumprice=null;
+        Double sumcount=null;
+        //空指针异常
+        if(respd!=null){
+            sumprice = (BigDecimal)respd.get("sumprice");
+            sumcount = (Double)respd.get("sumcount");
+        }
+
+
+
         String customernum = innerOrder.getCustomernum();
         String ordernum = OrderUtil.getOrderNum(customernum);
         OrdernumEntity ordernumEntity = new OrdernumEntity();
@@ -150,8 +161,8 @@ public class InnerOrderService implements InnerOrderInterface {
         ordernumEntity.setOrderstatus("orderStatus_daiqueren");
         ordernumEntity.setYujingstatus("yujing_zhengchang");
         ordernumEntity.setIspartent(1);
-        ordernumEntity.setOrdervalue(sumprice.toString());
-        ordernumEntity.setOrderproductcount(sumcount.toString());
+        ordernumEntity.setOrdervalue(sumprice==null?"":sumprice.toString());
+        ordernumEntity.setOrderproductcount(sumcount==null?"":sumcount.toString());
         ordernumEntity.setParentid("");
         ordernumEntity.setRemark("");
         ordernumEntity.setCreateuser(username);
