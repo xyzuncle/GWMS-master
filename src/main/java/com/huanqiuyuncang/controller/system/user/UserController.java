@@ -548,10 +548,10 @@ public class UserController extends BaseController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
 	}
 
-	@RequestMapping("/buildexcel")
+		@RequestMapping("/buildexcel")
 	public String buildExcel(HttpServletResponse response, HttpServletRequest request){
             ObjectExcelView view =  new ObjectExcelView();
-            view.buildExcleFJ(response,request);
+
             return "";
 	}
 
