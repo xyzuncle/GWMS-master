@@ -93,29 +93,31 @@ public class OrderProductService implements OrderProductInterface {
         String[] customerstatus = customerEntity.getCustomerstatus().split("_");
         if("1".equals(customerstatus[1])){
             ProductConversionEntity pdConversion = productConversionDAO.selectByOuterPdNum(orderProductEntity.getOuterproductnum(), username);
-            Map<String, String[]> pdNumMap = this.getPdNumMap(pdConversion);
-            for(String pdNum : pdNumMap.keySet()){
-                ProductEntity productByBarCode = productDAO.findProductByProductNum(pdNum);
-                if(productByBarCode != null){
-                    String[] arry = pdNumMap.get(pdNum);
-                    BigDecimal lingshoujiaReal = new BigDecimal(orderProductEntity.getRetailprice()).multiply(new BigDecimal(arry[1]));
-                    BigDecimal jiesuanjiaReal = new BigDecimal(orderProductEntity.getDeclareprice()).multiply(new BigDecimal(arry[1]));
-                    OrderProductEntity pd = new OrderProductEntity();
-                    pd.setCustomerordernum(orderProductEntity.getCustomerordernum());
-                    pd.setOuterordernum(orderProductEntity.getOuterordernum());
-                    pd.setCount(arry[0]);
-                    pd.setRemark(orderProductEntity.getRemark());
-                    pd.setDeclareprice(jiesuanjiaReal.toString());
-                    pd.setRetailprice(lingshoujiaReal.toString());
-                    pd.setOuterproductnum(productByBarCode.getProductnum());
-                    pd.setorderproducrtid(UuidUtil.get32UUID());
-                    pd.setCreateuser(orderProductEntity.getCreateuser());
-                    pd.setCreatetime(orderProductEntity.getCreatetime());
-                    pd.setUpdatetime(orderProductEntity.getUpdatetime());
-                    pd.setUpdateuser(orderProductEntity.getUpdateuser());
-                   orderProductDAO.insertSelective(pd);
-                }
-            };
+            if(pdConversion!=null){
+                Map<String, String[]> pdNumMap = this.getPdNumMap(pdConversion);
+                for(String pdNum : pdNumMap.keySet()){
+                    ProductEntity productByBarCode = productDAO.findProductByProductNum(pdNum);
+                    if(productByBarCode != null){
+                        String[] arry = pdNumMap.get(pdNum);
+                        BigDecimal lingshoujiaReal = new BigDecimal(orderProductEntity.getRetailprice()).multiply(new BigDecimal(arry[1]));
+                        BigDecimal jiesuanjiaReal = new BigDecimal(orderProductEntity.getDeclareprice()).multiply(new BigDecimal(arry[1]));
+                        OrderProductEntity pd = new OrderProductEntity();
+                        pd.setCustomerordernum(orderProductEntity.getCustomerordernum());
+                        pd.setOuterordernum(orderProductEntity.getOuterordernum());
+                        pd.setCount(arry[0]);
+                        pd.setRemark(orderProductEntity.getRemark());
+                        pd.setDeclareprice(jiesuanjiaReal.toString());
+                        pd.setRetailprice(lingshoujiaReal.toString());
+                        pd.setOuterproductnum(productByBarCode.getProductnum());
+                        pd.setorderproducrtid(UuidUtil.get32UUID());
+                        pd.setCreateuser(orderProductEntity.getCreateuser());
+                        pd.setCreatetime(orderProductEntity.getCreatetime());
+                        pd.setUpdatetime(orderProductEntity.getUpdatetime());
+                        pd.setUpdateuser(orderProductEntity.getUpdateuser());
+                        orderProductDAO.insertSelective(pd);
+                    }
+                };
+            }
         }else{
             ProductEntity productEntity = productDAO.findProductByProductNum(orderProductEntity.getOuterproductnum());
             if(productEntity != null){
